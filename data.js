@@ -22,7 +22,7 @@ window.SITE_DATA = {
       "title": "Academic Writing – Course Booklet (Semesters 1 & 2)",
       "desc": "Student edition. Read online or download the PDF.",
       "date": "2026-10",
-      "file": "pdfs/academic-writing-booklet.pdf",
+      "file": "academic-writing-booklet.pdf",
       "assetId": "mmvh5zpex",
       "added": 1792529851497
     },
@@ -33,7 +33,7 @@ window.SITE_DATA = {
       "title": "Technical Translation – Students' Booklet 2026–2027",
       "desc": "Student edition. Read online or download the PDF.",
       "date": "2026-10",
-      "file": "pdfs/technical-translation-booklet.pdf",
+      "file": "technical-translation-booklet.pdf",
       "assetId": "mmvh66cj8",
       "added": 1792530161396
     }
