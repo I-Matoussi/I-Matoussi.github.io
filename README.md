@@ -1,6 +1,6 @@
 # Issam Matoussi · Course Library
 
-Website for my students at the Faculty of Arts and Humanities of Sousse (2026–2027).
+Website for my students (academic year 2026–2027).
 
 ## How to update the site
 1. **Add a PDF:** open the `pdfs` folder → *Add file* → *Upload files* → *Commit changes*.
