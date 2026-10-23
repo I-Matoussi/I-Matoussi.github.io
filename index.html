@@ -548,7 +548,7 @@ html{scroll-behavior:smooth}
 @keyframes sway-a{0%,100%{transform:translateX(0)}50%{transform:translateX(-2.2%)}}
 @keyframes sway-b{0%,100%{transform:translateX(0)}50%{transform:translateX(2%)}}
 @keyframes drift{from{background-position:0 0}to{background-position:-160px 80px}}
-@keyframes float{0%{transform:translateY(0) rotate(45deg);opacity:0}12%{opacity:var(--o,.5)}88%{opacity:var(--o,.5)}100%{transform:translateY(-240px) rotate(225deg);opacity:0}}
+@keyframes float{0%{transform:translateY(0) rotate(45deg);opacity:0}10%{opacity:var(--o,.6)}85%{opacity:var(--o,.6)}100%{transform:translateY(-420px) rotate(225deg);opacity:0}}
 @keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.035)}100%{transform:scale(1)}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
@@ -561,7 +561,7 @@ html{scroll-behavior:smooth}
 .waves{overflow:hidden}.waves svg{width:108%;margin-left:-4%}
 .waves path{transform-box:fill-box}
 .motes{position:absolute;inset:0;pointer-events:none;z-index:-1;overflow:hidden}
-.motes i{position:absolute;bottom:-12px;width:var(--s,6px);height:var(--s,6px);background:var(--gold-2);border-radius:1px;opacity:0;animation:float var(--d,16s) linear infinite;animation-delay:var(--t,0s)}
+.motes i{position:absolute;bottom:-14px;box-shadow:0 0 10px rgba(232,204,152,.35);width:var(--s,6px);height:var(--s,6px);background:var(--gold-2);border-radius:1px;opacity:0;animation:float var(--d,16s) linear infinite;animation-delay:var(--t,0s)}
 .motes i:nth-child(3n){background:#6CC3E2}.motes i:nth-child(4n){background:#E2805A}
 
 /* Hero: entrance (first load only) */
@@ -571,8 +571,9 @@ html{scroll-behavior:smooth}
 .intro .hero h1 em{background-size:250% 100%;animation:shimmer 2.4s ease-out .6s both}
 .intro .nav{animation:fade .8s ease .5s both}
 .tess{position:absolute;inset:0;display:grid;grid-template-columns:repeat(10,1fr);grid-template-rows:repeat(10,1fr);border-radius:6px;overflow:hidden;pointer-events:none}
-.tess i{background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.25);animation:tess-out .55s ease-in both;animation-delay:var(--t)}
-:root:not(.intro) .tess{display:none}
+.tess i{background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.18)}
+.mosaic.play .tess i{animation:tess-out .75s cubic-bezier(.5,0,.75,0) both;animation-delay:var(--t)}
+.mosaic.played .tess{display:none}
 .m-frame{position:relative;width:100%}
 .m-frame img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
 
@@ -732,10 +733,10 @@ var I = {
 
 
 var TESS = (function(){ var cols=["#10183A","#1F5486","#E2C48F","#B4532E","#2C88B4","#E9DCC4","#183F6B"], h="", seed=7; function r(){ seed=(seed*9301+49297)%233280; return seed/233280; }
-  for (var k=0;k<100;k++){ var x=k%10, y=Math.floor(k/10); var t=(0.35 + (x+y)*0.045 + r()*0.35).toFixed(2); h+='<i style="--c:'+cols[Math.floor(r()*cols.length)]+';--t:'+t+'s"></i>'; }
+  for (var k=0;k<100;k++){ var x=k%10, y=Math.floor(k/10); var t=(0.15 + (x+y)*0.1 + r()*0.4).toFixed(2); h+='<i style="--c:'+cols[Math.floor(r()*cols.length)]+';--t:'+t+'s"></i>'; }
   return '<span class="tess" aria-hidden="true">'+h+'</span>'; })();
 var MOTES = (function(){ var h="", seed=3; function r(){ seed=(seed*9301+49297)%233280; return seed/233280; }
-  for (var k=0;k<14;k++){ h+='<i style="left:'+(4+r()*92).toFixed(1)+'%;--s:'+(4+r()*5).toFixed(1)+'px;--d:'+(14+r()*14).toFixed(1)+'s;--t:-'+(r()*24).toFixed(1)+'s;--o:'+(0.25+r()*0.4).toFixed(2)+'"></i>'; }
+  for (var k=0;k<22;k++){ h+='<i style="left:'+(3+r()*94).toFixed(1)+'%;--s:'+(6+r()*7).toFixed(1)+'px;--d:'+(12+r()*12).toFixed(1)+'s;--t:-'+(r()*24).toFixed(1)+'s;--o:'+(0.45+r()*0.4).toFixed(2)+'"></i>'; }
   return '<div class="motes" aria-hidden="true">'+h+'</div>'; })();
 function confetti(){ var cols=["#E2C48F","#E2805A","#6CC3E2","#AFC77A","#E883B4"], h="";
   for (var k=0;k<28;k++){ var a=(k/28)*Math.PI*2, d=110+(k*37%90); h+='<i style="--c:'+cols[k%cols.length]+';--dx:'+Math.round(Math.cos(a)*d)+'px;--dy:'+Math.round(Math.sin(a)*d*0.8-30)+'px;--r:'+(k*47%360)+'deg;--t:'+((k%5)*0.04).toFixed(2)+'s"></i>'; }
@@ -744,7 +745,7 @@ function tabbar(){
   var items=[["library","Library"],["read","Read"],["calendar","Calendar"],["wisdom","Wisdom"],["ask","Ask"]];
   return '<nav class="tabbar" aria-label="Main sections">'+items.map(function(t){ return '<button data-tab="'+t[0]+'"'+(ui.tab===t[0]?' aria-current="page"':'')+'>'+svg(TI[t[0]],20)+'<span>'+t[1]+'</span></button>'; }).join("")+'</nav>';
 }
-var SLOTS = {}, LAST_VIEW = null;
+var SLOTS = {}, LAST_VIEW = null, TILES_DONE = false;
 function slot(id, html){ var el=document.getElementById(id); if (SLOTS[id]!==html){ el.innerHTML=html; SLOTS[id]=html; return true; } return false; }
 
 function hero(){
@@ -760,7 +761,7 @@ function hero(){
    + '<p class="latin"><span lang="la">“Musa, mihi causas memora…”</span> <small>Virgil, Aeneid I.8, the line on the scroll he holds</small></p>'
    + '<div class="hero-meta"><span class="chip gold">Academic year 2026–2027</span><span class="chip">'+esc(state.settings.semester||"Autumn semester")+'</span>'
    + '<button class="chip install-btn" data-act="install-app" type="button">⤓ Install the app</button><span class="stat"><b>'+nC+'</b> courses</span><span class="stat"><b>'+nM+'</b> materials</span><span class="stat"><b>'+nP+'</b> PDFs</span></div></div>'
-   + '<figure class="mosaic"><div class="year-card mosaic-arch"><span class="m-title">VERGILIVS</span><div class="m-frame"><img src="'+VIRGIL+'" alt="Roman mosaic of the poet Virgil, seated with a scroll of the Aeneid, between the Muses Clio and Melpomene" width="330" height="335">'+TESS+'</div></div>'
+   + '<figure class="mosaic'+(TILES_DONE?' played':'')+'"><div class="year-card mosaic-arch"><span class="m-title">VERGILIVS</span><div class="m-frame"><img src="'+VIRGIL+'" alt="Roman mosaic of the poet Virgil, seated with a scroll of the Aeneid, between the Muses Clio and Melpomene" width="330" height="335">'+TESS+'</div></div>'
    + '<figcaption>Virgil between the Muses Clio and Melpomene<span>Roman mosaic, 3rd century AD</span></figcaption></figure>'
    + '</div></div><div class="waves" aria-hidden="true"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path class="w1" d="M0 38 C 180 8 360 8 540 34 S 900 64 1080 38 S 1350 8 1440 26 V90 H0z"/><path class="w2" d="M0 56 C 200 30 380 34 560 54 S 920 82 1120 56 S 1360 34 1440 46 V90 H0z"/><path class="w3" d="M0 72 C 220 54 420 58 620 72 S 980 92 1180 74 S 1380 60 1440 66 V90 H0z"/></svg></div></header>';
 }
@@ -1667,6 +1668,14 @@ async function downloadItem(m, btn){
     var arch = document.querySelector(".mosaic .year-card");
     if (arch){ if (m){ var r=m.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5; arch.style.setProperty("--ry",(x*10).toFixed(2)+"deg"); arch.style.setProperty("--rx",(-y*8).toFixed(2)+"deg"); } else { arch.style.removeProperty("--ry"); arch.style.removeProperty("--rx"); } }
   }, {passive:true});
+  function startTiles(){
+    var m = document.querySelector(".mosaic"); if (!m || TILES_DONE) return;
+    var go = function(){ if (m.classList.contains("play")) return; setTimeout(function(){ m.classList.add("play"); setTimeout(function(){ m.classList.add("played"); TILES_DONE = true; }, 3600); }, rootEl.classList.contains("intro") ? 900 : 150); };
+    if (!("IntersectionObserver" in window)) return go();
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ io.disconnect(); go(); } }); }, {threshold:.45});
+    io.observe(m);
+  }
+  requestAnimationFrame(startTiles);
   var tick=false;
   window.addEventListener("scroll", function(){ if (tick) return; tick=true; requestAnimationFrame(function(){ tick=false; var h=document.documentElement.scrollHeight-innerHeight; rootEl.style.setProperty("--sp", h>0 ? Math.min(1,scrollY/h).toFixed(3) : 0); }); }, {passive:true});
 })();

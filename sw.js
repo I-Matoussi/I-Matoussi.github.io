@@ -3,7 +3,7 @@
    - Every booklet listed in data.js is saved too, so it can be read offline
      even if the student never opened it while online. New booklets are saved
      the next time the student opens the site with internet. */
-var VERSION = "im-v2";
+var VERSION = "im-v3";
 var SHELL = ["./", "index.html", "data.js", "manifest.webmanifest", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
 var PDFJS = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
 var LIBS = [PDFJS + "pdf.min.js", PDFJS + "pdf.worker.min.js"];
@@ -51,9 +51,9 @@ function put(req, res){
   if (res && (res.ok || res.type === "opaque")) { var copy = res.clone(); caches.open(VERSION).then(function(c){ c.put(req, copy); }); }
   return res;
 }
-/* Page and data: try the network first, so students see updates at once. */
+/* Page and data: always ask the server for the newest version first (bypassing the browser cache), so students see updates at once. */
 function networkFirst(req, after){
-  return fetch(req).then(function(res){
+  return fetch(req.url, {cache: "no-cache", credentials: "same-origin"}).then(function(res){
     put(req, res);
     if (after && res.ok) res.clone().text().then(after).catch(function(){});
     return res;
