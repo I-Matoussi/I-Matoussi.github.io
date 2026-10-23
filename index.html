@@ -536,6 +536,121 @@ footer .sig em{color:var(--gold-2)}
 footer .ar{font-family:var(--f-ar);font-size:16px;direction:rtl}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
+/* ===================== Design v2: refine & animate ===================== */
+#s-hero,#s-nav,#s-main,#s-foot,#s-modal,#s-tabbar{display:contents}
+html{scroll-behavior:smooth}
+::selection{background:rgba(226,196,143,.35)}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes shimmer{0%{background-position:120% 0}100%{background-position:-20% 0}}
+@keyframes arch-rise{from{opacity:0;transform:translateY(34px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes tess-out{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.2) rotate(35deg)}}
+@keyframes sway-a{0%,100%{transform:translateX(0)}50%{transform:translateX(-2.2%)}}
+@keyframes sway-b{0%,100%{transform:translateX(0)}50%{transform:translateX(2%)}}
+@keyframes drift{from{background-position:0 0}to{background-position:-160px 80px}}
+@keyframes float{0%{transform:translateY(0) rotate(45deg);opacity:0}12%{opacity:var(--o,.5)}88%{opacity:var(--o,.5)}100%{transform:translateY(-240px) rotate(225deg);opacity:0}}
+@keyframes draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.035)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+@keyframes burst{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
+
+/* Hero: ambient life */
+.hero::after{animation:drift 60s linear infinite}
+.waves .w1{animation:sway-a 14s ease-in-out infinite}
+.waves .w2{animation:sway-b 11s ease-in-out infinite}
+.waves{overflow:hidden}.waves svg{width:108%;margin-left:-4%}
+.waves path{transform-box:fill-box}
+.motes{position:absolute;inset:0;pointer-events:none;z-index:-1;overflow:hidden}
+.motes i{position:absolute;bottom:-12px;width:var(--s,6px);height:var(--s,6px);background:var(--gold-2);border-radius:1px;opacity:0;animation:float var(--d,16s) linear infinite;animation-delay:var(--t,0s)}
+.motes i:nth-child(3n){background:#6CC3E2}.motes i:nth-child(4n){background:#E2805A}
+
+/* Hero: entrance (first load only) */
+.intro .hero .eyebrow,.intro .hero h1,.intro .hero .role,.intro .hero .latin,.intro .hero .hero-meta{animation:up .9s cubic-bezier(.2,.7,.2,1) both}
+.intro .hero h1{animation-delay:.12s}.intro .hero .role{animation-delay:.28s}.intro .hero .latin{animation-delay:.42s}.intro .hero .hero-meta{animation-delay:.56s}
+.intro .hero .mosaic{animation:arch-rise 1.1s cubic-bezier(.2,.7,.2,1) .15s both}
+.intro .hero h1 em{background-size:250% 100%;animation:shimmer 2.4s ease-out .6s both}
+.intro .nav{animation:fade .8s ease .5s both}
+.tess{position:absolute;inset:0;display:grid;grid-template-columns:repeat(10,1fr);grid-template-rows:repeat(10,1fr);border-radius:6px;overflow:hidden;pointer-events:none}
+.tess i{background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.25);animation:tess-out .55s ease-in both;animation-delay:var(--t)}
+:root:not(.intro) .tess{display:none}
+.m-frame{position:relative;width:100%}
+.m-frame img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+
+/* Mosaic tilt (pointer devices) */
+.mosaic{perspective:900px}
+.mosaic .year-card{transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transform-style:preserve-3d}
+.mosaic:hover .year-card{box-shadow:0 34px 60px -26px rgba(0,0,0,.75),0 0 0 1px rgba(233,220,196,.25)}
+.mosaic:hover .m-frame img{transform:scale(1.03)}
+
+/* Section entrance (each time the view changes) */
+main.enter .section-head,main.enter>.wrap>*:not(.section-head){animation:up .7s cubic-bezier(.2,.7,.2,1) both}
+main.enter>.wrap>*:nth-child(2){animation-delay:.08s}main.enter>.wrap>*:nth-child(3){animation-delay:.14s}main.enter>.wrap>*:nth-child(n+4){animation-delay:.2s}
+main.enter :is(.courses-grid,.grid,.shelf,.cq-grid,.ask-grid,.rubrics,.wz-today,.about)>*{animation:up .7s cubic-bezier(.2,.7,.2,1) both}
+main.enter :is(.courses-grid,.grid,.shelf,.cq-grid,.ask-grid,.rubrics,.wz-today,.about)>*:nth-child(1){animation-delay:.12s}
+main.enter :is(.courses-grid,.grid,.shelf,.cq-grid,.ask-grid,.rubrics,.wz-today,.about)>*:nth-child(2){animation-delay:.2s}
+main.enter :is(.courses-grid,.grid,.shelf,.cq-grid,.ask-grid,.rubrics,.wz-today,.about)>*:nth-child(3){animation-delay:.28s}
+main.enter :is(.courses-grid,.grid,.shelf,.cq-grid,.ask-grid,.rubrics,.wz-today,.about)>*:nth-child(4){animation-delay:.36s}
+main.enter :is(.courses-grid,.grid,.shelf,.cq-grid,.ask-grid,.rubrics,.wz-today,.about)>*:nth-child(n+5){animation-delay:.44s}
+
+/* Headings: a drawn gold rule under section titles */
+.section-head h2{position:relative;padding-bottom:12px}
+.section-head h2::after{content:"";position:absolute;left:0;bottom:0;width:64px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--gold-2),var(--gold) 60%,transparent);transform-origin:left}
+main.enter .section-head h2::after{animation:draw .9s cubic-bezier(.2,.7,.2,1) .35s both}
+
+/* Cards: light that follows the pointer, gilded edge */
+@media (hover:hover){
+  :is(.course-card,.card,.ask-tile,.cq-card,.shelf-row,.rubric-btn):hover{background-image:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(232,204,152,.11),transparent 45%)}
+  .course-card:hover .cc-arch{transform:translateY(-3px) rotate(-3deg)}
+  .course-card:hover .cc-go svg,.ask-tile:hover .go svg{transform:translateX(4px)}
+}
+.cc-arch{transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.cc-go svg,.ask-tile .go svg{transition:transform .25s}
+.course-card,.card,.ask-tile,.cq-card{border-top-color:color-mix(in srgb,var(--gold-2) 22%,var(--line))}
+.btn{position:relative;overflow:hidden}
+.btn-primary,.btn-gold{box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+
+/* Nav: reading progress line */
+.nav{position:sticky}
+.nav::after{content:"";position:absolute;left:0;bottom:-1px;height:2px;width:100%;background:linear-gradient(90deg,var(--sea-2),var(--gold-2),var(--gold));transform-origin:left;transform:scaleX(var(--sp,0));transition:transform .1s linear;pointer-events:none}
+.tab{position:relative}
+.tab[aria-selected="true"]{box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 6px 16px -10px rgba(16,24,58,.9)}
+
+/* Quiz feedback */
+.wz-opt.right{animation:pop .45s ease}
+.wz-opt.wrong{animation:shake .45s ease}
+.wz-opt{transition:border-color .15s,background .15s,transform .15s}
+.wz-opt:hover:not(:disabled){transform:translateX(3px)}
+.wz-progress span{transition:width .5s cubic-bezier(.2,.7,.2,1)}
+.wz-quiz-start{position:relative;overflow:visible}
+.confetti{position:absolute;left:50%;top:70px;width:0;height:0;pointer-events:none}
+.confetti i{position:absolute;width:9px;height:9px;border-radius:1px;background:var(--c);animation:burst 1.6s cubic-bezier(.15,.6,.3,1) both;animation-delay:var(--t)}
+
+/* Smooth day/night switch */
+.theming,.theming *{transition:background-color .5s ease,color .5s ease,border-color .5s ease,fill .5s ease!important}
+
+/* Phone: app-style bottom tab bar */
+.tabbar{display:none}
+@media (max-width:720px){
+  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:15;padding:6px;border-radius:22px;background:color-mix(in srgb,var(--surface) 82%,transparent);-webkit-backdrop-filter:saturate(1.5) blur(18px);backdrop-filter:saturate(1.5) blur(18px);border:1px solid var(--line-2);box-shadow:0 18px 40px -16px rgba(0,0,0,.6)}
+  .tabbar button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:7px 2px 6px;border:0;border-radius:16px;background:none;color:var(--muted);font-size:10.5px;font-weight:600;letter-spacing:.01em;transition:color .2s,background .2s}
+  .tabbar button svg{transition:transform .25s cubic-bezier(.2,.7,.2,1)}
+  .tabbar button[aria-current="page"]{color:var(--on-teal);background:var(--teal-3)}
+  .tabbar button[aria-current="page"] svg{color:var(--gold-2);transform:translateY(-1px) scale(1.08)}
+  body{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+  .nav{position:relative;top:auto}
+  .nav .tab:not([data-tab="about"]):not([data-tab="inbox"]){display:none}
+  .nav .wrap{justify-content:space-between}
+  .pwa-sheet{bottom:calc(92px + env(safe-area-inset-bottom,0px))}
+}
+@supports not (background:color-mix(in srgb,red 50%,blue)){.tabbar{background:var(--surface)}}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .tess,.motes,.confetti{display:none!important}
+  html{scroll-behavior:auto}
+}
+
 .install-btn{display:none;cursor:pointer;background:var(--gold-2);color:var(--on-gold);border-color:transparent;font-weight:600}
 .install-btn:hover{filter:brightness(1.08)}
 .can-install .install-btn{display:inline-flex;align-items:center;gap:6px}
@@ -615,10 +730,27 @@ var I = {
   lock:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>'
 };
 
+
+var TESS = (function(){ var cols=["#10183A","#1F5486","#E2C48F","#B4532E","#2C88B4","#E9DCC4","#183F6B"], h="", seed=7; function r(){ seed=(seed*9301+49297)%233280; return seed/233280; }
+  for (var k=0;k<100;k++){ var x=k%10, y=Math.floor(k/10); var t=(0.35 + (x+y)*0.045 + r()*0.35).toFixed(2); h+='<i style="--c:'+cols[Math.floor(r()*cols.length)]+';--t:'+t+'s"></i>'; }
+  return '<span class="tess" aria-hidden="true">'+h+'</span>'; })();
+var MOTES = (function(){ var h="", seed=3; function r(){ seed=(seed*9301+49297)%233280; return seed/233280; }
+  for (var k=0;k<14;k++){ h+='<i style="left:'+(4+r()*92).toFixed(1)+'%;--s:'+(4+r()*5).toFixed(1)+'px;--d:'+(14+r()*14).toFixed(1)+'s;--t:-'+(r()*24).toFixed(1)+'s;--o:'+(0.25+r()*0.4).toFixed(2)+'"></i>'; }
+  return '<div class="motes" aria-hidden="true">'+h+'</div>'; })();
+function confetti(){ var cols=["#E2C48F","#E2805A","#6CC3E2","#AFC77A","#E883B4"], h="";
+  for (var k=0;k<28;k++){ var a=(k/28)*Math.PI*2, d=110+(k*37%90); h+='<i style="--c:'+cols[k%cols.length]+';--dx:'+Math.round(Math.cos(a)*d)+'px;--dy:'+Math.round(Math.sin(a)*d*0.8-30)+'px;--r:'+(k*47%360)+'deg;--t:'+((k%5)*0.04).toFixed(2)+'s"></i>'; }
+  return '<span class="confetti" aria-hidden="true">'+h+'</span>'; }
+function tabbar(){
+  var items=[["library","Library"],["read","Read"],["calendar","Calendar"],["wisdom","Wisdom"],["ask","Ask"]];
+  return '<nav class="tabbar" aria-label="Main sections">'+items.map(function(t){ return '<button data-tab="'+t[0]+'"'+(ui.tab===t[0]?' aria-current="page"':'')+'>'+svg(TI[t[0]],20)+'<span>'+t[1]+'</span></button>'; }).join("")+'</nav>';
+}
+var SLOTS = {}, LAST_VIEW = null;
+function slot(id, html){ var el=document.getElementById(id); if (SLOTS[id]!==html){ el.innerHTML=html; SLOTS[id]=html; return true; } return false; }
+
 function hero(){
   var owner = cap.owner && cap.artifact;
   var nM = state.materials.length, nP = state.materials.filter(hasPdf).length, nC = state.courses.length;
-  return '<header class="hero"><div class="hero-bg" aria-hidden="true" style="background-image:url('+VIRGIL+')"></div>'
+  return '<header class="hero"><div class="hero-bg" aria-hidden="true" style="background-image:url('+VIRGIL+')"></div>'+MOTES+''
    + '<div class="wrap hero-body">'
    + (owner ? '<div class="topline"><span></span><div class="owner-bar"><button class="btn btn-gold btn-sm" data-act="add">+ Add material</button></div></div>' : '')
    + '<div class="hero-grid"><div class="hero-text">'
@@ -628,7 +760,7 @@ function hero(){
    + '<p class="latin"><span lang="la">“Musa, mihi causas memora…”</span> <small>Virgil, Aeneid I.8, the line on the scroll he holds</small></p>'
    + '<div class="hero-meta"><span class="chip gold">Academic year 2026–2027</span><span class="chip">'+esc(state.settings.semester||"Autumn semester")+'</span>'
    + '<button class="chip install-btn" data-act="install-app" type="button">⤓ Install the app</button><span class="stat"><b>'+nC+'</b> courses</span><span class="stat"><b>'+nM+'</b> materials</span><span class="stat"><b>'+nP+'</b> PDFs</span></div></div>'
-   + '<figure class="mosaic"><div class="year-card mosaic-arch"><span class="m-title">VERGILIVS</span><img src="'+VIRGIL+'" alt="Roman mosaic of the poet Virgil, seated with a scroll of the Aeneid, between the Muses Clio and Melpomene" width="330" height="335"></div>'
+   + '<figure class="mosaic"><div class="year-card mosaic-arch"><span class="m-title">VERGILIVS</span><div class="m-frame"><img src="'+VIRGIL+'" alt="Roman mosaic of the poet Virgil, seated with a scroll of the Aeneid, between the Muses Clio and Melpomene" width="330" height="335">'+TESS+'</div></div>'
    + '<figcaption>Virgil between the Muses Clio and Melpomene<span>Roman mosaic, 3rd century AD</span></figcaption></figure>'
    + '</div></div><div class="waves" aria-hidden="true"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path class="w1" d="M0 38 C 180 8 360 8 540 34 S 900 64 1080 38 S 1350 8 1440 26 V90 H0z"/><path class="w2" d="M0 56 C 200 30 380 34 560 54 S 920 82 1120 56 S 1360 34 1440 46 V90 H0z"/><path class="w3" d="M0 72 C 220 54 420 58 620 72 S 980 92 1180 74 S 1380 60 1440 66 V90 H0z"/></svg></div></header>';
 }
@@ -1046,7 +1178,7 @@ function quizView(){
   if (QUIZ.i >= QUIZ.qs.length){
     var pct = Math.round(QUIZ.score/QUIZ.qs.length*100);
     var msg = pct===100 ? "Perfect score. Excellent work!" : pct>=75 ? "Very good. Keep it up!" : pct>=50 ? "Good effort. Try once more to improve." : "Keep practising: read the cards and try again.";
-    return '<div class="wz-quiz-start"><span class="wz-score">'+QUIZ.score+'<small>/'+QUIZ.qs.length+'</small></span><h3>'+msg+'</h3>'
+    return '<div class="wz-quiz-start">'+(pct>=70?confetti():'')+'<span class="wz-score">'+QUIZ.score+'<small>/'+QUIZ.qs.length+'</small></span><h3>'+msg+'</h3>'
       + '<div class="owner-actions">'+(QUIZ.kind==="course" ? '<button class="btn btn-primary" data-act="cquiz" data-c="'+QUIZ.cid+'" data-u="'+QUIZ.uid+'">Try again</button>' : '<button class="btn btn-primary" data-act="quiz" data-kind="'+QUIZ.kind+'">Try again</button>')+'<button class="btn btn-ghost" data-act="quiz-menu">Choose another quiz</button></div></div>';
   }
   var q = QUIZ.qs[QUIZ.i], done = QUIZ.picked!==null;
@@ -1187,8 +1319,14 @@ function render(){
   var body = ui.tab==="read" ? readTab() : ui.tab==="calendar" ? calendarTab() : ui.tab==="wisdom" ? wisdomTab() : ui.tab==="ask" ? ask() : ui.tab==="about" ? about() : (ui.tab==="inbox" && cap.owner) ? inbox() : library();
   var active = document.activeElement && document.activeElement.id, pos = null;
   if (active && document.activeElement.selectionStart!=null) pos = document.activeElement.selectionStart;
-  document.getElementById("root").innerHTML = hero() + nav() + '<main><div class="wrap">'+body+'</div></main>'
-    + '<div class="frieze" aria-hidden="true"></div><footer><div class="wrap"><div><div class="sig">Issam <em>Matoussi</em></div><div style="margin-top:8px">Researcher · Instructor · Academic year 2026–2027</div></div><div style="display:flex;flex-direction:column;align-items:flex-end"><button class="foot-share" data-act="share">'+svg('<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4"/>',15)+'Share this site · QR code</button></div></div></footer>' + modal();
+  var root = document.getElementById("root");
+  if (!root.dataset.shell){ root.innerHTML = '<div id="s-hero"></div><div id="s-nav"></div><div id="s-main"></div><div id="s-foot"></div><div id="s-modal"></div><div id="s-tabbar"></div>'; root.dataset.shell = "1"; SLOTS = {}; }
+  var view = ui.tab+"|"+(ui.tab==="library"?ui.course:"");
+  slot("s-hero", hero()); slot("s-nav", nav()); slot("s-tabbar", tabbar());
+  if (slot("s-main", '<main><div class="wrap">'+body+'</div></main>') && view!==LAST_VIEW && LAST_VIEW!==null){ var mn=document.querySelector("#s-main main"); if(mn) mn.classList.add("enter"); }
+  LAST_VIEW = view;
+  slot("s-modal", modal());
+  slot("s-foot", '<div class="frieze" aria-hidden="true"></div><footer><div class="wrap"><div><div class="sig">Issam <em>Matoussi</em></div><div style="margin-top:8px">Researcher · Instructor · Academic year 2026–2027</div></div><div style="display:flex;flex-direction:column;align-items:flex-end"><button class="foot-share" data-act="share">'+svg('<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4"/>',15)+'Share this site · QR code</button></div></div></footer>');
   if (active){ var el = document.getElementById(active); if (el){ el.focus(); if (pos!=null && el.setSelectionRange) try{ el.setSelectionRange(pos,pos);}catch(e){} } }
 }
 
@@ -1232,7 +1370,7 @@ document.addEventListener("click", async function(ev){
   if (a==="add"){ ui.status=""; ui.modal={cat: ui.cat!=="all"?ui.cat:"notes", course: ui.course!=="all"?ui.course:(courses()[0]||""), title:"", desc:"", date:new Date().toISOString().slice(0,7), link:"", assetId:""}; render(); var f=document.getElementById("f-title"); if(f) f.focus(); }
   else if (a==="edit"){ var m = state.materials.find(function(x){return x.id===t.dataset.id;}); if(m){ ui.status=""; ui.modal=Object.assign({},m); render(); } }
   else if (a==="close" || (a==="close-bg" && ev.target===t)){ if(!ui.saving){ ui.modal=null; ui.cmodal=null; ui.emodal=null; ui.nmodal=null; ui.share=false; ui.status=""; render(); } }
-  else if (a==="mode"){ MODE = MODE==="day" ? "night" : "day"; try{ localStorage.setItem("wm-mode", MODE); }catch(e){} applyMode(); render(); }
+  else if (a==="mode"){ document.documentElement.classList.add("theming"); setTimeout(function(){ document.documentElement.classList.remove("theming"); }, 650); MODE = MODE==="day" ? "night" : "day"; try{ localStorage.setItem("wm-mode", MODE); }catch(e){} applyMode(); render(); }
   else if (a==="wsub"){ ui.wsub=t.dataset.sub; ui.wq=""; render(); }
   else if (a==="quiz"){ newQuiz(t.dataset.kind); render(); var qz=document.getElementById("quiz-zone"); if(qz) qz.scrollIntoView({block:"start"}); }
   else if (a==="cquiz"){ newCourseQuiz(t.dataset.c, t.dataset.u); ui.tab="wisdom"; render(); var qz2=document.getElementById("quiz-zone"); if(qz2) qz2.scrollIntoView({block:"start"}); }
@@ -1516,6 +1654,22 @@ async function downloadItem(m, btn){
 }
 
 
+
+/* ---------- Design v2 effects ---------- */
+(function(){
+  var rootEl = document.documentElement;
+  rootEl.classList.add("intro"); setTimeout(function(){ rootEl.classList.remove("intro"); }, 2600);
+  var fine = window.matchMedia && matchMedia("(hover:hover) and (pointer:fine)").matches;
+  if (fine) document.addEventListener("pointermove", function(e){
+    var c = e.target.closest && e.target.closest(".course-card,.card,.ask-tile,.cq-card,.shelf-row,.rubric-btn");
+    if (c){ var b=c.getBoundingClientRect(); c.style.setProperty("--mx",(e.clientX-b.left)+"px"); c.style.setProperty("--my",(e.clientY-b.top)+"px"); }
+    var m = e.target.closest && e.target.closest(".mosaic");
+    var arch = document.querySelector(".mosaic .year-card");
+    if (arch){ if (m){ var r=m.getBoundingClientRect(), x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5; arch.style.setProperty("--ry",(x*10).toFixed(2)+"deg"); arch.style.setProperty("--rx",(-y*8).toFixed(2)+"deg"); } else { arch.style.removeProperty("--ry"); arch.style.removeProperty("--rx"); } }
+  }, {passive:true});
+  var tick=false;
+  window.addEventListener("scroll", function(){ if (tick) return; tick=true; requestAnimationFrame(function(){ tick=false; var h=document.documentElement.scrollHeight-innerHeight; rootEl.style.setProperty("--sp", h>0 ? Math.min(1,scrollY/h).toFixed(3) : 0); }); }, {passive:true});
+})();
 cap.downloads = { save: function(o){ var u = URL.createObjectURL(o.data), a = document.createElement("a"); a.href = u; a.download = o.filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(u); }, 8000); return Promise.resolve({status:"saved"}); } };
 render();
 
