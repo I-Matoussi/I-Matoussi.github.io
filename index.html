@@ -545,6 +545,7 @@ html{scroll-behavior:smooth}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 @keyframes shimmer{0%{background-position:120% 0}100%{background-position:-20% 0}}
 @keyframes arch-rise{from{opacity:0;transform:translateY(34px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes tess-fade{from{opacity:1}to{opacity:0}}
 @keyframes tess-out{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.2) rotate(35deg)}}
 @keyframes sway-a{0%,100%{transform:translateX(0)}50%{transform:translateX(-2.2%)}}
 @keyframes sway-b{0%,100%{transform:translateX(0)}50%{transform:translateX(2%)}}
@@ -649,7 +650,8 @@ main.enter .section-head h2::after{animation:draw .9s cubic-bezier(.2,.7,.2,1) .
 /* Respect reduced motion */
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
-  .tess,.motes,.confetti{display:none!important}
+  .motes,.confetti{display:none!important}
+  .mosaic.play .tess i{animation:tess-fade 1s ease both!important;animation-delay:var(--t)!important}
   html{scroll-behavior:auto}
 }
 
@@ -1328,7 +1330,7 @@ function render(){
   if (slot("s-main", '<main><div class="wrap">'+body+'</div></main>') && view!==LAST_VIEW && LAST_VIEW!==null){ var mn=document.querySelector("#s-main main"); if(mn) mn.classList.add("enter"); }
   LAST_VIEW = view;
   slot("s-modal", modal());
-  slot("s-foot", '<div class="frieze" aria-hidden="true"></div><footer><div class="wrap"><div><div class="sig">Issam <em>Matoussi</em></div><div style="margin-top:8px">Researcher · Instructor · Academic year 2026–2027</div><div class="ver">Site version 2.1 · 23 Oct 2026</div></div><div style="display:flex;flex-direction:column;align-items:flex-end"><button class="foot-share" data-act="share">'+svg('<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4"/>',15)+'Share this site · QR code</button></div></div></footer>');
+  slot("s-foot", '<div class="frieze" aria-hidden="true"></div><footer><div class="wrap"><div><div class="sig">Issam <em>Matoussi</em></div><div style="margin-top:8px">Researcher · Instructor · Academic year 2026–2027</div><div class="ver">Site version 2.2 · 23 Oct 2026</div></div><div style="display:flex;flex-direction:column;align-items:flex-end"><button class="foot-share" data-act="share">'+svg('<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4"/>',15)+'Share this site · QR code</button></div></div></footer>');
   if (active){ var el = document.getElementById(active); if (el){ el.focus(); if (pos!=null && el.setSelectionRange) try{ el.setSelectionRange(pos,pos);}catch(e){} } }
 }
 
@@ -1673,7 +1675,7 @@ async function downloadItem(m, btn){
     var m = document.querySelector(".mosaic"); if (!m || TILES_DONE) return;
     var go = function(){ if (m.classList.contains("play")) return; setTimeout(function(){ m.classList.add("play"); setTimeout(function(){ m.classList.add("played"); TILES_DONE = true; }, 3600); }, rootEl.classList.contains("intro") ? 900 : 150); };
     if (!("IntersectionObserver" in window)) return go();
-    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ io.disconnect(); go(); } }); }, {threshold:.45});
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting && e.intersectionRatio >= 0.55){ io.disconnect(); go(); } }); }, {threshold:.6});
     io.observe(m);
   }
   requestAnimationFrame(startTiles);
