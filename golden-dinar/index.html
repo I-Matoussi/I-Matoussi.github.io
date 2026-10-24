@@ -542,6 +542,15 @@ html body.only-en:not(.peek) .beystage .beybub.big .ar,html body.only-ar:not(.pe
 .splash .ruq{font-size:clamp(1.3rem,5vw,2rem)!important}
 .splash .medallion{display:none}
 .beystage .beybub.big{z-index:3}.beystage .beyfig{z-index:1}
+
+/* centred welcome panel */
+.welcome-ov{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:16px;background:radial-gradient(ellipse at center,rgba(20,50,90,.82),rgba(5,14,30,.94));-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);animation:wIn .5s ease both;overflow:auto}
+.welcome-ov.out{animation:wOut .45s ease forwards}
+.welcome-box{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;max-width:600px;width:100%;margin:auto}
+.welcome-box .beystage{order:0}
+.welcome-box .small{color:var(--sand-dim)}
+@keyframes wIn{from{opacity:0}to{opacity:1}}
+@keyframes wOut{to{opacity:0;transform:scale(1.04)}}
 /* Arabic version: no English vocabulary/grammar boxes */
 body.only-ar .learn{display:none!important}
 /* navigation */
@@ -2632,7 +2641,7 @@ function wireHeader(){const h=document.getElementById("home");if(h){h.onclick=()
 function stopTimer(){if(timerRAF)cancelAnimationFrame(timerRAF);timerRAF=null}
 function nav(fn){if(reduce()){fn();window.scrollTo(0,0);return}app.classList.add("leaving");setTimeout(()=>{fn();app.classList.remove("leaving");window.scrollTo({top:0,behavior:"smooth"})},230)}
 function popQuestState(){try{if(history.state&&history.state.gd){S.skipPop=true;history.back()}}catch(e){}}
-function goMap(){stopTimer();beyAway();closeHannibal(true);closeSheet();popQuestState();nav(renderMap)}
+function goMap(){stopTimer();beyAway();{const o=document.getElementById("welcomeOv");if(o&&!o.classList.contains("out"))o.remove()}closeHannibal(true);closeSheet();popQuestState();nav(renderMap)}
 function goHome(){stopTimer();closeSheet();popQuestState();nav(renderSplash)}
 function leave(target,kind){if(S.screen!=="quiz"){target();return}openSheet(target,kind)}
 function openSheet(target,kind){if(document.querySelector(".sheet"))return;
@@ -2657,10 +2666,6 @@ function renderSplash(){
  app.innerHTML=header()+`<section class="splash frame">
   <div class="slides"><div class="svgfb">${placeholder("")}</div>${slides.map((k,i)=>`<img alt="${P[k][1]}" src="${WM(P[k][0])}" decoding="async" style="animation-delay:${i*-4.8}s,0s" onerror="this.remove()">`).join("")}</div>
   <div class="splash-in">
-   <div class="beystage" id="beyStage" role="button" tabindex="0" aria-label="The Bey says welcome">
-    <div class="beybub big"><span class="en"><b>I'm the Bey!</b> Welcome to <b>The Golden Dinar</b>. I want to accompany you on this journey across Tunisian history, to collect gold coins and learn more about the history of Tunisia.</span><span class="ar" lang="ar" dir="rtl"><b>أنا الباي!</b> مرحبًا بكم في <b>الدينار الذهبي</b>. أريد أن أرافقكم في هذه الرحلة عبر تاريخ تونس، لتجمعوا القطع الذهبية وتتعلّموا المزيد عن تاريخ تونس.</span></div>
-    <div class="beyfig">${BEY_SVG}${[0,1,2,3,4,5].map(k=>`<span class="tcoin c${k}"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="9" fill="#f6d27a" stroke="#9c6c1d" stroke-width="1.5"/><circle cx="10" cy="10" r="6" fill="none" stroke="#c99a3a" stroke-width="1"/><path d="M10 5.5l1.3 3 3.2.3-2.4 2.1.7 3.1L10 12.4 7.2 14l.7-3.1-2.4-2.1 3.2-.3z" fill="#c99a3a"/></svg></span>`).join("")}</div>
-   </div>
    <h1>The Golden Dinar</h1><div class="ruq">الدينار الذهبي</div>
    <p class="en">3,000 years of Tunisian history in ${ALL.length} quests and ${TOTAL_Q} questions. Win gold, collect medals, learn English words and grammar, and become the Heir of Elissa.</p>
    <p class="ar" lang="ar">3000 سنة من تاريخ تونس في ${ALL.length} تحديات و${TOTAL_Q} سؤالًا. اربح الذهب، واجمع الأوسمة، وتعلّم كلمات الإنجليزية وقواعدها، وكن وريث عليسة.</p>
@@ -2669,8 +2674,14 @@ function renderSplash(){
    <span class="small en">Tap to start the music, coins and applause.</span><span class="small ar" lang="ar">اضغط لتبدأ الموسيقى ورنين الذهب والتصفيق.</span>
   </div></section>`;
  wireHeader();
+ document.getElementById("welcomeOv")?.remove();
+ const ov=document.createElement("div");ov.id="welcomeOv";ov.className="welcome-ov";ov.setAttribute("role","dialog");ov.setAttribute("aria-modal","true");ov.setAttribute("aria-label","Welcome");
+ ov.innerHTML=`<div class="welcome-box"><div class="beystage" id="beyStage" role="button" tabindex="0" aria-label="The Bey says welcome">    <div class="beybub big"><span class="en"><b>I'm the Bey!</b> Welcome to <b>The Golden Dinar</b>. I want to accompany you on this journey across Tunisian history, to collect gold coins and learn more about the history of Tunisia.</span><span class="ar" lang="ar" dir="rtl"><b>أنا الباي!</b> مرحبًا بكم في <b>الدينار الذهبي</b>. أريد أن أرافقكم في هذه الرحلة عبر تاريخ تونس، لتجمعوا القطع الذهبية وتتعلّموا المزيد عن تاريخ تونس.</span></div>    <div class="beyfig">${BEY_SVG}${[0,1,2,3,4,5].map(k=>`<span class="tcoin c${k}"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="9" fill="#f6d27a" stroke="#9c6c1d" stroke-width="1.5"/><circle cx="10" cy="10" r="6" fill="none" stroke="#c99a3a" stroke-width="1"/><path d="M10 5.5l1.3 3 3.2.3-2.4 2.1.7 3.1L10 12.4 7.2 14l.7-3.1-2.4-2.1 3.2-.3z" fill="#c99a3a"/></svg></span>`).join("")}</div>   </div><button class="btn big" id="go2">${bi("Enter the treasury","ادخل الخزينة")}</button><span class="small">${bi("Tap to hear the Bey and start the music.","اضغط لتسمع الباي وتبدأ الموسيقى.")}</span></div>`;
+ document.body.appendChild(ov);
  const st=document.getElementById("beyStage");const hello=()=>{sfx.cash();beyWelcome()};st.onclick=hello;st.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();hello()}};
- document.getElementById("go").onclick=()=>{sfx.cash();window.__beyGreeted=true;beyWelcome();MUS.level=.5;startMusic();if(S.pendingTeacher){const t=S.pendingTeacher;S.pendingTeacher=null;startTeacher(t.c.id,t.n)}else goMap()};
+ document.getElementById("go2").onclick=()=>document.getElementById("go").click();
+ document.getElementById("go2").focus();
+ document.getElementById("go").onclick=()=>{const o=document.getElementById("welcomeOv");if(o){o.classList.add("out");setTimeout(()=>o.remove(),450)}sfx.cash();window.__beyGreeted=true;beyWelcome();MUS.level=.5;startMusic();if(S.pendingTeacher){const t=S.pendingTeacher;S.pendingTeacher=null;startTeacher(t.c.id,t.n)}else goMap()};
 }
 
 /* ================= map ================= */
