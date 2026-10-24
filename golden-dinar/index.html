@@ -2782,6 +2782,12 @@ function beyReact(ok){if(S.bey===false)return;
  beySay(S.lang==="ar"?p[1]:p[0],S.lang==="ar"?"ar":"en");
  beyT1=setTimeout(()=>{el.classList.add(ok?"exit-happy":"exit-sad")},ok?1900:1700);
  beyT2=setTimeout(()=>{el.className="bey"},ok?2600:2400)}
+function beyGreet(){if(S.bey===false||window.__beyGreeted)return;window.__beyGreeted=true;
+ let el=document.getElementById("bey");if(!el){el=document.createElement("div");el.id="bey";el.className="bey";el.innerHTML=`<div class="beybub"></div>${BEY_SVG}`;document.body.appendChild(el)}
+ const p=["Welcome! Choose an era.","مرحبا! اختر حقبة."];
+ el.querySelector(".beybub").innerHTML=S.lang==="ar"?`<span lang="ar" dir="rtl">${p[1]}</span>`:S.lang==="both"?`${p[0]}<br><span lang="ar" dir="rtl">${p[1]}</span>`:p[0];
+ el.className="bey";void el.offsetWidth;el.classList.add("show","happy");
+ clearTimeout(beyT1);clearTimeout(beyT2);beyT1=setTimeout(()=>el.classList.add("exit-happy"),2600);beyT2=setTimeout(()=>{el.className="bey"},3300)}
 function beyAway(){const el=document.getElementById("bey");if(el){clearTimeout(beyT1);clearTimeout(beyT2);el.className="bey"}}
 
 /* ================= cities rubric ================= */
@@ -2831,6 +2837,7 @@ function renderMap(){
   document.getElementById("daily").onclick=()=>{sfx.click();if(dailyDone()){toast(bi("You have already done today's challenge. See you tomorrow!","أنجزت تحدي اليوم. نلتقي غدًا!"),FLAME);return}startRun(DAILY,dailyList())};
   app.querySelectorAll(".qitem").forEach(b=>b.onclick=()=>{sfx.click();startCh(+b.dataset.i)});
   document.getElementById("citiesTile").onclick=()=>{sfx.click();nav(renderCities)};
+  setTimeout(beyGreet,700);
   document.getElementById("getApp").onclick=()=>{sfx.click();openGetApp()};
   document.getElementById("qAch").onclick=()=>{sfx.click();nav(renderAch)};
 }
