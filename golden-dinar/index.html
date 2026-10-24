@@ -1,1 +1,495 @@
-golden-dinar/index.html
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Golden Dinar</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Alegreya+Sans:wght@400;500;700;800&family=Aref+Ruqaa:wght@700&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap">
+<style>
+/* Layout: one-column game board on lapis night; a mosaic band frames each screen; chapter map of tiles → quiz card with animated scene → medal. Every line of text is paired English / Arabic. */
+:root{
+  --lapis:#0d2340; --lapis-2:#143258; --lapis-3:#1c3f6c;
+  --gold:#e0ac45; --gold-hi:#f6d27a; --gold-lo:#9c6c1d;
+  --sand:#f1e4c8; --sand-dim:#b9ab8e;
+  --teal:#2a9d8f; --pom:#d0503f; --door:#2f6fb3;
+  --display:"Marcellus","Palatino Linotype",Georgia,serif;
+  --body:"Alegreya Sans","Gill Sans","Trebuchet MS",sans-serif;
+  --arabic:"Noto Naskh Arabic","Amiri","Traditional Arabic","Arial",serif;
+  --ruqaa:"Aref Ruqaa","Amiri","Traditional Arabic",serif;
+  color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--lapis);color:var(--sand);font-family:var(--body);font-size:17px;line-height:1.5;
+  background-image:radial-gradient(circle at 50% -10%,var(--lapis-3),transparent 60%);}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--lapis)}
+#dust{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:640px;margin:0 auto;padding-block:18px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
+.ar{font-family:var(--arabic);direction:rtl;unicode-bidi:isolate}
+.mosaic{height:12px;border-radius:2px;background-size:48px 12px;animation:slide 8s linear infinite;
+  background-image:repeating-linear-gradient(90deg,var(--gold) 0 10px,var(--lapis) 10px 12px,var(--teal) 12px 22px,var(--lapis) 22px 24px,var(--sand) 24px 34px,var(--lapis) 34px 36px,var(--pom) 36px 46px,var(--lapis) 46px 48px);}
+@keyframes slide{to{background-position:48px 0}}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;flex-direction:column;cursor:pointer}
+.brand h1{font-family:var(--display);font-weight:400;font-size:1.7rem;margin:0;letter-spacing:.02em;line-height:1.1;
+  background:linear-gradient(100deg,var(--gold-lo) 0%,var(--gold-hi) 30%,#fff7d6 45%,var(--gold-hi) 60%,var(--gold) 100%);background-size:250% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 5s linear infinite}
+@keyframes shine{from{background-position:120% 0}to{background-position:-130% 0}}
+.brand .ruq{font-family:var(--ruqaa);color:var(--gold);font-size:1.15rem;line-height:1.3;direction:rtl}
+.purse{display:flex;align-items:center;gap:8px;background:var(--lapis-2);border:1px solid var(--gold-lo);border-radius:999px;padding:6px 14px 6px 6px;font-weight:800;color:var(--gold-hi);font-variant-numeric:tabular-nums}
+.purse svg{width:30px;height:30px;animation:coinspin 4s linear infinite}
+@keyframes coinspin{0%,70%{transform:rotateY(0)}85%{transform:rotateY(180deg)}100%{transform:rotateY(360deg)}}
+.purse.bump{animation:bump .5s}
+@keyframes bump{40%{transform:scale(1.18)}}
+.intro{display:flex;flex-direction:column;gap:6px}
+.intro p{margin:0;max-width:62ch}
+.intro b{color:var(--gold-hi)}
+.intro .ar{font-size:1rem;color:var(--sand-dim)}
+.sect{display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-bottom:1px solid var(--lapis-3);padding-bottom:4px}
+.sect h3{margin:0;font-family:var(--display);font-weight:400;font-size:1.15rem;color:var(--gold-hi)}
+.sect .ar{font-family:var(--ruqaa);color:var(--gold);font-size:1.15rem}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tile{all:unset;cursor:pointer;display:flex;flex-direction:column;background:var(--lapis-2);border:1px solid var(--lapis-3);border-radius:10px;overflow:hidden;transition:transform .15s,border-color .15s;animation:rise .5s both}
+.tile:hover,.tile:focus-visible{transform:translateY(-3px);border-color:var(--gold)}
+.tile:focus-visible{outline:2px solid var(--gold-hi);outline-offset:2px}
+@keyframes rise{from{transform:translateY(14px);opacity:.2}}
+.tile .scene{aspect-ratio:16/9;max-width:100%;display:block;overflow:hidden}
+.scene svg{width:100%;height:100%;display:block}
+.tile .meta{padding:10px 12px 12px;display:flex;flex-direction:column;gap:1px;min-width:0}
+.tile .span{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sand-dim)}
+.tile .name{font-family:var(--display);font-size:1.06rem;color:var(--sand);line-height:1.2}
+.tile .name-ar{font-family:var(--arabic);direction:rtl;font-size:1rem;color:var(--gold);line-height:1.5}
+.tile .medal{font-size:.8rem;font-weight:700;color:var(--sand-dim);display:flex;align-items:center;gap:6px;margin-top:4px}
+.dot{flex:none;width:12px;height:12px;border-radius:50%;background:var(--lapis-3);border:1px solid var(--sand-dim)}
+.dot.gold{background:var(--gold);border-color:var(--gold-hi);box-shadow:0 0 8px var(--gold)} .dot.silver{background:#c9cfd6;border-color:#eef} .dot.bronze{background:#b0703a;border-color:#d9955a}
+.btn{all:unset;cursor:pointer;text-align:center;font-weight:800;padding:12px 20px;border-radius:999px;background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:var(--lapis);box-shadow:0 3px 0 var(--gold-lo);transition:transform .1s;line-height:1.3}
+.btn .ar{display:block;font-weight:700;font-size:.92em}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--gold-lo)}
+.btn:focus-visible{outline:2px solid var(--sand);outline-offset:3px}
+.btn.ghost{background:transparent;color:var(--gold-hi);border:1px solid var(--gold-lo);box-shadow:none}
+.btn[disabled]{opacity:.4;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+
+/* quiz */
+.card{background:var(--lapis-2);border:1px solid var(--lapis-3);border-radius:12px;overflow:hidden;animation:cardin .35s ease-out}
+@keyframes cardin{from{transform:translateY(10px) scale(.98);opacity:.4}}
+.card .scene{aspect-ratio:16/7;max-width:100%}
+.qbody{padding:16px 18px 20px;display:flex;flex-direction:column;gap:14px}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sand-dim);flex-wrap:wrap}
+.streak{color:var(--gold-hi);font-weight:800;letter-spacing:.06em;animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.55}}
+.bars{display:flex;flex-direction:column;gap:5px}
+.progress,.timer{height:6px;background:var(--lapis);border-radius:3px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--gold);transition:width .3s}
+.timer i{display:block;height:100%;background:var(--teal);width:100%}
+.timer.low i{background:var(--pom)}
+.qtext{display:flex;flex-direction:column;gap:4px}
+.q{font-family:var(--display);font-weight:400;font-size:1.3rem;line-height:1.3;margin:0;text-wrap:balance}
+.q-ar{font-family:var(--arabic);direction:rtl;font-size:1.2rem;line-height:1.7;margin:0;color:var(--gold-hi);font-weight:600}
+.opts{display:grid;gap:10px}
+.opt{all:unset;cursor:pointer;padding:10px 14px;border-radius:8px;background:var(--lapis);border:1px solid var(--lapis-3);display:flex;align-items:center;gap:12px;transition:border-color .15s,background .15s,transform .15s}
+.opt .k{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:.8rem;font-weight:800;border:1px solid var(--gold-lo);color:var(--gold)}
+.opt .txt{display:flex;flex-direction:column;min-width:0;flex:1}
+.opt .txt .en{font-weight:600}
+.opt .txt .ar{color:var(--sand-dim);font-size:.98rem;line-height:1.5}
+.opt:hover:not([disabled]){border-color:var(--gold);transform:translateX(3px)}
+.opt:focus-visible{outline:2px solid var(--gold-hi);outline-offset:2px}
+.opt[disabled]{cursor:default}
+.opt.right{background:color-mix(in srgb,var(--teal) 30%,var(--lapis));border-color:var(--teal);animation:pop .4s}
+.opt.wrong{background:color-mix(in srgb,var(--pom) 28%,var(--lapis));border-color:var(--pom);animation:shake .4s}
+.opt.gone{opacity:.22}
+@keyframes pop{50%{transform:scale(1.04)}}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+/* order puzzle */
+.slots{display:grid;gap:8px}
+.slot{min-height:48px;border:1px dashed var(--gold-lo);border-radius:8px;display:flex;align-items:center;gap:10px;padding:6px 12px;color:var(--sand-dim)}
+.slot .n{flex:none;width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--lapis);font-weight:800;display:grid;place-items:center;font-size:.8rem}
+.slot.filled{border-style:solid;background:var(--lapis);color:var(--sand);cursor:pointer;animation:pop .3s}
+.slot.filled.right{border-color:var(--teal)} .slot.filled.wrong{border-color:var(--pom)}
+.slot .yr{margin-left:auto;font-weight:800;color:var(--gold-hi);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pool{display:flex;flex-wrap:wrap;gap:8px}
+.chip{all:unset;cursor:pointer;padding:8px 12px;border-radius:8px;background:var(--lapis-3);border:1px solid var(--lapis-3);display:flex;flex-direction:column;line-height:1.35;max-width:100%}
+.chip .ar{font-size:.92rem;color:var(--gold)}
+.chip:hover{border-color:var(--gold)} .chip:focus-visible{outline:2px solid var(--gold-hi)}
+.tools{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.hint{all:unset;cursor:pointer;font-size:.85rem;font-weight:700;color:var(--gold-hi);border:1px dashed var(--gold-lo);padding:6px 12px;border-radius:999px;line-height:1.35;text-align:center}
+.hint .ar{display:block;font-size:.9em}
+.hint[disabled]{opacity:.35;cursor:default}
+.hint:focus-visible{outline:2px solid var(--gold-hi)}
+.feedback{border-radius:8px;padding:14px;border:1px solid var(--lapis-3);background:var(--lapis);display:flex;flex-direction:column;gap:6px;animation:cardin .35s}
+.feedback .quip{font-weight:800;font-size:1.02rem}
+.feedback .quip .ar{display:block;font-weight:700}
+.feedback.ok .quip{color:var(--gold-hi)} .feedback.no .quip{color:#f08a7c}
+.feedback .fact{color:var(--sand);font-size:.97rem;max-width:62ch}
+.feedback .fact.ar{font-size:1rem;color:var(--sand);line-height:1.8}
+.feedback .fact b{color:var(--gold-hi)}
+.feedback .gain{font-size:.85rem;color:var(--sand-dim)}
+hr.thin{border:0;border-top:1px solid var(--lapis-3);margin:2px 0;width:100%}
+
+/* coins burst + confetti */
+.burst{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}
+.burst svg{position:absolute;width:28px;height:28px;animation:fly 1.1s ease-out forwards}
+@keyframes fly{to{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}}
+.burst i{position:absolute;width:8px;height:12px;animation:fall 2.4s ease-in forwards}
+@keyframes fall{to{transform:translate(var(--dx),110vh) rotate(var(--r))}}
+
+/* result */
+.result{text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;padding:22px 18px}
+.bigmedal{width:150px;height:150px;animation:spinin 1.1s ease-out}
+@keyframes spinin{from{transform:rotateY(540deg) scale(.3);opacity:0}}
+.result h2{font-family:var(--display);font-weight:400;font-size:1.7rem;margin:0;color:var(--gold-hi);text-wrap:balance}
+.result p{margin:0;max-width:52ch}
+.rank{font-family:var(--ruqaa);font-size:1.4rem;color:var(--gold)}
+.small{font-size:.85rem;color:var(--sand-dim)}
+.statrow{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+.stat{display:flex;flex-direction:column;align-items:center}
+.stat b{font-size:1.4rem;color:var(--gold-hi);font-variant-numeric:tabular-nums}
+footer{font-size:.8rem;color:var(--sand-dim);text-align:center;display:flex;flex-direction:column;gap:2px}
+
+/* scene animations */
+.a-wave{animation:wave 7s linear infinite}
+@keyframes wave{to{transform:translateX(-80px)}}
+.a-bob{animation:bob 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes bob{50%{transform:translateY(-4px) rotate(-2deg)}}
+.a-glow{animation:glow 4s ease-in-out infinite}
+@keyframes glow{50%{opacity:.7}}
+.a-twinkle{animation:twinkle 2.4s ease-in-out infinite}
+@keyframes twinkle{50%{opacity:.15}}
+.a-sway{animation:sway 4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes sway{50%{transform:rotate(4deg)}}
+.a-fly{animation:flyacross 12s linear infinite}
+@keyframes flyacross{from{transform:translateX(-60px)}to{transform:translateX(380px)}}
+.a-flag{animation:flag 2.2s ease-in-out infinite;transform-box:fill-box;transform-origin:0 50%}
+@keyframes flag{50%{transform:skewY(-4deg) scaleX(.96)}}
+.a-fall{animation:petal 6s linear infinite}
+@keyframes petal{from{transform:translateY(-30px) rotate(0)}to{transform:translateY(200px) rotate(300deg)}}
+.a-spin{animation:spin 18s linear infinite;transform-box:fill-box;transform-origin:center}
+@keyframes spin{to{transform:rotate(360deg)}}
+.a-flame{animation:flame .9s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes flame{to{transform:scale(.85,1.12) skewX(4deg)}}
+.a-page{animation:page 5s ease-in-out infinite;transform-box:fill-box;transform-origin:0 50%}
+@keyframes page{0%,40%{transform:scaleX(1)}60%,100%{transform:scaleX(-1)}}
+.a-ink{stroke-dasharray:300;stroke-dashoffset:300;animation:ink 5s ease-in-out infinite}
+@keyframes ink{60%,100%{stroke-dashoffset:0}}
+.a-stamp{animation:stamp 3s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes stamp{0%,70%,100%{transform:scale(1)}80%{transform:scale(1.15)}}
+@media (max-width:420px){.tiles{gap:10px}.tile .name{font-size:.95rem}.q{font-size:1.18rem}.q-ar{font-size:1.1rem}}
+@media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}.a-ink{stroke-dashoffset:0}}
+</style>
+<style>*,*::before,*::after{box-sizing:border-box}body{margin:0}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+<canvas id="dust" aria-hidden="true"></canvas>
+<div class="wrap" id="app"></div>
+<div class="burst" id="burst" aria-hidden="true"></div>
+
+<script>
+/* ================= art ================= */
+const COIN=`<svg viewBox="0 0 40 40"><defs><radialGradient id="cg" cx="35%" cy="30%"><stop offset="0" stop-color="#fff2b8"/><stop offset=".5" stop-color="#e0ac45"/><stop offset="1" stop-color="#9c6c1d"/></radialGradient></defs><circle cx="20" cy="20" r="18" fill="url(#cg)" stroke="#7a5212" stroke-width="1.5"/><circle cx="20" cy="20" r="13" fill="none" stroke="#9c6c1d" stroke-width="1" stroke-dasharray="2 2"/><path d="M14 22 q6 -10 12 0 q-6 -4 -12 0z" fill="#9c6c1d"/><circle cx="20" cy="15" r="1.8" fill="#9c6c1d"/></svg>`;
+const waves=(y,c)=>`<path class="a-wave" d="M0 ${y} ${Array.from({length:10},()=>"q20 -6 40 0 t40 0").join(" ")}" stroke="${c}" stroke-width="2" fill="none"/>`;
+const star8=(cx,cy,r,f)=>{let p="";for(let i=0;i<16;i++){const a=i*Math.PI/8,rr=i%2?r*.62:r;p+=(i?"L":"M")+(cx+rr*Math.cos(a)).toFixed(1)+" "+(cy+rr*Math.sin(a)).toFixed(1)}return `<path d="${p}Z" fill="${f}"/>`};
+const flower=(x,y,s)=>`<g transform="translate(${x} ${y}) scale(${s})">${[0,72,144,216,288].map(a=>`<ellipse cx="0" cy="-9" rx="5" ry="9" fill="#fffdf6" stroke="#e8dcc0" transform="rotate(${a})"/>`).join("")}<circle r="3" fill="#f2c94c"/></g>`;
+
+const SCENES={
+carthage:`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><rect width="320" height="180" fill="#e9b36a"/><rect width="320" height="95" fill="#f2c57f"/><circle class="a-glow" cx="240" cy="70" r="30" fill="#fbe3a6"/><rect y="95" width="320" height="85" fill="#1e5f8c"/>${waves(110,"#5fa3c9")}${waves(135,"#3c82ad")}${waves(160,"#5fa3c9")}<ellipse cx="80" cy="150" rx="60" ry="14" fill="none" stroke="#c99a52" stroke-width="5"/><circle cx="80" cy="150" r="7" fill="#c99a52"/><g class="a-bob"><g transform="translate(170 88)"><path d="M0 18 L90 18 L78 32 L10 32Z" fill="#6b3a1e"/><path d="M90 18 q12 -4 16 -14" stroke="#6b3a1e" stroke-width="4" fill="none"/><rect x="42" y="-30" width="3" height="48" fill="#4a2814"/><path d="M20 -26 h46 v34 h-46z" fill="#b8402f"/><circle cx="43" cy="-9" r="7" fill="#f2c57f"/><g stroke="#4a2814" stroke-width="2">${[16,26,36,46,56,66].map(x=>`<line x1="${x}" y1="32" x2="${x-6}" y2="44"/>`).join("")}</g></g></g><rect x="20" y="70" width="8" height="25" fill="#d9b07a"/><rect x="34" y="62" width="8" height="33" fill="#d9b07a"/><rect x="14" y="58" width="34" height="5" fill="#c99a52"/></svg>`,
+kairouan:`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><rect width="320" height="180" fill="#f4d9a8"/><circle class="a-glow" cx="60" cy="50" r="22" fill="#fff0c9"/><g class="a-fly" stroke="#6b4a2a" stroke-width="1.6" fill="none"><path d="M0 40 q4 -4 8 0 q4 -4 8 0"/><path d="M20 30 q3 -3 6 0 q3 -3 6 0"/></g><rect y="140" width="320" height="40" fill="#d8b07a"/><g fill="#e8cfa0" stroke="#b58a52" stroke-width="2"><rect x="120" y="30" width="56" height="112"/><rect x="128" y="10" width="40" height="22"/><rect x="138" y="-4" width="20" height="16"/></g><g fill="#7a5530"><path d="M138 60 h20 v18 h-20z"/><path d="M138 95 h20 v18 h-20z"/></g><rect x="176" y="90" width="140" height="52" fill="#e8cfa0" stroke="#b58a52" stroke-width="2"/><g fill="#8c6338">${[0,1,2,3,4,5].map(i=>`<path d="M${186+i*22} 142 v-22 a8 8 0 0 1 16 0 v22z"/>`).join("")}</g><g class="a-sway"><rect x="40" y="90" width="5" height="52" fill="#7a5530"/><path d="M42 90 q-24 -2 -30 14 M42 90 q24 -2 30 14 M42 90 q-14 -16 -28 -10 M42 90 q14 -16 28 -10" stroke="#3e6b3a" stroke-width="6" fill="none" stroke-linecap="round"/></g><g class="a-sway" style="animation-delay:-2s"><rect x="80" y="104" width="4" height="38" fill="#7a5530"/><path d="M82 104 q-18 -2 -22 10 M82 104 q18 -2 22 10 M82 104 q-10 -12 -20 -8 M82 104 q10 -12 20 -8" stroke="#4d7d48" stroke-width="5" fill="none" stroke-linecap="round"/></g></svg>`,
+hafsid:`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><rect width="320" height="180" fill="#183a63"/><g class="a-glow"><circle cx="250" cy="45" r="18" fill="#f6e3a6"/><circle cx="258" cy="40" r="16" fill="#183a63"/></g>${[[30,20],[90,34],[140,14],[200,30],[290,22],[60,50],[175,48]].map(([x,y],i)=>`<circle class="a-twinkle" style="animation-delay:${-i*.4}s" cx="${x}" cy="${y}" r="1.6" fill="#f6e3a6"/>`).join("")}<rect y="150" width="320" height="30" fill="#0f2742"/><g fill="#c9a067"><rect x="20" y="80" width="280" height="72"/>${Array.from({length:14},(_,i)=>`<rect x="${20+i*20}" y="72" width="12" height="10"/>`).join("")}<rect x="130" y="40" width="60" height="112"/>${[0,1,2].map(i=>`<rect x="${130+i*24}" y="32" width="12" height="10"/>`).join("")}</g><path d="M145 152 v-30 a15 15 0 0 1 30 0 v30z" fill="#3b2614"/><g fill="#3b2614"><rect x="152" y="58" width="6" height="14" rx="3"/><rect x="164" y="58" width="6" height="14" rx="3"/><rect x="50" y="100" width="6" height="14" rx="3"/><rect x="260" y="100" width="6" height="14" rx="3"/></g><path d="M160 32 v-16" stroke="#c9a067" stroke-width="2"/><path class="a-flag" d="M160 16 l16 5 l-16 5z" fill="#d0503f"/></svg>`,
+beys:`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><rect width="320" height="180" fill="#f5f1ea"/><rect width="320" height="20" fill="#2f6fb3"/><rect x="10" y="40" width="300" height="140" fill="#fff" stroke="#d8d0c2" stroke-width="2"/><g transform="translate(110 52)"><path d="M0 128 v-80 a50 50 0 0 1 100 0 v80z" fill="#e7dfcf"/><path d="M8 128 v-78 a42 42 0 0 1 84 0 v78z" fill="#2f6fb3"/><path d="M50 8 v120" stroke="#1f4f86" stroke-width="2"/>${[[30,40],[70,40],[22,70],[78,70],[30,100],[70,100],[50,30],[50,62],[50,94]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3.2" fill="#1a1a1a"/>`).join("")}<circle cx="38" cy="84" r="4" fill="none" stroke="#e0ac45" stroke-width="2"/></g><g fill="#d4508a">${[[40,48],[52,56],[30,60],[262,50],[276,58],[250,62],[288,48]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="6"/>`).join("")}</g>${[[60,0],[250,-2],[90,-4],[280,-1.2]].map(([x,d])=>`<ellipse class="a-fall" style="animation-delay:${d}s" cx="${x}" cy="40" rx="4" ry="2.4" fill="#e06aa0"/>`).join("")}<g stroke="#3e6b3a" stroke-width="3" fill="none"><path d="M20 70 q30 -30 60 -10 M240 66 q30 -30 70 -6"/></g></svg>`,
+protectorate:`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><rect width="320" height="180" fill="#3a3530"/><g class="a-bob" style="animation-duration:6s"><rect x="40" y="26" width="240" height="140" fill="#efe6d2" transform="rotate(-3 160 96)"/><g transform="rotate(-3 160 96)"><rect x="56" y="38" width="208" height="22" fill="#2a2420"/><text x="160" y="54" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="#efe6d2" letter-spacing="2">TUNIS · 1934 · تونس</text><rect x="56" y="66" width="208" height="3" fill="#2a2420"/>${Array.from({length:9},(_,i)=>`<rect x="56" y="${78+i*9}" width="${i%3==2?70:96}" height="4" fill="#9a9080"/><rect x="168" y="${78+i*9}" width="${i%4==3?50:96}" height="4" fill="#9a9080"/>`).join("")}<g class="a-stamp"><rect x="168" y="78" width="96" height="40" fill="#b8402f" opacity=".9"/><text x="216" y="104" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#efe6d2">الحرية</text></g></g></g><g class="a-sway" transform="translate(260 140)"><path d="M0 0 q-20 -30 -10 -60" stroke="#6b8f4a" stroke-width="3" fill="none"/>${[[-6,-14],[-12,-28],[-12,-44],[-8,-56]].map(([x,y],i)=>`<ellipse cx="${x+(i%2?8:-8)}" cy="${y}" rx="8" ry="3.5" fill="#8db36a" transform="rotate(${i%2?30:-30} ${x} ${y})"/>`).join("")}</g></svg>`,
+republic:`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><rect width="320" height="180" fill="#8fc6e8"/><circle class="a-glow" cx="280" cy="30" r="16" fill="#fff6c9"/><rect y="140" width="320" height="40" fill="#e7dcc4"/><rect x="60" y="20" width="4" height="140" fill="#6b5a44"/><g class="a-flag"><path d="M64 24 q50 -10 100 6 t100 -2 v78 q-50 10 -100 -4 t-100 2z" fill="#e70013"/><circle cx="160" cy="62" r="24" fill="#fff"/><circle cx="162" cy="62" r="17" fill="#e70013"/><circle cx="167" cy="62" r="14" fill="#fff"/><path d="M158 62 l13 -4.5 l-8 11 v-13.5 l8 11z" fill="#e70013"/></g><g class="a-spin" style="animation-duration:12s">${flower(250,150,1)}</g><g class="a-spin" style="animation-duration:16s">${flower(205,160,.7)}</g>${[[220,-1],[290,-3.5],[180,-5]].map(([x,d])=>`<ellipse class="a-fall" style="animation-delay:${d}s" cx="${x}" cy="0" rx="3.4" ry="5" fill="#fffdf6"/>`).join("")}</svg>`,
+books:`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><rect width="320" height="180" fill="#2a1d14"/><rect y="132" width="320" height="48" fill="#5a3a22"/><path d="M60 128 L160 112 L260 128 L260 140 L160 126 L60 140Z" fill="#7a5130"/><path d="M60 128 L60 50 Q110 38 160 52 L160 112Z" fill="#f1e2bf"/><path d="M260 128 L260 50 Q210 38 160 52 L160 112Z" fill="#ead9b2"/><g stroke="#7a5130" stroke-width="2" fill="none"><path class="a-ink" d="M150 66 q-20 -6 -40 0 t-38 0"/><path class="a-ink" style="animation-delay:-1s" d="M150 80 q-20 -6 -40 0 t-38 0"/><path class="a-ink" style="animation-delay:-2s" d="M150 94 q-20 -6 -40 0 t-38 0"/></g><g fill="#b8402f"><rect x="176" y="62" width="70" height="4"/><rect x="176" y="74" width="60" height="4"/><rect x="176" y="86" width="70" height="4"/></g><path class="a-page" d="M160 52 Q200 40 240 52 L240 120 Q200 110 160 112Z" fill="#f6ecd0" opacity=".9" transform="translate(0 0)"/><g transform="translate(286 80)"><rect x="-6" y="0" width="12" height="52" fill="#efe2c4"/><path class="a-flame" d="M0 -18 q8 10 0 18 q-8 -8 0 -18z" fill="#f6c34a"/><circle class="a-glow" cx="0" cy="-8" r="20" fill="#f6c34a" opacity=".18"/></g><g transform="translate(30 112)"><path d="M0 20 q0 -14 12 -14 q12 0 12 14z" fill="#1f1a33"/><path d="M14 6 L40 -40" stroke="#e8d6a8" stroke-width="2"/></g></svg>`,
+figures:`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><rect width="320" height="180" fill="#123a3a"/><g class="a-spin" opacity=".25">${star8(70,90,70,"#2a9d8f")}</g><g class="a-spin" style="animation-direction:reverse" opacity=".25">${star8(260,60,50,"#e0ac45")}</g><rect x="90" y="40" width="150" height="110" rx="4" fill="#efe2c4"/><path class="a-ink" d="M110 70 q20 -14 40 0 t40 0 t30 -4" stroke="#1b3d5c" stroke-width="3" fill="none"/><path class="a-ink" style="animation-delay:-1.5s" d="M110 96 q16 10 34 0 t34 0 t40 2" stroke="#1b3d5c" stroke-width="3" fill="none"/><path class="a-ink" style="animation-delay:-3s" d="M110 122 q24 -10 48 0 t50 0" stroke="#b8402f" stroke-width="3" fill="none"/><g class="a-bob"><path d="M232 130 L282 40 Q296 30 290 50 L240 134Z" fill="#f4f0e6" stroke="#c9b98f"/><path d="M232 130 L240 134 L228 144Z" fill="#1b3d5c"/></g></svg>`,
+leaders:`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><rect width="320" height="180" fill="#3b1420"/><g class="a-spin" style="animation-duration:30s">${Array.from({length:24},(_,i)=>`<rect x="159" y="-60" width="2" height="90" fill="#e0ac45" opacity=".25" transform="rotate(${i*15} 160 90)"/>`).join("")}</g><circle cx="160" cy="90" r="52" fill="#e0ac45"/><circle cx="160" cy="90" r="44" fill="none" stroke="#9c6c1d" stroke-width="2" stroke-dasharray="4 3"/>${star8(160,90,26,"#9c6c1d")}<circle cx="160" cy="90" r="9" fill="#f6d27a"/><g fill="#6b8f4a">${Array.from({length:7},(_,i)=>`<ellipse cx="${92-i*2}" cy="${132-i*12}" rx="9" ry="4" transform="rotate(${-50+i*8} ${92-i*2} ${132-i*12})"/><ellipse cx="${228+i*2}" cy="${132-i*12}" rx="9" ry="4" transform="rotate(${50-i*8} ${228+i*2} ${132-i*12})"/>`).join("")}</g><path class="a-flag" d="M20 150 h60 l-10 10 l10 10 h-60z" fill="#b8402f"/><path class="a-flag" style="animation-delay:-1s" d="M300 150 h-60 l10 10 l-10 10 h60z" fill="#b8402f"/></svg>`,
+mix:`<svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice"><rect width="320" height="180" fill="#0d2340"/>${[[40,40,"#2a9d8f"],[120,140,"#d0503f"],[200,40,"#2f6fb3"],[280,140,"#2a9d8f"],[40,140,"#e0ac45"],[280,40,"#e0ac45"]].map(([x,y,c],i)=>`<g class="a-spin" style="animation-duration:${10+i*3}s;${i%2?"animation-direction:reverse":""}">${star8(x,y,34,c)}${star8(x,y,16,"#0d2340")}</g>`).join("")}<g class="a-bob"><circle cx="160" cy="90" r="40" fill="#e0ac45" stroke="#9c6c1d" stroke-width="4"/><text x="160" y="102" text-anchor="middle" font-family="Aref Ruqaa,serif" font-size="32" fill="#7a5212">؟</text></g></svg>`
+};
+
+/* ================= question bank ================= */
+const M=(q,qa,a,o,f,fa)=>({t:"mc",q,qa,a,o,f,fa});
+const T=(q,qa,truth,f,fa)=>({t:"mc",q,qa,a:truth?["True","صواب"]:["False","خطأ"],o:[truth?["False","خطأ"]:["True","صواب"]],tf:true,f,fa});
+const O=(items,f,fa)=>({t:"order",q:"Put these in order, oldest first.",qa:"رتّبها من الأقدم إلى الأحدث.",items,f,fa});
+
+const CH=[
+{id:"carthage",kind:"era",name:"Carthage & Rome",nameAr:"قرطاج وروما",span:"814 BCE – 533 CE",qs:[
+ M("By tradition, in what year did Princess Elissa found Carthage?","حسب الرواية، في أي سنة أسّست الأميرة عليسة قرطاج؟",["814 BCE","814 ق.م"],[["1200 BCE","1200 ق.م"],["509 BCE","509 ق.م"],["146 BCE","146 ق.م"]],"Legend says Elissa was granted only as much land as an <b>oxhide</b> could cover. She cut it into thin strips and circled a whole hill: Byrsa.","تقول الأسطورة إن عليسة لم تُمنح إلا أرضًا بقدر <b>جلد ثور</b>، فقطّعته شرائط رفيعة وأحاطت بها تلّة كاملة هي بيرصا."),
+ M("Who lost to Scipio at the Battle of Zama in 202 BCE?","من هُزم أمام سكيبيو في معركة زاما سنة 202 ق.م؟",["Hannibal","حنبعل"],[["Hamilcar","حملقار"],["Jugurtha","يوغرطة"],["Massinissa","ماسينيسا"]],"<b>Hannibal</b> crossed the Alps with elephants and beat Rome in Italy for years before Zama.","عبر <b>حنبعل</b> جبال الألب بالفيلة وانتصر على روما في إيطاليا سنوات قبل زاما."),
+ M("In what year did Rome destroy Carthage?","في أي سنة دمّرت روما قرطاج؟",["146 BCE","146 ق.م"],[["202 BCE","202 ق.م"],["44 BCE","44 ق.م"],["264 BCE","264 ق.م"]],"After the Third Punic War Rome razed the city in <b>146 BCE</b>. Caesar and Augustus later refounded it as a Roman city.","بعد الحرب البونية الثالثة سوّت روما المدينة بالأرض سنة <b>146 ق.م</b>، ثم أعاد قيصر وأغسطس بناءها مدينةً رومانية."),
+ M("In 238 CE a revolt at Thysdrus (El Jem) proclaimed which man emperor?","سنة 238م أعلنت ثورة في تيسدروس (الجم) أيَّ رجل إمبراطورًا؟",["Gordian I","غورديانوس الأول"],[["Hadrian","هادريان"],["Septimius Severus","سبتيموس سيفيروس"],["Constantine","قسطنطين"]],"<b>Gordian I</b> was about 80 and reigned about three weeks. The amphitheatre of El Jem still stands.","كان <b>غورديانوس الأول</b> في نحو الثمانين وحكم قرابة ثلاثة أسابيع، وما يزال قصر الجم قائمًا."),
+ M("Which Vandal king captured Carthage in 439?","أيُّ ملك وندالي استولى على قرطاج سنة 439م؟",["Genseric","جنسريق"],[["Alaric","ألاريك"],["Attila","أتيلا"],["Theodoric","ثيودوريك"]],"<b>Genseric</b> made Carthage his capital and sacked Rome in 455.","جعل <b>جنسريق</b> قرطاج عاصمته ونهب روما سنة 455م."),
+ T("True or false: the Byzantine general Belisarius retook Carthage in 533.","صواب أم خطأ: استعاد القائد البيزنطي بيليساريوس قرطاج سنة 533م.",true,"<b>True.</b> Belisarius ended the Vandal kingdom in 533–534.","<b>صواب.</b> أنهى بيليساريوس مملكة الوندال سنة 533–534م."),
+ O([["Carthage founded","تأسيس قرطاج","814 BCE","814 ق.م",-814],["Battle of Zama","معركة زاما","202 BCE","202 ق.م",-202],["Rome destroys Carthage","روما تدمّر قرطاج","146 BCE","146 ق.م",-146],["Vandals take Carthage","الوندال يستولون على قرطاج","439 CE","439م",439]],"More than 1,200 years separate the first and last events.","تفصل أكثر من 1200 سنة بين الحدث الأول والأخير.")
+]},
+{id:"kairouan",kind:"era",name:"Arab Conquest",nameAr:"الفتح العربي",span:"647 – 909",qs:[
+ M("The Arab victory of 647 took place at Sufetula. What is it called today?","وقع الانتصار العربي سنة 647م في سفيطلة. ما اسمها اليوم؟",["Sbeitla","سبيطلة"],[["Dougga","دقة"],["Gafsa","قفصة"],["Bizerte","بنزرت"]],"<b>Sbeitla</b> still has three Roman temples standing side by side.","ما تزال في <b>سبيطلة</b> ثلاثة معابد رومانية متجاورة."),
+ M("Who founded Kairouan in 670?","من أسّس القيروان سنة 670م؟",["Uqba ibn Nafi","عقبة بن نافع"],[["Hassan ibn al-Nu'man","حسان بن النعمان"],["Musa ibn Nusayr","موسى بن نصير"],["Tariq ibn Ziyad","طارق بن زياد"]],"<b>Uqba ibn Nafi</b> chose an inland site, out of reach of the Byzantine fleet.","اختار <b>عقبة بن نافع</b> موقعًا داخليًا بعيدًا عن الأسطول البيزنطي."),
+ M("Which Berber queen led the resistance to the Arab armies around 700?","أي ملكة أمازيغية قادت المقاومة ضد الجيوش العربية نحو سنة 700م؟",["al-Kahina","الكاهنة"],[["Elissa","عليسة"],["Sophonisba","صوفونيسبا"],["Zaynab al-Nafzawiyya","زينب النفزاوية"]],"<b>Al-Kahina</b> (Dihya) once defeated Hassan ibn al-Nu'man before she fell.","هزمت <b>الكاهنة</b> (ديهيا) حسان بن النعمان مرة قبل أن تسقط."),
+ M("In what year was the Aghlabid dynasty founded?","في أي سنة تأسست الدولة الأغلبية؟",["800","800"],[["750","750"],["827","827"],["909","909"]],"Harun al-Rashid gave Ifriqiya to Ibrahim ibn al-Aghlab as a hereditary emirate in <b>800</b>.","منح هارون الرشيد إفريقية لإبراهيم بن الأغلب إمارةً وراثية سنة <b>800م</b>."),
+ M("Who led the Aghlabid conquest of Sicily from 827?","من قاد الفتح الأغلبي لصقلية ابتداءً من 827م؟",["Asad ibn al-Furat","أسد بن الفرات"],[["Ziyadat Allah","زيادة الله"],["Sahnun","سحنون"],["Uqba ibn Nafi","عقبة بن نافع"]],"<b>Asad ibn al-Furat</b> was a Kairouan judge and scholar, about seventy when he led the army.","كان <b>أسد بن الفرات</b> قاضيًا وعالمًا من القيروان، وقاد الجيش وهو في نحو السبعين."),
+ M("Which coastal city did the Fatimids build as their capital?","أي مدينة ساحلية بناها الفاطميون عاصمةً لهم؟",["Mahdia","المهدية"],[["Sousse","سوسة"],["Monastir","المنستير"],["Sfax","صفاقس"]],"<b>Mahdia</b> is named after the first Fatimid caliph, Ubayd Allah al-Mahdi.","سُمّيت <b>المهدية</b> باسم أول خليفة فاطمي، عبيد الله المهدي."),
+ O([["Battle of Sbeitla","معركة سبيطلة","647","647م",647],["Kairouan founded","تأسيس القيروان","670","670م",670],["Aghlabid dynasty","الدولة الأغلبية","800","800م",800],["Fatimids take power","قيام الدولة الفاطمية","909","909م",909]],"Kairouan became the first great Muslim city of the Maghreb.","أصبحت القيروان أول مدينة إسلامية كبرى في المغرب.")
+]},
+{id:"hafsid",kind:"era",name:"Zirids to Hafsids",nameAr:"من الزيريين إلى الحفصيين",span:"973 – 1574",qs:[
+ M("Which Zirid ruler broke with the Fatimids around 1048?","أي أمير زيري قطع صلته بالفاطميين نحو سنة 1048م؟",["al-Mu'izz ibn Badis","المعز بن باديس"],[["Buluggin ibn Ziri","بلكين بن زيري"],["Roger II","روجر الثاني"],["Abd al-Mu'min","عبد المؤمن"]],"In reply, the Fatimids sent the <b>Banu Hilal</b> tribes west, changing life in the countryside.","ردّ الفاطميون بإرسال قبائل <b>بني هلال</b> غربًا، فتغيّرت حياة الأرياف."),
+ T("True or false: Kairouan was sacked in 1057.","صواب أم خطأ: نُهبت القيروان سنة 1057م.",true,"<b>True.</b> The Zirid court moved to Mahdia.","<b>صواب.</b> وانتقل البلاط الزيري إلى المهدية."),
+ M("In what year did Abu Zakariya found the Hafsid dynasty?","في أي سنة أسّس أبو زكرياء الدولة الحفصية؟",["1229","1229"],[["1148","1148"],["1270","1270"],["1332","1332"]],"The Hafsids ruled until 1574 and made <b>Tunis</b> the capital it still is.","حكم الحفصيون حتى 1574 وجعلوا <b>تونس</b> العاصمة كما هي اليوم."),
+ M("Which French king died before Tunis in 1270?","أي ملك فرنسي مات أمام تونس سنة 1270م؟",["Louis IX","لويس التاسع"],[["Philip II","فيليب الثاني"],["Charles V","شارلكان"],["Richard I","ريتشارد الأول"]],"A popular legend says <b>Louis IX</b> converted and lived on as Sidi Bou Said. It is a legend, not history.","تقول أسطورة شعبية إن <b>لويس التاسع</b> أسلم وعاش باسم سيدي بوسعيد، وهي أسطورة لا تاريخ."),
+ M("Which great historian was born in Tunis in 1332?","أي مؤرخ كبير وُلد في تونس سنة 1332م؟",["Ibn Khaldun","ابن خلدون"],[["Ibn Battuta","ابن بطوطة"],["al-Idrisi","الإدريسي"],["Ibn Rushd","ابن رشد"]],"<b>Ibn Khaldun</b>'s Muqaddimah is often called a founding text of sociology.","تُعدّ مقدمة <b>ابن خلدون</b> كثيرًا نصًّا مؤسسًا لعلم الاجتماع."),
+ M("Which European emperor captured Tunis in 1535?","أي إمبراطور أوروبي استولى على تونس سنة 1535م؟",["Charles V","شارلكان"],[["Philip II","فيليب الثاني"],["Louis XIV","لويس الرابع عشر"],["Suleiman","سليمان القانوني"]],"<b>Charles V</b> attacked to drive out the corsair Khayr al-Din Barbarossa.","هاجم <b>شارلكان</b> لطرد القرصان خير الدين بربروس."),
+ O([["Kairouan sacked","نهب القيروان","1057","1057م",1057],["Hafsid dynasty founded","تأسيس الدولة الحفصية","1229","1229م",1229],["Louis IX dies before Tunis","موت لويس التاسع أمام تونس","1270","1270م",1270],["Charles V takes Tunis","شارلكان يحتل تونس","1535","1535م",1535]],"Tunis grew from a provincial town into a Mediterranean capital.","تحوّلت تونس من مدينة إقليمية إلى عاصمة متوسطية.")
+]},
+{id:"beys",kind:"era",name:"The Beys & Reform",nameAr:"البايات والإصلاح",span:"1574 – 1881",qs:[
+ M("In what year did the Ottomans take Tunis for good?","في أي سنة ضمّ العثمانيون تونس نهائيًا؟",["1574","1574"],[["1535","1535"],["1705","1705"],["1492","1492"]],"Tunisia was ruled by pashas, then deys, then hereditary beys.","حكم تونس الباشوات ثم الدايات ثم البايات بالوراثة."),
+ M("The Husainid dynasty was founded in 1705. When did it end?","تأسست الدولة الحسينية سنة 1705. متى انتهت؟",["1957","1957"],[["1881","1881"],["1956","1956"],["1922","1922"]],"It ended when the republic was proclaimed on <b>25 July 1957</b>.","انتهت بإعلان الجمهورية في <b>25 جويلية 1957</b>."),
+ M("Ahmad Bey abolished slavery in which year?","في أي سنة ألغى أحمد باي الرق؟",["1846","1846"],[["1861","1861"],["1881","1881"],["1807","1807"]],"<b>1846</b>: two years before France and nearly twenty before the United States.","سنة <b>1846</b>: قبل فرنسا بسنتين وقبل الولايات المتحدة بنحو عشرين سنة."),
+ M("What did the 1857 Fundamental Pact ('Ahd al-Aman) guarantee to all inhabitants?","ماذا ضمن عهد الأمان (1857) لجميع السكان؟",["Security of person and property","الأمان على النفس والمال"],[["The right to vote","حق الانتخاب"],["Free schooling","التعليم المجاني"],["Exemption from taxes","الإعفاء من الضرائب"]],"It applied to everyone, <b>whatever their religion</b>.","شمل الجميع <b>مهما كان دينهم</b>."),
+ T("True or false: in 1861 Tunisia adopted the first constitution in the Arab world.","صواب أم خطأ: اعتمدت تونس سنة 1861 أول دستور في العالم العربي.",true,"<b>True.</b> It created a Grand Council and was suspended in 1864.","<b>صواب.</b> أنشأ مجلسًا أكبر، وعُلّق سنة 1864."),
+ M("Who led the 1864 revolt against the doubled poll tax?","من قاد ثورة 1864 ضد مضاعفة ضريبة المجبى؟",["Ali Ben Ghedahem","علي بن غذاهم"],[["Khayr al-Din","خير الدين"],["Farhat Hached","فرحات حشاد"],["Ahmad Bey","أحمد باي"]],"<b>Ali Ben Ghedahem</b> united the tribes of the interior. The state went bankrupt in 1869.","وحّد <b>علي بن غذاهم</b> قبائل الداخل، وأفلست الدولة سنة 1869."),
+ M("Which reforming minister founded Sadiki College in 1875?","أي وزير مصلح أسّس المدرسة الصادقية سنة 1875؟",["Khayr al-Din","خير الدين التونسي"],[["Mustapha Khaznadar","مصطفى خزندار"],["Ibn Abi al-Diyaf","ابن أبي الضياف"],["Ahmad Bey","أحمد باي"]],"<b>Sadiki College</b> later trained much of the nationalist elite.","كوّنت <b>المدرسة الصادقية</b> لاحقًا جزءًا كبيرًا من النخبة الوطنية."),
+ O([["Ottoman conquest","الفتح العثماني","1574","1574",1574],["Husainid dynasty founded","تأسيس الدولة الحسينية","1705","1705",1705],["Slavery abolished","إلغاء الرق","1846","1846",1846],["First constitution","أول دستور","1861","1861",1861]],"Tunisia's reforms came early compared with much of the world.","جاءت إصلاحات تونس مبكرة مقارنة بكثير من دول العالم.")
+]},
+{id:"protectorate",kind:"era",name:"Protectorate & Struggle",nameAr:"الحماية والنضال",span:"1881 – 1955",qs:[
+ M("Which 1881 treaty made Tunisia a French protectorate?","أي معاهدة سنة 1881 جعلت تونس محمية فرنسية؟",["Treaty of Bardo","معاهدة باردو"],[["La Marsa Convention","اتفاقية المرسى"],["Treaty of Fez","معاهدة فاس"],["Evian Accords","اتفاقيات إيفيان"]],"Signed on <b>12 May 1881</b>. The La Marsa Convention of 1883 tightened French control.","وُقّعت في <b>12 ماي 1881</b>، وشدّدت اتفاقية المرسى (1883) القبضة الفرنسية."),
+ M("In what year did Mohamed Ali El Hammi found the first Tunisian trade union?","في أي سنة أسّس محمد علي الحامي أول نقابة تونسية؟",["1924","1924"],[["1907","1907"],["1946","1946"],["1934","1934"]],"The <b>CGTT</b> was quickly suppressed, but it opened the road to the UGTT.","قُمعت <b>جامعة عموم العملة التونسية</b> سريعًا، لكنها مهّدت الطريق للاتحاد العام التونسي للشغل."),
+ M("Where was the Neo-Destour party founded in 1934?","أين تأسس الحزب الحر الدستوري الجديد سنة 1934؟",["Ksar Hellal","قصر هلال"],[["Kairouan","القيروان"],["Monastir","المنستير"],["Tunis Medina","مدينة تونس العتيقة"]],"At the <b>Ksar Hellal</b> congress of 2 March 1934, a younger group led by Habib Bourguiba broke from the old Destour.","في مؤتمر <b>قصر هلال</b> يوم 2 مارس 1934 انفصل جيل شاب بقيادة الحبيب بورقيبة عن الدستور القديم."),
+ M("Which date is commemorated as Martyrs' Day?","أي تاريخ يُحيى بوصفه عيد الشهداء؟",["9 April 1938","9 أفريل 1938"],[["20 March 1956","20 مارس 1956"],["5 December 1952","5 ديسمبر 1952"],["1 June 1955","1 جوان 1955"]],"French troops fired on demonstrators in Tunis demanding a Tunisian parliament.","أطلقت القوات الفرنسية النار على متظاهرين في تونس يطالبون ببرلمان تونسي."),
+ M("Farhat Hached founded which organisation in 1946?","أيَّ منظمة أسّس فرحات حشاد سنة 1946؟",["UGTT (General Labour Union)","الاتحاد العام التونسي للشغل"],[["Neo-Destour","الحزب الدستوري الجديد"],["Destour","الحزب الحر الدستوري"],["UTICA (employers' union)","اتحاد الصناعة والتجارة"]],"The <b>UGTT</b> became a pillar of the national movement.","أصبح <b>الاتحاد العام التونسي للشغل</b> ركيزة من ركائز الحركة الوطنية."),
+ T("True or false: Habib Bourguiba returned to Tunis in triumph on 1 June 1955.","صواب أم خطأ: عاد الحبيب بورقيبة إلى تونس في موكب انتصار يوم 1 جوان 1955.",true,"<b>True.</b> 1 June is remembered as the Day of Victory (Eid al-Nasr).","<b>صواب.</b> ويُذكر 1 جوان بوصفه عيد النصر."),
+ O([["Treaty of Bardo","معاهدة باردو","1881","1881",1881],["Destour founded","تأسيس الحزب الحر الدستوري","1920","1920",1920],["Neo-Destour founded","تأسيس الدستور الجديد","1934","1934",1934],["UGTT founded","تأسيس اتحاد الشغل","1946","1946",1946]],"Parties and unions grew side by side in the national movement.","نمت الأحزاب والنقابات جنبًا إلى جنب في الحركة الوطنية.")
+]},
+{id:"republic",kind:"era",name:"Independence to Today",nameAr:"من الاستقلال إلى اليوم",span:"1956 – today",qs:[
+ M("On what date did Tunisia become independent?","في أي تاريخ استقلت تونس؟",["20 March 1956","20 مارس 1956"],[["25 July 1957","25 جويلية 1957"],["1 June 1955","1 جوان 1955"],["14 January 2011","14 جانفي 2011"]],"<b>20 March</b> is Independence Day. The protocol was signed in Paris.","<b>20 مارس</b> عيد الاستقلال، ووُقّع البروتوكول في باريس."),
+ M("When was the Code of Personal Status, which abolished polygamy, enacted?","متى صدرت مجلة الأحوال الشخصية التي ألغت تعدد الزوجات؟",["13 August 1956","13 أوت 1956"],[["20 March 1956","20 مارس 1956"],["1 June 1959","1 جوان 1959"],["13 August 1966","13 أوت 1966"]],"<b>13 August</b> is now National Women's Day.","<b>13 أوت</b> هو اليوم الوطني للمرأة."),
+ M("What happened on 25 July 1957?","ماذا حدث يوم 25 جويلية 1957؟",["The republic was proclaimed","إعلان الجمهورية"],[["The first constitution was signed","توقيع أول دستور"],["French troops left Bizerte","جلاء القوات الفرنسية عن بنزرت"],["Women got the vote","حصول المرأة على حق التصويت"]],"The monarchy was abolished and Bourguiba became the first president.","أُلغي النظام الملكي وأصبح بورقيبة أول رئيس للجمهورية."),
+ M("When did the last French troops leave Bizerte?","متى جلت آخر القوات الفرنسية عن بنزرت؟",["15 October 1963","15 أكتوبر 1963"],[["20 March 1956","20 مارس 1956"],["19 July 1961","19 جويلية 1961"],["7 November 1987","7 نوفمبر 1987"]],"After the deadly crisis of July 1961, France left on <b>15 October 1963</b>, now Evacuation Day.","بعد أزمة جويلية 1961 الدامية، جلت فرنسا يوم <b>15 أكتوبر 1963</b>، وهو عيد الجلاء."),
+ M("In which town did Mohamed Bouazizi's act on 17 December 2010 spark the revolution?","في أي مدينة أشعل فعلُ محمد البوعزيزي يوم 17 ديسمبر 2010 الثورة؟",["Sidi Bouzid","سيدي بوزيد"],[["Kasserine","القصرين"],["Gafsa","قفصة"],["Sfax","صفاقس"]],"Protests spread from <b>Sidi Bouzid</b> across Tunisia and the Arab world.","انتشرت الاحتجاجات من <b>سيدي بوزيد</b> إلى كامل تونس والعالم العربي."),
+ M("On what date did Ben Ali leave Tunisia?","في أي تاريخ غادر بن علي تونس؟",["14 January 2011","14 جانفي 2011"],[["17 December 2010","17 ديسمبر 2010"],["23 October 2011","23 أكتوبر 2011"],["26 January 1978","26 جانفي 1978"]],"<b>14 January 2011</b> ended 23 years of rule.","أنهى <b>14 جانفي 2011</b> حكمًا دام 23 سنة."),
+ M("The National Dialogue Quartet won which prize in 2015?","ما الجائزة التي نالها رباعي الحوار الوطني سنة 2015؟",["Nobel Peace Prize","جائزة نوبل للسلام"],[["Sakharov Prize","جائزة ساخاروف"],["UNESCO Peace Prize","جائزة اليونسكو للسلام"],["Nobel Prize in Literature","جائزة نوبل للآداب"]],"The Quartet was the UGTT, UTICA, the Human Rights League and the Bar Association.","ضمّ الرباعي اتحاد الشغل واتحاد الصناعة والتجارة ورابطة حقوق الإنسان وهيئة المحامين."),
+ O([["Independence","الاستقلال","1956","1956",1956],["Republic proclaimed","إعلان الجمهورية","1957","1957",1957],["Evacuation of Bizerte","جلاء بنزرت","1963","1963",1963],["Revolution","الثورة","2011","2011",2011]],"Each of these dates is a public holiday or commemoration in Tunisia.","كل هذه التواريخ أعياد أو مناسبات وطنية في تونس.")
+]},
+{id:"books",kind:"special",name:"Great Books",nameAr:"أمهات الكتب",span:"Chronicles & classics",qs:[
+ M("Who wrote 'al-Mu'nis fi akhbar Ifriqiya wa Tunis' in the 17th century?","من ألّف «المؤنس في أخبار إفريقية وتونس» في القرن السابع عشر؟",["Ibn Abi Dinar","ابن أبي دينار"],[["Ibn Abi al-Diyaf","ابن أبي الضياف"],["al-Wazir al-Sarraj","الوزير السراج"],["Hammuda ibn Abd al-Aziz","حمودة بن عبد العزيز"]],"It runs from the Arab conquest to the Ottoman period.","يمتد من الفتح العربي إلى العهد العثماني."),
+ M("Who wrote 'Ithaf ahl al-zaman', the great chronicle of the beys and the reforms?","من ألّف «إتحاف أهل الزمان بأخبار ملوك تونس وعهد الأمان»؟",["Ahmad Ibn Abi al-Diyaf","أحمد ابن أبي الضياف"],[["Ibn Abi Dinar","ابن أبي دينار"],["Hasan Husni Abd al-Wahhab","حسن حسني عبد الوهاب"],["Mohamed Bayram V","محمد بيرم الخامس"]],"He was secretary to several beys and saw the reforms from the inside.","كان كاتبًا لدى عدة بايات وعاش الإصلاحات من الداخل."),
+ M("What is the famous introduction to Ibn Khaldun's 'Kitab al-'Ibar' called?","ما اسم المقدمة الشهيرة لكتاب «العبر» لابن خلدون؟",["al-Muqaddimah","المقدمة"],[["al-Mudawwana","المدونة"],["al-'Umda","العمدة"],["al-Risala","الرسالة"]],"In it he explains why dynasties rise and fall, through <b>'asabiyya</b> (group solidarity).","يشرح فيها نشوء الدول وسقوطها من خلال <b>العصبية</b>."),
+ M("Imam Sahnun of Kairouan compiled which great book of Maliki law?","أيَّ كتاب كبير في الفقه المالكي جمعه الإمام سحنون في القيروان؟",["al-Mudawwana","المدونة"],[["al-Muwatta'","الموطأ"],["al-Risala","الرسالة"],["al-Muqaddimah","المقدمة"]],"The Muwatta' is by Malik himself. The Risala is by another Kairouan scholar, Ibn Abi Zayd.","الموطأ لمالك نفسه، والرسالة لعالم قيرواني آخر هو ابن أبي زيد."),
+ M("Hasan Husni Abd al-Wahhab wrote which short classic history of Tunisia?","أي كتاب موجز في تاريخ تونس ألّفه حسن حسني عبد الوهاب؟",["Khulasat Tarikh Tunis","خلاصة تاريخ تونس"],[["Tunis al-Shahida","تونس الشهيدة"],["al-Kitab al-Bashi","الكتاب الباشي"],["Aqwam al-Masalik","أقوم المسالك"]],"It is still a favourite quick reference for dates.","ما يزال مرجعًا سريعًا مفضّلًا للتواريخ."),
+ M("What is the title of Khayr al-Din's 1867 book arguing for reform?","ما عنوان كتاب خير الدين الإصلاحي الصادر سنة 1867؟",["Aqwam al-Masalik","أقوم المسالك في معرفة أحوال الممالك"],[["Ithaf ahl al-zaman","إتحاف أهل الزمان"],["al-Hulal al-Sundusiyya","الحلل السندسية"],["Khulasat Tarikh Tunis","خلاصة تاريخ تونس"]],"He argued that Muslim states could adopt European institutions without abandoning their faith.","دافع عن اقتباس المؤسسات الأوروبية دون التخلي عن الدين."),
+ M("'La Tunisie martyre' (1920), the founding nationalist pamphlet, is linked to which leader?","بأي زعيم يرتبط كتاب «تونس الشهيدة» (1920)؟",["Abdelaziz Thaalbi","عبد العزيز الثعالبي"],[["Habib Bourguiba","الحبيب بورقيبة"],["Farhat Hached","فرحات حشاد"],["Ali Bach Hamba","علي باش حامبة"]],"Published in French in Paris, it led to Thaalbi's arrest and to the founding of the Destour.","نُشر بالفرنسية في باريس، فاعتُقل الثعالبي وتأسس الحزب الحر الدستوري."),
+ M("What is the title of Tahar Haddad's 1930 book on women?","ما عنوان كتاب الطاهر الحداد عن المرأة (1930)؟",["Our Women in Sharia and Society","امرأتنا في الشريعة والمجتمع"],[["Songs of Life","أغاني الحياة"],["The Dam","السد"],["Tunisia Martyr","تونس الشهيدة"]],"It caused a scandal in 1930 and inspired the 1956 Personal Status Code.","أثار ضجة سنة 1930 وألهم مجلة الأحوال الشخصية سنة 1956."),
+ M("Mahmoud Messadi's philosophical drama about a man building a dam in the desert is called...","ما اسم عمل محمود المسعدي الفلسفي عن رجل يبني سدًّا في الصحراء؟",["The Dam","السد"],[["Songs of Life","أغاني الحياة"],["Thus Spoke Abu Hurayra","حدّث أبو هريرة قال"],["The Will to Live","إرادة الحياة"]],"Messadi also wrote <i>Thus Spoke Abu Hurayra</i>, and was minister of education from 1958.","كتب المسعدي أيضًا <i>حدّث أبو هريرة قال</i>، وكان وزيرًا للتربية منذ 1958."),
+ M("Which historian wrote 'A History of Modern Tunisia' in English?","أي مؤرخ كتب «تاريخ تونس الحديثة» بالإنجليزية؟",["Kenneth Perkins","كينيث بيركنز"],[["Sophie Bessis","صوفي بسيس"],["Hichem Djait","هشام جعيط"],["Mohamed Talbi","محمد الطالبي"]],"Sophie Bessis wrote the leading French survey. Djait and Talbi wrote on early Islamic Ifriqiya.","كتبت صوفي بسيس أبرز تأريخ بالفرنسية، وكتب جعيط والطالبي عن إفريقية في صدر الإسلام."),
+ M("Hichem Djait's study of the Arab conquest and the founding of Kairouan is called...","ما اسم دراسة هشام جعيط عن الفتح العربي وتأسيس القيروان؟",["The Founding of the Islamic West","تأسيس الغرب الإسلامي"],[["The Aghlabid Emirate","الدولة الأغلبية"],["The Zirid State","الدولة الصنهاجية"],["Roots of the National Movement","جذور الحركة الوطنية"]],"<i>The Aghlabid Emirate</i> is by Mohamed Talbi; <i>The Zirid State</i> by H. R. Idris.","<i>الدولة الأغلبية</i> لمحمد الطالبي، و<i>الدولة الصنهاجية</i> للهادي روجي إدريس."),
+ O([["al-Mudawwana (Sahnun)","المدونة (سحنون)","9th c.","ق 9م",850],["al-Muqaddimah (Ibn Khaldun)","المقدمة (ابن خلدون)","14th c.","ق 14م",1377],["al-Mu'nis (Ibn Abi Dinar)","المؤنس (ابن أبي دينار)","17th c.","ق 17م",1681],["Ithaf ahl al-zaman (Ibn Abi al-Diyaf)","إتحاف أهل الزمان (ابن أبي الضياف)","19th c.","ق 19م",1872]],"A thousand years of Tunisian scholarship, from Kairouan to Tunis.","ألف سنة من العلم التونسي، من القيروان إلى تونس.")
+]},
+{id:"figures",kind:"special",name:"Great Figures",nameAr:"أعلام تونس",span:"Thinkers, poets, pioneers",qs:[
+ M("Which early Christian writer was born in Carthage around 155 CE?","أي كاتب مسيحي مبكر وُلد في قرطاج نحو سنة 155م؟",["Tertullian","ترتليان"],[["Saint Augustine","القديس أوغسطين"],["Apuleius","أبوليوس"],["Origen","أوريجانوس"]],"<b>Tertullian</b> was among the first major Christian authors to write in Latin. Augustine was born in today's Algeria.","كان <b>ترتليان</b> من أوائل كبار الكتّاب المسيحيين باللاتينية، أما أوغسطين فوُلد في الجزائر الحالية."),
+ M("Which 10th-century Kairouan doctor wrote 'Zad al-Musafir', later translated into Latin?","أي طبيب قيرواني من القرن العاشر ألّف «زاد المسافر» الذي تُرجم إلى اللاتينية؟",["Ibn al-Jazzar","ابن الجزار"],[["Ibn Sina","ابن سينا"],["al-Razi","الرازي"],["Ibn Rushd","ابن رشد"]],"His works reached the medical school of Salerno in Italy.","وصلت مؤلفاته إلى مدرسة سالرنو الطبية في إيطاليا."),
+ M("Whose statue stands on Avenue Habib Bourguiba in Tunis, holding a book?","تمثالُ مَن يقف في شارع الحبيب بورقيبة بتونس حاملًا كتابًا؟",["Ibn Khaldun","ابن خلدون"],[["Hannibal","حنبعل"],["Aboul-Qacem Chebbi","أبو القاسم الشابي"],["Khayr al-Din","خير الدين"]],"The statue, by Zoubeir Turki, was unveiled in 1978.","التمثال من إنجاز الزبير التركي، ودُشّن سنة 1978."),
+ M("Which Zitouna scholar wrote the Quran commentary 'al-Tahrir wa al-Tanwir'?","أي عالم زيتوني ألّف تفسير «التحرير والتنوير»؟",["Mohamed Tahar Ben Achour","محمد الطاهر بن عاشور"],[["Sahnun","سحنون"],["Ibn Arafa","ابن عرفة"],["Salem Bouhageb","سالم بوحاجب"]],"He worked on it for about forty years.","اشتغل عليه نحو أربعين سنة."),
+ M("Lines by which poet appear in Tunisia's national anthem?","أبياتُ أيّ شاعر وردت في النشيد الوطني التونسي؟",["Aboul-Qacem Chebbi","أبو القاسم الشابي"],[["Mahmoud Messadi","محمود المسعدي"],["Moncef Ghachem","المنصف غاشم"],["Ali Douagi","علي الدوعاجي"]],"They come from his poem <b>'The Will to Live'</b>. Born in Tozeur in 1909, he died in 1934 aged 25.","وردت من قصيدته <b>«إرادة الحياة»</b>. وُلد في توزر سنة 1909 وتوفي سنة 1934 في الخامسة والعشرين."),
+ M("Which writer of the 'Taht al-Sour' café circle was famous for his humour?","أي كاتب من جماعة «تحت السور» اشتهر بالفكاهة؟",["Ali Douagi","علي الدوعاجي"],[["Tahar Haddad","الطاهر الحداد"],["Abdelaziz Thaalbi","عبد العزيز الثعالبي"],["Mohamed Tahar Ben Achour","محمد الطاهر بن عاشور"]],"<b>Taht al-Sour</b> was a circle of writers and artists who met in Bab Souika in the 1930s.","<b>تحت السور</b> جماعة من الأدباء والفنانين كانت تلتقي في باب سويقة في الثلاثينيات."),
+ M("Which 17th-century princess is remembered for her charity, giving her name to a hospital in Tunis?","أي أميرة من القرن السابع عشر خلّدت أعمالها الخيرية اسمها على مستشفى في تونس؟",["Aziza Othmana","عزيزة عثمانة"],[["Elissa","عليسة"],["al-Kahina","الكاهنة"],["Bchira Ben Mrad","بشيرة بن مراد"]],"She freed her slaves and left her wealth to charitable foundations.","أعتقت عبيدها وأوقفت ثروتها على أعمال البر."),
+ M("Who founded the Muslim Women's Union of Tunisia in 1936?","من أسّست الاتحاد النسائي الإسلامي التونسي سنة 1936؟",["Bchira Ben Mrad","بشيرة بن مراد"],[["Habiba Menchari","حبيبة المنشاري"],["Aziza Othmana","عزيزة عثمانة"],["Radhia Haddad","راضية الحداد"]],"Her union was one of the first Tunisian women's organisations.","كان اتحادها من أوائل المنظمات النسائية التونسية."),
+ M("Which union leader was assassinated on 5 December 1952?","أي زعيم نقابي اغتيل يوم 5 ديسمبر 1952؟",["Farhat Hached","فرحات حشاد"],[["Habib Achour","الحبيب عاشور"],["Mohamed Ali El Hammi","محمد علي الحامي"],["Ahmed Tlili","أحمد التليلي"]],"He was killed by the colonial terror group <b>La Main Rouge</b> (the Red Hand).","اغتالته منظمة <b>اليد الحمراء</b> الإرهابية الاستعمارية."),
+ M("Whose arrest sparked the 9 April 1938 demonstrations?","اعتقالُ مَن أشعل مظاهرات 9 أفريل 1938؟",["Ali Belhouane","علي البلهوان"],[["Salah Ben Youssef","صالح بن يوسف"],["Mongi Slim","المنجي سليم"],["Hédi Chaker","الهادي شاكر"]],"Known as <b>'the leader of youth'</b>, he was a teacher and a fiery speaker.","لُقّب بـ<b>«زعيم الشباب»</b>، وكان أستاذًا وخطيبًا مفوّهًا."),
+ M("Khayr al-Din al-Tunisi came to Tunis as a young mamluk from which region?","من أي منطقة جاء خير الدين التونسي إلى تونس مملوكًا شابًا؟",["The Caucasus","القوقاز"],[["Andalusia","الأندلس"],["Egypt","مصر"],["Anatolia","الأناضول"]],"A Circassian by birth, he rose to prime minister of Tunisia and later grand vizier in Istanbul.","شركسيّ المولد، ارتقى إلى الوزارة الكبرى في تونس ثم الصدارة العظمى في إسطنبول."),
+ O([["Tertullian born","مولد ترتليان","c. 155","نحو 155م",155],["Ibn al-Jazzar","ابن الجزار","10th c.","ق 10م",950],["Ibn Khaldun born","مولد ابن خلدون","1332","1332م",1332],["Chebbi born","مولد الشابي","1909","1909م",1909]],"From Carthage to Tozeur, Tunisia produced writers in Latin and Arabic.","من قرطاج إلى توزر، أنجبت تونس كتّابًا باللاتينية والعربية.")
+]},
+{id:"leaders",kind:"special",name:"Rulers & Leaders",nameAr:"الحكام والزعماء",span:"Kings, beys, presidents",qs:[
+ M("Who was Hannibal's father?","من هو والد حنبعل؟",["Hamilcar Barca","حملقار برقة"],[["Hasdrubal","صدربعل"],["Mago","ماغون"],["Massinissa","ماسينيسا"]],"Legend says <b>Hamilcar</b> made the boy Hannibal swear eternal hostility to Rome.","تقول الرواية إن <b>حملقار</b> جعل حنبعل الصغير يقسم على العداء الأبدي لروما."),
+ M("Which Numidian king fought on Rome's side at Zama?","أي ملك نوميدي قاتل في صف روما في زاما؟",["Massinissa","ماسينيسا"],[["Syphax","سيفاقس"],["Jugurtha","يوغرطة"],["Juba I","يوبا الأول"]],"His rival <b>Syphax</b> had sided with Carthage.","أما خصمه <b>سيفاقس</b> فكان قد انحاز إلى قرطاج."),
+ M("Which Numidian king waged war against Rome from 112 to 105 BCE?","أي ملك نوميدي حارب روما من 112 إلى 105 ق.م؟",["Jugurtha","يوغرطة"],[["Massinissa","ماسينيسا"],["Juba II","يوبا الثاني"],["Syphax","سيفاقس"]],"He is said to have called Rome 'a city for sale'.","يُروى أنه وصف روما بأنها «مدينة للبيع»."),
+ M("Who was the first Fatimid caliph, proclaimed in Ifriqiya in 909?","من أول خليفة فاطمي أُعلن في إفريقية سنة 909م؟",["Ubayd Allah al-Mahdi","عبيد الله المهدي"],[["al-Mu'izz li-Din Allah","المعز لدين الله"],["Ibrahim ibn al-Aghlab","إبراهيم بن الأغلب"],["Abu Zakariya","أبو زكرياء"]],"His successor <b>al-Mu'izz</b> later moved the Fatimid court to Cairo in 973.","نقل خليفته <b>المعز لدين الله</b> البلاط الفاطمي إلى القاهرة سنة 973م."),
+ M("Which bey (1782–1814) ruled at the height of Husainid power?","أي باي (1782–1814) حكم في أوج قوة الدولة الحسينية؟",["Hammuda Pasha","حمودة باشا"],[["Ahmad Bey","أحمد باي"],["Sadok Bey","الصادق باي"],["Lamine Bey","الأمين باي"]],"He won wars against Venice and Algiers and freed Tunis from Algerian tribute.","انتصر في حروب على البندقية والجزائر وأنهى تبعية تونس للجزائر."),
+ M("Which bey signed the Treaty of Bardo in 1881?","أي باي وقّع معاهدة باردو سنة 1881؟",["Muhammad al-Sadiq Bey","محمد الصادق باي"],[["Ahmad Bey","أحمد باي"],["Moncef Bey","المنصف باي"],["Lamine Bey","الأمين باي"]],"He signed under pressure, with French troops at the gates of his palace.","وقّعها تحت الضغط والقوات الفرنسية على أبواب قصره."),
+ M("Which popular bey was deposed by the Free French in 1943?","أي باي محبوب عزلته فرنسا الحرة سنة 1943؟",["Moncef Bey","المنصف باي"],[["Lamine Bey","الأمين باي"],["Sadok Bey","الصادق باي"],["Ahmad Bey","أحمد باي"]],"He sided openly with the national movement and died in exile in Pau in 1948.","ساند الحركة الوطنية علنًا، وتوفي في منفاه بمدينة بو سنة 1948."),
+ M("Who was the last bey of Tunis?","من آخر بايات تونس؟",["Lamine Bey","الأمين باي"],[["Moncef Bey","المنصف باي"],["Ahmad Bey","أحمد باي"],["Hammuda Pasha","حمودة باشا"]],"He was deposed when the republic was proclaimed on 25 July 1957.","عُزل بإعلان الجمهورية يوم 25 جويلية 1957."),
+ M("In which city was Habib Bourguiba born?","في أي مدينة وُلد الحبيب بورقيبة؟",["Monastir","المنستير"],[["Mahdia","المهدية"],["Sousse","سوسة"],["Tunis","تونس"]],"He was born in <b>Monastir</b> in 1903 and is buried there.","وُلد في <b>المنستير</b> سنة 1903 ودُفن فيها."),
+ M("Which nationalist leader was Bourguiba's main rival in 1955?","أي زعيم وطني كان المنافس الرئيسي لبورقيبة سنة 1955؟",["Salah Ben Youssef","صالح بن يوسف"],[["Farhat Hached","فرحات حشاد"],["Ahmed Ben Salah","أحمد بن صالح"],["Mongi Slim","المنجي سليم"]],"He opposed the internal autonomy agreements and was assassinated in Frankfurt in 1961.","عارض اتفاقيات الاستقلال الداخلي، واغتيل في فرانكفورت سنة 1961."),
+ M("Which minister led the cooperative experiment of the 1960s?","أي وزير قاد تجربة التعاضد في الستينيات؟",["Ahmed Ben Salah","أحمد بن صالح"],[["Hédi Nouira","الهادي نويرة"],["Mohamed Mzali","محمد مزالي"],["Bahi Ladgham","الباهي الأدغم"]],"The experiment ended in 1969 and Ben Salah was put on trial.","انتهت التجربة سنة 1969 وحوكم بن صالح."),
+ M("Who became the first president elected by direct popular vote after 2011, in 2014?","من أصبح سنة 2014 أول رئيس منتخب بالاقتراع المباشر بعد 2011؟",["Béji Caïd Essebsi","الباجي قائد السبسي"],[["Moncef Marzouki","المنصف المرزوقي"],["Kais Saied","قيس سعيد"],["Fouad Mebazaa","فؤاد المبزع"]],"Marzouki had been chosen by the Constituent Assembly in 2011. Essebsi died in office on 25 July 2019.","كان المرزوقي قد انتُخب من المجلس التأسيسي سنة 2011، وتوفي السبسي وهو في منصبه يوم 25 جويلية 2019."),
+ O([["Massinissa at Zama","ماسينيسا في زاما","202 BCE","202 ق.م",-202],["Ibrahim ibn al-Aghlab","إبراهيم بن الأغلب","800","800م",800],["Hammuda Pasha","حمودة باشا","1782","1782م",1782],["Bourguiba, first president","بورقيبة أول رئيس","1957","1957م",1957]],"Two thousand years of rule over the same land.","ألفا سنة من الحكم على الأرض نفسها.")
+]}
+];
+const MIX={id:"mix",kind:"special",name:"Grand Mix",nameAr:"التحدي الكبير",span:"15 random questions",qs:[]};
+const ALL=[...CH,MIX];
+const TOTAL_Q=CH.reduce((n,c)=>n+c.qs.length,0);
+
+/* ================= quips ================= */
+const YES=[["Hannibal would hire you as a general.","حنبعل يريدك قائدًا في جيشه."],["Ibn Khaldun nods slowly. High praise.","ابن خلدون يومئ برأسه. هذا مديح كبير."],["The Bey tosses you a dinar from his balcony.","الباي يرمي لك دينارًا من شرفته."],["Elissa approves. Have some more oxhide.","عليسة راضية. خذ مزيدًا من جلد الثور."],["The Kairouan scribes write your name in gold ink.","نسّاخ القيروان يكتبون اسمك بماء الذهب."],["Correct! Even the camels are clapping.","صحيح! حتى الجِمال تصفّق."],["A souk merchant offers you a discount. On wisdom.","تاجر في السوق يعرض عليك تخفيضًا... في الحكمة."],["Brilliant! Have a bambalouni on the house.","رائع! بمبالوني مجانًا على حساب المحل."]];
+const NO=[["Even Hannibal lost at Zama. Shake it off.","حتى حنبعل خسر في زاما. لا بأس."],["The scribe smudged your ink. It happens.","الناسخ لطّخ حبرك. يحدث ذلك."],["Ouch. A Vandal took that answer.","آه! سرق أحد الوندال هذه الإجابة."],["Wrong turn in the medina. Everyone does it.","انعطافة خاطئة في المدينة العتيقة. يحدث للجميع."],["The cats of Sidi Bou Said are disappointed.","قطط سيدي بوسعيد خائبة الأمل."],["Carthago delenda est... that answer, not you.","يجب تدمير قرطاج... أقصد الإجابة، لا أنت."]];
+const LATE=[["Time's up! The caravan left without you.","انتهى الوقت! رحلت القافلة دونك."],["Too slow. The muezzin has already called.","تأخرت. لقد أذّن المؤذن."]];
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const bi=(en,ar,cls="")=>`<span class="en ${cls}">${en}</span><span class="ar ${cls}" lang="ar" dir="rtl">${ar}</span>`;
+
+/* ================= state ================= */
+const TIME_MC=25,TIME_ORDER=50;
+let S={coins:0,medals:{},stats:{right:0,played:0,best:0},ch:0,list:[],qi:0,score:0,streak:0,earned:0};
+let timerRAF=null;
+function load(){try{const d=JSON.parse(localStorage.getItem("golden-dinar")||"{}");S.coins=d.coins||0;S.medals=d.medals||{};S.stats=Object.assign(S.stats,d.stats||{})}catch(e){}}
+function save(){try{localStorage.setItem("golden-dinar",JSON.stringify({coins:S.coins,medals:S.medals,stats:S.stats}))}catch(e){}}
+
+const app=document.getElementById("app");
+const medalOf=(s,n)=>s===n?"gold":s>=n-2?"silver":s>=Math.ceil(n/3)?"bronze":null;
+const ML={gold:["Golden Dinar","الدينار الذهبي"],silver:["Silver Dirham","الدرهم الفضي"],bronze:["Bronze Fals","الفلس النحاسي"]};
+const RANKS=[[0,"Curious Tourist","سائح فضولي"],[300,"Souk Storyteller","حكواتي السوق"],[800,"Zitouna Scholar","عالم الزيتونة"],[1500,"Grand Vizier","الوزير الأكبر"],[2400,"Heir of Elissa","وريث عليسة"]];
+const rank=c=>RANKS.filter(r=>c>=r[0]).pop();
+const nextRank=c=>RANKS.find(r=>r[0]>c);
+
+function header(){return `<header class="top"><div class="brand" id="home" role="button" tabindex="0" aria-label="Back to map"><h1>The Golden Dinar</h1><span class="ruq">الدينار الذهبي</span></div><div class="purse" id="purse" aria-label="Gold dinars">${COIN}<span id="coins">${S.coins}</span></div></header><div class="mosaic"></div>`}
+function wireHeader(){const h=document.getElementById("home");if(h){h.onclick=goMap;h.onkeydown=e=>{if(e.key==="Enter")goMap()}}}
+function stopTimer(){if(timerRAF)cancelAnimationFrame(timerRAF);timerRAF=null}
+function goMap(){stopTimer();renderMap();window.scrollTo(0,0)}
+
+function tile(c,i){const m=S.medals[c.id];const label=m?bi(ML[m][0],ML[m][1]):`<span>${c.id==="mix"?"15":c.qs.length} questions · سؤال</span>`;
+ return `<button class="tile" data-i="${i}" style="animation-delay:${i*60}ms"><span class="scene">${SCENES[c.id]}</span><span class="meta"><span class="span">${c.span}</span><span class="name">${c.name}</span><span class="name-ar" lang="ar">${c.nameAr}</span><span class="medal"><span class="dot ${m||""}"></span>${m?ML[m][0]:label}</span></span></button>`}
+
+function renderMap(){
+  const r=rank(S.coins),nr=nextRank(S.coins),golds=Object.values(S.medals).filter(m=>m==="gold").length;
+  app.innerHTML=header()+`
+  <div class="intro"><p>Travel 3,000 years of Tunisian history in <b>${ALL.length} quests</b> and <b>${TOTAL_Q} questions</b>. Answer fast for a speed bonus, keep a streak to double your gold, and finish a quest without mistakes to win its <b>Golden Dinar</b>.</p>
+  <p class="ar" lang="ar">سافر عبر 3000 سنة من تاريخ تونس في <b>${ALL.length} تحديات</b> و<b>${TOTAL_Q} سؤالًا</b>. أجب بسرعة لتنال مكافأة السرعة، وحافظ على سلسلة الإجابات لتضاعف ذهبك، وأنهِ التحدي دون خطأ لتفوز بـ<b>الدينار الذهبي</b>.</p></div>
+  <div class="sect"><h3>The Eras</h3><span class="ar">الحقب التاريخية</span></div>
+  <div class="tiles">${ALL.map((c,i)=>c.kind==="era"?tile(c,i):"").join("")}</div>
+  <div class="sect"><h3>Special Quests</h3><span class="ar">تحديات خاصة</span></div>
+  <div class="tiles">${ALL.map((c,i)=>c.kind==="special"?tile(c,i):"").join("")}</div>
+  <div class="card result"><span class="small">Your title · لقبك</span><div class="rank">${r[2]}</div><strong>${r[1]}</strong>
+   ${nr?`<span class="small">${nr[0]-S.coins} dinars to <b>${nr[1]}</b> · ${nr[0]-S.coins} دينار حتى لقب «${nr[2]}»</span>`:`<span class="small">The highest title in the land · أعلى لقب في البلاد</span>`}
+   <div class="statrow"><div class="stat"><b>${golds}/${ALL.length}</b><span class="small">Golden Dinars · دنانير ذهبية</span></div><div class="stat"><b>${S.stats.right}</b><span class="small">Right answers · إجابات صحيحة</span></div><div class="stat"><b>${S.stats.best}</b><span class="small">Best streak · أفضل سلسلة</span></div></div>
+  </div>
+  <footer><span>Dates follow Perkins, Bessis, the <i>Histoire générale de la Tunisie</i> and the Arabic chronicles.</span><span class="ar" lang="ar">التواريخ وفق بيركنز وبسيس و«التاريخ العام لتونس» والحوليات العربية.</span></footer>`;
+  wireHeader();
+  app.querySelectorAll(".tile").forEach(b=>b.onclick=()=>startCh(+b.dataset.i));
+}
+
+function startCh(i){
+  S.ch=i;const c=ALL[i];
+  if(c.id==="mix"){const pool=CH.flatMap(x=>x.qs);const mc=shuffle(pool.filter(q=>q.t==="mc")).slice(0,13);const od=shuffle(pool.filter(q=>q.t==="order")).slice(0,2);S.list=shuffle([...mc,...od])}
+  else S.list=c.qs;
+  S.qi=0;S.score=0;S.streak=0;S.earned=0;nextQ();window.scrollTo(0,0)}
+
+function nextQ(){
+  const q=S.list[S.qi];
+  S.answered=false;S.hinted=false;S.gone=[];S.last=null;S.late=false;S.gain=0;
+  if(q.t==="mc"){S.opts=q.tf?[["True","صواب"],["False","خطأ"]]:shuffle([q.a,...q.o])}
+  else{S.pool=shuffle(q.items.map((_,k)=>k));S.placed=[]}
+  S.limit=(q.t==="order"?TIME_ORDER:TIME_MC)*1000;S.deadline=performance.now()+S.limit;
+  renderQ();startTimer();
+}
+function startTimer(){stopTimer();const tick=()=>{const bar=document.querySelector(".timer i"),wrap=document.querySelector(".timer");if(!bar){return}
+  const left=Math.max(0,S.deadline-performance.now());bar.style.width=(left/S.limit*100)+"%";wrap.classList.toggle("low",left<S.limit*.25);
+  if(left<=0&&!S.answered){S.late=true;q_timeout();return}timerRAF=requestAnimationFrame(tick)};timerRAF=requestAnimationFrame(tick)}
+function q_timeout(){const q=S.list[S.qi];if(q.t==="mc")answer(null,null);else checkOrder(true)}
+
+function renderQ(){
+  const c=ALL[S.ch],q=S.list[S.qi],n=S.list.length;
+  const head=`<div class="qhead"><span>${c.name} · ${S.qi+1} / ${n}</span><span class="streak">${S.streak>=2?"Streak ×"+S.streak+" · سلسلة":""}</span></div>
+   <div class="bars"><div class="progress"><i style="width:${(S.qi/n)*100}%"></i></div>${S.answered?"":`<div class="timer"><i></i></div>`}</div>
+   <div class="qtext"><h2 class="q">${q.q}</h2><p class="q-ar" lang="ar">${q.qa}</p></div>`;
+  let body="";
+  if(q.t==="mc"){
+    body=`<div class="opts">${S.opts.map((o,k)=>{let cl="";if(S.answered){if(o[0]===q.a[0])cl="right";else if(S.last&&o[0]===S.last[0])cl="wrong"}if(S.gone.includes(o[0]))cl+=" gone";
+      return `<button class="opt ${cl}" data-o="${k}" ${S.answered||S.gone.includes(o[0])?"disabled":""}><span class="k">${"ABCD"[k]}</span><span class="txt"><span class="en">${o[0]}</span><span class="ar" lang="ar">${o[1]}</span></span></button>`}).join("")}</div>`;
+  }else{
+    const done=S.answered;
+    body=`<div class="slots">${q.items.map((_,k)=>{const idx=S.placed[k];if(idx===undefined)return `<div class="slot"><span class="n">${k+1}</span><span class="small">Tap an event below · اختر حدثًا</span></div>`;
+      const it=q.items[idx];const ok=done?(sortedIdx(q)[k]===idx):null;
+      return `<div class="slot filled ${done?(ok?"right":"wrong"):""}" data-s="${k}" ${done?"":'role="button" tabindex="0"'}><span class="n">${k+1}</span><span class="txt" style="display:flex;flex-direction:column;min-width:0">${bi(it[0],it[1])}</span>${done?`<span class="yr">${it[2]}</span>`:""}</div>`}).join("")}</div>
+     ${done?"":`<div class="pool">${S.pool.filter(k=>!S.placed.includes(k)).map(k=>`<button class="chip" data-p="${k}">${bi(q.items[k][0],q.items[k][1])}</button>`).join("")}</div>`}`;
+  }
+  const canHint=!S.answered&&!S.hinted&&q.t==="mc"&&!q.tf&&S.coins>=15;
+  const tools=S.answered?feedback(q):`<div class="tools">${q.t==="mc"?`<button class="hint" id="hint" ${canHint?"":"disabled"}>Ask Ibn Khaldun · remove 2 · 15 dinars<span class="ar" lang="ar">استشر ابن خلدون · احذف إجابتين · 15 دينارًا</span></button>`:`<button class="btn" id="check" ${S.placed.length===q.items.length?"":"disabled"}>Check order<span class="ar" lang="ar">تحقّق من الترتيب</span></button>`}<button class="btn ghost" id="quit">Map<span class="ar" lang="ar">الخريطة</span></button></div>`;
+  app.innerHTML=header()+`<div class="card"><div class="scene">${SCENES[ALL[S.ch].id==="mix"?chOf(q):ALL[S.ch].id]}</div><div class="qbody">${head}${body}${tools}</div></div>`;
+  wireHeader();
+  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(S.opts[+b.dataset.o],b));
+  app.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{S.placed.push(+b.dataset.p);renderQ()});
+  app.querySelectorAll(".slot.filled[role]").forEach(s=>{const rm=()=>{S.placed.splice(+s.dataset.s,1);renderQ()};s.onclick=rm;s.onkeydown=e=>{if(e.key==="Enter")rm()}});
+  const h=document.getElementById("hint");if(h)h.onclick=useHint;
+  const ck=document.getElementById("check");if(ck)ck.onclick=()=>checkOrder(false);
+  const qb=document.getElementById("quit");if(qb)qb.onclick=goMap;
+  const nb=document.getElementById("next");if(nb){nb.onclick=advance;nb.focus({preventScroll:true})}
+}
+const chOf=q=>CH.find(c=>c.qs.includes(q)).id;
+const sortedIdx=q=>q.items.map((it,k)=>[it[4],k]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+
+function feedback(q){
+  const ok=S.ok;const quip=S.quip;
+  let right="";
+  if(!ok){right=q.t==="mc"?`<span class="gain">Right answer · الإجابة الصحيحة: <b>${q.a[0]}</b> · <span lang="ar">${q.a[1]}</span></span>`:`<span class="gain">Correct order · الترتيب الصحيح: ${sortedIdx(q).map(k=>q.items[k][2]).join(" → ")}</span>`}
+  const gainTxt=ok?`<span class="gain">+${S.gain} dinars · دينار${S.bonus.length?" ("+S.bonus.join(", ")+")":""}</span>`:"";
+  return `<div class="feedback ${ok?"ok":"no"}"><span class="quip">${quip[0]}<span class="ar" lang="ar">${quip[1]}</span></span><span class="fact">${q.f}</span><span class="fact ar" lang="ar">${q.fa}</span>${gainTxt}${right}</div>
+  <button class="btn" id="next">${S.qi+1<S.list.length?"Next question<span class='ar' lang='ar'>السؤال التالي</span>":"See your reward<span class='ar' lang='ar'>اكتشف جائزتك</span>"}</button>`}
+
+function useHint(){const q=S.list[S.qi];S.coins-=15;S.hinted=true;S.gone=shuffle(S.opts.filter(o=>o[0]!==q.a[0]).map(o=>o[0])).slice(0,2);save();renderQ()}
+
+function reward(ok,base,el){
+  S.answered=true;S.ok=ok;S.stats.played++;S.bonus=[];
+  const left=Math.max(0,S.deadline-performance.now());stopTimer();
+  if(ok){S.streak++;S.score++;S.stats.right++;S.stats.best=Math.max(S.stats.best,S.streak);
+    let g=base;if(S.streak>=3){g*=2;S.bonus.push("streak ×2 · سلسلة")}
+    if(left>S.limit/2){g+=5;S.bonus.push("speed +5 · سرعة")}
+    S.gain=g;S.coins+=g;S.earned+=g;S.quip=pick(YES);burst(el)}
+  else{S.streak=0;S.gain=0;S.quip=S.late?pick(LATE):pick(NO)}
+  save();renderQ();if(ok){const p=document.getElementById("purse");if(p)p.classList.add("bump")}
+}
+function answer(o,btn){if(S.answered)return;const q=S.list[S.qi];S.last=o;reward(!!o&&o[0]===q.a[0],10,btn)}
+function checkOrder(timeout){if(S.answered)return;const q=S.list[S.qi];
+  if(timeout){const rest=S.pool.filter(k=>!S.placed.includes(k));S.placed=S.placed.concat(rest)}
+  const ok=!timeout&&S.placed.every((idx,k)=>sortedIdx(q)[k]===idx);reward(ok,25,document.querySelector(".slots"))}
+function advance(){S.qi++;if(S.qi<S.list.length)nextQ();else renderResult();window.scrollTo(0,0)}
+
+function renderResult(){
+  stopTimer();
+  const c=ALL[S.ch],n=S.list.length,m=medalOf(S.score,n);
+  const prev=S.medals[c.id],order=["bronze","silver","gold"];
+  let bonus=0;
+  if(m&&(!prev||order.indexOf(m)>order.indexOf(prev))){S.medals[c.id]=m;if(m==="gold"){bonus=50;S.coins+=50;S.earned+=50}}
+  save();
+  const col={gold:["#f6d27a","#e0ac45","#9c6c1d"],silver:["#ffffff","#c9cfd6","#7d8692"],bronze:["#f0b07a","#b0703a","#6f3f17"]}[m||"bronze"];
+  const lines={gold:["A perfect quest. The treasury of the Bey is yours.","تحدٍّ كامل. خزينة الباي ملكك."],silver:["Nearly flawless. The vizier is impressed, but the Bey wants perfection.","شبه كامل. الوزير معجب، لكن الباي يريد الكمال."],bronze:["A respectable start. The archives of Kairouan await your return.","بداية محترمة. خزائن القيروان تنتظر عودتك."],none:["The chroniclers lost the scroll this time. Try again.","أضاع المؤرخون المخطوط هذه المرة. حاول من جديد."]}[m||"none"];
+  const nextI=S.ch+1<ALL.length?S.ch+1:null;
+  app.innerHTML=header()+`<div class="card result">
+   <svg class="bigmedal" viewBox="0 0 100 100" role="img" aria-label="${m?ML[m][0]:"No medal"}"><defs><radialGradient id="mg" cx="35%" cy="30%"><stop offset="0" stop-color="${col[0]}"/><stop offset=".55" stop-color="${col[1]}"/><stop offset="1" stop-color="${col[2]}"/></radialGradient></defs><circle cx="50" cy="50" r="46" fill="url(#mg)" stroke="${col[2]}" stroke-width="3" ${m?"":'opacity=".35"'}/><circle cx="50" cy="50" r="36" fill="none" stroke="${col[2]}" stroke-width="1.5" stroke-dasharray="3 3"/><text x="50" y="50" text-anchor="middle" font-family="Aref Ruqaa,serif" font-size="17" fill="${col[2]}">تونس</text><text x="50" y="67" text-anchor="middle" font-family="Marcellus,serif" font-size="9" fill="${col[2]}">TUNIS</text></svg>
+   <h2>${m?ML[m][0]:"No medal yet"}</h2><div class="rank">${m?ML[m][1]:"لا وسام بعد"}</div>
+   <p>${c.name}: <b>${S.score} / ${n}</b> correct, <b>${S.earned}</b> dinars earned${bonus?" (including a 50-dinar bonus)":""}.</p>
+   <p class="ar" lang="ar">${c.nameAr}: <b>${S.score} / ${n}</b> إجابات صحيحة، و<b>${S.earned}</b> دينارًا${bonus?" (منها مكافأة 50 دينارًا)":""}.</p>
+   <p>${lines[0]}</p><p class="ar" lang="ar">${lines[1]}</p>
+   <div class="row">${nextI!==null?`<button class="btn" id="nx">Next: ${ALL[nextI].name}<span class="ar" lang="ar">التالي: ${ALL[nextI].nameAr}</span></button>`:""}<button class="btn ghost" id="again">Play again<span class="ar" lang="ar">العب مجددًا</span></button><button class="btn ghost" id="map">Map<span class="ar" lang="ar">الخريطة</span></button></div>
+  </div>`;
+  wireHeader();
+  if(m==="gold"){burst(document.querySelector(".bigmedal"),24);confetti()}else if(m)burst(document.querySelector(".bigmedal"),12);
+  const nx=document.getElementById("nx");if(nx)nx.onclick=()=>startCh(nextI);
+  document.getElementById("again").onclick=()=>startCh(S.ch);
+  document.getElementById("map").onclick=goMap;
+}
+
+/* ================= effects ================= */
+const reduce=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
+function burst(el,count=10){
+  if(!el||reduce())return;
+  const r=el.getBoundingClientRect(),box=document.getElementById("burst");
+  for(let i=0;i<count;i++){const d=document.createElement("div");d.innerHTML=COIN;const s=d.firstChild;
+    s.style.left=(r.left+r.width/2-14)+"px";s.style.top=(r.top+r.height/2-14)+"px";
+    s.style.setProperty("--dx",(Math.random()*260-130)+"px");s.style.setProperty("--dy",(-60-Math.random()*180)+"px");s.style.setProperty("--r",(Math.random()*720-360)+"deg");
+    box.appendChild(s);setTimeout(()=>s.remove(),1200)}
+}
+function confetti(){if(reduce())return;const box=document.getElementById("burst"),cols=["#e70013","#ffffff","#e0ac45","#2a9d8f","#2f6fb3"];
+  for(let i=0;i<70;i++){const c=document.createElement("i");c.style.left=Math.random()*100+"vw";c.style.top="-20px";c.style.background=cols[i%cols.length];
+    c.style.animationDelay=Math.random()*.8+"s";c.style.setProperty("--dx",(Math.random()*160-80)+"px");c.style.setProperty("--r",(Math.random()*900)+"deg");box.appendChild(c);setTimeout(()=>c.remove(),3400)}}
+
+/* drifting gold dust */
+(function dust(){const cv=document.getElementById("dust"),cx=cv.getContext&&cv.getContext("2d");if(!cx)return;let W,H,P=[];
+  function size(){W=cv.width=innerWidth;H=cv.height=innerHeight}size();addEventListener("resize",size);
+  for(let i=0;i<40;i++)P.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+.4,v:Math.random()*.25+.05,a:Math.random()*Math.PI*2});
+  function draw(){cx.clearRect(0,0,W,H);for(const p of P){p.y-=p.v;p.a+=.01;p.x+=Math.sin(p.a)*.2;if(p.y<-5){p.y=H+5;p.x=Math.random()*W}
+    cx.globalAlpha=.25+.25*Math.sin(p.a*2);cx.fillStyle="#e0ac45";cx.beginPath();cx.arc(p.x,p.y,p.r,0,7);cx.fill()}if(!reduce())requestAnimationFrame(draw)}
+  draw()})();
+
+function start(){load();renderMap()}
+window.claude?.hot?.snapshot?.(()=>({}));
+window.claude?.hot?.ready?window.claude.hot.ready(start):start();
+</script>
+
+</body>
+</html>
