@@ -2940,7 +2940,7 @@ const MALE=/\b(male|man)\b|david|mark|george|daniel|guy|ryan|thomas|james|fred|a
 const FEMALE=/female|woman|zira|hazel|susan|samantha|victoria|karen|moira|tessa|fiona|serena|kate|libby|sonia|aria|jenny|emma|amy|salma|zariyah|laila|hoda|mona|amal|fatima|sana|layla|reem|iman|shakir_f/i;
 function pickVoice(want){if(!("speechSynthesis" in window))return null;const v=speechSynthesis.getVoices().filter(x=>x.lang&&x.lang.toLowerCase().startsWith(want));if(!v.length)return null;
  return v.find(x=>MALE.test(x.name)&&!FEMALE.test(x.name)&&/en-GB|ar-TN|ar-SA/i.test(x.lang))||v.find(x=>MALE.test(x.name)&&!FEMALE.test(x.name))||v.find(x=>!FEMALE.test(x.name))||v[0]}
-try{speechSynthesis.getVoices();speechSynthesis.addEventListener&&speechSynthesis.addEventListener("voiceschanged",()=>speechSynthesis.getVoices())}catch(e){}
+try{whenVoices(()=>{});speechSynthesis.getVoices();speechSynthesis.addEventListener&&speechSynthesis.addEventListener("voiceschanged",()=>speechSynthesis.getVoices())}catch(e){}
 /* the Bey's voice: deepest male voice, slow and loud, with a gravelly "vocal fry" rumble underneath */
 let growlNode=null,speaking=0;
 function growlStart(){const c=ac();if(!c||growlNode)return;const t=c.currentTime;
@@ -2955,13 +2955,25 @@ function growlStart(){const c=ac();if(!c||growlNode)return;const t=c.currentTime
  [src,fry,hum,wob].forEach(n=>n.start(t));growlNode={out,nodes:[src,fry,hum,wob]}}
 function growlStop(){const c=SND.ctx;if(!growlNode||!c)return;const g=growlNode;growlNode=null;const t=c.currentTime;g.out.gain.cancelScheduledValues(t);g.out.gain.setTargetAtTime(.0001,t,.06);g.nodes.forEach(n=>{try{n.stop(t+.4)}catch(e){}})}
 function authority(){const c=ac();if(!c)return;const t=c.currentTime;const o=c.createOscillator(),g=c.createGain();o.type="sine";o.frequency.setValueAtTime(90,t);o.frequency.exponentialRampToValueAtTime(48,t+.5);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.55,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+.9);o.connect(g);g.connect(SND.master);o.start(t);o.stop(t+1);noise(t,.12,160,.8,.35,"lowpass")}
-function beySay(txt,lang,queue){try{if(!SND.on||!("speechSynthesis" in window))return;const want=lang==="ar"?"ar":"en";const voice=pickVoice(want);if(want==="ar"&&!voice)return;
- if(!queue){speechSynthesis.cancel();growlStop();speaking=0}
- const u=new SpeechSynthesisUtterance(txt);u.lang=voice?voice.lang:"en-GB";if(voice)u.voice=voice;
- const maleVoice=voice&&MALE.test(voice.name)&&!FEMALE.test(voice.name);u.pitch=maleVoice?.3:.05;u.rate=.86;u.volume=1;
- u.onstart=()=>{speaking++;growlStart();try{if(MUS.playing){const c=SND.ctx;MUS.g.gain.setTargetAtTime(.05,c.currentTime,.08)}}catch(e){}};
- const done=()=>{speaking=Math.max(0,speaking-1);if(!speaking){growlStop();try{if(MUS.playing){const c=SND.ctx;MUS.g.gain.setTargetAtTime(MUS.level,c.currentTime,.4)}}catch(e){}}};
- u.onend=done;u.onerror=done;speechSynthesis.speak(u)}catch(e){}}
+/* speech: waits for the voice list, splits long text into sentences (Chrome cuts speech after ~15 s),
+   and still tries Arabic when the device hides its voice list (common on Android) */
+var voicesReady=false;
+function whenVoices(cb){try{const v=speechSynthesis.getVoices();if(v.length){voicesReady=true;cb();return}let done=false;const go=()=>{if(done)return;done=true;voicesReady=speechSynthesis.getVoices().length>0;cb()};
+ speechSynthesis.addEventListener&&speechSynthesis.addEventListener("voiceschanged",go,{once:true});setTimeout(go,1200)}catch(e){cb()}}
+const isAndroid=/Android/i.test(navigator.userAgent);
+let keepAlive=null;
+function startKeepAlive(){if(isAndroid||keepAlive)return;keepAlive=setInterval(()=>{try{if(!speechSynthesis.speaking){clearInterval(keepAlive);keepAlive=null;return}speechSynthesis.pause();speechSynthesis.resume()}catch(e){}},9000)}
+function chunks(txt){return (txt.match(/[^.!?؟،,]+[.!?؟،,]*/g)||[txt]).map(x=>x.trim()).filter(Boolean).reduce((a,c)=>{if(a.length&&(a[a.length-1]+" "+c).length<90)a[a.length-1]+=" "+c;else a.push(c);return a},[])}
+function beySay(txt,lang,queue){try{if(!SND.on||!("speechSynthesis" in window))return;
+ whenVoices(()=>{const want=lang==="ar"?"ar":"en";const all=speechSynthesis.getVoices();const voice=pickVoice(want);
+  if(want==="ar"&&!voice&&all.length&&!isAndroid)return;
+  if(!queue){speechSynthesis.cancel();growlStop();speaking=0}
+  const maleVoice=voice&&MALE.test(voice.name)&&!FEMALE.test(voice.name);
+  chunks(txt).forEach(part=>{const u=new SpeechSynthesisUtterance(part);u.lang=voice?voice.lang:(want==="ar"?"ar-SA":"en-GB");if(voice)u.voice=voice;
+   u.pitch=maleVoice?.3:(voice?.05:.4);u.rate=want==="ar"?.9:.86;u.volume=1;
+   u.onstart=()=>{speaking++;growlStart();startKeepAlive();try{if(MUS.playing){const c=SND.ctx;MUS.g.gain.setTargetAtTime(.05,c.currentTime,.08)}}catch(e){}};
+   const done=()=>{speaking=Math.max(0,speaking-1);setTimeout(()=>{if(!speaking&&!speechSynthesis.speaking){growlStop();try{if(MUS.playing){const c=SND.ctx;MUS.g.gain.setTargetAtTime(MUS.level,c.currentTime,.4)}}catch(e){}}},120)};
+   u.onend=done;u.onerror=done;speechSynthesis.speak(u)})})}catch(e){}}
 function beyWelcome(){const st=document.getElementById("beyStage");if(st){st.classList.remove("wave");void st.offsetWidth;st.classList.add("wave")}
  if(S.bey===false||window.__beySpoke)return;window.__beySpoke=true;authority();const en="I'm the Bey! Welcome to The Golden Dinar. I want to accompany you on this journey across Tunisian history, to collect gold coins and learn more about the history of Tunisia.",ar="أنا الباي! مرحبًا بكم في الدينار الذهبي. أريد أن أرافقكم في هذه الرحلة عبر تاريخ تونس، لتجمعوا القطع الذهبية وتتعلّموا المزيد عن تاريخ تونس.";
  if(S.lang==="ar"){beySay(ar,"ar");beySay(en,"en",true)}else{beySay(en,"en");beySay(ar,"ar",true)}}
@@ -2972,7 +2984,7 @@ function beyReact(ok){if(S.bey===false)return;
  el.querySelector(".beybub").innerHTML=S.lang==="ar"?`<span lang="ar" dir="rtl">${p[1]}</span>`:S.lang==="both"?`${p[0]}<br><span lang="ar" dir="rtl">${p[1]}</span>`:p[0];
  el.className="bey";void el.offsetWidth;el.classList.add("show",ok?"happy":"sad");
 
- beySay(S.lang==="ar"?p[1]:p[0],S.lang==="ar"?"ar":"en");
+ if(S.lang==="both"){beySay(p[0],"en");beySay(p[1],"ar",true)}else beySay(S.lang==="ar"?p[1]:p[0],S.lang==="ar"?"ar":"en");
  beyT1=setTimeout(()=>{el.classList.add(ok?"exit-happy":"exit-sad")},ok?1900:1700);
  beyT2=setTimeout(()=>{el.className="bey"},ok?2600:2400)}
 function beyGreet(){if(S.bey===false||window.__beyGreeted)return;window.__beyGreeted=true;
