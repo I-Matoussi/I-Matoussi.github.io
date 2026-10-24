@@ -527,6 +527,21 @@ html body.only-en:not(.peek) .beystage .beybub.big .ar,html body.only-ar:not(.pe
 .puncard .small .ar{margin:0!important}
 .phold .pun{width:60px;height:60px;opacity:.7}
 @media (prefers-reduced-motion:reduce){.pun *,.mosaic::before{animation:none!important}}
+
+/* opening: welcome centred on the screen */
+.splash{min-height:calc(100svh - 130px);align-items:center!important}
+.splash-in{justify-content:center;min-height:calc(100svh - 130px);padding-top:18px}
+.beystage{order:-1}
+.beybub.big{max-width:min(94vw,560px)!important;font-size:clamp(1rem,3.4vw,1.25rem)!important;line-height:1.5!important;padding:16px 22px!important;gap:10px!important;text-align:center}
+.beybub.big .ar{font-size:1.12em;line-height:1.7}
+.splash p.en,.splash p.ar{display:none!important}
+.splash-in{gap:8px!important;padding-bottom:18px!important}
+.beystage .beyfig{width:clamp(108px,24vw,170px)!important}
+.beybub.big{font-size:clamp(.9rem,2.9vw,1.15rem)!important;line-height:1.42!important;padding:12px 16px!important;gap:6px!important}
+.splash h1{font-size:clamp(1.5rem,5.4vw,2.4rem)!important;margin:2px 0 0!important}
+.splash .ruq{font-size:clamp(1.3rem,5vw,2rem)!important}
+.splash .medallion{display:none}
+.beystage .beybub.big{z-index:3}.beystage .beyfig{z-index:1}
 /* Arabic version: no English vocabulary/grammar boxes */
 body.only-ar .learn{display:none!important}
 /* navigation */
@@ -2643,7 +2658,7 @@ function renderSplash(){
   <div class="slides"><div class="svgfb">${placeholder("")}</div>${slides.map((k,i)=>`<img alt="${P[k][1]}" src="${WM(P[k][0])}" decoding="async" style="animation-delay:${i*-4.8}s,0s" onerror="this.remove()">`).join("")}</div>
   <div class="splash-in">
    <div class="beystage" id="beyStage" role="button" tabindex="0" aria-label="The Bey says welcome">
-    <div class="beybub big"><span class="en">I'm the Bey! Welcome to <b>The Golden Dinar</b> game!</span><span class="ar" lang="ar" dir="rtl">أنا الباي! مرحبًا بكم في لعبة <b>الدينار الذهبي</b>!</span></div>
+    <div class="beybub big"><span class="en"><b>I'm the Bey!</b> Welcome to <b>The Golden Dinar</b>. I want to accompany you on this journey across Tunisian history, to collect gold coins and learn more about the history of Tunisia.</span><span class="ar" lang="ar" dir="rtl"><b>أنا الباي!</b> مرحبًا بكم في <b>الدينار الذهبي</b>. أريد أن أرافقكم في هذه الرحلة عبر تاريخ تونس، لتجمعوا القطع الذهبية وتتعلّموا المزيد عن تاريخ تونس.</span></div>
     <div class="beyfig">${BEY_SVG}${[0,1,2,3,4,5].map(k=>`<span class="tcoin c${k}"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="9" fill="#f6d27a" stroke="#9c6c1d" stroke-width="1.5"/><circle cx="10" cy="10" r="6" fill="none" stroke="#c99a3a" stroke-width="1"/><path d="M10 5.5l1.3 3 3.2.3-2.4 2.1.7 3.1L10 12.4 7.2 14l.7-3.1-2.4-2.1 3.2-.3z" fill="#c99a3a"/></svg></span>`).join("")}</div>
    </div>
    <h1>The Golden Dinar</h1><div class="ruq">الدينار الذهبي</div>
@@ -2918,12 +2933,12 @@ try{speechSynthesis.getVoices();speechSynthesis.addEventListener&&speechSynthesi
 /* the Bey's voice: deepest male voice, slow and loud, with a gravelly "vocal fry" rumble underneath */
 let growlNode=null,speaking=0;
 function growlStart(){const c=ac();if(!c||growlNode)return;const t=c.currentTime;
- const out=c.createGain();out.gain.setValueAtTime(.0001,t);out.gain.exponentialRampToValueAtTime(.32,t+.08);out.connect(SND.master);
+ const out=c.createGain();out.gain.setValueAtTime(.0001,t);out.gain.exponentialRampToValueAtTime(.5,t+.08);out.connect(SND.master);
  const src=c.createBufferSource();src.buffer=noiseBuf();src.loop=true;const bp=c.createBiquadFilter();bp.type="bandpass";bp.frequency.value=210;bp.Q.value=1.4;
  const lp=c.createBiquadFilter();lp.type="lowpass";lp.frequency.value=520;
- const am=c.createGain();am.gain.value=0;const fry=c.createOscillator();fry.type="square";fry.frequency.value=38;const fryAmt=c.createGain();fryAmt.gain.value=.55;fry.connect(fryAmt);fryAmt.connect(am.gain);
+ const am=c.createGain();am.gain.value=0;const fry=c.createOscillator();fry.type="square";fry.frequency.value=38;const fryAmt=c.createGain();fryAmt.gain.value=.8;fry.connect(fryAmt);fryAmt.connect(am.gain);
  src.connect(bp);bp.connect(lp);lp.connect(am);am.connect(out);
- const hum=c.createOscillator();hum.type="sawtooth";hum.frequency.value=76;const hlp=c.createBiquadFilter();hlp.type="lowpass";hlp.frequency.value=260;const hg=c.createGain();hg.gain.value=.07;
+ const hum=c.createOscillator();hum.type="sawtooth";hum.frequency.value=76;const hlp=c.createBiquadFilter();hlp.type="lowpass";hlp.frequency.value=260;const hg=c.createGain();hg.gain.value=.11;
  const wob=c.createOscillator();wob.frequency.value=5;const wg=c.createGain();wg.gain.value=4;wob.connect(wg);wg.connect(hum.frequency);
  hum.connect(hlp);hlp.connect(hg);hg.connect(out);
  [src,fry,hum,wob].forEach(n=>n.start(t));growlNode={out,nodes:[src,fry,hum,wob]}}
@@ -2932,12 +2947,12 @@ function authority(){const c=ac();if(!c)return;const t=c.currentTime;const o=c.c
 function beySay(txt,lang,queue){try{if(!SND.on||!("speechSynthesis" in window))return;const want=lang==="ar"?"ar":"en";const voice=pickVoice(want);if(want==="ar"&&!voice)return;
  if(!queue){speechSynthesis.cancel();growlStop();speaking=0}
  const u=new SpeechSynthesisUtterance(txt);u.lang=voice?voice.lang:"en-GB";if(voice)u.voice=voice;
- const maleVoice=voice&&MALE.test(voice.name)&&!FEMALE.test(voice.name);u.pitch=maleVoice?.35:.05;u.rate=.84;u.volume=1;
+ const maleVoice=voice&&MALE.test(voice.name)&&!FEMALE.test(voice.name);u.pitch=maleVoice?.3:.05;u.rate=.86;u.volume=1;
  u.onstart=()=>{speaking++;growlStart();try{if(MUS.playing){const c=SND.ctx;MUS.g.gain.setTargetAtTime(.05,c.currentTime,.08)}}catch(e){}};
  const done=()=>{speaking=Math.max(0,speaking-1);if(!speaking){growlStop();try{if(MUS.playing){const c=SND.ctx;MUS.g.gain.setTargetAtTime(MUS.level,c.currentTime,.4)}}catch(e){}}};
  u.onend=done;u.onerror=done;speechSynthesis.speak(u)}catch(e){}}
 function beyWelcome(){const st=document.getElementById("beyStage");if(st){st.classList.remove("wave");void st.offsetWidth;st.classList.add("wave")}
- if(S.bey===false)return;authority();const en="I'm the Bey! Welcome to the Golden Dinar game!",ar="أنا الباي! مرحبًا بكم في لعبة الدينار الذهبي!";
+ if(S.bey===false||window.__beySpoke)return;window.__beySpoke=true;authority();const en="I'm the Bey! Welcome to The Golden Dinar. I want to accompany you on this journey across Tunisian history, to collect gold coins and learn more about the history of Tunisia.",ar="أنا الباي! مرحبًا بكم في الدينار الذهبي. أريد أن أرافقكم في هذه الرحلة عبر تاريخ تونس، لتجمعوا القطع الذهبية وتتعلّموا المزيد عن تاريخ تونس.";
  if(S.lang==="ar"){beySay(ar,"ar");beySay(en,"en",true)}else{beySay(en,"en");beySay(ar,"ar",true)}}
 function beyReact(ok){if(S.bey===false)return;
  let el=document.getElementById("bey");if(!el){el=document.createElement("div");el.id="bey";el.className="bey";el.innerHTML=`<div class="beybub"></div>${BEY_SVG}`;document.body.appendChild(el)}
@@ -2945,7 +2960,7 @@ function beyReact(ok){if(S.bey===false)return;
  const p=ok?(S.streak>=3&&Math.random()<.5?["What a streak!","يا لها من سلسلة!"]:pick(BEY_YES)):pick(BEY_NO);
  el.querySelector(".beybub").innerHTML=S.lang==="ar"?`<span lang="ar" dir="rtl">${p[1]}</span>`:S.lang==="both"?`${p[0]}<br><span lang="ar" dir="rtl">${p[1]}</span>`:p[0];
  el.className="bey";void el.offsetWidth;el.classList.add("show",ok?"happy":"sad");
- beySay(S.lang==="ar"?p[1]:p[0],S.lang==="ar"?"ar":"en");
+
  beyT1=setTimeout(()=>{el.classList.add(ok?"exit-happy":"exit-sad")},ok?1900:1700);
  beyT2=setTimeout(()=>{el.className="bey"},ok?2600:2400)}
 function beyGreet(){if(S.bey===false||window.__beyGreeted)return;window.__beyGreeted=true;
