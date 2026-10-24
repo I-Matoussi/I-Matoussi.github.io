@@ -252,6 +252,39 @@ footer{font-size:.8rem;color:var(--sand-dim);text-align:center;display:flex;flex
 
 .wctx{font-size:.84rem;color:var(--sand);font-style:italic;border-left:2px solid var(--gold-lo);padding-left:8px;margin-top:3px}
 .wctx b{color:var(--gold-hi);font-style:normal}
+
+/* journey map + colourful quest list */
+.journey{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;align-items:start}
+@media (min-width:900px){.journey{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);width:min(1040px,calc(100vw - 48px));margin-inline:calc((100% - min(1040px,calc(100vw - 48px)))/2)}}
+.tmap{direction:ltr}
+body.only-en:not(.peek) .tmap .pcity.ar,body.only-ar:not(.peek) .tmap .pcity.en{display:none}
+body:not(.only-en):not(.only-ar) .tmap .pcity.ar,body.peek .tmap .pcity.ar{display:none}
+.tmap text,.tmap .pcity.ar{direction:ltr!important;unicode-bidi:plaintext}
+.pin .pcity.ar{font-size:15px;font-family:var(--arabic),Amiri,serif}
+.pin .halo{fill-opacity:0}
+.pin.new .halo{animation:halo 2.4s ease-out infinite}
+.pin .pnum{font:800 13px "Alegreya Sans",system-ui,sans-serif;fill:#fff;pointer-events:none}
+.pin .pcity{font:600 12.5px Marcellus,Georgia,serif;fill:#fbf5e6;paint-order:stroke;stroke:#081a33;stroke-width:4px;stroke-linejoin:round;letter-spacing:.02em}
+.pin.hl circle:nth-of-type(2),.pin:hover circle:nth-of-type(2){stroke:#fff;stroke-width:4.5}
+.pin.hl .pcity{fill:#f6d27a}
+.pin.hl{filter:drop-shadow(0 0 6px rgba(246,210,122,.8))}
+.qlist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr));gap:10px}
+@media (min-width:900px){.qlist{grid-template-columns:minmax(0,1fr)}}
+.qitem{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:12px;border:1px solid color-mix(in srgb,var(--qc) 45%,transparent);border-inline-start:5px solid var(--qc);background:linear-gradient(100deg,color-mix(in srgb,var(--qc) 26%,var(--lapis-2)),var(--lapis-2) 70%);transition:transform .18s,box-shadow .18s}
+.qitem:hover,.qitem:focus-visible,.qitem.hl{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.35),0 0 0 1px var(--qc)}
+.qitem:focus-visible{outline:2px solid var(--gold-hi);outline-offset:2px}
+.qn{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--qc);color:#fff;font-weight:800;font-size:1rem;box-shadow:inset 0 -3px 0 rgba(0,0,0,.2),0 0 0 3px color-mix(in srgb,var(--qc) 30%,transparent)}
+.qt{display:flex;flex-direction:column;min-width:0;flex:1;line-height:1.3}
+.qname{font-family:var(--display);font-size:1.02rem;color:var(--sand)}
+.qname.ar{font-family:var(--arabic);font-size:1rem;color:var(--gold-hi)}
+.qcity{display:flex;align-items:center;gap:4px;font-size:.78rem;color:var(--sand-dim);letter-spacing:.02em}
+.qm{flex:none;font-size:.72rem;font-weight:800;padding:3px 9px;border-radius:999px;letter-spacing:.04em;display:flex;flex-direction:column;align-items:center;line-height:1.25}
+.qm .ar{font-size:.8rem;margin:0!important}
+.qm.none{border:1px dashed color-mix(in srgb,var(--qc) 70%,#fff);color:var(--sand)}
+.qm.gold{background:#e0ac45;color:#2a1f10}.qm.silver{background:#d9dee4;color:#1c2430}.qm.bronze{background:#b0703a;color:#fff}
+.quick.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+/* Arabic version: no English vocabulary/grammar boxes */
+body.only-ar .learn{display:none!important}
 /* navigation */
 .wrap{transition:opacity .23s ease,transform .23s ease}
 .wrap.leaving{opacity:0;transform:translateY(10px)}
@@ -2165,24 +2198,29 @@ const FLAME=`<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"
 /* ================= map of Tunisia ================= */
 const TUN=[[8.6,36.95],[9,37.1],[9.2,37.23],[9.75,37.33],[9.87,37.27],[10.05,37.25],[10.25,37.18],[10.22,37],[10.3,36.82],[10.45,36.75],[10.55,36.85],[10.8,36.95],[11.05,37.08],[11.12,36.85],[10.95,36.65],[10.6,36.42],[10.55,36.2],[10.6,35.95],[10.64,35.83],[10.83,35.77],[11,35.62],[11.06,35.5],[11.1,35.23],[10.95,35],[10.76,34.74],[10.45,34.5],[10.07,34.3],[10,34.1],[10.1,33.88],[10.4,33.65],[10.75,33.6],[11.1,33.5],[11.25,33.25],[11.56,33.17],[11.5,32.6],[11.35,32.35],[10.95,32.1],[10.6,31.75],[10.25,31.5],[10.1,31],[9.8,30.6],[9.55,30.23],[9.3,30.8],[9,31.4],[8.6,31.9],[8.3,32.4],[8.05,33],[7.65,33.25],[7.5,33.6],[7.75,34],[8.2,34.5],[8.25,34.65],[8.4,35.2],[8.3,35.75],[8.45,36.2],[8.35,36.5]];
 const ISL=[[[10.75,33.88],[11.05,33.85],[11.08,33.65],[10.9,33.62],[10.72,33.72]],[[11.05,34.7],[11.3,34.82],[11.35,34.75],[11.15,34.62]]];
-const PIN={carthage:[10.42,36.95,"Carthage","قرطاج","r",-14],hafsid:[10.12,36.74,"Tunis","تونس","r",12],protectorate:[9.87,37.27,"Bizerte","بنزرت","l"],beys:[9.44,36.55,"Testour","تستور","l"],kairouan:[9.12,35.24,"Sbeitla","سبيطلة","l"],books:[10.1,35.68,"Kairouan","القيروان","l"],leaders:[10.83,35.77,"Monastir","المنستير","r"],republic:[9.48,35.04,"Sidi Bouzid","سيدي بوزيد","r"],figures:[8.13,33.92,"Tozeur","توزر","r"],mix:[10.88,33.76,"Djerba","جربة","r"]};
+const PIN={carthage:[10.42,36.95,"Carthage","قرطاج","r",-12],hafsid:[10.12,36.74,"Tunis","تونس","r",12],protectorate:[9.87,37.27,"Bizerte","بنزرت","l",0],beys:[9.44,36.55,"Testour","تستور","l",0],kairouan:[9.12,35.24,"Sbeitla","سبيطلة","l",0],books:[10.1,35.68,"Kairouan","القيروان","l",0],leaders:[10.83,35.77,"Monastir","المنستير","r",0],republic:[9.48,35.04,"Sidi Bouzid","سيدي بوزيد","r",8],figures:[8.13,33.92,"Tozeur","توزر","r",0],mix:[10.88,33.76,"Djerba","جربة","r",0]};
+const ROUTE_ORDER=["carthage","kairouan","books","hafsid","beys","protectorate","republic","leaders","figures","mix"];
+const QCOL={carthage:"#d9534f",kairouan:"#2a9d8f",books:"#8e6bd1",hafsid:"#3a86c8",beys:"#e8833a",protectorate:"#d0508a",republic:"#e5484d",leaders:"#d4a017",figures:"#4caf6a",mix:"#c9a227"};
 const PX=(lon,lat)=>[((lon-7.2)*80).toFixed(1),((37.5-lat)*92).toFixed(1)];
-function mapSVG(){const poly=TUN.map(p=>PX(...p).join(",")).join(" ");const route=["carthage","kairouan","hafsid","beys","protectorate","republic"].map(k=>PX(PIN[k][0],PIN[k][1]).join(",")).join(" ");
- const col={gold:"#e0ac45",silver:"#c9cfd6",bronze:"#b0703a"};
- return `<svg class="tmap" viewBox="-20 -20 470 700" role="group" aria-label="Map of Tunisia with the quests">
+function mapSVG(){const poly=TUN.map(p=>PX(...p).join(",")).join(" ");const route=ROUTE_ORDER.slice(0,7).map(k=>PX(PIN[k][0],PIN[k][1]).join(",")).join(" ");
+ const ring={gold:"#f6d27a",silver:"#e3e8ee",bronze:"#d9955a"};
+ return `<svg class="tmap" viewBox="-20 -20 470 700" direction="ltr" role="group" aria-label="Map of Tunisia with the quests">
  <defs><pattern id="sea" width="18" height="18" patternUnits="userSpaceOnUse"><path d="M0 9q4.5-4 9 0t9 0" fill="none" stroke="#2f6fb3" stroke-opacity=".18"/></pattern>
  <linearGradient id="land" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c3f6c"/><stop offset=".55" stop-color="#2a3f5c"/><stop offset="1" stop-color="#5a4a2e"/></linearGradient></defs>
  <rect x="-20" y="-20" width="470" height="700" fill="url(#sea)"/>
  <polygon points="${poly}" fill="url(#land)" stroke="#e0ac45" stroke-width="2" stroke-linejoin="round"/>
  ${ISL.map(i=>`<polygon points="${i.map(p=>PX(...p).join(",")).join(" ")}" fill="#2a3f5c" stroke="#e0ac45" stroke-width="1.5"/>`).join("")}
- <polyline class="route" points="${route}" fill="none" stroke="#f6d27a" stroke-width="2" stroke-dasharray="6 6" stroke-opacity=".7"/>
- <text x="380" y="300" fill="#5fa3c9" font-size="13" font-style="italic" font-family="Marcellus,Georgia,serif" text-anchor="middle">Mediterranean</text>
- <text x="300" y="440" fill="#d9b07a" fill-opacity=".55" font-size="12" font-family="Marcellus,Georgia,serif" text-anchor="middle" letter-spacing="2">SAHARA</text>
+ <text x="380" y="300" fill="#5fa3c9" font-size="14" font-style="italic" font-family="Marcellus,Georgia,serif" text-anchor="middle">Mediterranean</text>
+ <text x="300" y="440" fill="#d9b07a" fill-opacity=".55" font-size="12" font-family="Marcellus,Georgia,serif" text-anchor="middle" letter-spacing="3">SAHARA</text>
  <g transform="translate(40 610)" fill="none" stroke="#e0ac45" stroke-opacity=".7"><circle r="22"/><path d="M0-30 5 0 0 30-5 0Z" fill="#e0ac45" fill-opacity=".5"/><path d="M-30 0 0 4 30 0 0-4Z" fill="#e0ac45" fill-opacity=".25"/><text y="-34" text-anchor="middle" fill="#f6d27a" stroke="none" font-size="11">N</text></g>
- ${Object.entries(PIN).map(([id,[lon,lat,en,ar,side,dy=0]])=>{const [x,y]=PX(lon,lat);const i=ALL.findIndex(c=>c.id===id);const c=ALL[i];const m=S.medals[id];const tx=side==="r"?14:-14,anc=side==="r"?"start":"end";
-  return `<g class="pin ${m?"won":"new"}" data-i="${i}" tabindex="0" role="button" aria-label="${c.name}, ${en}" transform="translate(${x} ${y})"><circle class="halo" r="15"/><circle r="9" fill="${m?col[m]:"#0b1f3a"}" stroke="#f6d27a" stroke-width="2.5"/>${m?"":`<circle r="3" fill="#f6d27a"/>`}
-  <text x="${tx}" y="${-2+dy}" text-anchor="${anc}" class="pl1">${c.name}</text><text x="${tx}" y="${12+dy}" text-anchor="${anc}" class="pl2">${en} · ${ar}</text></g>`}).join("")}
+ ${ROUTE_ORDER.map((id,n)=>{const [lon,lat,en,ar,side,dy]=PIN[id];const [x,y]=PX(lon,lat);const i=ALL.findIndex(c=>c.id===id);const c=ALL[i];const m=S.medals[id];const tx=side==="r"?17:-17,anc=side==="r"?"start":"end";
+  return `<g class="pin ${m?"won":"new"}" data-i="${i}" data-q="${id}" tabindex="0" role="button" aria-label="${n+1}. ${c.name}, ${en}" transform="translate(${x} ${y})"><circle class="halo" r="15" fill="${QCOL[id]}"/>
+  <circle r="12" fill="${QCOL[id]}" stroke="${m?ring[m]:"#fbf5e6"}" stroke-width="${m?4:2.5}"/><text class="pnum" y="4.5" text-anchor="middle">${n+1}</text>
+  <text x="${tx}" y="${4+dy}" text-anchor="${anc}" class="pcity en">${en}</text><text x="${tx}" y="${4+dy}" text-anchor="${anc}" class="pcity ar" font-family="Amiri,serif">${ar}</text></g>`}).join("")}
  </svg>`}
+function questList(){const ML2={gold:["Gold","ذهب"],silver:["Silver","فضة"],bronze:["Bronze","برونز"]};
+ return `<ol class="qlist">${ROUTE_ORDER.map((id,n)=>{const i=ALL.findIndex(c=>c.id===id);const c=ALL[i];const p=PIN[id];const m=S.medals[id];
+  return `<li><button class="qitem" data-i="${i}" data-q="${id}" style="--qc:${QCOL[id]}"><span class="qn">${n+1}</span><span class="qt"><span class="qname en">${c.name}</span><span class="qname ar" lang="ar">${c.nameAr}</span><span class="qcity"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg><span class="en">${p[2]}</span><span class="ar" lang="ar">${p[3]}</span></span></span><span class="qm ${m||"none"}">${m?bi(ML2[m][0],ML2[m][1]):bi("New","جديد")}</span></button></li>`}).join("")}</ol>`}
 
 /* ================= settings ================= */
 function toggleRow(id,label,on){return `<div class="setrow"><span>${label}</span><button class="switch" id="${id}" role="switch" aria-checked="${on}"><i></i></button></div>`}
@@ -2193,8 +2231,6 @@ function openSettings(){if(document.querySelector(".sheet"))return;const paused=
   ${toggleRow("tMus",bi("Music","الموسيقى"),MUS.on)}${toggleRow("tSnd",bi("Sound effects","المؤثرات الصوتية"),SND.on)}${toggleRow("tVib",bi("Vibration","الاهتزاز"),S.vib!==false)}
   <div class="setlinks">
    <button class="lnk" data-go="ach">${SEAL("#e0ac45","#0b1f3a")}<span>${bi("Achievements","الإنجازات")}</span></button>
-   <button class="lnk" data-go="cert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="13" rx="1"/><circle cx="12" cy="17" r="3"/><path d="M10 19.5 9 23l3-1.5L15 23l-1-3.5M7 8h10M7 11h6"/></svg><span>${bi("Certificate","الشهادة")}</span></button>
-   <button class="lnk" data-go="teacher"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9 12 4l9 5-9 5z"/><path d="M7 11v5c3 2 7 2 10 0v-5"/></svg><span>${bi("Teacher mode","وضع الأستاذ")}</span></button>
    <button class="lnk" data-go="bank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 5c3-1.5 6-1.5 10 1 4-2.5 7-2.5 10-1v14c-3-1.5-6-1.5-10 1-4-2.5-7-2.5-10-1z"/><path d="M12 6v14"/></svg><span>Word Bank</span></button>
    ${window.__installEvt?`<button class="lnk" data-go="install"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12m-5-5 5 5 5-5M4 19h16"/></svg><span>${bi("Install app","تثبيت التطبيق")}</span></button>`:""}
   </div>
@@ -2344,15 +2380,15 @@ function renderMap(){
   <p class="ar" lang="ar">اختر تحديًا. أجب بسرعة لتنال <b>مكافأة السرعة</b>، وحافظ على <b>السلسلة</b> لتضاعف ذهبك، وأنهِ التحدي دون خطأ لتفوز بـ<b>الدينار الذهبي</b>.</p></div>
   <button class="daily ${dailyDone()?"done":""}" id="daily">${FLAME}<span class="dt"><strong>${bi("Daily Challenge","تحدي اليوم")}</strong><span class="small" style="color:inherit">${dailyDone()?bi("Done for today. Come back tomorrow!","أنجزته اليوم. عد غدًا!"):bi("5 questions · +30 bonus dinars","5 أسئلة · مكافأة 30 دينارًا")}</span></span><span class="dstreak">${FLAME}${S.daily.streak||0}</span></button>
   <div class="sect"><h3 class="en">Journey across Tunisia</h3><span class="ar">رحلة عبر تونس</span></div>
-  <div class="mapcard">${mapSVG()}<div class="maplegend"><span><i style="background:#0b1f3a;border:2px solid #f6d27a"></i>${bi("To explore","للاستكشاف")}</span><span><i style="background:#b0703a"></i>Bronze</span><span><i style="background:#c9cfd6"></i>Silver</span><span><i style="background:#e0ac45"></i>Gold</span></div></div>
-  <div class="quick"><button class="qk" id="qAch">${SEAL("#e0ac45","#0b1f3a")}<span>${bi("Achievements","الإنجازات")}</span></button><button class="qk" id="qCert"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="13" rx="1"/><circle cx="12" cy="17" r="3"/><path d="M10 19.5 9 23l3-1.5L15 23l-1-3.5M7 8h10M7 11h6"/></svg><span>${bi("Certificate","الشهادة")}</span></button><button class="qk" id="qTeach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9 12 4l9 5-9 5z"/><path d="M7 11v5c3 2 7 2 10 0v-5"/></svg><span>${bi("Teacher","الأستاذ")}</span></button></div>
+  <div class="journey"><div class="mapcard">${mapSVG()}</div>${questList()}</div>
+  <div class="quick two"><button class="qk" id="qAch">${SEAL("#e0ac45","#0b1f3a")}<span>${bi("Achievements","الإنجازات")}</span></button><button class="qk" id="bank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5c3-1.5 6-1.5 10 1 4-2.5 7-2.5 10-1v14c-3-1.5-6-1.5-10 1-4-2.5-7-2.5-10-1z"/><path d="M12 6v14"/></svg><span>Word Bank · ${Object.keys(S.bank).length}/${GLOSS.length}</span></button></div>
   <div class="sect"><h3 class="en">The Eras</h3><span class="ar">الحقب التاريخية</span></div>
   <div class="tiles">${ALL.map((c,i)=>c.kind==="era"?tile(c,i):"").join("")}</div>
   <div class="sect"><h3 class="en">Special Quests</h3><span class="ar">تحديات خاصة</span></div>
   <div class="tiles">${ALL.map((c,i)=>c.kind==="special"?tile(c,i):"").join("")}</div>
   <div class="sect"><h3>English Corner</h3><span class="small">English only</span></div>
   <div class="tiles">${ALL.map((c,i)=>c.kind==="lang"?tile(c,i):"").join("")}</div>
-  <button class="bankbtn" id="bank"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5c3-1.5 6-1.5 10 1 4-2.5 7-2.5 10-1v14c-3-1.5-6-1.5-10 1-4-2.5-7-2.5-10-1z"/><path d="M12 6v14"/></svg><span class="bt"><span>My Word Bank</span><span class="small">${Object.keys(S.bank).length} / ${GLOSS.length} words collected · definitions, examples and pronunciation</span></span></button>
+
   <div class="card result"><span class="small">${bi("Your title","لقبك")}</span><div class="rank">${r[2]}</div><strong class="en">${r[1]}</strong>
    ${nr?`<span class="small">${bi(`${nr[0]-S.coins} dinars to <b>${nr[1]}</b>`,`${nr[0]-S.coins} دينارًا حتى لقب «${nr[2]}»`)}</span>`:`<span class="small">${bi("The highest title in the land","أعلى لقب في البلاد")}</span>`}
    <div class="statrow"><div class="stat"><b>${golds}/${ALL.length}</b><span class="small">${bi("Golden Dinars","دنانير ذهبية")}</span></div><div class="stat"><b>${S.stats.right}</b><span class="small">${bi("Right answers","إجابات صحيحة")}</span></div><div class="stat"><b>${S.stats.best}</b><span class="small">${bi("Best streak","أفضل سلسلة")}</span></div></div>
@@ -2363,8 +2399,9 @@ function renderMap(){
   app.querySelectorAll(".tile").forEach(b=>b.onclick=()=>{sfx.click();startCh(+b.dataset.i)});
   document.getElementById("bank").onclick=()=>{sfx.click();renderBank()};
   document.getElementById("daily").onclick=()=>{sfx.click();if(dailyDone()){toast(bi("You have already done today's challenge. See you tomorrow!","أنجزت تحدي اليوم. نلتقي غدًا!"),FLAME);return}startRun(DAILY,dailyList())};
-  app.querySelectorAll(".pin").forEach(g=>{const go=()=>{sfx.click();startCh(+g.dataset.i)};g.onclick=go;g.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go()}}});
-  document.getElementById("qAch").onclick=()=>{sfx.click();nav(renderAch)};document.getElementById("qCert").onclick=()=>{sfx.click();nav(renderCert)};document.getElementById("qTeach").onclick=()=>{sfx.click();nav(renderTeacher)};
+  app.querySelectorAll(".pin,.qitem").forEach(g=>{const go=()=>{sfx.click();startCh(+g.dataset.i)};g.onclick=go;if(g.classList.contains("pin"))g.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go()}};
+   const hl=on=>app.querySelectorAll(`[data-q="${g.dataset.q}"]`).forEach(x=>x.classList.toggle("hl",on));g.addEventListener("mouseenter",()=>hl(true));g.addEventListener("mouseleave",()=>hl(false));g.addEventListener("focus",()=>hl(true));g.addEventListener("blur",()=>hl(false))});
+  document.getElementById("qAch").onclick=()=>{sfx.click();nav(renderAch)};
 }
 
 /* ================= quiz ================= */
@@ -2437,7 +2474,7 @@ function feedback(q){
   let right="";
   if(!ok){right=q.eng?(q.t==="mc"?`<span class="gain">Right answer: <b>${q.a[0]}</b></span>`:`<span class="gain">Correct sentence: <b>${sortedIdx(q).map(k=>q.items[k][0]).join(" ")}</b></span>`):(q.t==="mc"?`<span class="gain">${bi(`Right answer: <b>${q.a[0]}</b>`,`الإجابة الصحيحة: <b>${q.a[1]}</b>`)}</span>`:`<span class="gain">${bi("Correct order: ","الترتيب الصحيح: ")}${sortedIdx(q).map(k=>q.items[k][2]).join(" → ")}</span>`)}
   const gainTxt=ok?(q.eng?`<span class="gain"><strong>+${S.gain}</strong> dinars${S.bonusEn.length?" · "+S.bonusEn.join(" · "):""}</span>`:`<span class="gain"><strong>+${S.gain}</strong> ${bi("dinars","دينارًا")}${S.bonus.length?" · "+S.bonus.join(" · "):""}</span>`):"";
-  return `<div class="feedback ${ok?"ok":"no"}">${rk?photoHTML(rk,null,{cls:"reveal",removeOnFail:true}):""}<div class="fb-in"><span class="quip">${q.eng?`<span>${quip[0]}</span>`:`<span class="en">${quip[0]}</span><span class="ar" lang="ar">${quip[1]}</span>`}</span>${q.eng?`<span class="fact">${q.f}</span>`:`<span class="fact en">${q.f}</span><span class="fact ar" lang="ar">${q.fa}</span>`}${gainTxt}${right}</div>${learnHTML(q)}</div>
+  return `<div class="feedback ${ok?"ok":"no"}">${rk?photoHTML(rk,null,{cls:"reveal",removeOnFail:true}):""}<div class="fb-in"><span class="quip">${q.eng?`<span>${quip[0]}</span>`:`<span class="en">${quip[0]}</span><span class="ar" lang="ar">${quip[1]}</span>`}</span>${q.eng?`<span class="fact">${q.f}</span>`:`<span class="fact en">${q.f}</span><span class="fact ar" lang="ar">${q.fa}</span>`}${gainTxt}${right}</div>${S.lang==="ar"?"":learnHTML(q)}</div>
   <div class="row navrow"><button class="btn" id="next">${q.eng?(S.qi+1<S.list.length?"<span>Next question</span>":"<span>See your reward</span>"):(S.qi+1<S.list.length?`<span class="en">Next question</span><span class="ar" lang="ar">السؤال التالي</span>`:`<span class="en">See your reward</span><span class="ar" lang="ar">اكتشف جائزتك</span>`)}</button><button class="btn ghost" id="quit2">${q.eng?"<span>Map</span>":'<span class="en">Map</span><span class="ar" lang="ar">الخريطة</span>'}</button></div>`}
 
 function useHint(){const q=S.list[S.qi];S.coins-=15;S.shown=S.coins;S.hinted=true;S.gone=shuffle(S.opts.filter(o=>o[0]!==q.a[0]).map(o=>o[0])).slice(0,2);save();sfx.click();renderQ()}
