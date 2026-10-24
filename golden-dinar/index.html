@@ -2972,6 +2972,7 @@ function beyReact(ok){if(S.bey===false)return;
  el.querySelector(".beybub").innerHTML=S.lang==="ar"?`<span lang="ar" dir="rtl">${p[1]}</span>`:S.lang==="both"?`${p[0]}<br><span lang="ar" dir="rtl">${p[1]}</span>`:p[0];
  el.className="bey";void el.offsetWidth;el.classList.add("show",ok?"happy":"sad");
 
+ beySay(S.lang==="ar"?p[1]:p[0],S.lang==="ar"?"ar":"en");
  beyT1=setTimeout(()=>{el.classList.add(ok?"exit-happy":"exit-sad")},ok?1900:1700);
  beyT2=setTimeout(()=>{el.className="bey"},ok?2600:2400)}
 function beyGreet(){if(S.bey===false||window.__beyGreeted)return;window.__beyGreeted=true;
