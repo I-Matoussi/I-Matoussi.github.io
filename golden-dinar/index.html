@@ -323,6 +323,28 @@ body:not(.only-en):not(.only-ar) .tmap .pcity.ar,body.peek .tmap .pcity.ar{displ
 .pin.city.hl .dot{stroke:#fff;stroke-width:3.5}
 .pin.city.hl .pcity{fill:#f6d27a}
 .pin.city.hl{filter:drop-shadow(0 0 6px rgba(246,210,122,.85))}
+
+.getapp{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:flex;align-items:center;gap:14px;margin:14px 0 4px;padding:14px 18px;border-radius:16px;background:linear-gradient(110deg,#0f6b5f,#1c4f8a 60%,#2a3f7a);border:1px solid rgba(246,210,122,.55);box-shadow:0 10px 26px rgba(0,0,0,.35);color:#fbf5e6;transition:transform .18s,box-shadow .18s}
+.getapp:hover,.getapp:focus-visible{transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,0,0,.45),0 0 0 2px rgba(246,210,122,.5)}
+.getapp>svg{flex:none;width:30px;height:30px;color:#f6d27a}
+.getapp .ga-t{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.getapp .ga-t strong{font-family:var(--display);font-size:1.15rem}
+.getapp .ga-t .small{color:rgba(251,245,230,.8)}
+.getapp .ga-go{flex:none;padding:8px 16px;border-radius:999px;background:linear-gradient(180deg,#f6d27a,#e0ac45);color:#2a1f10;font-weight:800}
+.getapp .ar,.getapp .ga-go .ar{margin:0!important}
+.lnk.wide{grid-column:1/-1}
+.getcard{max-width:520px;max-height:88vh;overflow:auto}
+.getcard h4{margin:18px 0 8px;font-family:var(--display);color:var(--gold-hi)}
+.glink{margin:12px 0;padding:10px 12px;border-radius:10px;background:rgba(0,0,0,.25);border:1px dashed rgba(246,210,122,.5);text-align:center;overflow-wrap:anywhere}
+.glink code{font-size:.95rem;color:#f6d27a;direction:ltr;unicode-bidi:isolate}
+.gok{color:#7fd6a4;font-weight:700}
+.gqr{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:12px}
+.gqr .qrbox{width:150px;height:150px;background:#fff;border-radius:10px;padding:6px}
+.gqr .qrbox svg{width:100%;height:100%}
+.gstep{border:1px solid rgba(246,210,122,.25);border-radius:12px;padding:10px 14px;margin:8px 0;background:rgba(255,255,255,.03)}
+.gstep summary{cursor:pointer;font-weight:700;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.gstep .you{font-size:.7rem;padding:2px 8px;border-radius:999px;background:#2a9d8f;color:#fff;letter-spacing:.05em}
+.gstep ol{margin:10px 0 2px;padding-inline-start:22px;line-height:1.6}
 /* Arabic version: no English vocabulary/grammar boxes */
 body.only-ar .learn{display:none!important}
 /* navigation */
@@ -2277,7 +2299,7 @@ function openSettings(){if(document.querySelector(".sheet"))return;const paused=
   <div class="setlinks">
    <button class="lnk" data-go="ach">${SEAL("#e0ac45","#0b1f3a")}<span>${bi("Achievements","الإنجازات")}</span></button>
    <button class="lnk" data-go="bank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 5c3-1.5 6-1.5 10 1 4-2.5 7-2.5 10-1v14c-3-1.5-6-1.5-10 1-4-2.5-7-2.5-10-1z"/><path d="M12 6v14"/></svg><span>Word Bank</span></button>
-   ${window.__installEvt?`<button class="lnk" data-go="install"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12m-5-5 5 5 5-5M4 19h16"/></svg><span>${bi("Install app","تثبيت التطبيق")}</span></button>`:""}
+   <button class="lnk wide" data-go="install"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M4 19h16"/></svg><span>${bi("Get the app · Share","حمّل التطبيق · شارك")}</span></button>
   </div>
   <div class="setrow danger"><span>${bi("Reset all progress","مسح كل التقدّم")}</span><button class="btn ghost small" id="reset">${bi("Reset","مسح")}</button></div>
   <div class="row"><button class="btn" id="setClose">${bi("Done","تمّ")}</button></div></div>`;
@@ -2288,12 +2310,41 @@ function openSettings(){if(document.querySelector(".sheet"))return;const paused=
  const sw=(id,get,set)=>{const b=el.querySelector("#"+id);b.onclick=()=>{set(!get());b.setAttribute("aria-checked",get());save();sfx.click()}};
  sw("tMus",()=>MUS.on,v=>{MUS.on=v;if(v)startMusic();else stopMusic()});sw("tSnd",()=>SND.on,v=>{SND.on=v});sw("tVib",()=>S.vib!==false,v=>{S.vib=v;if(v)buzz(30)});
  el.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{const g=b.dataset.go;el.remove();S.sheetStay=null;stopTimer();
-  if(g==="install"){try{window.__installEvt.prompt();window.__installEvt=null}catch(e){}return}
+  if(g==="install"){openGetApp();return}
   if(S.screen==="quiz")popQuestState();nav({ach:renderAch,cert:renderCert,teacher:renderTeacher,bank:renderBank}[g])});
  const rb=el.querySelector("#reset");rb.onclick=()=>{if(rb.dataset.sure){try{localStorage.removeItem("golden-dinar")}catch(e){}location.reload();return}rb.dataset.sure=1;rb.innerHTML=bi("Tap again to erase everything","اضغط مجددًا لمسح كل شيء");rb.classList.add("warn")};
  el.querySelector("#setClose").focus()}
 function redraw(){({splash:renderSplash,map:renderMap,result:renderMap,bank:renderBank,ach:renderAch,cert:renderCert,teacher:renderTeacher}[S.screen]||renderMap)()}
 addEventListener("beforeinstallprompt",e=>{e.preventDefault();window.__installEvt=e});
+addEventListener("appinstalled",()=>{window.__installEvt=null;try{toast(bi("Installed! Find The Golden Dinar on your home screen.","تمّ التثبيت! ستجد الدينار الذهبي على شاشتك الرئيسية."),SEAL("#e0ac45","#0b1f3a"))}catch(e){}});
+function openGetApp(){if(document.querySelector(".sheet"))return;
+ const ua=navigator.userAgent,ios=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1),android=/Android/.test(ua);
+ const dev=ios?"ios":android?"android":"pc";const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+ const steps={android:[["Android phone","هاتف أندرويد"],[["Open the link in <b>Chrome</b>.","افتح الرابط في <b>كروم</b>."],["Tap the menu <b>⋮</b> (top right).","اضغط على القائمة <b>⋮</b> (أعلى اليمين)."],["Tap <b>Install app</b> or <b>Add to Home screen</b>.","اضغط <b>تثبيت التطبيق</b> أو <b>إضافة إلى الشاشة الرئيسية</b>."]]],
+  ios:[["iPhone / iPad","آيفون / آيباد"],[["Open the link in <b>Safari</b>.","افتح الرابط في <b>سفاري</b>."],["Tap the <b>Share</b> button ⬆️.","اضغط زرّ <b>المشاركة</b> ⬆️."],["Choose <b>Add to Home Screen</b>, then <b>Add</b>.","اختر <b>إضافة إلى الشاشة الرئيسية</b> ثم <b>إضافة</b>."]]],
+  pc:[["Computer (Windows, Mac)","حاسوب (ويندوز، ماك)"],[["Open the link in <b>Chrome</b> or <b>Edge</b>.","افتح الرابط في <b>كروم</b> أو <b>إيدج</b>."],["Click the install icon <b>⊕</b> at the right of the address bar.","انقر أيقونة التثبيت <b>⊕</b> يمين شريط العنوان."],["Click <b>Install</b>. The game opens in its own window.","انقر <b>تثبيت</b>. تُفتح اللعبة في نافذة خاصة بها."]]]};
+ const block=k=>`<details class="gstep" ${k===dev?"open":""}><summary>${k===dev?'<span class="you">'+bi("Your device","جهازك")+'</span>':""}${bi(steps[k][0][0],steps[k][0][1])}</summary><ol>${steps[k][1].map(x=>`<li>${bi(x[0],x[1])}</li>`).join("")}</ol></details>`;
+ const el=document.createElement("div");el.className="sheet";el.setAttribute("role","dialog");el.setAttribute("aria-modal","true");
+ el.innerHTML=`<div class="sheetcard setcard getcard"><h3>${bi("Get The Golden Dinar","حمّل الدينار الذهبي")}</h3>
+  <p class="small">${bi("Free, no app store needed. It installs straight from this link and works like an app.","مجاني ودون متجر تطبيقات. يُثبَّت مباشرة من هذا الرابط ويعمل كتطبيق.")}</p>
+  ${standalone?`<p class="gok">${bi("✓ The app is already installed on this device.","✓ التطبيق مثبَّت على هذا الجهاز.")}</p>`:window.__installEvt?`<button class="btn" id="gInstall">${bi("Install now","ثبّت الآن")}</button>`:""}
+  <div class="glink"><code>${SITE}</code></div>
+  <div class="row"><button class="btn" id="gShare">${bi("Share the link","شارك الرابط")}</button><button class="btn ghost" id="gCopy">${bi("Copy link","انسخ الرابط")}</button></div>
+  <div class="gqr" id="gQr" hidden><div class="qrbox"></div><span class="small">${bi("Scan with a phone camera","امسحه بكاميرا الهاتف")}</span></div>
+  <h4>${bi("How to install","طريقة التثبيت")}</h4>
+  ${[dev,...["android","ios","pc"].filter(k=>k!==dev)].map(block).join("")}
+  <div class="row"><button class="btn ghost" id="gClose">${bi("Close","إغلاق")}</button></div></div>`;
+ document.body.appendChild(el);
+ const close=()=>{el.remove();S.sheetStay=null};S.sheetStay=close;
+ el.addEventListener("click",e=>{if(e.target===el)close()});el.querySelector("#gClose").onclick=close;
+ const ib=el.querySelector("#gInstall");if(ib)ib.onclick=async()=>{try{window.__installEvt.prompt();await window.__installEvt.userChoice}catch(e){}window.__installEvt=null;close()};
+ const msg="The Golden Dinar – الدينار الذهبي: a free quiz game on the history of Tunisia, in English and Arabic. ";
+ const copy=async()=>{try{await navigator.clipboard.writeText(SITE)}catch(e){const t=document.createElement("textarea");t.value=SITE;document.body.appendChild(t);t.select();try{document.execCommand("copy")}catch(_){}t.remove()}toast(bi("Link copied!","تمّ نسخ الرابط!"),"🔗")};
+ el.querySelector("#gCopy").onclick=()=>{sfx.click();copy()};
+ el.querySelector("#gShare").onclick=async()=>{sfx.click();if(navigator.share){try{await navigator.share({title:"The Golden Dinar",text:msg,url:SITE})}catch(e){}}else copy()};
+ if(dev==="pc"){const show=()=>{try{const q=qrcode(0,"M");q.addData(SITE);q.make();const box=el.querySelector(".qrbox");box.innerHTML=q.createSvgTag({cellSize:4,margin:2,scalable:true});el.querySelector("#gQr").hidden=false}catch(e){}};
+  if(window.qrcode)show();else{const sc=document.createElement("script");sc.src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js";sc.onload=show;document.head.appendChild(sc)}}
+ el.querySelector("#gShare").focus()}
 
 /* ================= certificate ================= */
 function renderCert(){S.screen="cert";musicLevel(.4);
@@ -2597,6 +2648,7 @@ function renderMap(){
   <p class="ar" lang="ar">اختر تحديًا. أجب بسرعة لتنال <b>مكافأة السرعة</b>، وحافظ على <b>السلسلة</b> لتضاعف ذهبك، وأنهِ التحدي دون خطأ لتفوز بـ<b>الدينار الذهبي</b>.</p></div>
   <button class="daily ${dailyDone()?"done":""}" id="daily">${FLAME}<span class="dt"><strong>${bi("Daily Challenge","تحدي اليوم")}</strong><span class="small" style="color:inherit">${dailyDone()?bi("Done for today. Come back tomorrow!","أنجزته اليوم. عد غدًا!"):bi("5 questions · +30 bonus dinars","5 أسئلة · مكافأة 30 دينارًا")}</span></span><span class="dstreak">${FLAME}${S.daily.streak||0}</span></button>
     <div class="journey"><div class="mapcol"><div class="colhead"><strong>${bi("Cities of Tunisia","مدن تونس")}</strong><span class="small">${bi("Tap a city for its quiz","اضغط على مدينة لتبدأ اختبارها")}</span></div><div class="mapcard">${mapSVG()}</div></div>${cityList()}</div>
+  <button class="getapp" id="getApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M4 19h16"/></svg><span class="ga-t"><strong>${bi("Get the app","حمّل التطبيق")}</strong><span class="small">${bi("Phone & computer · free · share with friends","هاتف وحاسوب · مجانًا · شاركه مع أصدقائك")}</span></span><span class="ga-go">${bi("Install","تثبيت")}</span></button>
   <div class="quick two"><button class="qk" id="qAch">${SEAL("#e0ac45","#0b1f3a")}<span>${bi("Achievements","الإنجازات")}</span></button><button class="qk" id="bank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5c3-1.5 6-1.5 10 1 4-2.5 7-2.5 10-1v14c-3-1.5-6-1.5-10 1-4-2.5-7-2.5-10-1z"/><path d="M12 6v14"/></svg><span>Word Bank · ${Object.keys(S.bank).length}/${GLOSS.length}</span></button></div>
   <div class="sect"><h3 class="en">The Eras</h3><span class="ar">الحقب التاريخية</span></div>
   <div class="tiles">${ALL.map((c,i)=>c.kind==="era"?tile(c,i):"").join("")}</div>
@@ -2618,6 +2670,7 @@ function renderMap(){
   app.querySelectorAll(".qitem").forEach(b=>b.onclick=()=>{sfx.click();startCh(+b.dataset.i)});
   app.querySelectorAll(".cchip").forEach(b=>{b.onclick=()=>{sfx.click();startCity(b.dataset.city)};const hl=on=>app.querySelectorAll(`[data-city="${b.dataset.city}"]`).forEach(x=>x.classList.toggle("hl",on));b.addEventListener("mouseenter",()=>hl(true));b.addEventListener("mouseleave",()=>hl(false));b.addEventListener("focus",()=>hl(true));b.addEventListener("blur",()=>hl(false))});
   app.querySelectorAll(".pin.city").forEach(g=>{const go=()=>{sfx.click();startCity(g.dataset.city)};g.onclick=go;g.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go()}}});
+  document.getElementById("getApp").onclick=()=>{sfx.click();openGetApp()};
   document.getElementById("qAch").onclick=()=>{sfx.click();nav(renderAch)};
 }
 
