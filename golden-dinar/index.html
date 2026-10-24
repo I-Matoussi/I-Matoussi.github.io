@@ -392,6 +392,37 @@ body.only-ar .beybub{right:auto;left:62%;border-radius:18px 18px 18px 4px;transf
 body.only-ar .bey.exit-happy{animation-name:beyOutHappyR}
 @keyframes beyOutHappyR{0%{transform:translateY(0) rotate(0);opacity:1}35%{transform:translate(14px,-70px) rotate(12deg)}100%{transform:translate(-140%,-30px) rotate(-40deg);opacity:0}}
 @media (prefers-reduced-motion:reduce){.bey,.bey *{animation-duration:.01s!important;animation-iteration-count:1!important}}
+
+/* photos shown whole, over a blurred copy of themselves */
+.photo img.bgblur{object-fit:cover;filter:blur(16px) brightness(.5) saturate(1.2);transform:scale(1.25)!important;animation:none!important;opacity:1}
+.photo img.main{object-fit:contain;animation:kenSoft 22s ease-in-out infinite alternate}
+.tile .photo img.main{animation:none;transform:none}
+.tile:hover .photo img.main,.tile:focus-visible .photo img.main{transform:scale(1.04)}
+@keyframes kenSoft{from{transform:scale(1)}to{transform:scale(1.05)}}
+/* opening: the Bey tossing coins */
+.beystage{position:relative;display:flex;flex-direction:column;align-items:center;cursor:pointer;margin-top:4px;outline:none}
+.beystage .beyfig{position:relative;width:clamp(150px,34vw,210px);animation:beyArrive .9s cubic-bezier(.3,1.6,.5,1) both}
+.beystage .beyfig>svg{width:100%;height:auto;display:block;filter:drop-shadow(0 14px 22px rgba(0,0,0,.5))}
+.beystage .b-arm-r{transform-box:fill-box;transform-origin:0% 100%;animation:tossArm 1.6s ease-in-out .9s infinite}
+.beystage .b-tassel{transform-box:fill-box;transform-origin:0% 0%;animation:beyTassel .8s ease-in-out infinite alternate}
+.beystage .b-head{transform-box:fill-box;transform-origin:50% 90%;animation:nod 3.2s ease-in-out 1s infinite}
+.beystage.wave .beyfig>svg{animation:beyJump .35s ease-in-out 4 alternate}
+.tcoin{position:absolute;left:80%;top:42%;width:22px;height:22px;opacity:0;animation:toss 1.6s cubic-bezier(.25,.6,.45,1) infinite;pointer-events:none}
+.tcoin svg{width:100%;height:100%;animation:coinSpin .5s linear infinite}
+.tcoin.c0{animation-delay:1.05s;--tx:-150px;--ty:-150px}.tcoin.c1{animation-delay:1.3s;--tx:-60px;--ty:-190px}.tcoin.c2{animation-delay:1.55s;--tx:40px;--ty:-170px}
+.tcoin.c3{animation-delay:1.85s;--tx:-210px;--ty:-110px}.tcoin.c4{animation-delay:2.1s;--tx:90px;--ty:-120px}.tcoin.c5{animation-delay:2.35s;--tx:-110px;--ty:-210px}
+.beybub.big{position:relative;inset:auto;transform:none;max-width:min(92vw,420px);white-space:normal;font-size:clamp(1rem,3.6vw,1.2rem);line-height:1.35;padding:12px 18px;margin-bottom:6px;border-radius:18px;animation:bubPopIn .5s cubic-bezier(.3,1.8,.5,1) .7s both;display:flex;flex-direction:column;gap:4px}
+.beybub.big::after{content:"";position:absolute;left:50%;bottom:-12px;margin-left:-10px;border:10px solid transparent;border-top-color:#e0ac45;border-bottom:0}
+.beybub.big .ar{font-family:var(--arabic);font-size:1.1em;margin:0!important}
+html body.only-en:not(.peek) .beystage .beybub.big .ar,html body.only-ar:not(.peek) .beystage .beybub.big .en,html body .beystage .beybub.big .en,html body .beystage .beybub.big .ar{display:block!important}
+.tcoin{width:30px!important;height:30px!important}
+@keyframes bubPopIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes beyArrive{from{transform:translateY(60px) scale(.6);opacity:0}to{transform:none;opacity:1}}
+@keyframes tossArm{0%,100%{transform:rotate(0)}20%{transform:rotate(22deg)}35%{transform:rotate(-26deg)}55%{transform:rotate(0)}}
+@keyframes nod{0%,100%{transform:rotate(0)}50%{transform:rotate(-4deg)}}
+@keyframes toss{0%{opacity:0;transform:translate(0,0) scale(.6)}10%{opacity:1}55%{transform:translate(calc(var(--tx)*.55),var(--ty)) scale(1)}100%{opacity:0;transform:translate(var(--tx),40px) scale(.8)}}
+@keyframes coinSpin{from{transform:scaleX(1)}50%{transform:scaleX(.15)}to{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){.tcoin{display:none}}
 /* Arabic version: no English vocabulary/grammar boxes */
 body.only-ar .learn{display:none!important}
 /* navigation */
@@ -1963,7 +1994,7 @@ const CH_PH={carthage:["dido","antonine","zama","eljem","dougga"],kairouan:["kai
 const REVEAL=[[/Ibn Khaldun|Muqaddimah/,"khaldun"],[/Hannibal|Hamilcar/,"hannibal"],[/Chebbi|anthem/,"chebbi"],[/Khayr al-Din|Sadiki|Aqwam/,"khayr"],[/Ahmad Bey|slavery/,"ahmadbey"],[/Hached|UGTT/,"hachedbust"],[/Bourguiba|Neo-Destour|Monastir/,"bourguiba"],[/Elissa|Carthage founded/,"dido"],[/Zama|Massinissa|Syphax/,"zama"],[/Thysdrus|El Jem|Gordian/,"eljem"],[/Sufetula|Sbeitla/,"sbeitla"],[/Kairouan|Uqba/,"kairouan"],[/Mahdia|Fatimid/,"mahdia"],[/Aghlabid|Sicily|Asad/,"ribat"],[/Louis IX/,"louis"],[/Charles V/,"tunis1535"],[/Mudawwana|Sahnun|Blue/,"bluequran"],[/Zitouna|Ben Achour/,"zitouna"],[/Bardo|Sadiq/,"bardo"],[/1938|Martyrs|Belhouane/,"theatre"],[/Bouazizi|Ben Ali|2011|Quartet/,"jan2011"],[/Independence|republic|Bizerte|Personal Status|Essebsi/i,"avenue"],[/Ottoman|Husain|Hammuda|Moncef|Lamine|bey/i,"throne"],[/Vandal|Genseric|Belisarius|Rome destroy|Tertullian/,"antonine"]];
 
 function photoHTML(key,scene,opts={}){const p=P[key];
- return `<div class="photo ${opts.cls||""}">${scene?`<div class="svgfb">${placeholder(opts.label||"")}</div>`:""}${p?`<img alt="${p[1]}" src="${WM(p[0])}" ${opts.lazy?'loading="lazy"':""} decoding="async" onload="this.classList.add('in');this.parentNode.classList.add('ok')" onerror="${opts.removeOnFail?"this.parentNode.remove()":"this.remove()"}">`:""}<span class="sheen"></span>${opts.chip?`<span class="chip-era">${opts.chip}</span>`:""}${p&&opts.cap!==false?`<span class="cap"><span class="tag">${plateTag(p[1])}</span>${bi(p[1],p[2])}</span>`:""}</div>`}
+ return `<div class="photo ${opts.cls||""}">${scene?`<div class="svgfb">${placeholder(opts.label||"")}</div>`:""}${p?`<img class="bgblur" alt="" aria-hidden="true" src="${WM(p[0])}" ${opts.lazy?'loading="lazy"':""} decoding="async" onerror="this.remove()"><img class="main" alt="${p[1]}" src="${WM(p[0])}" ${opts.lazy?'loading="lazy"':""} decoding="async" onload="this.classList.add('in');this.parentNode.classList.add('ok')" onerror="${opts.removeOnFail?"this.parentNode.remove()":"this.remove()"}">`:""}<span class="sheen"></span>${opts.chip?`<span class="chip-era">${opts.chip}</span>`:""}${p&&opts.cap!==false?`<span class="cap"><span class="tag">${plateTag(p[1])}</span>${bi(p[1],p[2])}</span>`:""}</div>`}
 function revealKey(q){const t=[q.q,q.a?q.a[0]:"",q.items?q.items.map(i=>i[0]).join(" "):""].join(" ");const r=REVEAL.find(([re])=>re.test(t));return r?r[1]:null}
 
 /* ================= more photos ================= */
@@ -2507,7 +2538,10 @@ function renderSplash(){
  app.innerHTML=header()+`<section class="splash frame">
   <div class="slides"><div class="svgfb">${placeholder("")}</div>${slides.map((k,i)=>`<img alt="${P[k][1]}" src="${WM(P[k][0])}" decoding="async" style="animation-delay:${i*-4.8}s,0s" onerror="this.remove()">`).join("")}</div>
   <div class="splash-in">
-   <svg class="medallion" viewBox="0 0 100 100" aria-hidden="true">${star8(50,50,46,"#e0ac45")}${star8(50,50,30,"#0b1f3a")}<circle cx="50" cy="50" r="14" fill="#f6d27a"/></svg>
+   <div class="beystage" id="beyStage" role="button" tabindex="0" aria-label="The Bey says welcome">
+    <div class="beybub big"><span class="en">I'm the Bey! Welcome to <b>The Golden Dinar</b> game!</span><span class="ar" lang="ar" dir="rtl">أنا الباي! مرحبًا بكم في لعبة <b>الدينار الذهبي</b>!</span></div>
+    <div class="beyfig">${BEY_SVG}${[0,1,2,3,4,5].map(k=>`<span class="tcoin c${k}"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="9" fill="#f6d27a" stroke="#9c6c1d" stroke-width="1.5"/><circle cx="10" cy="10" r="6" fill="none" stroke="#c99a3a" stroke-width="1"/><path d="M10 5.5l1.3 3 3.2.3-2.4 2.1.7 3.1L10 12.4 7.2 14l.7-3.1-2.4-2.1 3.2-.3z" fill="#c99a3a"/></svg></span>`).join("")}</div>
+   </div>
    <h1>The Golden Dinar</h1><div class="ruq">الدينار الذهبي</div>
    <p class="en">3,000 years of Tunisian history in ${ALL.length} quests and ${TOTAL_Q} questions. Win gold, collect medals, learn English words and grammar, and become the Heir of Elissa.</p>
    <p class="ar" lang="ar">3000 سنة من تاريخ تونس في ${ALL.length} تحديات و${TOTAL_Q} سؤالًا. اربح الذهب، واجمع الأوسمة، وتعلّم كلمات الإنجليزية وقواعدها، وكن وريث عليسة.</p>
@@ -2516,7 +2550,8 @@ function renderSplash(){
    <span class="small en">Tap to start the music, coins and applause.</span><span class="small ar" lang="ar">اضغط لتبدأ الموسيقى ورنين الذهب والتصفيق.</span>
   </div></section>`;
  wireHeader();
- document.getElementById("go").onclick=()=>{sfx.cash();MUS.level=.5;startMusic();if(S.pendingTeacher){const t=S.pendingTeacher;S.pendingTeacher=null;startTeacher(t.c.id,t.n)}else goMap()};
+ const st=document.getElementById("beyStage");const hello=()=>{sfx.cash();beyWelcome()};st.onclick=hello;st.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();hello()}};
+ document.getElementById("go").onclick=()=>{sfx.cash();window.__beyGreeted=true;beyWelcome();MUS.level=.5;startMusic();if(S.pendingTeacher){const t=S.pendingTeacher;S.pendingTeacher=null;startTeacher(t.c.id,t.n)}else goMap()};
 }
 
 /* ================= map ================= */
@@ -2771,8 +2806,17 @@ const BEY_SVG=`<svg viewBox="0 0 200 250" aria-hidden="true">
 const BEY_YES=[["Bravo!","برافو!"],["Excellent!","ممتاز!"],["Magnificent!","رائع!"],["Well done!","يعطيك الصحة!"],["Splendid!","عظيم!"]];
 const BEY_NO=[["Oh no!","يا خسارة!"],["Not quite!","ليس تمامًا!"],["Next time!","المرّة القادمة!"]];
 let beyT1=null,beyT2=null;
-function beySay(txt,lang){try{if(!SND.on||!("speechSynthesis" in window))return;const v=speechSynthesis.getVoices();const want=lang==="ar"?"ar":"en";const voice=v.find(x=>x.lang&&x.lang.toLowerCase().startsWith(want));if(want==="ar"&&!voice)return;
- speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang=voice?voice.lang:(want==="ar"?"ar-SA":"en-GB");if(voice)u.voice=voice;u.rate=1.05;u.pitch=.75;u.volume=.9;speechSynthesis.speak(u)}catch(e){}}
+const MALE=/\b(male|man)\b|david|mark|george|daniel|guy|ryan|thomas|james|fred|alex|arthur|oliver|rishi|aaron|gordon|lee|bruce|ralph|brian|eric|christopher|roger|steffan|william|naayf|hamed|maged|shakir|bassel|omar|tarik|zayd|hamdan|fahed|moaz|jamal|rami|taim|saleh|hedi|hamza/i;
+const FEMALE=/female|woman|zira|hazel|susan|samantha|victoria|karen|moira|tessa|fiona|serena|kate|libby|sonia|aria|jenny|emma|amy|salma|zariyah|laila|hoda|mona|amal|fatima|sana|layla|reem|iman|shakir_f/i;
+function pickVoice(want){if(!("speechSynthesis" in window))return null;const v=speechSynthesis.getVoices().filter(x=>x.lang&&x.lang.toLowerCase().startsWith(want));if(!v.length)return null;
+ return v.find(x=>MALE.test(x.name)&&!FEMALE.test(x.name)&&/en-GB|ar-TN|ar-SA/i.test(x.lang))||v.find(x=>MALE.test(x.name)&&!FEMALE.test(x.name))||v.find(x=>!FEMALE.test(x.name))||v[0]}
+try{speechSynthesis.getVoices();speechSynthesis.addEventListener&&speechSynthesis.addEventListener("voiceschanged",()=>speechSynthesis.getVoices())}catch(e){}
+function beySay(txt,lang,queue){try{if(!SND.on||!("speechSynthesis" in window))return;const want=lang==="ar"?"ar":"en";const voice=pickVoice(want);if(want==="ar"&&!voice)return;
+ if(!queue)speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang=voice?voice.lang:"en-GB";if(voice)u.voice=voice;
+ const maleVoice=voice&&MALE.test(voice.name)&&!FEMALE.test(voice.name);u.pitch=maleVoice?.7:.25;u.rate=.92;u.volume=1;speechSynthesis.speak(u)}catch(e){}}
+function beyWelcome(){const st=document.getElementById("beyStage");if(st){st.classList.remove("wave");void st.offsetWidth;st.classList.add("wave")}
+ if(S.bey===false)return;const en="I'm the Bey! Welcome to the Golden Dinar game!",ar="أنا الباي! مرحبًا بكم في لعبة الدينار الذهبي!";
+ if(S.lang==="ar"){beySay(ar,"ar");beySay(en,"en",true)}else{beySay(en,"en");beySay(ar,"ar",true)}}
 function beyReact(ok){if(S.bey===false)return;
  let el=document.getElementById("bey");if(!el){el=document.createElement("div");el.id="bey";el.className="bey";el.innerHTML=`<div class="beybub"></div>${BEY_SVG}`;document.body.appendChild(el)}
  clearTimeout(beyT1);clearTimeout(beyT2);
