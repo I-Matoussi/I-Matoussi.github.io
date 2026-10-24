@@ -476,6 +476,57 @@ html body.only-en:not(.peek) .beystage .beybub.big .ar,html body.only-ar:not(.pe
  .hpetal{display:none}}
 @keyframes htitleM{to{transform:translateX(-50%) scale(1)}}
 @media (prefers-reduced-motion:reduce){.hanscene *{animation:none!important}.hpetal{display:none}}
+
+/* ===== Symbols of Carthage ===== */
+.mosaic{height:24px!important;opacity:1!important;border-radius:4px;border-top:1px solid #e0ac45;border-bottom:1px solid #e0ac45;background:linear-gradient(90deg,#3a0824,#6b1240 50%,#3a0824)!important;position:relative;overflow:hidden}
+.mosaic::before{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2796%27%20height%3D%2722%27%20viewBox%3D%270%200%2096%2022%27%3E%3Cg%20fill%3D%27%23e0ac45%27%3E%3Ccircle%20cx%3D%2712%27%20cy%3D%275%27%20r%3D%272.4%27/%3E%3Cpath%20d%3D%27M5%206.6h1.4v2.2h11.2V6.6H19v3.6H5z%27/%3E%3Cpath%20d%3D%27M12%2010.6%206.4%2019h11.2z%27/%3E%3Crect%20x%3D%275%27%20y%3D%2719%27%20width%3D%2714%27%20height%3D%271.4%27/%3E%3Ccircle%20cx%3D%2728%27%20cy%3D%2711%27%20r%3D%271.2%27/%3E%3Cpath%20d%3D%27M37%209A7%207%200%200%201%2051%209A6%204.6%200%200%200%2037%209z%27/%3E%3Ccircle%20cx%3D%2744%27%20cy%3D%2714.2%27%20r%3D%274%27/%3E%3Ccircle%20cx%3D%2760%27%20cy%3D%2711%27%20r%3D%271.2%27/%3E%3Ccircle%20cx%3D%2792%27%20cy%3D%2711%27%20r%3D%271.2%27/%3E%3C/g%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%23e0ac45%27%20stroke-linecap%3D%27round%27%3E%3Cpath%20d%3D%27M76%2020%20Q77%2014%2076%207%27%20stroke-width%3D%271.4%27/%3E%3Cpath%20d%3D%27M76%207%20Q72%205%2069%208%20M76%207%20Q73%202%2070%202%20M76%207%20Q78%202%2082%202%20M76%207%20Q80%205%2083%208%27%20stroke-width%3D%271.2%27/%3E%3C/g%3E%3C/svg%3E") repeat-x 0 50%/96px 22px;animation:frieze 40s linear infinite}
+@keyframes frieze{to{background-position:-960px 50%}}
+.pun{width:1em;height:1em;display:inline-block;vertical-align:-.15em;overflow:visible}
+.pun .pg,.pun .pinkf{fill:currentColor}.pun .pink{stroke:currentColor}
+.pun-horse{color:#4a0f2e}.pun-horse .pcoin{fill:#e6b552;stroke:#9c6c1d;stroke-width:1.2}.pun-horse .pring{stroke:#9c6c1d;stroke-width:1}.pun-horse .pbead{fill:#9c6c1d}
+.pun-elephant .pear{fill:currentColor;fill-opacity:.55;stroke:#081a33;stroke-opacity:.5}.pun-elephant .ptusk{stroke:#fffaf0}.pun-elephant .peye{fill:#081a33}
+.pun-stela .pstone{fill:currentColor;fill-opacity:.14}.pun-stela .pshine{stroke:#fff}
+.pun-purple .pcloth{fill:#6b1240}.pun-purple .pgoldband{fill:#e0ac45}
+.pun-standard .prib{stroke:#a3245a}
+.pun-crescent .prays{stroke:currentColor;transform-box:view-box;transform-origin:32px 40px;animation:pspin 16s linear infinite}
+.pun-crescent .pd{animation:pglow 2.6s ease-in-out infinite alternate}
+.pun-tanit .pg{animation:pglow 3s ease-in-out infinite alternate}
+.pun-horse .pfronds{transform-box:view-box;transform-origin:20px 18px;animation:psway 2.4s ease-in-out infinite alternate}
+.pun-horse .phorse{transform-box:view-box;transform-origin:30px 52px;animation:pprance 3.2s ease-in-out infinite}
+.pun-elephant .pl{transform-box:fill-box;transform-origin:50% 0}.pun-elephant .pl.a{animation:pleg .45s ease-in-out infinite alternate}.pun-elephant .pl.b{animation:pleg .45s ease-in-out infinite alternate-reverse}
+.pun-elephant .ptrunk{transform-box:fill-box;transform-origin:0 0;animation:psway 1.6s ease-in-out infinite alternate}
+.pun-standard .prib{transform-box:fill-box;transform-origin:50% 0;animation:prib 1.1s ease-in-out infinite alternate}.pun-standard .prib.r2{animation-direction:alternate-reverse}
+.pun-stela .pshine{animation:pshine 4.5s ease-in-out infinite}
+.pun-baal>g{transform-box:view-box;transform-origin:32px 58px;animation:pbreath 3.4s ease-in-out infinite alternate}
+.pun-purple .pcloth{transform-box:fill-box;transform-origin:50% 0;animation:pcloth 2.6s ease-in-out infinite alternate}
+@keyframes pspin{to{transform:rotate(360deg)}}
+@keyframes pglow{from{filter:drop-shadow(0 0 0 rgba(246,210,122,0))}to{filter:drop-shadow(0 0 3px rgba(246,210,122,.9))}}
+@keyframes psway{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
+@keyframes pprance{0%,70%,100%{transform:none}80%{transform:rotate(-4deg) translateY(-1px)}90%{transform:rotate(2deg)}}
+@keyframes pleg{from{transform:rotate(-10deg)}to{transform:rotate(10deg)}}
+@keyframes prib{from{transform:skewX(-8deg)}to{transform:skewX(8deg)}}
+@keyframes pshine{0%,60%{opacity:0;transform:translateX(-20px)}75%{opacity:.35}100%{opacity:0;transform:translateX(20px)}}
+@keyframes pbreath{from{transform:scale(1)}to{transform:scale(1.03)}}
+@keyframes pcloth{from{transform:skewX(-2deg)}to{transform:skewX(2deg)}}
+.sico{display:inline-flex;width:1.15em;height:1.15em;margin-inline-end:.4em;color:#e0ac45;vertical-align:-.2em}.sico .pun{width:100%;height:100%}
+.chip-era .sico{width:1.5em;height:1.5em;vertical-align:-.45em;margin-inline-end:.35em}
+.streak .sico{color:#f6d27a}
+.bars{position:relative;padding-top:4px}
+.pmarker{position:absolute;top:-22px;width:28px;height:28px;color:#e0ac45;transform:translateX(-30%);transition:left .6s cubic-bezier(.3,1.3,.5,1);pointer-events:none;filter:drop-shadow(0 2px 3px rgba(0,0,0,.45))}
+.pmarker .pun{width:100%;height:100%}
+.qhead{margin-bottom:14px}
+.medalwrap{position:relative}
+.rstela{position:absolute;top:50%;width:64px;height:64px;color:#e0ac45;transform:translateY(-50%);opacity:.9}.rstela .pun{width:100%;height:100%}.rstela.l{left:calc(50% - 150px)}.rstela.r{right:calc(50% - 150px)}
+.punintro{margin:6px 0 10px;color:var(--sand-dim)}
+.pungrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,170px),1fr));gap:12px}
+.puncard{margin:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:16px 12px 14px;border-radius:14px;background:linear-gradient(180deg,rgba(107,18,64,.35),var(--lapis-2) 60%);border:1px solid rgba(224,172,69,.35);border-top:3px solid #e0ac45;animation:rise .6s both}
+.puncard .punic-ico{width:62px;height:62px;color:#e0ac45;display:grid;place-items:center}.puncard .punic-ico .pun{width:100%;height:100%}
+.puncard strong{font-family:var(--display);font-weight:400;font-size:1.02rem;color:var(--gold-hi);display:flex;flex-direction:column}
+.puncard strong .ar{font-family:var(--arabic);margin:0!important}
+.puncard figcaption{display:flex;flex-direction:column;gap:6px}
+.puncard .small .ar{margin:0!important}
+.phold .pun{width:60px;height:60px;opacity:.7}
+@media (prefers-reduced-motion:reduce){.pun *,.mosaic::before{animation:none!important}}
 /* Arabic version: no English vocabulary/grammar boxes */
 body.only-ar .learn{display:none!important}
 /* navigation */
@@ -2332,7 +2383,7 @@ function placeholder(label){const id="z"+Math.random().toString(36).slice(2,7);
  return `<svg viewBox="0 0 320 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14325a"/><stop offset="1" stop-color="#081a33"/></linearGradient>
  <pattern id="${id}p" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M20 2 25 15 38 20 25 25 20 38 15 25 2 20 15 15Z" fill="none" stroke="#e0ac45" stroke-opacity=".22" stroke-width="1"/><circle cx="20" cy="20" r="3" fill="none" stroke="#e0ac45" stroke-opacity=".18"/></pattern></defs>
  <rect width="320" height="160" fill="url(#${id}g)"/><rect width="320" height="160" fill="url(#${id}p)"/>
- <g transform="translate(160 72)" fill="none" stroke="#e0ac45" stroke-opacity=".55" stroke-width="1.4"><path d="M0-30 9-9 30 0 9 9 0 30-9 9-30 0-9-9Z"/><path d="M-21-21 0-12 21-21 12 0 21 21 0 12-21 21-12 0Z"/><circle r="6"/></g>
+ ${PUNIC_RE.test(label)?`<g transform="translate(130 38)" class="phold" style="color:#e0ac45">${PUN.tanit.replace('<svg','<svg width="60" height="60"')}</g>`:`<g transform="translate(160 72)" fill="none" stroke="#e0ac45" stroke-opacity=".55" stroke-width="1.4"><path d="M0-30 9-9 30 0 9 9 0 30-9 9-30 0-9-9Z"/><path d="M-21-21 0-12 21-21 12 0 21 21 0 12-21 21-12 0Z"/><circle r="6"/></g>`}
  ${label?`<text x="160" y="132" text-anchor="middle" font-family="Marcellus,Georgia,serif" font-size="13" letter-spacing="3" fill="#f6d27a" fill-opacity=".8">${String(label).toUpperCase()}</text>`:""}</svg>`}
 function plateTag(cap){if(/Bardo/i.test(cap))return "Bardo National Museum";if(/1899|archive/i.test(cap))return "Archive photograph";if(/Turner|Cort|tapestr|Death of|conquest of Tunis|painting/i.test(cap))return "Painting";if(/mosaic/i.test(cap))return "Roman mosaic";if(/dinar|binding|Quran|folio/i.test(cap))return "Manuscripts & coins";if(/statue|bust|Portrait|Bey$|Bourguiba|Hached|Haddad|Thaalbi|Chebbi|Khayr|Hannibal/i.test(cap))return "Portrait";return "Monument";}
 
@@ -2363,7 +2414,7 @@ function checkAch(){ACH.forEach(([id,en,ar,d,f])=>{if(!S.ach[id]&&f()){S.ach[id]
 function renderAch(){S.screen="ach";musicLevel(.4);
  const got=ACH.filter(a=>S.ach[a[0]]).length;
  app.innerHTML=header()+`<div class="card frame"><div class="qbody">
-  <div class="sect"><h3 class="en">Achievements</h3><span class="ar">الإنجازات</span></div>
+  <div class="sect"><h3 class="en">${sico("stela")}Achievements</h3><span class="ar">الإنجازات</span></div>
   <p class="bankp">${bi(`You have unlocked <b>${got}</b> of <b>${ACH.length}</b> gold seals.`,`فتحت <b>${got}</b> من أصل <b>${ACH.length}</b> ختمًا ذهبيًا.`)}</p>
   <div class="progress"><i style="width:${got/ACH.length*100}%"></i></div>
   <div class="achgrid">${ACH.map(([id,en,ar,d])=>{const on=!!S.ach[id];return `<div class="ach ${on?"on":""}">${on?SEAL("#e0ac45","#0b1f3a"):SEAL("#1c3f6c","#3a5a86")}<div><strong class="en">${en}</strong><strong class="ar" lang="ar">${ar}</strong><span class="small">${d}</span></div></div>`}).join("")}</div>
@@ -2909,7 +2960,7 @@ const HAN_SVG=`<svg class="hanscene" viewBox="0 0 400 260" preserveAspectRatio="
  </g>
  <rect y="196" width="400" height="64" fill="#c99a5b"/><rect y="196" width="400" height="6" fill="#b0823f"/>
  <g class="h-banner-l"><path d="M24 196 V120" stroke="#5a3a1a" stroke-width="3"/><path class="h-flag" d="M26 122 Q48 116 66 124 Q48 132 26 140Z" fill="#7b2d8e"/><circle cx="44" cy="131" r="3.5" fill="#f6d27a"/></g>
- <g class="h-banner-r"><path d="M376 196 V120" stroke="#5a3a1a" stroke-width="3"/><path class="h-flag" d="M374 122 Q352 116 334 124 Q352 132 374 140Z" fill="#c8102e"/><path d="M354 126 l3 6 6 1-5 4 1 6-5-3-5 3 1-6-5-4 6-1z" fill="#f6d27a"/></g>
+ <g class="h-banner-r"><path d="M376 196 V112" stroke="#5a3a1a" stroke-width="3"/><g fill="#f6d27a" stroke="#9c6c1d" stroke-width=".8"><path d="M362 100A14 14 0 0 0 390 100A12 10 0 0 1 362 100z"/><circle cx="376" cy="102" r="5.5"/><rect x="370" y="111" width="12" height="3" rx="1.5"/></g><path class="h-flag" d="M372 114 Q364 126 368 138" fill="none" stroke="#7b2d8e" stroke-width="3.5" stroke-linecap="round"/><path class="h-flag" d="M380 114 Q388 126 384 138" fill="none" stroke="#7b2d8e" stroke-width="3.5" stroke-linecap="round"/></g>
  <g class="h-march">
   <ellipse cx="124" cy="203" rx="70" ry="7" fill="#000" opacity=".22"/>
   <g class="h-bob">
@@ -3013,6 +3064,43 @@ function hannibalTriumph(bonus){closeHannibal(true);const el=document.createElem
 function closeHannibal(now){clearTimeout(hanT);try{const o=window.__hanOut;if(o&&!now){o.gain.setTargetAtTime(0,SND.ctx.currentTime,.15)}}catch(e){}const el=document.querySelector(".hanover");if(!el)return;try{musicLevel(el._restore||.22)}catch(e){}
  if(now){el.remove();return}el.classList.add("out");setTimeout(()=>el.remove(),500)}
 
+/* ================= Symbols of Carthage (original emblems) ================= */
+const PUN={
+ tanit:`<svg class="pun pun-tanit" viewBox="0 0 64 64" aria-hidden="true"><g class="pg"><circle cx="32" cy="14" r="7"/><rect x="30" y="20" width="4" height="5"/><path d="M12 18h4v6h32v-6h4v10H12z"/><path d="M32 29 15 56h34z"/><rect x="10" y="56" width="44" height="4" rx="1"/></g></svg>`,
+ crescent:`<svg class="pun pun-crescent" viewBox="0 0 64 64" aria-hidden="true"><g class="pg"><path class="pc" d="M12 26A20 20 0 0 1 52 26A17 13 0 0 0 12 26z"/><circle class="pd" cx="32" cy="40" r="11"/><g class="prays" stroke-width="2" stroke-linecap="round">${Array.from({length:8},(_,k)=>{const a=k*Math.PI/4,x1=32+Math.cos(a)*14,y1=40+Math.sin(a)*14,x2=32+Math.cos(a)*18,y2=40+Math.sin(a)*18;return `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"/>`}).join("")}</g></g></svg>`,
+ horse:`<svg class="pun pun-horse" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" class="pcoin"/><circle cx="32" cy="32" r="26.5" fill="none" class="pring"/>${Array.from({length:28},(_,k)=>{const a=k*Math.PI/14;return `<circle cx="${(32+Math.cos(a)*28.3).toFixed(1)}" cy="${(32+Math.sin(a)*28.3).toFixed(1)}" r="1" class="pbead"/>`}).join("")}
+  <g class="ppalm" transform="translate(5 7) scale(.84)"><path d="M20 52 Q18 38 20 18" fill="none" stroke-width="2.6" stroke-linecap="round" class="pink"/><g class="pfronds" fill="none" stroke-width="2.2" stroke-linecap="round"><path class="pink" d="M20 18 Q12 15 8 20"/><path class="pink" d="M20 18 Q14 10 9 10"/><path class="pink" d="M20 18 Q21 9 27 8"/><path class="pink" d="M20 18 Q28 14 32 18"/><path class="pink" d="M20 18 Q12 21 11 27"/></g><path d="M18.5 21 l3 0 M18.5 27 l3 0 M18.5 33 l3 0 M18.5 39 l3 0 M18.5 45 l3 0" stroke-width="1" class="pink" opacity=".6"/></g>
+  <g class="phorse pinkf"><path d="M17 37 C17 32 22 30 28 30 L35 30 C38 30 40 28 41 25 L43 20 C44 18 47 18 48.5 20 L53 26 C54 28 52 29.5 50 28.5 L47 27 L45 32 C44 36 42 39 38 40 L21 40 C18 40 17 39 17 37Z"/>
+   <path d="M44.6 19.4 L45.8 14.6 L47.4 19.2Z"/><path d="M41 25 C39.5 22.5 41.5 19 44 18.6 L43 21Z" opacity=".75"/>
+   <path d="M18 33 C12 34 10.5 41 12.5 47 C14.5 43 16 39.5 19 37Z"/>
+   <path d="M20 39 L19 46 L20.5 53 L23 53 L22 46 L23.5 39Z"/><path d="M24.5 39 L25.5 46 L24 53 L26.5 53 L28 46 L27.5 39Z"/>
+   <path d="M35 39 L34.5 46 L35.5 53 L38 53 L37.5 46 L38 39Z"/><path d="M39 38 L41 45 L42 52.5 L44.5 52.5 L43.5 45 L41.5 37.5Z"/></g>
+  <path d="M12 54 H52" stroke-width="1.6" class="pink"/></svg>`,
+ elephant:`<svg class="pun pun-elephant" viewBox="0 0 64 64" aria-hidden="true"><g class="pinkf"><g class="pel-legs"><rect class="pl a" x="16" y="40" width="6" height="14" rx="2.5"/><rect class="pl b" x="24" y="40" width="6" height="14" rx="2.5"/><rect class="pl b" x="33" y="40" width="6" height="14" rx="2.5"/><rect class="pl a" x="41" y="40" width="6" height="14" rx="2.5"/></g>
+  <ellipse cx="30" cy="34" rx="17" ry="11"/><circle cx="46" cy="28" r="9"/><path class="ptrunk" d="M52 30 Q58 36 56 47 Q55 51 52 49 Q53 41 48 36z"/><path d="M13 32 Q8 36 9 43" fill="none" stroke-width="2.4" stroke-linecap="round" class="pink"/></g>
+  <ellipse cx="41" cy="29" rx="6" ry="8.5" class="pear"/><path d="M50 37 Q55 40 59 37" fill="none" stroke-width="2.4" stroke-linecap="round" class="ptusk"/><circle cx="48.5" cy="25.5" r="1.4" class="peye"/></svg>`,
+ baal:`<svg class="pun pun-baal" viewBox="0 0 64 64" aria-hidden="true"><g class="pinkf"><path d="M12 56V36q0-4 4-4h6l2 6v18z"/><path d="M14 33 Q10 22 18 18 Q16 26 22 32z" class="pwing"/><path d="M26 25 Q34 23 38 28 L42 48 L46 50 L46 55 L28 55 L28 46 Q24 40 26 25z"/><circle cx="32" cy="19" r="5"/><path d="M28.5 16 Q29 5 32 2 Q35 5 35.5 16z"/><path d="M34.5 21 Q37 26 34 29 Q33 25 32 23z"/><path d="M36 33 L45 27" stroke-width="3" stroke-linecap="round" class="pink"/><circle cx="46" cy="26.5" r="2.4"/><rect x="26" y="55" width="22" height="3" rx="1"/></g></svg>`,
+ stela:`<svg class="pun pun-stela" viewBox="0 0 64 64" aria-hidden="true"><path d="M17 60V18L32 4l15 14v42z" class="pstone"/><path d="M17 60V18L32 4l15 14v42z" fill="none" stroke-width="1.8" class="pink"/><g class="pinkf" transform="translate(23 9) scale(.28)"><path d="M12 26A20 20 0 0 1 52 26A17 13 0 0 0 12 26z"/><circle cx="32" cy="40" r="11"/></g>
+  <g class="pinkf" transform="translate(22 25) scale(.32)"><circle cx="32" cy="14" r="7"/><rect x="30" y="20" width="4" height="5"/><path d="M12 18h4v6h32v-6h4v10H12z"/><path d="M32 29 15 56h34z"/><rect x="10" y="56" width="44" height="4" rx="1"/></g><path d="M21 48h22M21 52h22M21 56h16" stroke-width="1.2" class="pink" opacity=".6"/><path class="pshine" d="M20 60 L44 10" stroke-width="6" opacity="0"/></svg>`,
+ standard:`<svg class="pun pun-standard" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 22V62" stroke-width="3" stroke-linecap="round" class="pink"/><g class="pinkf"><path d="M18 8A14 14 0 0 0 46 8A12 10 0 0 1 18 8z"/><circle cx="32" cy="10" r="5.5"/><rect x="26" y="21" width="12" height="3" rx="1.5"/></g>
+  <path class="prib r1" d="M28 24 Q22 34 26 44 Q22 50 24 56" fill="none" stroke-width="2.6" stroke-linecap="round"/><path class="prib r2" d="M36 24 Q42 34 38 44 Q42 50 40 56" fill="none" stroke-width="2.6" stroke-linecap="round"/></svg>`,
+ purple:`<svg class="pun pun-purple" viewBox="0 0 64 64" aria-hidden="true"><path class="pcloth" d="M10 10 Q32 4 54 10 L50 52 Q40 58 32 52 Q24 58 14 52z"/><path d="M10 10 Q32 4 54 10 L53 16 Q32 10 11 16z" class="pgoldband"/><path d="M14 52 Q24 58 32 52 Q40 58 50 52 L50 47 Q40 53 32 47 Q24 53 14 47z" class="pgoldband"/><path d="M22 18 Q24 34 20 50 M32 16 Q34 32 32 48 M42 18 Q40 34 44 50" fill="none" stroke="#2c0718" stroke-opacity=".5" stroke-width="1.4"/>${[16,24,32,40,48].map(x=>`<circle cx="${x}" cy="12.5" r="1.3" fill="#fff3c4"/>`).join("")}</svg>`
+};
+const PUN_INFO=[
+ ["tanit","Sign of Tanit","علامة تانيت","Religious identity and devotion; a military use is unproven.","رمز للهوية الدينية والتعبّد؛ استعماله العسكري غير مثبت."],
+ ["crescent","Crescent and solar disc","الهلال والقرص الشمسي","Punic religious imagery; its use on military standards is uncertain.","من الصور الدينية البونية؛ استعماله على الرايات العسكرية غير مؤكد."],
+ ["horse","Horse and palm tree","الحصان والنخلة","Well attested on Carthaginian coins; linked to Punic identity and power.","موثّق جيدًا على النقود القرطاجية؛ مرتبط بالهوية البونية وقوّتها."],
+ ["elephant","War elephant","فيل الحرب","A documented instrument of Carthaginian warfare and military strength.","أداة موثّقة في الحروب القرطاجية ورمز لقوّتها العسكرية."],
+ ["baal","Baal Hammon","بعل حمون","A major Carthaginian god, linked to religious offerings.","إله قرطاجي كبير ارتبط بالقرابين الدينية."],
+ ["stela","Votive stelae","الأنصاب النذرية","Archaeological evidence of religious dedications and rituals.","شواهد أثرية على النذور والطقوس الدينية."],
+ ["standard","Crescent-shaped standard","الراية الهلالية","Shown in Punic imagery, though its exact meaning remains uncertain.","تظهر في الأيقونات البونية، لكن تفسيرها الدقيق غير مؤكد."],
+ ["purple","Purple and gold clothing","الأرجواني والذهبي","Some literary evidence links them to elite status and military command.","تربطهما بعض الشواهد الأدبية بمكانة النخبة والقيادة العسكرية."]];
+const PUNIC_RE=/Carthage|Kerkouane|Dougga|Hannibal|Punic|قرطاج|كركوان/i;
+function sico(k){return `<span class="sico">${PUN[k]}</span>`}
+function punicGallery(){return `<div class="sect"><h3 class="en">${sico("crescent")}Symbols of Carthage</h3><span class="ar">رموز قرطاج</span></div>
+ <p class="small punintro">${bi("The emblems used in this game come from Punic coins, stelae and texts. Their meanings are not all certain, and historians still debate some of them.","الشعارات المستعملة في هذه اللعبة مأخوذة من النقود والأنصاب والنصوص البونية. ليست كل دلالاتها مؤكدة، وما زال المؤرخون يناقشون بعضها.")}</p>
+ <div class="pungrid">${PUN_INFO.map(([k,en,ar,nen,nar],i)=>`<figure class="puncard" style="animation-delay:${i*60}ms"><div class="punic-ico">${PUN[k]}</div><figcaption><strong>${bi(en,ar)}</strong><span class="small">${bi(nen,nar)}</span></figcaption></figure>`).join("")}</div>`}
+
 function beyAway(){const el=document.getElementById("bey");if(el){clearTimeout(beyT1);clearTimeout(beyT2);el.className="bey"}}
 
 /* ================= cities rubric ================= */
@@ -3040,9 +3128,9 @@ function renderMap(){
   app.innerHTML=header()+`
   <div class="intro"><p class="en">Choose a quest. Answer fast for a <b>speed bonus</b>, keep a <b>streak</b> to double your gold, and finish without a mistake to win its <b>Golden Dinar</b>.</p>
   <p class="ar" lang="ar">اختر تحديًا. أجب بسرعة لتنال <b>مكافأة السرعة</b>، وحافظ على <b>السلسلة</b> لتضاعف ذهبك، وأنهِ التحدي دون خطأ لتفوز بـ<b>الدينار الذهبي</b>.</p></div>
-  <div class="sect"><h3 class="en">The Eras</h3><span class="ar">الحقب التاريخية</span></div>
+  <div class="sect"><h3 class="en">${sico("standard")}The Eras</h3><span class="ar">الحقب التاريخية</span></div>
   <div class="tiles">${ALL.map((c,i)=>c.kind==="era"?tile(c,i):"").join("")}</div>
-  <div class="sect"><h3 class="en">Special Quests</h3><span class="ar">تحديات خاصة</span></div>
+  <div class="sect"><h3 class="en">${sico("tanit")}Special Quests</h3><span class="ar">تحديات خاصة</span></div>
   <div class="tiles">${ALL.map((c,i)=>c.kind==="special"?tile(c,i):"").join("")}${citiesTile()}</div>
   <button class="daily ${dailyDone()?"done":""}" id="daily">${FLAME}<span class="dt"><strong>${bi("Daily Challenge","تحدي اليوم")}</strong><span class="small" style="color:inherit">${dailyDone()?bi("Done for today. Come back tomorrow!","أنجزته اليوم. عد غدًا!"):bi("5 questions · +30 bonus dinars","5 أسئلة · مكافأة 30 دينارًا")}</span></span><span class="dstreak">${FLAME}${S.daily.streak||0}</span></button>
   <button class="getapp" id="getApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M4 19h16"/></svg><span class="ga-t"><strong>${bi("Get the app","حمّل التطبيق")}</strong><span class="small">${bi("Phone & computer · free · share with friends","هاتف وحاسوب · مجانًا · شاركه مع أصدقائك")}</span></span><span class="ga-go">${bi("Install","تثبيت")}</span></button>
@@ -3054,6 +3142,7 @@ function renderMap(){
    ${nr?`<span class="small">${bi(`${nr[0]-S.coins} dinars to <b>${nr[1]}</b>`,`${nr[0]-S.coins} دينارًا حتى لقب «${nr[2]}»`)}</span>`:`<span class="small">${bi("The highest title in the land","أعلى لقب في البلاد")}</span>`}
    <div class="statrow"><div class="stat"><b>${golds}/${ALL.length}</b><span class="small">${bi("Golden Dinars","دنانير ذهبية")}</span></div><div class="stat"><b>${S.stats.right}</b><span class="small">${bi("Right answers","إجابات صحيحة")}</span></div><div class="stat"><b>${S.stats.best}</b><span class="small">${bi("Best streak","أفضل سلسلة")}</span></div></div>
   </div>
+  ${punicGallery()}
   ${credits()}
   <footer><span class="en">Dates follow Perkins, Bessis, the <i>Histoire générale de la Tunisie</i> and the Arabic chronicles.</span><span class="ar" lang="ar">التواريخ وفق بيركنز وبسيس و«التاريخ العام لتونس» والحوليات العربية.</span></footer>`;
   wireHeader();
@@ -3096,8 +3185,8 @@ function sceneFor(q){const id=(S.cur.id==="mix"||S.cur.id==="daily")?chOf(q):S.c
 function renderQ(){
   S.screen="quiz";musicLevel(.22);
   const c=S.cur,q=S.list[S.qi],n=S.list.length;const [pk,scene]=sceneFor(q);
-  const head=`<div class="qhead"><span>${c.name} · ${S.qi+1} / ${n} <span class="lvl l${TIER(q)}">${bi(LVL[TIER(q)][0],LVL[TIER(q)][1])}</span></span><span class="streak">${S.streak>=2?bi("Streak ×"+S.streak,"سلسلة ×"+S.streak):""}</span></div>
-   <div class="bars"><div class="progress"><i style="width:${(S.qi/n)*100}%"></i></div>${S.answered?"":`<div class="timer"><i></i></div>`}</div>
+  const head=`<div class="qhead"><span>${c.name} · ${S.qi+1} / ${n} <span class="lvl l${TIER(q)}">${bi(LVL[TIER(q)][0],LVL[TIER(q)][1])}</span></span><span class="streak">${S.streak>=2?sico("standard")+bi("Streak ×"+S.streak,"سلسلة ×"+S.streak):""}</span></div>
+   <div class="bars"><span class="pmarker" style="left:${(S.qi/n)*100}%">${PUN.elephant}</span><div class="progress"><i style="width:${(S.qi/n)*100}%"></i></div>${S.answered?"":`<div class="timer"><i></i></div>`}</div>
    ${!q.eng&&S.lang!=="both"?`<button class="peekbtn" id="peek" aria-pressed="${document.body.classList.contains("peek")}">${S.lang==="en"?"عربي ⇄ Translate":"English ⇄ ترجمة"}</button>`:""}<div class="qtext"><h2 class="q ${q.eng?"":"en"}">${q.q}</h2>${q.qa?`<p class="q-ar ar" lang="ar">${q.qa}</p>`:""}</div>`;
   let body="";
   const anim=S.fresh;
@@ -3114,7 +3203,7 @@ function renderQ(){
   const canHint=!S.answered&&!S.hinted&&q.t==="mc"&&!q.tf&&S.coins>=15;
   const tools=S.answered?feedback(q):`<div class="tools">${q.t==="mc"?`<button class="hint" id="hint" ${canHint?"":"disabled"}>${q.eng?"<span>Ask Ibn Khaldun · remove 2 · 15 dinars</span>":'<span class="en">Ask Ibn Khaldun · remove 2 · 15 dinars</span><span class="ar" lang="ar">استشر ابن خلدون · احذف إجابتين · 15 دينارًا</span>'}</button>`:`<button class="btn" id="check" ${S.placed.length===q.items.length?"":"disabled"}>${q.build?"<span>Check my sentence</span>":'<span class="en">Check order</span><span class="ar" lang="ar">تحقّق من الترتيب</span>'}</button>`}<button class="btn ghost" id="quit"><span class="en">Map</span><span class="ar" lang="ar">الخريطة</span></button></div>`;
   const keepCard=!S.fresh&&document.querySelector(".card > .photo");
-  app.innerHTML=header()+`<div class="card frame" ${S.fresh?"":'style="animation:none"'}>${photoHTML(pk,scene,{chip:c.span,label:c.name})}<div class="qbody">${head}${body}${tools}</div></div>`;
+  app.innerHTML=header()+`<div class="card frame" ${S.fresh?"":'style="animation:none"'}>${photoHTML(pk,scene,{chip:(PUNIC_RE.test(c.name)?sico("horse"):"")+c.span,label:c.name})}<div class="qbody">${head}${body}${tools}</div></div>`;
   if(keepCard){const ph=app.querySelector(".card > .photo img");if(ph&&keepCard.classList.contains("ok")){ph.classList.add("in");ph.parentNode.classList.add("ok");ph.style.transition="none"}}
   S.fresh=false;
   wireHeader();
@@ -3186,7 +3275,7 @@ function renderResult(){
   const lines={gold:["A perfect quest. The treasury of the Bey is yours!","تحدٍّ كامل. خزينة الباي ملكك!"],silver:["Nearly flawless. The vizier is impressed, but the Bey wants perfection.","شبه كامل. الوزير معجب، لكن الباي يريد الكمال."],bronze:["A respectable start. The archives of Kairouan await your return.","بداية محترمة. خزائن القيروان تنتظر عودتك."],none:["Oh no... the chroniclers lost the scroll. Try again!","يا للخيبة... أضاع المؤرخون المخطوط. حاول من جديد!"]}[m||"none"];
   const nextI=normal&&c.kind!=="city"&&S.ch+1<ALL.length?S.ch+1:null;
   app.innerHTML=header()+`<div class="card frame result">
-   <div class="medalwrap">${m?'<div class="rays"></div>':""}<svg class="bigmedal" viewBox="0 0 100 100" role="img" aria-label="${m?ML[m][0]:"No medal"}"><defs><radialGradient id="mg" cx="35%" cy="30%"><stop offset="0" stop-color="${col[0]}"/><stop offset=".55" stop-color="${col[1]}"/><stop offset="1" stop-color="${col[2]}"/></radialGradient></defs><circle cx="50" cy="50" r="46" fill="url(#mg)" stroke="${col[2]}" stroke-width="3" ${m?"":'opacity=".35"'}/><circle cx="50" cy="50" r="36" fill="none" stroke="${col[2]}" stroke-width="1.5" stroke-dasharray="3 3"/><text x="50" y="50" text-anchor="middle" font-family="Aref Ruqaa,serif" font-size="17" fill="${col[2]}">تونس</text><text x="50" y="67" text-anchor="middle" font-family="Marcellus,serif" font-size="9" fill="${col[2]}">TUNIS</text></svg></div>
+   <div class="medalwrap">${PUNIC_RE.test(c.name)?`<span class="rstela l">${PUN.stela}</span><span class="rstela r">${PUN.stela}</span>`:""}${m?'<div class="rays"></div>':""}<svg class="bigmedal" viewBox="0 0 100 100" role="img" aria-label="${m?ML[m][0]:"No medal"}"><defs><radialGradient id="mg" cx="35%" cy="30%"><stop offset="0" stop-color="${col[0]}"/><stop offset=".55" stop-color="${col[1]}"/><stop offset="1" stop-color="${col[2]}"/></radialGradient></defs><circle cx="50" cy="50" r="46" fill="url(#mg)" stroke="${col[2]}" stroke-width="3" ${m?"":'opacity=".35"'}/><circle cx="50" cy="50" r="36" fill="none" stroke="${col[2]}" stroke-width="1.5" stroke-dasharray="3 3"/><text x="50" y="50" text-anchor="middle" font-family="Aref Ruqaa,serif" font-size="17" fill="${col[2]}">تونس</text><text x="50" y="67" text-anchor="middle" font-family="Marcellus,serif" font-size="9" fill="${col[2]}">TUNIS</text></svg></div>
    <h2 class="en">${m?ML[m][0]:"No medal yet"}</h2><div class="rank">${m?ML[m][1]:"لا وسام بعد"}</div>
    ${c.kind==="daily"?`<p class="dres">${FLAME} ${bi(`Daily streak: <b>${S.daily.streak||1}</b> · +30 bonus dinars`,`سلسلة الأيام: <b>${S.daily.streak||1}</b> · مكافأة 30 دينارًا`)}</p>`:""}<p>${bi(`${c.name}: <b>${S.score} / ${n}</b> correct, <b id="earnedEn">0</b> dinars earned${bonus?" (including a 50-dinar bonus)":""}.`,`${c.nameAr}: <b>${S.score} / ${n}</b> إجابات صحيحة، و<b id="earnedAr">0</b> دينارًا${bonus?" (منها مكافأة 50 دينارًا)":""}.`)}</p>
    <p>${bi(lines[0],lines[1])}</p>
