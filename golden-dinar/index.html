@@ -2915,11 +2915,29 @@ const FEMALE=/female|woman|zira|hazel|susan|samantha|victoria|karen|moira|tessa|
 function pickVoice(want){if(!("speechSynthesis" in window))return null;const v=speechSynthesis.getVoices().filter(x=>x.lang&&x.lang.toLowerCase().startsWith(want));if(!v.length)return null;
  return v.find(x=>MALE.test(x.name)&&!FEMALE.test(x.name)&&/en-GB|ar-TN|ar-SA/i.test(x.lang))||v.find(x=>MALE.test(x.name)&&!FEMALE.test(x.name))||v.find(x=>!FEMALE.test(x.name))||v[0]}
 try{speechSynthesis.getVoices();speechSynthesis.addEventListener&&speechSynthesis.addEventListener("voiceschanged",()=>speechSynthesis.getVoices())}catch(e){}
+/* the Bey's voice: deepest male voice, slow and loud, with a gravelly "vocal fry" rumble underneath */
+let growlNode=null,speaking=0;
+function growlStart(){const c=ac();if(!c||growlNode)return;const t=c.currentTime;
+ const out=c.createGain();out.gain.setValueAtTime(.0001,t);out.gain.exponentialRampToValueAtTime(.32,t+.08);out.connect(SND.master);
+ const src=c.createBufferSource();src.buffer=noiseBuf();src.loop=true;const bp=c.createBiquadFilter();bp.type="bandpass";bp.frequency.value=210;bp.Q.value=1.4;
+ const lp=c.createBiquadFilter();lp.type="lowpass";lp.frequency.value=520;
+ const am=c.createGain();am.gain.value=0;const fry=c.createOscillator();fry.type="square";fry.frequency.value=38;const fryAmt=c.createGain();fryAmt.gain.value=.55;fry.connect(fryAmt);fryAmt.connect(am.gain);
+ src.connect(bp);bp.connect(lp);lp.connect(am);am.connect(out);
+ const hum=c.createOscillator();hum.type="sawtooth";hum.frequency.value=76;const hlp=c.createBiquadFilter();hlp.type="lowpass";hlp.frequency.value=260;const hg=c.createGain();hg.gain.value=.07;
+ const wob=c.createOscillator();wob.frequency.value=5;const wg=c.createGain();wg.gain.value=4;wob.connect(wg);wg.connect(hum.frequency);
+ hum.connect(hlp);hlp.connect(hg);hg.connect(out);
+ [src,fry,hum,wob].forEach(n=>n.start(t));growlNode={out,nodes:[src,fry,hum,wob]}}
+function growlStop(){const c=SND.ctx;if(!growlNode||!c)return;const g=growlNode;growlNode=null;const t=c.currentTime;g.out.gain.cancelScheduledValues(t);g.out.gain.setTargetAtTime(.0001,t,.06);g.nodes.forEach(n=>{try{n.stop(t+.4)}catch(e){}})}
+function authority(){const c=ac();if(!c)return;const t=c.currentTime;const o=c.createOscillator(),g=c.createGain();o.type="sine";o.frequency.setValueAtTime(90,t);o.frequency.exponentialRampToValueAtTime(48,t+.5);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.55,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+.9);o.connect(g);g.connect(SND.master);o.start(t);o.stop(t+1);noise(t,.12,160,.8,.35,"lowpass")}
 function beySay(txt,lang,queue){try{if(!SND.on||!("speechSynthesis" in window))return;const want=lang==="ar"?"ar":"en";const voice=pickVoice(want);if(want==="ar"&&!voice)return;
- if(!queue)speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang=voice?voice.lang:"en-GB";if(voice)u.voice=voice;
- const maleVoice=voice&&MALE.test(voice.name)&&!FEMALE.test(voice.name);u.pitch=maleVoice?.7:.25;u.rate=.92;u.volume=1;speechSynthesis.speak(u)}catch(e){}}
+ if(!queue){speechSynthesis.cancel();growlStop();speaking=0}
+ const u=new SpeechSynthesisUtterance(txt);u.lang=voice?voice.lang:"en-GB";if(voice)u.voice=voice;
+ const maleVoice=voice&&MALE.test(voice.name)&&!FEMALE.test(voice.name);u.pitch=maleVoice?.35:.05;u.rate=.84;u.volume=1;
+ u.onstart=()=>{speaking++;growlStart();try{if(MUS.playing){const c=SND.ctx;MUS.g.gain.setTargetAtTime(.05,c.currentTime,.08)}}catch(e){}};
+ const done=()=>{speaking=Math.max(0,speaking-1);if(!speaking){growlStop();try{if(MUS.playing){const c=SND.ctx;MUS.g.gain.setTargetAtTime(MUS.level,c.currentTime,.4)}}catch(e){}}};
+ u.onend=done;u.onerror=done;speechSynthesis.speak(u)}catch(e){}}
 function beyWelcome(){const st=document.getElementById("beyStage");if(st){st.classList.remove("wave");void st.offsetWidth;st.classList.add("wave")}
- if(S.bey===false)return;const en="I'm the Bey! Welcome to the Golden Dinar game!",ar="أنا الباي! مرحبًا بكم في لعبة الدينار الذهبي!";
+ if(S.bey===false)return;authority();const en="I'm the Bey! Welcome to the Golden Dinar game!",ar="أنا الباي! مرحبًا بكم في لعبة الدينار الذهبي!";
  if(S.lang==="ar"){beySay(ar,"ar");beySay(en,"en",true)}else{beySay(en,"en");beySay(ar,"ar",true)}}
 function beyReact(ok){if(S.bey===false)return;
  let el=document.getElementById("bey");if(!el){el=document.createElement("div");el.id="bey";el.className="bey";el.innerHTML=`<div class="beybub"></div>${BEY_SVG}`;document.body.appendChild(el)}
