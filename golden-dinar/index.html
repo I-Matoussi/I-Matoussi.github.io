@@ -345,6 +345,53 @@ body:not(.only-en):not(.only-ar) .tmap .pcity.ar,body.peek .tmap .pcity.ar{displ
 .gstep summary{cursor:pointer;font-weight:700;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .gstep .you{font-size:.7rem;padding:2px 8px;border-radius:999px;background:#2a9d8f;color:#fff;letter-spacing:.05em}
 .gstep ol{margin:10px 0 2px;padding-inline-start:22px;line-height:1.6}
+
+.gmain{margin:12px 0;text-align:center}
+.gmain .btn.big{display:inline-block;font-size:1.15rem;padding:14px 28px;text-decoration:none}
+.gwarn{background:rgba(232,131,58,.15);border:1px solid rgba(232,131,58,.6);border-radius:12px;padding:10px 14px;text-align:start;line-height:1.55}
+.gother{margin-top:8px}.gother>summary{cursor:pointer;color:var(--sand-dim);font-size:.9rem;margin:6px 0}
+
+/* level badge */
+.lvl{display:inline-block;margin-inline-start:8px;padding:1px 9px;border-radius:999px;font-size:.72rem;font-weight:800;letter-spacing:.05em;vertical-align:1px}
+.lvl .ar{margin:0!important}
+.lvl.l0{background:#2a9d8f;color:#fff}.lvl.l1{background:#e8833a;color:#fff}.lvl.l2{background:#d9534f;color:#fff}
+/* cities rubric */
+.cityhub{display:flex;flex-direction:column;gap:14px}
+.cityhub>.btn{align-self:flex-start}
+.cityhub .colhead{display:none}
+/* the Bey */
+.bey{position:fixed;bottom:-6px;right:max(8px,calc(50vw - 520px));width:clamp(120px,16vw,170px);z-index:70;pointer-events:none;transform:translateY(120%);opacity:0}
+body.only-ar .bey{right:auto;left:max(8px,calc(50vw - 520px))}
+.bey svg{display:block;width:100%;height:auto;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45));transform-origin:50% 100%}
+.bey .b-arm-r,.bey .b-head,.bey .b-tassel,.bey .b-arm-l{transform-box:fill-box}
+.bey .b-arm-r{transform-origin:0% 100%}.bey .b-head{transform-origin:50% 90%}.bey .b-tassel{transform-origin:0% 0%}.bey .b-arm-l{transform-origin:50% 0%}
+.bey .b-mouth-sad{display:none}
+.bey.sad .b-mouth-happy{display:none}.bey.sad .b-mouth-sad{display:inline}
+.bey.sad .b-brows{transform:translateY(-4px)}
+.bey.sad .b-arm-r{transform:rotate(-95deg) translate(-6px,6px)}
+.bey.show{opacity:1;animation:beyIn .55s cubic-bezier(.3,1.7,.5,1) forwards}
+.bey.happy svg{animation:beyJump .45s ease-in-out .5s 3 alternate}
+.bey.happy .b-arm-r{animation:beyWave .22s ease-in-out .45s 8 alternate}
+.bey.happy .b-tassel,.bey.sad .b-tassel{animation:beyTassel .3s ease-in-out .45s 6 alternate}
+.bey.sad .b-head{animation:beyShake .32s ease-in-out .5s 3}
+.bey.exit-happy{animation:beyOutHappy .7s cubic-bezier(.5,-.4,.7,.3) forwards}
+.bey.exit-sad{animation:beyOutSad .6s ease-in forwards}
+.beybub{position:absolute;bottom:88%;right:62%;min-width:110px;white-space:nowrap;max-width:220px;padding:9px 14px;border-radius:18px 18px 4px 18px;background:#fbf5e6;color:#2a1f10;font:800 1.15rem/1.2 var(--display),Georgia,serif;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.4);border:3px solid #e0ac45;transform:scale(0);transform-origin:100% 100%}
+.beybub span[lang=ar]{font-family:var(--arabic);font-size:1.2rem}
+body.only-ar .beybub{right:auto;left:62%;border-radius:18px 18px 18px 4px;transform-origin:0 100%}
+.bey.show .beybub{animation:bubPop .35s cubic-bezier(.3,1.8,.5,1) .3s forwards}
+.bey.sad .beybub{background:#ffe9e4;border-color:#d9534f}
+@keyframes beyIn{0%{transform:translateY(120%) rotate(10deg)}100%{transform:translateY(0) rotate(0)}}
+@keyframes beyJump{to{transform:translateY(-16px) scaleY(1.04)}}
+@keyframes beyWave{from{transform:rotate(-12deg)}to{transform:rotate(16deg)}}
+@keyframes beyTassel{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
+@keyframes beyShake{0%,100%{transform:rotate(0)}25%{transform:rotate(-9deg)}75%{transform:rotate(9deg)}}
+@keyframes bubPop{to{transform:scale(1)}}
+@keyframes beyOutHappy{0%{transform:translateY(0) rotate(0);opacity:1}35%{transform:translate(-14px,-70px) rotate(-12deg)}100%{transform:translate(140%,-30px) rotate(40deg);opacity:0}}
+@keyframes beyOutSad{0%{transform:translateY(0);opacity:1}100%{transform:translateY(125%) rotate(-6deg);opacity:1}}
+body.only-ar .bey.exit-happy{animation-name:beyOutHappyR}
+@keyframes beyOutHappyR{0%{transform:translateY(0) rotate(0);opacity:1}35%{transform:translate(14px,-70px) rotate(12deg)}100%{transform:translate(-140%,-30px) rotate(-40deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){.bey,.bey *{animation-duration:.01s!important;animation-iteration-count:1!important}}
 /* Arabic version: no English vocabulary/grammar boxes */
 body.only-ar .learn{display:none!important}
 /* navigation */
@@ -1602,7 +1649,6 @@ MORE3.leaders=[
  M("Which Numidian king's capital was Siga, in today's western Algeria?","أي ملك نوميدي كانت عاصمته سيغا في غرب الجزائر الحالية؟",["Syphax","سيفاقس"],[["Massinissa","ماسينيسا"],["Jugurtha","يوغرطة"],["Juba II","يوبا الثاني"]],"He ruled the Masaesyli, the western Numidians.","حكم المسايسيليين، أي النوميديين الغربيين."),
  M("Which famous Hafsid ruler took Tlemcen and was recognised far and wide in the 13th century?","—",["—","—"],[["—","—"],["—","—"],["—","—"]],"—","—"),
  M("Which bey is shown in a famous 1846 portrait wearing a red chechia and European-style uniform?","—",["—","—"],[["—","—"],["—","—"],["—","—"]],"—","—"),
- M("Which bey's portraits show him on horseback, and who reigned from 1859 to 1882?","أي باي تُظهره صوره على صهوة جواده، وحكم من 1859 إلى 1882؟",["Muhammad al-Sadiq Bey","محمد الصادق باي"],[["Moncef Bey","المنصف باي"],["Lamine Bey","الأمين باي"],["Ahmad Bey","أحمد باي"]],"Photographs of the beys became common in the late 19th century.","أصبحت صور البايات الفوتوغرافية شائعة أواخر القرن التاسع عشر."),
  M("Which Husainid bey reigned from 1922 to 1929?","أي باي حسيني حكم من 1922 إلى 1929؟",["Habib Bey","الحبيب باي"],[["Naceur Bey","الناصر باي"],["Ahmad II Bey","أحمد باي الثاني"],["Moncef Bey","المنصف باي"]],"He came to the throne after Naceur Bey's death.","تولّى العرش بعد وفاة الناصر باي."),
  M("Which bey reigned from 1929 to 1942?","أي باي حكم من 1929 إلى 1942؟",["Ahmad II Bey","أحمد باي الثاني"],[["Habib Bey","الحبيب باي"],["Moncef Bey","المنصف باي"],["Lamine Bey","الأمين باي"]],"He was followed by Moncef Bey in June 1942.","خلفه المنصف باي في جوان 1942."),
  T("True or false: Moncef Bey reigned for less than one year.","صواب أم خطأ: حكم المنصف باي أقل من سنة.",true,"<b>True.</b> From June 1942 to May 1943, about eleven months.","<b>صواب.</b> من جوان 1942 إلى ماي 1943، نحو أحد عشر شهرًا."),
@@ -2251,7 +2297,7 @@ function today(d){d=d||new Date();return d.getFullYear()+"-"+String(d.getMonth()
 function seeded(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 function dailyList(){const key=today();let h=0;for(const ch of key)h=(h*31+ch.charCodeAt(0))|0;const rnd=seeded(h);
  const pool=[...CH.flatMap(c=>c.qs.filter(q=>q.t==="mc")),...LANG.flatMap(c=>c.qs.filter(q=>q.t==="mc"))];const out=[];const used=new Set();
- while(out.length<5){const i=Math.floor(rnd()*pool.length);if(!used.has(i)){used.add(i);out.push(pool[i])}}return out}
+ while(out.length<5){const i=Math.floor(rnd()*pool.length);if(!used.has(i)){used.add(i);out.push(pool[i])}}return out.sort((a,b)=>score(a)-score(b))}
 const DAILY={id:"daily",kind:"daily",name:"Daily Challenge",nameAr:"تحدي اليوم",span:"5 questions · new every day"};
 function dailyDone(){return S.daily.last===today()}
 function finishDaily(){if(dailyDone())return;const y=new Date();y.setDate(y.getDate()-1);S.daily.streak=S.daily.last===today(y)?(S.daily.streak||0)+1:1;S.daily.last=today();S.coins+=30;S.earned+=30;save()}
@@ -2295,7 +2341,7 @@ function openSettings(){if(document.querySelector(".sheet"))return;const paused=
  const el=document.createElement("div");el.className="sheet";el.setAttribute("role","dialog");el.setAttribute("aria-modal","true");el.setAttribute("aria-labelledby","setT");
  el.innerHTML=`<div class="sheetcard setcard"><h3 id="setT">${bi("Settings","الإعدادات")}</h3>
   <div class="setrow"><span>${bi("Language","اللغة")}</span><div class="seg" role="group">${[["en","English"],["ar","العربية"],["both","Both · الاثنتان"]].map(([k,l])=>`<button data-lang="${k}" aria-pressed="${S.lang===k}">${l}</button>`).join("")}</div></div>
-  ${toggleRow("tMus",bi("Music","الموسيقى"),MUS.on)}${toggleRow("tSnd",bi("Sound effects","المؤثرات الصوتية"),SND.on)}${toggleRow("tVib",bi("Vibration","الاهتزاز"),S.vib!==false)}
+  ${toggleRow("tMus",bi("Music","الموسيقى"),MUS.on)}${toggleRow("tSnd",bi("Sound effects","المؤثرات الصوتية"),SND.on)}${toggleRow("tVib",bi("Vibration","الاهتزاز"),S.vib!==false)}${toggleRow("tBey",bi("The Bey (cartoon & voice)","الباي (الشخصية والصوت)"),S.bey!==false)}
   <div class="setlinks">
    <button class="lnk" data-go="ach">${SEAL("#e0ac45","#0b1f3a")}<span>${bi("Achievements","الإنجازات")}</span></button>
    <button class="lnk" data-go="bank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 5c3-1.5 6-1.5 10 1 4-2.5 7-2.5 10-1v14c-3-1.5-6-1.5-10 1-4-2.5-7-2.5-10-1z"/><path d="M12 6v14"/></svg><span>Word Bank</span></button>
@@ -2308,18 +2354,29 @@ function openSettings(){if(document.querySelector(".sheet"))return;const paused=
  el.addEventListener("click",e=>{if(e.target===el)close()});el.querySelector("#setClose").onclick=close;S.sheetStay=close;
  el.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{S.lang=b.dataset.lang;save();applyLang();el.querySelectorAll(".seg button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.lang===S.lang));sfx.click();if(S.screen!=="quiz")redraw()});
  const sw=(id,get,set)=>{const b=el.querySelector("#"+id);b.onclick=()=>{set(!get());b.setAttribute("aria-checked",get());save();sfx.click()}};
- sw("tMus",()=>MUS.on,v=>{MUS.on=v;if(v)startMusic();else stopMusic()});sw("tSnd",()=>SND.on,v=>{SND.on=v});sw("tVib",()=>S.vib!==false,v=>{S.vib=v;if(v)buzz(30)});
+ sw("tMus",()=>MUS.on,v=>{MUS.on=v;if(v)startMusic();else stopMusic()});sw("tSnd",()=>SND.on,v=>{SND.on=v});sw("tVib",()=>S.vib!==false,v=>{S.vib=v;if(v)buzz(30)});sw("tBey",()=>S.bey!==false,v=>{S.bey=v;if(!v)beyAway()});
  el.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{const g=b.dataset.go;el.remove();S.sheetStay=null;stopTimer();
   if(g==="install"){openGetApp();return}
   if(S.screen==="quiz")popQuestState();nav({ach:renderAch,cert:renderCert,teacher:renderTeacher,bank:renderBank}[g])});
  const rb=el.querySelector("#reset");rb.onclick=()=>{if(rb.dataset.sure){try{localStorage.removeItem("golden-dinar")}catch(e){}location.reload();return}rb.dataset.sure=1;rb.innerHTML=bi("Tap again to erase everything","اضغط مجددًا لمسح كل شيء");rb.classList.add("warn")};
  el.querySelector("#setClose").focus()}
-function redraw(){({splash:renderSplash,map:renderMap,result:renderMap,bank:renderBank,ach:renderAch,cert:renderCert,teacher:renderTeacher}[S.screen]||renderMap)()}
-addEventListener("beforeinstallprompt",e=>{e.preventDefault();window.__installEvt=e});
+function redraw(){({splash:renderSplash,map:renderMap,cities:renderCities,result:renderMap,bank:renderBank,ach:renderAch,cert:renderCert,teacher:renderTeacher}[S.screen]||renderMap)()}
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();window.__installEvt=e;const g=document.querySelector(".getcard");if(g){g.closest(".sheet").remove();S.sheetStay=null;openGetApp()}});
 addEventListener("appinstalled",()=>{window.__installEvt=null;try{toast(bi("Installed! Find The Golden Dinar on your home screen.","تمّ التثبيت! ستجد الدينار الذهبي على شاشتك الرئيسية."),SEAL("#e0ac45","#0b1f3a"))}catch(e){}});
 function openGetApp(){if(document.querySelector(".sheet"))return;
  const ua=navigator.userAgent,ios=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1),android=/Android/.test(ua);
  const dev=ios?"ios":android?"android":"pc";const standalone=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+ const inApp=/FBAN|FBAV|FB_IAB|Instagram|Messenger|WhatsApp|Line\/|Snapchat|TikTok|; wv\)/.test(ua);
+ const chromeAndroid=android&&/Chrome\/\d/.test(ua)&&!/SamsungBrowser|EdgA|OPR|YaBrowser|; wv\)/.test(ua)&&!inApp;
+ const safariIOS=ios&&/Safari\//.test(ua)&&!/CriOS|FxiOS|EdgiOS|OPiOS/.test(ua)&&!inApp;
+ const intent="intent://"+SITE.replace(/^https:\/\//,"")+"#Intent;scheme=https;package=com.android.chrome;end";
+ let main;
+ if(standalone)main=`<p class="gok">${bi("✓ You are already using the installed app.","✓ أنت تستعمل التطبيق المثبَّت.")}</p>`;
+ else if(window.__installEvt)main=`<button class="btn big" id="gInstall">${bi("⬇ Install the app","⬇ ثبّت التطبيق")}</button><p class="small">${bi("One tap. The icon appears on your home screen or desktop.","بضغطة واحدة تظهر الأيقونة على شاشتك أو سطح المكتب.")}</p>`;
+ else if(android&&!chromeAndroid)main=`<a class="btn big" href="${intent}">${bi("Open in Chrome to install","افتح في كروم للتثبيت")}</a><p class="small">${bi("This browser cannot install apps. Chrome will open; then tap <b>Install</b>.","هذا المتصفّح لا يثبّت التطبيقات. سيُفتح كروم، ثم اضغط <b>تثبيت</b>.")}</p>`;
+ else if(ios&&!safariIOS)main=`<p class="gwarn">${bi("On iPhone, only <b>Safari</b> can install apps. Copy the link, open Safari, paste it, then follow the steps below.","على الآيفون، وحده <b>سفاري</b> يثبّت التطبيقات. انسخ الرابط وافتح سفاري والصقه ثم اتّبع الخطوات أدناه.")}</p>`;
+ else if(dev==="pc")main=`<p class="gwarn">${bi("If you see <b>Open in app</b> (or ⧉) in the address bar, the app is <b>already installed</b>: look for <b>Golden Dinar</b> in your Start menu or on your desktop.","إذا ظهر <b>فتح في التطبيق</b> في شريط العنوان فالتطبيق <b>مثبَّت مسبقًا</b>: ابحث عن <b>Golden Dinar</b> في قائمة ابدأ أو على سطح المكتب.")}</p>`;
+ else main="";
  const steps={android:[["Android phone","هاتف أندرويد"],[["Open the link in <b>Chrome</b>.","افتح الرابط في <b>كروم</b>."],["Tap the menu <b>⋮</b> (top right).","اضغط على القائمة <b>⋮</b> (أعلى اليمين)."],["Tap <b>Install app</b> or <b>Add to Home screen</b>.","اضغط <b>تثبيت التطبيق</b> أو <b>إضافة إلى الشاشة الرئيسية</b>."]]],
   ios:[["iPhone / iPad","آيفون / آيباد"],[["Open the link in <b>Safari</b>.","افتح الرابط في <b>سفاري</b>."],["Tap the <b>Share</b> button ⬆️.","اضغط زرّ <b>المشاركة</b> ⬆️."],["Choose <b>Add to Home Screen</b>, then <b>Add</b>.","اختر <b>إضافة إلى الشاشة الرئيسية</b> ثم <b>إضافة</b>."]]],
   pc:[["Computer (Windows, Mac)","حاسوب (ويندوز، ماك)"],[["Open the link in <b>Chrome</b> or <b>Edge</b>.","افتح الرابط في <b>كروم</b> أو <b>إيدج</b>."],["Click the install icon <b>⊕</b> at the right of the address bar.","انقر أيقونة التثبيت <b>⊕</b> يمين شريط العنوان."],["Click <b>Install</b>. The game opens in its own window.","انقر <b>تثبيت</b>. تُفتح اللعبة في نافذة خاصة بها."]]]};
@@ -2327,12 +2384,12 @@ function openGetApp(){if(document.querySelector(".sheet"))return;
  const el=document.createElement("div");el.className="sheet";el.setAttribute("role","dialog");el.setAttribute("aria-modal","true");
  el.innerHTML=`<div class="sheetcard setcard getcard"><h3>${bi("Get The Golden Dinar","حمّل الدينار الذهبي")}</h3>
   <p class="small">${bi("Free, no app store needed. It installs straight from this link and works like an app.","مجاني ودون متجر تطبيقات. يُثبَّت مباشرة من هذا الرابط ويعمل كتطبيق.")}</p>
-  ${standalone?`<p class="gok">${bi("✓ The app is already installed on this device.","✓ التطبيق مثبَّت على هذا الجهاز.")}</p>`:window.__installEvt?`<button class="btn" id="gInstall">${bi("Install now","ثبّت الآن")}</button>`:""}
+  <div class="gmain">${main}</div>
   <div class="glink"><code>${SITE}</code></div>
   <div class="row"><button class="btn" id="gShare">${bi("Share the link","شارك الرابط")}</button><button class="btn ghost" id="gCopy">${bi("Copy link","انسخ الرابط")}</button></div>
   <div class="gqr" id="gQr" hidden><div class="qrbox"></div><span class="small">${bi("Scan with a phone camera","امسحه بكاميرا الهاتف")}</span></div>
   <h4>${bi("How to install","طريقة التثبيت")}</h4>
-  ${[dev,...["android","ios","pc"].filter(k=>k!==dev)].map(block).join("")}
+  ${block(dev)}<details class="gother"><summary>${bi("Other devices","أجهزة أخرى")}</summary>${["android","ios","pc"].filter(k=>k!==dev).map(block).join("")}</details>
   <div class="row"><button class="btn ghost" id="gClose">${bi("Close","إغلاق")}</button></div></div>`;
  document.body.appendChild(el);
  const close=()=>{el.remove();S.sheetStay=null};S.sheetStay=close;
@@ -2401,8 +2458,8 @@ function startTeacher(id,n){const c=ALL.find(x=>x.id===id);const pool=c.id==="mi
 const TIME_MC=25,TIME_ORDER=50;
 let S={coins:0,shown:0,medals:{},stats:{right:0,played:0,best:0},lang:"en",bank:{},recentTips:[],ach:{},daily:{},vib:true,name:"",klass:"",cur:null,ch:0,list:[],qi:0,score:0,streak:0,earned:0};
 let timerRAF=null;
-function load(){try{const d=JSON.parse(localStorage.getItem("golden-dinar")||"{}");S.coins=d.coins||0;S.medals=d.medals||{};S.stats=Object.assign(S.stats,d.stats||{});S.lang=d.lang||"en";S.bank=d.bank||{};S.ach=d.ach||{};S.daily=d.daily||{};S.vib=d.vib!==false;S.name=d.name||"";S.klass=d.klass||"";SND.on=d.sound!==false;MUS.on=d.music!==false}catch(e){}S.shown=S.coins}
-function save(){try{localStorage.setItem("golden-dinar",JSON.stringify({coins:S.coins,medals:S.medals,stats:S.stats,lang:S.lang,bank:S.bank,ach:S.ach,daily:S.daily,vib:S.vib,name:S.name,klass:S.klass,sound:SND.on,music:MUS.on}))}catch(e){}}
+function load(){try{const d=JSON.parse(localStorage.getItem("golden-dinar")||"{}");S.coins=d.coins||0;S.medals=d.medals||{};S.stats=Object.assign(S.stats,d.stats||{});S.lang=d.lang||"en";S.bank=d.bank||{};S.ach=d.ach||{};S.daily=d.daily||{};S.vib=d.vib!==false;S.name=d.name||"";S.klass=d.klass||"";SND.on=d.sound!==false;MUS.on=d.music!==false;S.seen=d.seen||{};S.bey=d.bey!==false}catch(e){}S.shown=S.coins}
+function save(){try{localStorage.setItem("golden-dinar",JSON.stringify({coins:S.coins,medals:S.medals,stats:S.stats,lang:S.lang,bank:S.bank,ach:S.ach,daily:S.daily,vib:S.vib,name:S.name,klass:S.klass,sound:SND.on,music:MUS.on,seen:S.seen,bey:S.bey}))}catch(e){}}
 
 const app=document.getElementById("app");
 const medalOf=(s,n)=>s===n?"gold":s>=n-2?"silver":s>=Math.ceil(n/3)?"bronze":null;
@@ -2425,7 +2482,7 @@ function wireHeader(){const h=document.getElementById("home");if(h){h.onclick=()
 function stopTimer(){if(timerRAF)cancelAnimationFrame(timerRAF);timerRAF=null}
 function nav(fn){if(reduce()){fn();window.scrollTo(0,0);return}app.classList.add("leaving");setTimeout(()=>{fn();app.classList.remove("leaving");window.scrollTo({top:0,behavior:"smooth"})},230)}
 function popQuestState(){try{if(history.state&&history.state.gd){S.skipPop=true;history.back()}}catch(e){}}
-function goMap(){stopTimer();closeSheet();popQuestState();nav(renderMap)}
+function goMap(){stopTimer();beyAway();closeSheet();popQuestState();nav(renderMap)}
 function goHome(){stopTimer();closeSheet();popQuestState();nav(renderSplash)}
 function leave(target,kind){if(S.screen!=="quiz"){target();return}openSheet(target,kind)}
 function openSheet(target,kind){if(document.querySelector(".sheet"))return;
@@ -2441,7 +2498,7 @@ function openSheet(target,kind){if(document.querySelector(".sheet"))return;
  el.querySelector("#stay").focus();S.sheetStay=stay}
 function closeSheet(){const el=document.querySelector(".sheet");if(el)el.remove();S.sheetStay=null}
 document.addEventListener("keydown",e=>{if(e.key!=="Escape")return;if(S.sheetStay){S.sheetStay();return}if(S.screen==="quiz")openSheet(goMap,"map")});
-addEventListener("popstate",()=>{if(S.skipPop){S.skipPop=false;return}if(["quiz","result","ach","cert","teacher","bank"].includes(S.screen)){stopTimer();closeSheet();nav(renderMap)}});
+addEventListener("popstate",()=>{if(S.skipPop){S.skipPop=false;return}if(["quiz","result","ach","cert","teacher","bank","cities"].includes(S.screen)){stopTimer();closeSheet();nav(renderMap)}});
 
 /* ================= splash ================= */
 function renderSplash(){
@@ -2638,7 +2695,113 @@ const CITY=[
 ];
 const CITY_CH=Object.fromEntries(CITY.map(c=>[c.id,{id:"city-"+c.id,kind:"city",cid:c.id,name:c.en,nameAr:c.ar,span:REG[c.reg][0],qs:c.qs}]));
 CITY.forEach(c=>{CH_PH["city-"+c.id]=c.ph.length?c.ph:[null]});
-function startCity(id){S.ch=-1;startRun(CITY_CH[id],shuffle(CITY_CH[id].qs))}
+function startCity(id){if(id==="all"){S.ch=-1;startRun(CITY_ALL,freshRound("city-all",CITY_ALL.qs,ROUND));return}S.ch=-1;startRun(CITY_CH[id],freshRound("city-"+id,CITY_CH[id].qs,8))}
+/* ================= fresh rounds, easy to hard ================= */
+const qKey=q=>{let h=0;const t=q.q+"|"+(q.a?q.a[0]:"")+"|"+(q.items?q.items.map(i=>i[0]).join("/"):"")+"|"+(q.words?q.words.join(" "):"");for(const ch of t)h=(h*31+ch.charCodeAt(0))|0;return (h>>>0).toString(36)};
+const FAMOUS=/Bourguiba|Hannibal|Carthage|Kairouan|Ibn Khaldun|^Tunis$|Elissa|Dido|Romans?$|Rome|Chebbi|Zitouna|Bardo|France|French|Arabic|Phoenicians|1956/i;
+function diff(q){if(q._d!=null)return q._d;let d;
+ if(q.build){d=2.5+(q.items.length>8?1:.5)}
+ else if(q.t==="order"){d=3.5+(q.items.length>4?.5:0);const v=q.items.map(i=>i[4]).sort((a,b)=>a-b);let gap=Infinity;for(let k=1;k<v.length;k++)gap=Math.min(gap,v[k]-v[k-1]);if(gap<20)d+=.5}
+ else if(q.tf){d=1+(/\d{3,4}/.test(q.q)?.5:0)+(q.q.length>110?.5:0)}
+ else{d=2;const opts=[q.a,...q.o].map(o=>String(o[0]));const nums=opts.map(o=>{const m=o.match(/\d{2,4}/);return m?+m[0]:null});
+  if(nums.every(x=>x!=null)){d+=1;const s=nums.slice().sort((x,y)=>x-y);if(s[s.length-1]-s[0]<60)d+=.5}
+  if(FAMOUS.test(String(q.a[0])))d-=.75;
+  if(q.q.replace(/<[^>]+>/g,"").length>105)d+=.5;
+  if(/\bNOT\b|\bnot\b.*\?|except/.test(q.q))d+=.5;
+  if(opts.some(o=>o.length>40))d+=.25}
+ return q._d=d}
+let CORPUS=null;
+function familiarity(q){if(!CORPUS)CORPUS=[...CH,...LANG].flatMap(c=>c.qs).concat(CITY.flatMap(c=>c.qs)).map(x=>(x.q+" "+(x.f||"")).replace(/<[^>]+>/g,"").toLowerCase()).join("\n");
+ const a=String(q.a?q.a[0]:"").toLowerCase().replace(/^the /,"").trim();if(a.length<4||/^(true|false)$/.test(a))return 0;
+ const key=a.slice(0,Math.min(16,a.length));let n=0,i=-1;while((i=CORPUS.indexOf(key,i+1))!==-1&&n<60)n++;return Math.log2(1+n)}
+function score(q){if(q._s!=null)return q._s;let d=diff(q);if(q.t==="mc"&&!q.tf)d+=1.2-.35*familiarity(q);d+=Math.min(1,q.q.replace(/<[^>]+>/g,"").length/160);return q._s=d+(qKey(q).charCodeAt(0)%7)/100}
+function assignTiers(list){const L=list.slice().sort((a,b)=>score(a)-score(b));L.forEach((q,k)=>q._t=k<L.length/3?0:k<2*L.length/3?1:2)}
+const TIER=q=>{if(q._t==null){assignTiers(CH.flatMap(c=>c.qs));assignTiers(LANG.flatMap(c=>c.qs));assignTiers(CITY.flatMap(c=>c.qs))}return q._t==null?1:q._t};
+const LVL=[["Easy","سهل"],["Medium","متوسط"],["Hard","صعب"]];
+function freshRound(id,pool,n){S.seen=S.seen||{};let seen=new Set(S.seen[id]||[]);
+ let fresh=pool.filter(q=>!seen.has(qKey(q)));
+ if(fresh.length<n){seen=new Set();fresh=pool.slice()}
+ const tiers=[[],[],[]];shuffle(fresh).forEach(q=>tiers[TIER(q)].push(q));
+ const third=Math.round(n/3),want=[third,third,n-2*third];
+ const maxOrder=id==="grammar"?3:2,pick=[],used=new Set();let orders=0;
+ const take=(arr,k)=>{let c=0;for(const q of arr){if(c>=k)break;if(pick.includes(q))continue;
+   const a=q.a?String(q.a[0]):"o:"+(q.items?q.items[0][0]:q.q);const tf=q.tf;
+   if(!tf&&used.has(a))continue;if(q.t==="order"){if(orders>=maxOrder)continue;orders++}
+   if(!tf)used.add(a);pick.push(q);c++}return c};
+ for(let t=0;t<3;t++){const got=take(tiers[t],want[t]);if(got<want[t]&&t<2)want[t+1]+=want[t]-got}
+ if(pick.length<n)take([...tiers[1],...tiers[0],...tiers[2]],n-pick.length);
+ if(pick.length<n)take(shuffle(pool.filter(q=>!pick.includes(q))),n-pick.length);
+ pick.sort((a,b)=>TIER(a)-TIER(b)||score(a)-score(b));
+ pick.forEach(q=>seen.add(qKey(q)));S.seen[id]=[...seen];save();return pick}
+
+/* ================= the Bey mascot (original cartoon) ================= */
+const BEY_SVG=`<svg viewBox="0 0 200 250" aria-hidden="true">
+ <defs><linearGradient id="bjk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#26407a"/><stop offset="1" stop-color="#16285a"/></linearGradient>
+ <linearGradient id="bfez" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a50d1c"/><stop offset=".45" stop-color="#d7192b"/><stop offset="1" stop-color="#9c0b19"/></linearGradient>
+ <radialGradient id="bskin" cx="45%" cy="40%" r="65%"><stop offset="0" stop-color="#f6c9a0"/><stop offset="1" stop-color="#dd9f72"/></radialGradient></defs>
+ <g class="b-body">
+  <path d="M38 250 Q36 178 70 160 L130 160 Q164 178 162 250 Z" fill="url(#bjk)" stroke="#0e1b3d" stroke-width="3"/>
+  <path d="M84 160 L100 190 L116 160 Z" fill="#fbf5e6"/><path d="M100 172 L92 162 L108 162 Z" fill="#c1121f"/>
+  <path d="M70 168 L132 236" stroke="#c8102e" stroke-width="13" stroke-linecap="round"/><path d="M70 168 L132 236" stroke="#f6d27a" stroke-width="2" stroke-dasharray="1 7" stroke-linecap="round"/>
+  <g fill="#f6d27a" stroke="#9c6c1d" stroke-width="1"><circle cx="100" cy="200" r="3.2"/><circle cx="100" cy="216" r="3.2"/><circle cx="100" cy="232" r="3.2"/></g>
+  <g transform="translate(78 206)"><path d="M0-13 3-4 13-4 5 2 8 12 0 6-8 12-5 2-13-4-3-4Z" fill="#f6d27a" stroke="#9c6c1d" stroke-width="1.2"/><circle r="4" fill="#c1121f"/></g>
+  <g class="b-epl"><ellipse cx="60" cy="170" rx="17" ry="7" fill="#f6d27a" stroke="#9c6c1d" stroke-width="1.5"/><path d="M45 172v9M50 173v10M55 174v10M60 174v10M65 174v10M70 173v9M75 172v8" stroke="#e0ac45" stroke-width="2.4" stroke-linecap="round"/>
+  <ellipse cx="140" cy="170" rx="17" ry="7" fill="#f6d27a" stroke="#9c6c1d" stroke-width="1.5"/><path d="M125 172v8M130 173v9M135 174v10M140 174v10M145 174v10M150 173v10M155 172v9" stroke="#e0ac45" stroke-width="2.4" stroke-linecap="round"/></g>
+ </g>
+ <g class="b-arm-l"><path d="M50 176 Q30 205 40 236" fill="none" stroke="#16285a" stroke-width="17" stroke-linecap="round"/><circle cx="40" cy="238" r="9" fill="url(#bskin)" stroke="#a8673f" stroke-width="2"/></g>
+ <g class="b-arm-r"><path d="M150 176 Q176 150 172 118" fill="none" stroke="#16285a" stroke-width="17" stroke-linecap="round"/><path d="M164 132 h17" stroke="#f6d27a" stroke-width="3"/>
+  <g transform="translate(172 108)"><circle r="11" fill="url(#bskin)" stroke="#a8673f" stroke-width="2"/><path d="M-6-9v-7M-1-11v-8M4-10v-7M9-6l4-4" stroke="#a8673f" stroke-width="5" stroke-linecap="round"/><path d="M-6-9v-7M-1-11v-8M4-10v-7M9-6l4-4" stroke="#f0b98d" stroke-width="3" stroke-linecap="round"/></g></g>
+ <g class="b-head">
+  <rect x="88" y="138" width="24" height="22" rx="6" fill="#d9976a"/>
+  <ellipse cx="57" cy="100" rx="9" ry="12" fill="url(#bskin)" stroke="#a8673f" stroke-width="2"/><ellipse cx="143" cy="100" rx="9" ry="12" fill="url(#bskin)" stroke="#a8673f" stroke-width="2"/>
+  <ellipse cx="100" cy="100" rx="44" ry="46" fill="url(#bskin)" stroke="#a8673f" stroke-width="2.5"/>
+  <ellipse cx="72" cy="114" rx="9" ry="6" fill="#ef8a7a" opacity=".55"/><ellipse cx="128" cy="114" rx="9" ry="6" fill="#ef8a7a" opacity=".55"/>
+  <path d="M60 64 Q62 30 100 28 Q138 30 140 64 Z" fill="url(#bfez)" stroke="#6f0812" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M58 64 Q100 74 142 64 L141 56 Q100 66 59 56 Z" fill="#8a0a16"/>
+  <circle cx="100" cy="30" r="4" fill="#1a1a1a"/>
+  <g class="b-tassel"><path d="M100 30 Q124 30 132 50" fill="none" stroke="#1a1a1a" stroke-width="3"/><path d="M127 48 l-4 22 M131 49 l0 23 M135 48 l4 21 M129 49 l-1 22 M133 49 l2 22" stroke="#1a1a1a" stroke-width="2.4" stroke-linecap="round"/></g>
+  <g class="b-brows"><path d="M70 80 Q80 72 92 79" fill="none" stroke="#2a1a10" stroke-width="5" stroke-linecap="round"/><path d="M108 79 Q120 72 130 80" fill="none" stroke="#2a1a10" stroke-width="5" stroke-linecap="round"/></g>
+  <g class="b-eyes"><ellipse cx="82" cy="94" rx="8" ry="9" fill="#fff" stroke="#2a1a10" stroke-width="1.5"/><ellipse cx="118" cy="94" rx="8" ry="9" fill="#fff" stroke="#2a1a10" stroke-width="1.5"/><circle class="b-pupil" cx="84" cy="96" r="4" fill="#1a1a1a"/><circle class="b-pupil" cx="116" cy="96" r="4" fill="#1a1a1a"/><circle cx="85.5" cy="94.5" r="1.3" fill="#fff"/><circle cx="117.5" cy="94.5" r="1.3" fill="#fff"/></g>
+  <path d="M100 98 Q94 112 100 114 Q106 112 100 98" fill="#d4855d"/>
+  <g class="b-mouth-happy"><path d="M84 126 Q100 146 116 126 Q100 132 84 126Z" fill="#7a1f1f" stroke="#2a1a10" stroke-width="2"/><path d="M92 136 Q100 141 108 136 Q100 133 92 136" fill="#e86a6a"/></g>
+  <g class="b-mouth-sad"><ellipse cx="100" cy="133" rx="7" ry="8" fill="#7a1f1f" stroke="#2a1a10" stroke-width="2"/></g>
+  <path class="b-stache" d="M100 118 C90 112 76 112 70 122 C66 128 58 128 54 122 C56 132 70 134 78 128 C86 124 94 124 100 122 C106 124 114 124 122 128 C130 134 144 132 146 122 C142 128 134 128 130 122 C124 112 110 112 100 118Z" fill="#2a1a10"/>
+ </g>
+</svg>`;
+const BEY_YES=[["Bravo!","برافو!"],["Excellent!","ممتاز!"],["Magnificent!","رائع!"],["Well done!","يعطيك الصحة!"],["Splendid!","عظيم!"]];
+const BEY_NO=[["Oh no!","يا خسارة!"],["Not quite!","ليس تمامًا!"],["Next time!","المرّة القادمة!"]];
+let beyT1=null,beyT2=null;
+function beySay(txt,lang){try{if(!SND.on||!("speechSynthesis" in window))return;const v=speechSynthesis.getVoices();const want=lang==="ar"?"ar":"en";const voice=v.find(x=>x.lang&&x.lang.toLowerCase().startsWith(want));if(want==="ar"&&!voice)return;
+ speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang=voice?voice.lang:(want==="ar"?"ar-SA":"en-GB");if(voice)u.voice=voice;u.rate=1.05;u.pitch=.75;u.volume=.9;speechSynthesis.speak(u)}catch(e){}}
+function beyReact(ok){if(S.bey===false)return;
+ let el=document.getElementById("bey");if(!el){el=document.createElement("div");el.id="bey";el.className="bey";el.innerHTML=`<div class="beybub"></div>${BEY_SVG}`;document.body.appendChild(el)}
+ clearTimeout(beyT1);clearTimeout(beyT2);
+ const p=ok?(S.streak>=3&&Math.random()<.5?["What a streak!","يا لها من سلسلة!"]:pick(BEY_YES)):pick(BEY_NO);
+ el.querySelector(".beybub").innerHTML=S.lang==="ar"?`<span lang="ar" dir="rtl">${p[1]}</span>`:S.lang==="both"?`${p[0]}<br><span lang="ar" dir="rtl">${p[1]}</span>`:p[0];
+ el.className="bey";void el.offsetWidth;el.classList.add("show",ok?"happy":"sad");
+ beySay(S.lang==="ar"?p[1]:p[0],S.lang==="ar"?"ar":"en");
+ beyT1=setTimeout(()=>{el.classList.add(ok?"exit-happy":"exit-sad")},ok?1900:1700);
+ beyT2=setTimeout(()=>{el.className="bey"},ok?2600:2400)}
+function beyAway(){const el=document.getElementById("bey");if(el){clearTimeout(beyT1);clearTimeout(beyT2);el.className="bey"}}
+
+/* ================= cities rubric ================= */
+const CITY_ALL={id:"city-all",kind:"city",cid:"all",name:"All the cities",nameAr:"كلّ المدن",span:"15 random questions",qs:CITY.flatMap(c=>c.qs)};
+CH_PH["city-all"]=["sidibou","avenue","kairouan","eljem"];
+CH_PH["cities"]=["sidibou"];
+function citiesTile(){const won=CITY.filter(c=>S.medals["city-"+c.id]).length;
+ return `<button class="tile citytile" id="citiesTile">${photoHTML("sidibou","cities",{cap:false,lazy:true,label:"Cities of Tunisia"})}<span class="meta"><span class="span">${bi("18 cities · 6 regions","18 مدينة · 6 أقاليم")}</span><span class="name en">Cities of Tunisia</span><span class="name-ar ar" lang="ar">مدن تونس</span><span class="medal"><span class="dot ${won?"gold":""}"></span>${bi(`${won}/18 cities won · ${CITY_ALL.qs.length} questions`,`${won}/18 مدينة · ${CITY_ALL.qs.length} سؤالًا`)}</span></span></button>`}
+function renderCities(){S.screen="cities";musicLevel(.5);
+ app.innerHTML=header()+`<div class="cityhub">
+  <div class="sect"><h3 class="en">Cities of Tunisia</h3><span class="ar">مدن تونس</span></div>
+  <p class="small">${bi("Pick a city: 8 questions on its region, history and landmarks, from easy to hard.","اختر مدينة: 8 أسئلة عن إقليمها وتاريخها ومعالمها، من السهل إلى الصعب.")}</p>
+  <button class="btn" id="allCities">${bi("Play all the cities · 15 questions","العب كلّ المدن · 15 سؤالًا")}</button>
+  ${cityList()}
+  <div class="row"><button class="btn ghost" id="backMap">${bi("Back","رجوع")}</button></div></div>`;
+ wireHeader();
+ app.querySelectorAll(".cchip").forEach(b=>b.onclick=()=>{sfx.click();startCity(b.dataset.city)});
+ document.getElementById("allCities").onclick=()=>{sfx.click();S.ch=-1;startRun(CITY_ALL,freshRound("city-all",CITY_ALL.qs,ROUND))};
+ document.getElementById("backMap").onclick=()=>{sfx.click();goMap()}}
+
 
 function renderMap(){
   S.screen="map";musicLevel(.5);
@@ -2646,14 +2809,13 @@ function renderMap(){
   app.innerHTML=header()+`
   <div class="intro"><p class="en">Choose a quest. Answer fast for a <b>speed bonus</b>, keep a <b>streak</b> to double your gold, and finish without a mistake to win its <b>Golden Dinar</b>.</p>
   <p class="ar" lang="ar">اختر تحديًا. أجب بسرعة لتنال <b>مكافأة السرعة</b>، وحافظ على <b>السلسلة</b> لتضاعف ذهبك، وأنهِ التحدي دون خطأ لتفوز بـ<b>الدينار الذهبي</b>.</p></div>
-  <button class="daily ${dailyDone()?"done":""}" id="daily">${FLAME}<span class="dt"><strong>${bi("Daily Challenge","تحدي اليوم")}</strong><span class="small" style="color:inherit">${dailyDone()?bi("Done for today. Come back tomorrow!","أنجزته اليوم. عد غدًا!"):bi("5 questions · +30 bonus dinars","5 أسئلة · مكافأة 30 دينارًا")}</span></span><span class="dstreak">${FLAME}${S.daily.streak||0}</span></button>
-    <div class="journey"><div class="mapcol"><div class="colhead"><strong>${bi("Cities of Tunisia","مدن تونس")}</strong><span class="small">${bi("Tap a city for its quiz","اضغط على مدينة لتبدأ اختبارها")}</span></div><div class="mapcard">${mapSVG()}</div></div>${cityList()}</div>
-  <button class="getapp" id="getApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M4 19h16"/></svg><span class="ga-t"><strong>${bi("Get the app","حمّل التطبيق")}</strong><span class="small">${bi("Phone & computer · free · share with friends","هاتف وحاسوب · مجانًا · شاركه مع أصدقائك")}</span></span><span class="ga-go">${bi("Install","تثبيت")}</span></button>
-  <div class="quick two"><button class="qk" id="qAch">${SEAL("#e0ac45","#0b1f3a")}<span>${bi("Achievements","الإنجازات")}</span></button><button class="qk" id="bank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5c3-1.5 6-1.5 10 1 4-2.5 7-2.5 10-1v14c-3-1.5-6-1.5-10 1-4-2.5-7-2.5-10-1z"/><path d="M12 6v14"/></svg><span>Word Bank · ${Object.keys(S.bank).length}/${GLOSS.length}</span></button></div>
   <div class="sect"><h3 class="en">The Eras</h3><span class="ar">الحقب التاريخية</span></div>
   <div class="tiles">${ALL.map((c,i)=>c.kind==="era"?tile(c,i):"").join("")}</div>
   <div class="sect"><h3 class="en">Special Quests</h3><span class="ar">تحديات خاصة</span></div>
-  <div class="tiles">${ALL.map((c,i)=>c.kind==="special"?tile(c,i):"").join("")}</div>
+  <div class="tiles">${ALL.map((c,i)=>c.kind==="special"?tile(c,i):"").join("")}${citiesTile()}</div>
+  <button class="daily ${dailyDone()?"done":""}" id="daily">${FLAME}<span class="dt"><strong>${bi("Daily Challenge","تحدي اليوم")}</strong><span class="small" style="color:inherit">${dailyDone()?bi("Done for today. Come back tomorrow!","أنجزته اليوم. عد غدًا!"):bi("5 questions · +30 bonus dinars","5 أسئلة · مكافأة 30 دينارًا")}</span></span><span class="dstreak">${FLAME}${S.daily.streak||0}</span></button>
+  <button class="getapp" id="getApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M4 19h16"/></svg><span class="ga-t"><strong>${bi("Get the app","حمّل التطبيق")}</strong><span class="small">${bi("Phone & computer · free · share with friends","هاتف وحاسوب · مجانًا · شاركه مع أصدقائك")}</span></span><span class="ga-go">${bi("Install","تثبيت")}</span></button>
+  <div class="quick two"><button class="qk" id="qAch">${SEAL("#e0ac45","#0b1f3a")}<span>${bi("Achievements","الإنجازات")}</span></button><button class="qk" id="bank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5c3-1.5 6-1.5 10 1 4-2.5 7-2.5 10-1v14c-3-1.5-6-1.5-10 1-4-2.5-7-2.5-10-1z"/><path d="M12 6v14"/></svg><span>Word Bank · ${Object.keys(S.bank).length}/${GLOSS.length}</span></button></div>
   <div class="sect"><h3>English Corner</h3><span class="small">English only</span></div>
   <div class="tiles">${ALL.map((c,i)=>c.kind==="lang"?tile(c,i):"").join("")}</div>
 
@@ -2664,12 +2826,11 @@ function renderMap(){
   ${credits()}
   <footer><span class="en">Dates follow Perkins, Bessis, the <i>Histoire générale de la Tunisie</i> and the Arabic chronicles.</span><span class="ar" lang="ar">التواريخ وفق بيركنز وبسيس و«التاريخ العام لتونس» والحوليات العربية.</span></footer>`;
   wireHeader();
-  app.querySelectorAll(".tile").forEach(b=>b.onclick=()=>{sfx.click();startCh(+b.dataset.i)});
+  app.querySelectorAll(".tile[data-i]").forEach(b=>b.onclick=()=>{sfx.click();startCh(+b.dataset.i)});
   document.getElementById("bank").onclick=()=>{sfx.click();renderBank()};
   document.getElementById("daily").onclick=()=>{sfx.click();if(dailyDone()){toast(bi("You have already done today's challenge. See you tomorrow!","أنجزت تحدي اليوم. نلتقي غدًا!"),FLAME);return}startRun(DAILY,dailyList())};
   app.querySelectorAll(".qitem").forEach(b=>b.onclick=()=>{sfx.click();startCh(+b.dataset.i)});
-  app.querySelectorAll(".cchip").forEach(b=>{b.onclick=()=>{sfx.click();startCity(b.dataset.city)};const hl=on=>app.querySelectorAll(`[data-city="${b.dataset.city}"]`).forEach(x=>x.classList.toggle("hl",on));b.addEventListener("mouseenter",()=>hl(true));b.addEventListener("mouseleave",()=>hl(false));b.addEventListener("focus",()=>hl(true));b.addEventListener("blur",()=>hl(false))});
-  app.querySelectorAll(".pin.city").forEach(g=>{const go=()=>{sfx.click();startCity(g.dataset.city)};g.onclick=go;g.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go()}}});
+  document.getElementById("citiesTile").onclick=()=>{sfx.click();nav(renderCities)};
   document.getElementById("getApp").onclick=()=>{sfx.click();openGetApp()};
   document.getElementById("qAch").onclick=()=>{sfx.click();nav(renderAch)};
 }
@@ -2678,10 +2839,8 @@ function renderMap(){
 const ROUND=15;
 function startCh(i){
   S.ch=i;const c=ALL[i];
-  const pool=c.id==="mix"?CH.flatMap(x=>x.qs):c.qs;let list;
-  if(pool.length<=ROUND)list=shuffle(pool);
-  else{const od=shuffle(pool.filter(q=>q.t==="order")).slice(0,c.id==="grammar"?3:2);const mc=shuffle(pool.filter(q=>q.t!=="order")).slice(0,ROUND-od.length);list=shuffle([...mc,...od])}
-  startRun(c,list)}
+  const pool=c.id==="mix"?CH.flatMap(x=>x.qs):c.qs;
+  startRun(c,freshRound(c.id,pool,Math.min(ROUND,pool.length)))}
 function startRun(c,list){S.cur=c;S.list=list;
   S.qi=0;S.score=0;S.streak=0;S.earned=0;S.rankAtStart=rank(S.coins)[1];try{if(!(history.state&&history.state.gd))history.pushState({gd:1},"")}catch(e){}
   nav(nextQ)}
@@ -2705,7 +2864,7 @@ function sceneFor(q){const id=(S.cur.id==="mix"||S.cur.id==="daily")?chOf(q):S.c
 function renderQ(){
   S.screen="quiz";musicLevel(.22);
   const c=S.cur,q=S.list[S.qi],n=S.list.length;const [pk,scene]=sceneFor(q);
-  const head=`<div class="qhead"><span>${c.name} · ${S.qi+1} / ${n}</span><span class="streak">${S.streak>=2?bi("Streak ×"+S.streak,"سلسلة ×"+S.streak):""}</span></div>
+  const head=`<div class="qhead"><span>${c.name} · ${S.qi+1} / ${n} <span class="lvl l${TIER(q)}">${bi(LVL[TIER(q)][0],LVL[TIER(q)][1])}</span></span><span class="streak">${S.streak>=2?bi("Streak ×"+S.streak,"سلسلة ×"+S.streak):""}</span></div>
    <div class="bars"><div class="progress"><i style="width:${(S.qi/n)*100}%"></i></div>${S.answered?"":`<div class="timer"><i></i></div>`}</div>
    ${!q.eng&&S.lang!=="both"?`<button class="peekbtn" id="peek" aria-pressed="${document.body.classList.contains("peek")}">${S.lang==="en"?"عربي ⇄ Translate":"English ⇄ ترجمة"}</button>`:""}<div class="qtext"><h2 class="q ${q.eng?"":"en"}">${q.q}</h2>${q.qa?`<p class="q-ar ar" lang="ar">${q.qa}</p>`:""}</div>`;
   let body="";
@@ -2758,7 +2917,7 @@ function reward(ok,base,el){
     if(left>S.limit/2){g+=5;S.bonus.push(bi("speed +5","سرعة +5"));S.bonusEn.push("speed +5");S.stats.speed=(S.stats.speed||0)+1}
     const before=rank(S.coins)[1];S.gain=g;S.coins+=g;S.earned+=g;S.quip=pick(YES);sfx.cash();buzz(18);if(rank(S.coins)[1]!==before)S.pendingLevel=rank(S.coins)}
   else{S.streak=0;S.gain=0;S.quip=S.late?pick(LATE):pick(NO);sfx.wrong();buzz([40,50,40])}
-  save();renderQ();
+  save();renderQ();beyReact(ok);
   if(ok)flyCoins(from,S.gain);checkAch();
 }
 function answer(o,btn){if(S.answered)return;const q=S.list[S.qi];S.last=o;reward(!!o&&o[0]===q.a[0],10,btn)}
