@@ -440,7 +440,8 @@ function revealKey(q){const t=[q.q,q.a?q.a[0]:"",q.items?q.items.map(i=>i[0]).jo
 
 /* ================= sound (Web Audio, no files) ================= */
 const SND={on:true,ctx:null,master:null,nb:null};
-function ac(){if(!SND.on)return null;try{if(!SND.ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;SND.ctx=new C();SND.master=SND.ctx.createGain();SND.master.gain.value=.8;SND.master.connect(SND.ctx.destination)}if(SND.ctx.state==="suspended")SND.ctx.resume();return SND.ctx}catch(e){return null}}
+function ctx(){try{if(!SND.ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;SND.ctx=new C();SND.master=SND.ctx.createGain();SND.master.gain.value=.8;SND.master.connect(SND.ctx.destination)}if(SND.ctx.state==="suspended"&&!document.hidden)SND.ctx.resume();return SND.ctx}catch(e){return null}}
+function ac(){return SND.on?ctx():null}
 function tone(f,t,d,type,vol,f2){const c=SND.ctx,o=c.createOscillator(),g=c.createGain();o.type=type||"sine";o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+d);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol||.2,t+.008);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(SND.master);o.start(t);o.stop(t+d+.05)}
 function noiseBuf(){if(SND.nb)return SND.nb;const c=SND.ctx,b=c.createBuffer(1,c.sampleRate*2,c.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;return SND.nb=b}
 function noise(t,d,freq,q,vol,type){const c=SND.ctx,s=c.createBufferSource();s.buffer=noiseBuf();const f=c.createBiquadFilter();f.type=type||"bandpass";f.frequency.value=freq;f.Q.value=q;const g=c.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.004);g.gain.exponentialRampToValueAtTime(.0001,t+d);s.connect(f);f.connect(g);g.connect(SND.master);s.start(t,Math.random()*1.5);s.stop(t+d+.05)}
@@ -473,12 +474,46 @@ const sfx={
    o.connect(lp);lp.connect(g);g.connect(SND.master);o.start(t+s);o.stop(t+s+d+.05)})}
 };
 
+/* ================= music: an original theme in an ancient Mediterranean style ================= */
+/* D hijaz mode: D Eb F# G A Bb C. Drone + bendir frame drum + plucked lyre + reed flute (ney). */
+const MUS={on:true,playing:false,g:null,timer:null,next:0,step:0,level:.5,drone:[]};
+const HZ=[146.83,155.56,185.00,196.00,220.00,233.08,261.63,293.66,311.13,369.99,392.00,440.00,466.16,523.25,587.33];
+const STEP=60/96/2;
+const MEL_A=[[0,11,2],[2,12,1],[3,11,1],[4,10,2],[6,9,2],[8,10,1],[9,9,1],[10,8,2],[12,7,4],[16,7,1],[17,8,1],[18,9,2],[20,10,2],[22,11,2],[24,12,2],[26,11,1],[27,10,1],[28,11,4]];
+const MEL_B=[[0,14,2],[2,13,1],[3,12,1],[4,11,4],[8,12,1],[9,11,1],[10,10,1],[11,9,1],[12,10,4],[16,11,2],[18,9,1],[19,10,1],[20,9,2],[22,8,2],[24,9,2],[26,8,1],[27,9,1],[28,7,4]];
+const ROOTS=[[7,11],[8,12],[6,10],[7,11]];
+function mOsc(type,f,t,d,vol,dest){const c=SND.ctx,o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(dest);o.start(t);o.stop(t+d+.05);return o}
+function dum(t){const c=SND.ctx,o=c.createOscillator(),g=c.createGain();o.frequency.setValueAtTime(120,t);o.frequency.exponentialRampToValueAtTime(48,t+.28);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.42,t+.006);g.gain.exponentialRampToValueAtTime(.0001,t+.45);o.connect(g);g.connect(MUS.g);o.start(t);o.stop(t+.5)}
+function tek(t,v){const c=SND.ctx,s=c.createBufferSource();s.buffer=noiseBuf();const f=c.createBiquadFilter();f.type="highpass";f.frequency.value=2600;const g=c.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v,t+.003);g.gain.exponentialRampToValueAtTime(.0001,t+.07);s.connect(f);f.connect(g);g.connect(MUS.g);s.start(t,Math.random());s.stop(t+.1)}
+function pluck(f,t,v){const c=SND.ctx,o=c.createOscillator(),lp=c.createBiquadFilter(),g=c.createGain();o.type="sawtooth";o.frequency.value=f;lp.type="lowpass";lp.Q.value=2;lp.frequency.setValueAtTime(3200,t);lp.frequency.exponentialRampToValueAtTime(350,t+.35);
+ g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v,t+.004);g.gain.exponentialRampToValueAtTime(.0001,t+1.3);o.connect(lp);lp.connect(g);g.connect(MUS.g);o.start(t);o.stop(t+1.35);mOsc("sine",f*2,t,.6,v*.3,MUS.g)}
+function ney(f,t,d){const c=SND.ctx,o=c.createOscillator(),o2=c.createOscillator(),lp=c.createBiquadFilter(),g=c.createGain(),l=c.createOscillator(),lg=c.createGain();
+ o.type="sine";o2.type="triangle";o.frequency.value=f;o2.frequency.value=f;l.frequency.value=5.2;lg.gain.setValueAtTime(0,t);lg.gain.linearRampToValueAtTime(f*.009,t+Math.min(.35,d*.6));l.connect(lg);lg.connect(o.frequency);lg.connect(o2.frequency);
+ const o2g=c.createGain();o2g.gain.value=.25;o2.connect(o2g);o2g.connect(lp);o.connect(lp);lp.type="lowpass";lp.frequency.value=2400;
+ g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.1,t+.09);g.gain.setValueAtTime(.1,t+Math.max(.1,d-.12));g.gain.exponentialRampToValueAtTime(.0001,t+d+.08);lp.connect(g);g.connect(MUS.g);
+ [o,o2,l].forEach(x=>{x.start(t);x.stop(t+d+.12)});
+ const s=c.createBufferSource();s.buffer=noiseBuf();const bf=c.createBiquadFilter();bf.type="bandpass";bf.frequency.value=f*2;bf.Q.value=1.2;const bg=c.createGain();bg.gain.setValueAtTime(.0001,t);bg.gain.exponentialRampToValueAtTime(.018,t+.05);bg.gain.exponentialRampToValueAtTime(.0001,t+d);s.connect(bf);bf.connect(bg);bg.connect(MUS.g);s.start(t,Math.random());s.stop(t+d+.05)}
+function playStep(n,t){const b=n%8,bar=Math.floor(n/8)%4,loop=Math.floor(n/32),i=n%32;
+ if(b===0||b===4)dum(t);if(b===1||b===3||b===6)tek(t,.1);if(b===7&&bar===3)tek(t,.06);
+ const r=ROOTS[bar];if(b===0)pluck(HZ[r[0]]/2,t,.09);if(b===2||b===5)pluck(HZ[r[1]]/2,t,.06);if(b===3&&bar%2)pluck(HZ[r[0]],t,.05);
+ if(loop%3===2)return;const mel=loop%3===0?MEL_A:MEL_B;const ev=mel.find(e=>e[0]===i);if(ev)ney(HZ[ev[1]],t,ev[2]*STEP)}
+function schedule(){const c=SND.ctx;if(!c||!MUS.playing)return;if(MUS.next<c.currentTime)MUS.next=c.currentTime+.05;while(MUS.next<c.currentTime+.4){playStep(MUS.step,MUS.next);MUS.step++;MUS.next+=STEP}}
+function startMusic(){if(!MUS.on||MUS.playing)return;const c=ctx();if(!c)return;MUS.playing=true;
+ MUS.g=c.createGain();MUS.g.gain.setValueAtTime(.0001,c.currentTime);MUS.g.gain.exponentialRampToValueAtTime(MUS.level,c.currentTime+2.5);MUS.g.connect(c.destination);
+ const lp=c.createBiquadFilter();lp.type="lowpass";lp.frequency.value=380;const dg=c.createGain();dg.gain.value=.05;lp.connect(dg);dg.connect(MUS.g);
+ MUS.drone=[73.42,110,73.9].map(f=>{const o=c.createOscillator();o.type="sawtooth";o.frequency.value=f;o.connect(lp);o.start();return o});
+ MUS.step=0;MUS.next=c.currentTime+.15;schedule();MUS.timer=setInterval(schedule,90)}
+function stopMusic(){if(!MUS.playing)return;MUS.playing=false;clearInterval(MUS.timer);const c=SND.ctx,g=MUS.g,dr=MUS.drone;
+ g.gain.cancelScheduledValues(c.currentTime);g.gain.setValueAtTime(Math.max(.0001,g.gain.value),c.currentTime);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+.8);setTimeout(()=>{dr.forEach(o=>{try{o.stop()}catch(e){}});g.disconnect()},1000)}
+function musicLevel(v){MUS.level=v;if(!MUS.playing)return;const c=SND.ctx;MUS.g.gain.cancelScheduledValues(c.currentTime);MUS.g.gain.setTargetAtTime(v,c.currentTime,.5)}
+document.addEventListener("visibilitychange",()=>{if(!SND.ctx)return;if(document.hidden)SND.ctx.suspend();else SND.ctx.resume()});
+
 /* ================= state ================= */
 const TIME_MC=25,TIME_ORDER=50;
 let S={coins:0,shown:0,medals:{},stats:{right:0,played:0,best:0},lang:"both",ch:0,list:[],qi:0,score:0,streak:0,earned:0};
 let timerRAF=null;
-function load(){try{const d=JSON.parse(localStorage.getItem("golden-dinar")||"{}");S.coins=d.coins||0;S.medals=d.medals||{};S.stats=Object.assign(S.stats,d.stats||{});S.lang=d.lang||"both";SND.on=d.sound!==false}catch(e){}S.shown=S.coins}
-function save(){try{localStorage.setItem("golden-dinar",JSON.stringify({coins:S.coins,medals:S.medals,stats:S.stats,lang:S.lang,sound:SND.on}))}catch(e){}}
+function load(){try{const d=JSON.parse(localStorage.getItem("golden-dinar")||"{}");S.coins=d.coins||0;S.medals=d.medals||{};S.stats=Object.assign(S.stats,d.stats||{});S.lang=d.lang||"both";SND.on=d.sound!==false;MUS.on=d.music!==false}catch(e){}S.shown=S.coins}
+function save(){try{localStorage.setItem("golden-dinar",JSON.stringify({coins:S.coins,medals:S.medals,stats:S.stats,lang:S.lang,sound:SND.on,music:MUS.on}))}catch(e){}}
 
 const app=document.getElementById("app");
 const medalOf=(s,n)=>s===n?"gold":s>=n-2?"silver":s>=Math.ceil(n/3)?"bronze":null;
@@ -487,15 +522,19 @@ const RANKS=[[0,"Curious Tourist","سائح فضولي"],[300,"Souk Storyteller"
 const rank=c=>RANKS.filter(r=>c>=r[0]).pop();
 const nextRank=c=>RANKS.find(r=>r[0]>c);
 const SPK_ON=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>`;
+const NOTE_ON=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg>`;
+const NOTE_OFF=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/><path d="M3 3l18 18"/></svg>`;
 const SPK_OFF=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="m16 9 6 6M22 9l-6 6"/></svg>`;
 
 function applyLang(){document.body.classList.toggle("only-en",S.lang==="en");document.body.classList.toggle("only-ar",S.lang==="ar");app.dir=S.lang==="ar"?"rtl":"ltr";document.documentElement.lang=S.lang==="ar"?"ar":"en"}
 function header(){return `<header class="top"><div class="brand" id="home" role="button" tabindex="0" aria-label="Quest map"><h1>The Golden Dinar</h1><span class="ruq">الدينار الذهبي</span></div>
  <div class="ctrl"><div class="seg" role="group" aria-label="Language">${[["en","EN"],["ar","ع"],["both","EN+ع"]].map(([k,l])=>`<button data-lang="${k}" aria-pressed="${S.lang===k}">${l}</button>`).join("")}</div>
- <button class="iconbtn" id="snd" aria-label="Sound" aria-pressed="${SND.on}">${SND.on?SPK_ON:SPK_OFF}</button>
+ <button class="iconbtn" id="mus" aria-label="Music" aria-pressed="${MUS.on}">${MUS.on?NOTE_ON:NOTE_OFF}</button>
+ <button class="iconbtn" id="snd" aria-label="Sound effects" aria-pressed="${SND.on}">${SND.on?SPK_ON:SPK_OFF}</button>
  <div class="purse" id="purse" aria-label="Gold dinars">${COIN}<span id="coins">${S.shown}</span></div></div></header><div class="mosaic"></div>`}
 function wireHeader(){const h=document.getElementById("home");if(h){h.onclick=goMap;h.onkeydown=e=>{if(e.key==="Enter")goMap()}}
  app.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{S.lang=b.dataset.lang;save();applyLang();app.querySelectorAll(".seg button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.lang===S.lang));sfx.click()});
+ const mb=document.getElementById("mus");if(mb)mb.onclick=()=>{MUS.on=!MUS.on;save();mb.innerHTML=MUS.on?NOTE_ON:NOTE_OFF;mb.setAttribute("aria-pressed",MUS.on);if(MUS.on)startMusic();else stopMusic()};
  const sb=document.getElementById("snd");if(sb)sb.onclick=()=>{SND.on=!SND.on;save();sb.innerHTML=SND.on?SPK_ON:SPK_OFF;sb.setAttribute("aria-pressed",SND.on);if(SND.on)sfx.coin()}}
 function stopTimer(){if(timerRAF)cancelAnimationFrame(timerRAF);timerRAF=null}
 function goMap(){stopTimer();renderMap();window.scrollTo(0,0)}
@@ -511,10 +550,10 @@ function renderSplash(){
    <p class="en">3,000 years of Tunisian history in ${ALL.length} quests and ${TOTAL_Q} questions. Win gold, collect medals, become the Heir of Elissa.</p>
    <p class="ar" lang="ar">3000 سنة من تاريخ تونس في ${ALL.length} تحديات و${TOTAL_Q} سؤالًا. اربح الذهب، واجمع الأوسمة، وكن وريث عليسة.</p>
    <button class="btn big" id="go"><span class="en">Enter the treasury</span><span class="ar" lang="ar">ادخل الخزينة</span></button>
-   <span class="small en">Turn your sound on for coins and applause.</span><span class="small ar" lang="ar">شغّل الصوت لتسمع رنين الذهب والتصفيق.</span>
+   <span class="small en">Tap to start the music, coins and applause.</span><span class="small ar" lang="ar">اضغط لتبدأ الموسيقى ورنين الذهب والتصفيق.</span>
   </div></section>`;
  wireHeader();
- document.getElementById("go").onclick=()=>{sfx.cash();goMap()};
+ document.getElementById("go").onclick=()=>{sfx.cash();MUS.level=.5;startMusic();goMap()};
 }
 
 /* ================= map ================= */
@@ -524,6 +563,7 @@ function credits(){const used=Object.values(P);
  return `<details class="credits"><summary>${bi("Photo credits","مصادر الصور")}</summary><ul>${used.map(p=>`<li><a href="${PAGE(p[0])}" target="_blank" rel="noopener">${p[1]}</a></li>`).join("")}</ul>
  <p>${bi("All photographs and paintings come from Wikimedia Commons. The author and licence of each are on its linked page.","جميع الصور واللوحات من ويكيميديا كومنز، واسم المؤلف والترخيص في الصفحة المرتبطة بكل صورة.")}</p></details>`}
 function renderMap(){
+  musicLevel(.5);
   const r=rank(S.coins),nr=nextRank(S.coins),golds=Object.values(S.medals).filter(m=>m==="gold").length;
   app.innerHTML=header()+`
   <div class="intro"><p class="en">Choose a quest. Answer fast for a <b>speed bonus</b>, keep a <b>streak</b> to double your gold, and finish without a mistake to win its <b>Golden Dinar</b>.</p>
@@ -566,6 +606,7 @@ function startTimer(){stopTimer();const tick=()=>{const bar=document.querySelect
 
 function sceneFor(q){const id=ALL[S.ch].id==="mix"?chOf(q):ALL[S.ch].id;const list=CH_PH[id];return [list[S.qi%list.length],id]}
 function renderQ(){
+  musicLevel(.22);
   const c=ALL[S.ch],q=S.list[S.qi],n=S.list.length;const [pk,scene]=sceneFor(q);
   const head=`<div class="qhead"><span>${c.name} · ${S.qi+1} / ${n}</span><span class="streak">${S.streak>=2?bi("Streak ×"+S.streak,"سلسلة ×"+S.streak):""}</span></div>
    <div class="bars"><div class="progress"><i style="width:${(S.qi/n)*100}%"></i></div>${S.answered?"":`<div class="timer"><i></i></div>`}</div>
@@ -642,7 +683,7 @@ function flyCoins(r,gain){
 
 /* ================= result ================= */
 function renderResult(){
-  stopTimer();
+  stopTimer();musicLevel(.08);setTimeout(()=>{if(app.querySelector('.result .medalwrap'))musicLevel(.4)},5500);
   const c=ALL[S.ch],n=S.list.length,m=medalOf(S.score,n);
   const prev=S.medals[c.id],order=["bronze","silver","gold"];
   let bonus=0;
