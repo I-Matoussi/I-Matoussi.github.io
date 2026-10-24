@@ -200,7 +200,9 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:10p
 .result p{margin:0;max-width:52ch}
 .rank{font-family:var(--ruqaa);font-size:1.4rem;color:var(--gold)}
 .small{font-size:.85rem;color:var(--sand-dim)}
-span.en+span.ar{margin-inline-start:.4em}
+span.en+span.ar{margin-left:.45em}
+.bankp>span{display:block}
+.bankp>span.ar{margin-left:0;margin-top:4px}
 .result p>span,.credits p>span,.result>.small>span{display:block}
 .result p>span.ar{margin:2px 0 0}
 .statrow{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
@@ -213,6 +215,36 @@ span.en+span.ar{margin-inline-start:.4em}
 .credits a{color:var(--sand)}
 footer{font-size:.8rem;color:var(--sand-dim);text-align:center;display:flex;flex-direction:column;gap:2px}
 @media (max-width:460px){.tiles{gap:10px}.tile .name{font-size:.95rem}.q{font-size:1.18rem}.q-ar{font-size:1.1rem}.credits ul{columns:1}.brand h1{font-size:1.3rem}}
+
+
+/* English learning */
+.learn{border-top:1px solid var(--lapis-3);padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.learn .lhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:800;background:var(--teal);color:var(--ink);padding:3px 9px;border-radius:999px}
+.gram .badge{background:var(--gold)}
+.newwords{font-size:.82rem;color:var(--gold-hi);font-weight:700;animation:pulse 1.1s 3}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,170px),1fr));gap:8px}
+.wcard{background:var(--lapis-2);border:1px solid var(--lapis-3);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:2px;min-width:0;animation:optin .4s both}
+.wcard.locked{opacity:.45;border-style:dashed;align-items:center;justify-content:center;min-height:84px}
+.wtop{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ww{font-weight:800;color:var(--gold-hi);font-size:1.02rem}
+.pos{font-size:.72rem;color:var(--sand-dim);font-style:italic}
+.say{all:unset;cursor:pointer;margin-inline-start:auto;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:var(--gold-hi);border:1px solid var(--gold-lo)}
+.say:hover{background:var(--gold);color:var(--ink)}
+.say:focus-visible{outline:2px solid var(--gold-hi)}
+.war{font-family:var(--arabic);color:var(--sand);font-size:1rem}
+.wdef{font-size:.86rem;color:var(--sand-dim)}
+.gram strong{color:var(--sand)}
+.gram .inq{font-size:.88rem;color:var(--sand-dim)}
+.gram mark{background:rgba(224,172,69,.22);color:var(--gold-hi);padding:0 4px;border-radius:3px}
+.gram > .en,.gram > .ar{font-size:.94rem}
+.bankbtn{all:unset;cursor:pointer;display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:10px;border:1px solid var(--gold-lo);background:linear-gradient(120deg,var(--lapis-2),var(--lapis-3));color:var(--gold-hi);transition:transform .2s,box-shadow .2s}
+.bankbtn:hover,.bankbtn:focus-visible{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.bankbtn:focus-visible{outline:2px solid var(--gold-hi);outline-offset:2px}
+.bankbtn svg{flex:none}
+.bankbtn .bt{display:flex;flex-direction:column;font-weight:800;color:var(--sand);min-width:0}
+.bankbtn .bt .small{font-weight:400}
+.bank{margin-top:4px}
 
 /* drawn-scene animations (fallback art) */
 .a-wave{animation:wave 7s linear infinite}
@@ -377,9 +409,125 @@ const CH=[
  O([["Massinissa at Zama","ماسينيسا في زاما","202 BCE","202 ق.م",-202],["Ibrahim ibn al-Aghlab","إبراهيم بن الأغلب","800","800م",800],["Hammuda Pasha","حمودة باشا","1782","1782م",1782],["Bourguiba, first president","بورقيبة أول رئيس","1957","1957م",1957]],"Two thousand years of rule over the same land.","ألفا سنة من الحكم على الأرض نفسها.")
 ]}
 ];
+/* ================= more history questions ================= */
+const MORE={
+carthage:[
+ M("Settlers from which Phoenician city founded Carthage?","مستوطنون من أي مدينة فينيقية أسّسوا قرطاج؟",["Tyre","صور"],[["Sidon","صيدا"],["Byblos","جبيل"],["Alexandria","الإسكندرية"]],"<b>Tyre</b> lies in today's Lebanon. Carthage means 'New City' (Qart-hadasht) in Phoenician.","تقع <b>صور</b> في لبنان الحالي، ومعنى قرطاج بالفينيقية «المدينة الجديدة» (قرت حدشت)."),
+ M("What was the name of the citadel hill of Carthage?","ما اسم تلّة القلعة في قرطاج؟",["Byrsa","بيرصا"],[["Tophet","توفيت"],["Megara","ميغارا"],["Utica","أوتيكا"]],"<b>Byrsa</b> hill now holds the Carthage Museum and the Saint Louis Cathedral.","تضم تلّة <b>بيرصا</b> اليوم متحف قرطاج وكاتدرائية القديس لويس."),
+ M("Which Carthaginian navigator sailed down the coast of West Africa around 500 BCE?","أي ملاح قرطاجي أبحر على طول ساحل غرب إفريقيا نحو سنة 500 ق.م؟",["Hanno","حنون"],[["Himilco","حملكون"],["Mago","ماغون"],["Hasdrubal","صدربعل"]],"The story of <b>Hanno</b>'s voyage survives in a Greek translation called the Periplus.","وصلتنا رحلة <b>حنون</b> في ترجمة يونانية تُعرف بـ«الطواف»."),
+ M("Which Punic town on Cap Bon is a UNESCO World Heritage site?","أي مدينة بونية في الوطن القبلي مسجلة في التراث العالمي لليونسكو؟",["Kerkouane","كركوان"],[["Utica","أوتيكا"],["Hadrumetum","حضرموت (سوسة)"],["Thapsus","تابسوس"]],"<b>Kerkouane</b> was abandoned in the 3rd century BCE and never rebuilt by the Romans, so its Punic houses survive.","هُجرت <b>كركوان</b> في القرن الثالث ق.م ولم يُعد الرومان بناءها، فبقيت بيوتها البونية."),
+ M("The Roman Senate ordered the translation of a farming book by which Carthaginian writer?","أمر مجلس الشيوخ الروماني بترجمة كتاب في الفلاحة لأي كاتب قرطاجي؟",["Mago","ماغون"],[["Hanno","حنون"],["Hamilcar","حملقار"],["Terence","ترنتيوس"]],"<b>Mago</b>'s treatise was so admired that Rome kept it after destroying Carthage.","نال كتاب <b>ماغون</b> إعجابًا كبيرًا حتى إن روما احتفظت به بعد تدمير قرطاج."),
+ T("True or false: the Roman city of Dougga is a UNESCO World Heritage site.","صواب أم خطأ: مدينة دقة الرومانية مسجلة في التراث العالمي لليونسكو.",true,"<b>True.</b> Dougga was listed in 1997. Its Capitol was built in 166 CE.","<b>صواب.</b> سُجّلت دقة سنة 1997، وبُني الكابيتول فيها سنة 166م.")
+],
+kairouan:[
+ M("Hassan ibn al-Nu'man captured Carthage in which year?","في أي سنة استولى حسان بن النعمان على قرطاج؟",["698","698م"],[["647","647م"],["670","670م"],["740","740م"]],"After <b>698</b> the Arabs built up nearby Tunis as their port and naval base.","بعد سنة <b>698</b> طوّر العرب تونس المجاورة لتكون ميناءهم وقاعدتهم البحرية."),
+ M("The great Berber revolt against Umayyad governors broke out in which year?","في أي سنة اندلعت الثورة الأمازيغية الكبرى ضد ولاة بني أمية؟",["740","740م"],[["698","698م"],["800","800م"],["827","827م"]],"The revolt of <b>740</b> shook Umayyad rule across the whole Maghreb.","هزّت ثورة <b>740</b> الحكم الأموي في المغرب كله."),
+ M("Kairouan's huge round 9th-century water reservoirs are called the...","ما اسم الخزانات المائية الدائرية الضخمة في القيروان من القرن التاسع؟",["Aghlabid Basins","فسقية الأغالبة"],[["Zaghouan aqueduct","حنايا زغوان"],["Cisterns of La Malga","مواجل المعلقة"],["Ribat","الرباط"]],"The largest basin is about 128 metres across. They stored water for the whole city.","يبلغ قطر أكبر فسقية نحو 128 مترًا، وكانت تخزّن الماء للمدينة كلها."),
+ M("Which dynasty founded the Great Mosque of Sousse in 850–851?","أي دولة أسّست الجامع الكبير بسوسة سنة 850–851م؟",["The Aghlabids","الأغالبة"],[["The Fatimids","الفاطميون"],["The Hafsids","الحفصيون"],["The Zirids","الزيريون"]],"The <b>Aghlabids</b> also built the Ribat of Sousse to defend the coast.","بنى <b>الأغالبة</b> أيضًا رباط سوسة لحماية الساحل."),
+ T("True or false: the minaret of the Great Mosque of Kairouan dates from the 9th century.","صواب أم خطأ: تعود صومعة جامع القيروان إلى القرن التاسع.",true,"<b>True.</b> It is among the oldest standing minarets in the Muslim world.","<b>صواب.</b> وهي من أقدم الصوامع القائمة في العالم الإسلامي."),
+ M("In which city did Imam Sahnun teach?","في أي مدينة درّس الإمام سحنون؟",["Kairouan","القيروان"],[["Tunis","تونس"],["Mahdia","المهدية"],["Sfax","صفاقس"]],"Students came to <b>Kairouan</b> from all over the Maghreb and al-Andalus to hear him.","جاء الطلبة إلى <b>القيروان</b> من كامل المغرب والأندلس للأخذ عنه.")
+],
+hafsid:[
+ M("Which Norman king of Sicily took Mahdia in 1148?","أي ملك نورماني لصقلية استولى على المهدية سنة 1148م؟",["Roger II","روجر الثاني"],[["Charles V","شارلكان"],["Louis IX","لويس التاسع"],["Frederick II","فريدريك الثاني"]],"<b>Roger II</b> held Mahdia, Sousse and Sfax for about twelve years.","سيطر <b>روجر الثاني</b> على المهدية وسوسة وصفاقس نحو اثنتي عشرة سنة."),
+ M("Which Almohad caliph drove the Normans out of Mahdia in 1160?","أي خليفة موحدي طرد النورمان من المهدية سنة 1160م؟",["Abd al-Mu'min","عبد المؤمن بن علي"],[["Abu Zakariya","أبو زكرياء"],["Yusuf ibn Tashfin","يوسف بن تاشفين"],["al-Mu'izz ibn Badis","المعز بن باديس"]],"<b>Abd al-Mu'min</b> united the whole Maghreb under Almohad rule.","وحّد <b>عبد المؤمن</b> المغرب كله تحت الحكم الموحدي."),
+ M("The Hafsids first ruled Ifriqiya as governors for which empire?","حكم الحفصيون إفريقية أولًا ولاةً لأي إمبراطورية؟",["The Almohads","الموحدون"],[["The Fatimids","الفاطميون"],["The Ottomans","العثمانيون"],["The Abbasids","العباسيون"]],"In 1229 Abu Zakariya stopped obeying the Almohads and ruled in his own name.","سنة 1229 توقف أبو زكرياء عن طاعة الموحدين وحكم باسمه."),
+ M("Which 14th-century imam of the Zitouna Mosque was the leading Maliki scholar of Hafsid Tunis?","أي إمام لجامع الزيتونة في القرن الرابع عشر كان أبرز فقيه مالكي في تونس الحفصية؟",["Ibn Arafa","ابن عرفة"],[["Sahnun","سحنون"],["Ibn Rushd","ابن رشد"],["al-Mazari","المازري"]],"<b>Ibn Arafa</b> (1316–1401) was a rival of the young Ibn Khaldun.","كان <b>ابن عرفة</b> (1316–1401) منافسًا لابن خلدون في شبابه."),
+ M("Which corsair seized Tunis in 1534, provoking Charles V's attack?","أي قرصان استولى على تونس سنة 1534 فاستفزّ هجوم شارلكان؟",["Khayr al-Din Barbarossa","خير الدين بربروس"],[["Dragut","درغوث"],["Sinan Pasha","سنان باشا"],["Uluj Ali","علج علي"]],"He was an Ottoman admiral. He is not the same person as the 19th-century reformer Khayr al-Din.","كان أميرالًا عثمانيًا، وهو غير المصلح خير الدين التونسي في القرن التاسع عشر."),
+ T("True or false: Ibn Khaldun died in Cairo in 1406.","صواب أم خطأ: توفي ابن خلدون في القاهرة سنة 1406م.",true,"<b>True.</b> He spent his last years in Egypt as a judge and teacher.","<b>صواب.</b> قضى سنواته الأخيرة في مصر قاضيًا ومدرّسًا.")
+],
+beys:[
+ M("Uluj Ali took Tunis for the Ottomans in 1569. Who retook it for Spain in 1573?","استولى علج علي على تونس للعثمانيين سنة 1569. من استعادها لإسبانيا سنة 1573؟",["Don John of Austria","دون خوان النمساوي"],[["Charles V","شارلكان"],["Philip II in person","فيليب الثاني بنفسه"],["Louis XIV","لويس الرابع عشر"]],"Spain held Tunis for only a year. The Ottomans returned for good in 1574.","لم تحتفظ إسبانيا بتونس إلا سنة واحدة، وعاد العثمانيون نهائيًا سنة 1574."),
+ M("In 1591 real power in Tunis passed to which military officers?","سنة 1591 انتقلت السلطة الفعلية في تونس إلى أي ضباط عسكريين؟",["The deys","الدايات"],[["The beys","البايات"],["The caliphs","الخلفاء"],["The emirs","الأمراء"]],"The <b>deys</b> were elected by the janissary officers. Later the beys took power from them.","كان <b>الدايات</b> يُنتخبون من ضباط الإنكشارية، ثم انتزع البايات السلطة منهم."),
+ M("Which bey founded the Bardo Military School in 1840?","أي باي أسّس المدرسة الحربية بباردو سنة 1840؟",["Ahmad Bey","أحمد باي"],[["Hammuda Pasha","حمودة باشا"],["Sadok Bey","الصادق باي"],["Husayn ibn Ali","حسين بن علي"]],"<b>Ahmad Bey</b> wanted a modern army. The school taught officers sciences and European languages.","أراد <b>أحمد باي</b> جيشًا حديثًا، فكانت المدرسة تعلّم الضباط العلوم واللغات الأوروبية."),
+ M("Which prime minister, in office for about 36 years, was dismissed in 1873?","أي وزير أكبر بقي في منصبه نحو 36 سنة وعُزل سنة 1873؟",["Mustapha Khaznadar","مصطفى خزندار"],[["Khayr al-Din","خير الدين"],["Mustapha Ben Ismail","مصطفى بن إسماعيل"],["Ibn Abi al-Diyaf","ابن أبي الضياف"]],"He was blamed for the debts that led to bankruptcy. Khayr al-Din replaced him.","حُمّل مسؤولية الديون التي قادت إلى الإفلاس، وخلفه خير الدين."),
+ T("True or false: Ahmad Bey made an official visit to France in 1846.","صواب أم خطأ: قام أحمد باي بزيارة رسمية إلى فرنسا سنة 1846.",true,"<b>True.</b> He was received by King Louis-Philippe in Paris.","<b>صواب.</b> استقبله الملك لويس فيليب في باريس."),
+ M("Which court secretary and historian helped draft the 1857 Fundamental Pact?","أي كاتب ومؤرخ ساهم في صياغة عهد الأمان سنة 1857؟",["Ibn Abi al-Diyaf","ابن أبي الضياف"],[["Ali Ben Ghedahem","علي بن غذاهم"],["Bayram V","بيرم الخامس"],["Hasan Husni Abd al-Wahhab","حسن حسني عبد الوهاب"]],"He later told the whole story in his chronicle <i>Ithaf ahl al-zaman</i>.","روى القصة كاملة لاحقًا في كتابه <i>إتحاف أهل الزمان</i>.")
+],
+protectorate:[
+ M("Which reform movement launched the newspaper 'Le Tunisien' in 1907?","أي حركة إصلاحية أصدرت جريدة «التونسي» سنة 1907؟",["The Young Tunisians","حركة الشباب التونسي"],[["The Destour","الحزب الحر الدستوري"],["The Neo-Destour","الدستور الجديد"],["The UGTT","اتحاد الشغل"]],"Its leaders included <b>Ali Bach Hamba</b> and Béchir Sfar.","من قادتها <b>علي باش حامبة</b> والبشير صفر."),
+ M("The Jellaz incident of 1911 broke out over plans for which place?","اندلعت أحداث الجلاز سنة 1911 بسبب مشروع يخص أي مكان؟",["A Muslim cemetery","مقبرة إسلامية"],[["A mosque","جامع"],["A market","سوق"],["A port","ميناء"]],"Tunisians feared the authorities would take control of the <b>Jellaz cemetery</b>. It was one of the first big clashes of the protectorate.","خشي التونسيون استيلاء السلطات على <b>مقبرة الجلاز</b>، وكانت من أولى المواجهات الكبرى زمن الحماية."),
+ M("In which year did the Tunisian campaign of the Second World War end?","في أي سنة انتهت الحملة التونسية في الحرب العالمية الثانية؟",["1943","1943"],[["1940","1940"],["1942","1942"],["1945","1945"]],"Axis forces in Tunisia surrendered in <b>May 1943</b>.","استسلمت قوات المحور في تونس في <b>ماي 1943</b>."),
+ M("Which French prime minister announced internal autonomy for Tunisia in Carthage on 31 July 1954?","أي رئيس حكومة فرنسي أعلن الاستقلال الداخلي لتونس في قرطاج يوم 31 جويلية 1954؟",["Pierre Mendès France","بيار منداس فرانس"],[["Charles de Gaulle","شارل ديغول"],["Guy Mollet","غي موليه"],["Robert Schuman","روبير شومان"]],"His <b>Carthage speech</b> opened the road to the 1955 autonomy agreements.","فتح <b>خطاب قرطاج</b> الطريق إلى اتفاقيات الاستقلال الداخلي سنة 1955."),
+ M("What were the armed resistance fighters of 1952–1954 called?","ماذا كان يُسمّى المقاومون المسلحون في 1952–1954؟",["Fellagha","الفلاقة"],[["Janissaries","الإنكشارية"],["Mamluks","المماليك"],["Zouaves","الزواف"]],"The <b>fellagha</b> fought mainly in the mountains of the centre and south.","قاتل <b>الفلاقة</b> خاصة في جبال الوسط والجنوب."),
+ T("True or false: Bourguiba was held on the island of La Galite during his 1952–1954 exile.","صواب أم خطأ: احتُجز بورقيبة في جزيرة جالطة خلال منفاه بين 1952 و1954.",true,"<b>True.</b> La Galite is a small island off the north coast.","<b>صواب.</b> جالطة جزيرة صغيرة قبالة الساحل الشمالي.")
+],
+republic:[
+ M("When was the first constitution of the Tunisian Republic promulgated?","متى صدر أول دستور للجمهورية التونسية؟",["1 June 1959","1 جوان 1959"],[["20 March 1956","20 مارس 1956"],["25 July 1957","25 جويلية 1957"],["1 June 1964","1 جوان 1964"]],"It was promulgated on <b>1 June 1959</b>, the anniversary of Bourguiba's return in 1955.","صدر يوم <b>1 جوان 1959</b>، في ذكرى عودة بورقيبة سنة 1955."),
+ M("Who replaced Bourguiba as president on 7 November 1987?","من خلف بورقيبة في الرئاسة يوم 7 نوفمبر 1987؟",["Zine El Abidine Ben Ali","زين العابدين بن علي"],[["Mohamed Mzali","محمد مزالي"],["Hédi Nouira","الهادي نويرة"],["Béji Caïd Essebsi","الباجي قائد السبسي"]],"Ben Ali, then prime minister, had doctors declare Bourguiba unfit to rule.","جعل بن علي، وكان وزيرًا أول، الأطباء يُقرّون بعجز بورقيبة عن الحكم."),
+ M("What is 26 January 1978 remembered as?","بماذا يُعرف يوم 26 جانفي 1978؟",["Black Thursday","الخميس الأسود"],[["Evacuation Day","عيد الجلاء"],["Martyrs' Day","عيد الشهداء"],["Women's Day","عيد المرأة"]],"A UGTT general strike was put down by force. Many people were killed.","قُمع إضراب عام لاتحاد الشغل بالقوة، وسقط كثير من القتلى."),
+ M("In which year did the 'bread riots' break out?","في أي سنة اندلعت «انتفاضة الخبز»؟",["1984","1984"],[["1978","1978"],["1987","1987"],["1969","1969"]],"They began in late December 1983 and peaked in <b>January 1984</b> after bread prices doubled.","بدأت أواخر ديسمبر 1983 وبلغت ذروتها في <b>جانفي 1984</b> بعد مضاعفة سعر الخبز."),
+ M("When was Tunisia's post-revolution constitution adopted?","متى اعتُمد دستور تونس بعد الثورة؟",["January 2014","جانفي 2014"],[["October 2011","أكتوبر 2011"],["July 2022","جويلية 2022"],["March 2012","مارس 2012"]],"The Constituent Assembly adopted it in <b>January 2014</b> after long debates.","اعتمده المجلس التأسيسي في <b>جانفي 2014</b> بعد نقاشات طويلة."),
+ T("True or false: Tunisian women first voted in the municipal elections of 1957.","صواب أم خطأ: صوّتت المرأة التونسية لأول مرة في الانتخابات البلدية سنة 1957.",true,"<b>True.</b> They voted in national elections for the first time in 1959.","<b>صواب.</b> وصوّتت في الانتخابات الوطنية لأول مرة سنة 1959.")
+],
+books:[
+ M("Which Kairouan scholar wrote the 'Risala', a famous handbook of Maliki law?","أي عالم قيرواني ألّف «الرسالة»، الكتاب المشهور في الفقه المالكي؟",["Ibn Abi Zayd al-Qayrawani","ابن أبي زيد القيرواني"],[["Sahnun","سحنون"],["Ibn Arafa","ابن عرفة"],["Ibn Khaldun","ابن خلدون"]],"He was called 'the little Malik' because of his authority in law.","لُقّب بـ«مالك الصغير» لمكانته في الفقه."),
+ M("Who wrote 'al-Hulal al-Sundusiyya', an 18th-century history of Tunisia?","من ألّف «الحلل السندسية في الأخبار التونسية» في القرن الثامن عشر؟",["al-Wazir al-Sarraj","الوزير السراج"],[["Ibn Abi Dinar","ابن أبي دينار"],["Hammuda ibn Abd al-Aziz","حمودة بن عبد العزيز"],["Ibn Abi al-Diyaf","ابن أبي الضياف"]],"Al-Sarraj wrote it in the time of Husayn ibn Ali, founder of the Husainid dynasty.","كتبه السراج في عهد حسين بن علي مؤسس الدولة الحسينية."),
+ M("What is Chebbi's famous poetry collection called?","ما اسم ديوان الشابي المشهور؟",["Songs of Life","أغاني الحياة"],[["The Dam","السد"],["Tunisia Martyr","تونس الشهيدة"],["The Brief History","خلاصة التاريخ"]],"<i>Aghani al-Hayat</i> was published after his death, in 1955.","نُشر <i>أغاني الحياة</i> بعد وفاته سنة 1955."),
+ M("Who wrote 'Histoire de la Tunisie: de Carthage à nos jours' (2019)?","من ألّفت «تاريخ تونس من قرطاج إلى اليوم» (2019)؟",["Sophie Bessis","صوفي بسيس"],[["Kenneth Perkins","كينيث بيركنز"],["Hichem Djait","هشام جعيط"],["Mohamed Talbi","محمد الطالبي"]],"<b>Sophie Bessis</b> is a Tunisian-born historian who writes in French.","<b>صوفي بسيس</b> مؤرخة تونسية المولد تكتب بالفرنسية."),
+ M("Robert Brunschvig's classic study is a history of Ifriqiya under which dynasty?","دراسة روبار برنشفيك الشهيرة تؤرّخ لإفريقية في عهد أي دولة؟",["The Hafsids","الحفصيون"],[["The Aghlabids","الأغالبة"],["The Zirids","الزيريون"],["The Husainids","الحسينيون"]],"It was translated into Arabic by Hammadi Sahili.","ترجمها إلى العربية حمادي الساحلي."),
+ M("Which book did Ibn Rashiq of Kairouan write about the art of poetry?","أي كتاب ألّفه ابن رشيق القيرواني في صناعة الشعر؟",["al-'Umda","العمدة"],[["al-Muqaddimah","المقدمة"],["al-Risala","الرسالة"],["al-Mu'nis","المؤنس"]],"<i>Al-'Umda</i> is one of the great works of classical Arabic literary criticism.","<i>العمدة</i> من أهم كتب النقد الأدبي العربي القديم.")
+],
+figures:[
+ M("Which Christian martyrs died in the arena of Carthage in 203 CE?","أي شهيدتين مسيحيتين ماتتا في حلبة قرطاج سنة 203م؟",["Perpetua and Felicity","بربتوا وفليسيتا"],[["Monica and Augustine","مونيكا وأوغسطين"],["Cyprian and Tertullian","كبريانوس وترتليان"],["Elissa and Anna","عليسة وآنا"]],"Perpetua's prison diary is one of the oldest texts written by a woman in Latin.","تُعدّ يوميات بربتوا في السجن من أقدم النصوص التي كتبتها امرأة باللاتينية."),
+ M("Saint Cyprian, martyred in 258 CE, was bishop of which city?","كان القديس كبريانوس، الذي استُشهد سنة 258م، أسقفًا لأي مدينة؟",["Carthage","قرطاج"],[["Hippo","هيبون"],["Utica","أوتيكا"],["Rome","روما"]],"He was one of the most important Christian leaders of Roman Africa.","كان من أهم القادة المسيحيين في إفريقيا الرومانية."),
+ M("Who became the first Tunisian Muslim woman doctor, in 1936?","من أصبحت أول طبيبة مسلمة تونسية سنة 1936؟",["Tawhida Ben Cheikh","توحيدة بن الشيخ"],[["Bchira Ben Mrad","بشيرة بن مراد"],["Radhia Haddad","راضية الحداد"],["Habiba Menchari","حبيبة المنشاري"]],"Her portrait appears on the Tunisian 10-dinar banknote issued in 2020.","تظهر صورتها على ورقة العشرة دنانير الصادرة سنة 2020."),
+ M("Constantine the African, who brought Arabic medicine to Italy, came from which region?","من أي منطقة جاء قسطنطين الإفريقي الذي نقل الطب العربي إلى إيطاليا؟",["Ifriqiya (Tunisia)","إفريقية (تونس)"],[["Egypt","مصر"],["al-Andalus","الأندلس"],["Syria","الشام"]],"He translated works by Ibn al-Jazzar into Latin at Monte Cassino in the 11th century.","ترجم أعمال ابن الجزار إلى اللاتينية في دير مونتي كاسينو في القرن الحادي عشر."),
+ T("True or false: Hannibal is buried in Tunisia.","صواب أم خطأ: حنبعل مدفون في تونس.",false,"<b>False.</b> He died in exile in Bithynia (today's Turkey), around 183 BCE.","<b>خطأ.</b> مات في منفاه ببيثينيا (تركيا الحالية) نحو سنة 183 ق.م."),
+ M("Who was the 9th-century Kairouan judge who led the Aghlabid army to Sicily?","من القاضي القيرواني الذي قاد الجيش الأغلبي إلى صقلية في القرن التاسع؟",["Asad ibn al-Furat","أسد بن الفرات"],[["Sahnun","سحنون"],["Ibn al-Jazzar","ابن الجزار"],["Ibn Rashiq","ابن رشيق"]],"He died during the siege of Syracuse in 828.","توفي أثناء حصار سرقوسة سنة 828م.")
+],
+leaders:[
+ M("After Zama, Hannibal served Carthage as chief magistrate. What was this office called?","بعد زاما تولّى حنبعل أعلى منصب قضائي في قرطاج. ما اسم هذا المنصب؟",["Suffete","الشُّفط (القاضي)"],[["Consul","القنصل"],["Pharaoh","الفرعون"],["Satrap","المرزبان"]],"As <b>suffete</b> (196 BCE) he reformed the state's finances.","بصفته <b>شُفطًا</b> (196 ق.م) أصلح مالية الدولة."),
+ M("Which Hafsid sultan did Charles V put back on the throne in 1535?","أي سلطان حفصي أعاده شارلكان إلى العرش سنة 1535؟",["Mulay Hassan","مولاي الحسن"],[["Abu Zakariya","أبو زكرياء"],["Abu Faris","أبو فارس"],["Mulay Ahmad","مولاي أحمد"]],"<b>Mulay Hassan</b> ruled as a Spanish ally. His son Mulay Ahmad later deposed him.","حكم <b>مولاي الحسن</b> حليفًا لإسبانيا، ثم عزله ابنه مولاي أحمد."),
+ M("Which Aghlabid emir rebuilt the Great Mosque of Kairouan in 836?","أي أمير أغلبي أعاد بناء جامع القيروان سنة 836م؟",["Ziyadat Allah I","زيادة الله الأول"],[["Ibrahim ibn al-Aghlab","إبراهيم بن الأغلب"],["Asad ibn al-Furat","أسد بن الفرات"],["Ubayd Allah al-Mahdi","عبيد الله المهدي"]],"Much of the mosque we see today dates from his rebuilding.","يعود جزء كبير من الجامع الحالي إلى إعادة بنائه."),
+ M("Which prime minister signed the independence protocol of 20 March 1956?","أي وزير أكبر وقّع بروتوكول الاستقلال يوم 20 مارس 1956؟",["Tahar Ben Ammar","الطاهر بن عمار"],[["Habib Bourguiba","الحبيب بورقيبة"],["Bahi Ladgham","الباهي الأدغم"],["Mongi Slim","المنجي سليم"]],"Bourguiba became prime minister a few weeks later, in April 1956.","أصبح بورقيبة وزيرًا أكبر بعد أسابيع، في أفريل 1956."),
+ M("Which Tunisian diplomat became President of the UN General Assembly in 1961?","أي دبلوماسي تونسي ترأس الجمعية العامة للأمم المتحدة سنة 1961؟",["Mongi Slim","المنجي سليم"],[["Bahi Ladgham","الباهي الأدغم"],["Taieb Mhiri","الطيب المهيري"],["Habib Bourguiba Jr.","الحبيب بورقيبة الابن"]],"He was the first African to hold that post.","كان أول إفريقي يتولى هذا المنصب."),
+ M("Who presided over the National Constituent Assembly elected in 2011?","من ترأّس المجلس الوطني التأسيسي المنتخب سنة 2011؟",["Mustapha Ben Jafar","مصطفى بن جعفر"],[["Rached Ghannouchi","راشد الغنوشي"],["Moncef Marzouki","المنصف المرزوقي"],["Hamadi Jebali","حمادي الجبالي"]],"The Assembly wrote the 2014 constitution.","صاغ هذا المجلس دستور 2014.")
+]};
+CH.forEach(c=>{if(MORE[c.id]){const ord=c.qs.findIndex(q=>q.t==="order");c.qs.splice(ord<0?c.qs.length:ord,0,...MORE[c.id])}});
+
+/* ================= English corner: Grammar Lab & Word Hunter ================= */
+const G=(q,qa,a,o,f,fa)=>M(q,qa,a,o,f,fa);
+const LANG=[
+{id:"grammar",kind:"lang",name:"Grammar Lab",nameAr:"مختبر القواعد",span:"English through history",qs:[
+ G("Choose the right word: Carthage ___ founded in 814 BCE.","اختر الكلمة الصحيحة: تأسّست قرطاج سنة 814 ق.م.",["was","ماضٍ مفرد"],[["is","حاضر"],["were","ماضٍ جمع"],["has","يملك"]],"<b>Past simple passive:</b> was/were + past participle. One city → <b>was</b> founded.","<b>المبني للمجهول في الماضي:</b> was/were + التصريف الثالث. مدينة واحدة ← <b>was</b> founded."),
+ G("Choose the right verb: Hannibal ___ the Alps with elephants.","اختر الفعل الصحيح: عبر حنبعل جبال الألب بالفيلة.",["crossed","عبرَ (ماضٍ بسيط)"],[["crosses","يعبر (حاضر)"],["has crossed","قد عبر (تام)"],["cross","يعبر (مصدر)"]],"<b>Past simple</b> for a finished event at a known time: verb + <b>-ed</b>.","<b>الماضي البسيط</b> لحدث انتهى في زمن معروف: الفعل + <b>-ed</b>."),
+ G("Choose the preposition: Kairouan was founded ___ 670.","اختر حرف الجر: تأسست القيروان سنة 670.",["in","in مع السنوات"],[["on","on مع الأيام"],["at","at مع الساعات"],["by","by للفاعل"]],"Use <b>in</b> with years, months and centuries: in 670, in March, in the 9th century.","نستعمل <b>in</b> مع السنوات والشهور والقرون."),
+ G("Choose the preposition: Tunisia became independent ___ 20 March 1956.","اختر حرف الجر: استقلت تونس يوم 20 مارس 1956.",["on","on مع التاريخ الكامل"],[["in","in مع السنة"],["at","at مع الساعة"],["since","منذ"]],"Use <b>on</b> with days and full dates: on Monday, on 20 March 1956.","نستعمل <b>on</b> مع الأيام والتواريخ الكاملة."),
+ G("Choose the relative pronoun: Ibn Khaldun, ___ was born in Tunis, wrote the Muqaddimah.","اختر اسم الموصول: ابن خلدون، الذي وُلد في تونس، ألّف المقدمة.",["who","للأشخاص"],[["which","للأشياء"],["where","للأماكن"],["whose","للملكية"]],"<b>who</b> is for people, <b>which</b> for things, <b>where</b> for places.","<b>who</b> للأشخاص، و<b>which</b> للأشياء، و<b>where</b> للأماكن."),
+ G("Choose the right form: The Great Mosque of Kairouan is one of the ___ mosques in Africa.","اختر الصيغة الصحيحة: جامع القيروان من أقدم المساجد في إفريقيا.",["oldest","التفضيل (الأقدم)"],[["older","المقارنة (أقدم من)"],["old","الصفة"],["most old","صيغة خاطئة"]],"Short adjectives: old → older → <b>the oldest</b>. 'One of the' is always followed by a superlative.","الصفات القصيرة: old ← older ← <b>the oldest</b>، وبعد one of the نستعمل صيغة التفضيل."),
+ G("Choose the right form: Slavery ___ by Ahmad Bey in 1846.","اختر الصيغة الصحيحة: أُلغي الرق من قِبل أحمد باي سنة 1846.",["was abolished","مبني للمجهول"],[["abolished","مبني للمعلوم"],["has abolished","تام"],["is abolishing","مستمر"]],"The subject (slavery) did not do the action, so we use the <b>passive</b>. The doer comes after <b>by</b>.","الفاعل الحقيقي ليس «الرق»، لذلك نستعمل <b>المبني للمجهول</b>، ويأتي الفاعل بعد <b>by</b>."),
+ G("Choose the preposition: Carthage was destroyed ___ the Romans.","اختر حرف الجر: دُمّرت قرطاج على يد الرومان.",["by","by للفاعل"],[["from","من (مصدر)"],["with","بـ (أداة)"],["of","من (إضافة)"]],"In a passive sentence, <b>by</b> introduces the person who did the action.","في الجملة المبنية للمجهول، تُقدّم <b>by</b> من قام بالفعل."),
+ G("Choose the right word: Tunisia has been a republic ___ 1957.","اختر الكلمة الصحيحة: تونس جمهورية منذ 1957.",["since","منذ (نقطة بداية)"],[["for","لمدة"],["from","من"],["in","في"]],"Present perfect + <b>since</b> + a starting point (since 1957). Use <b>for</b> + a length of time (for 60 years).","المضارع التام + <b>since</b> + نقطة البداية، و<b>for</b> + مدة زمنية."),
+ G("Choose the right word: The Hafsids ruled Tunis ___ more than three centuries.","اختر الكلمة الصحيحة: حكم الحفصيون تونس لأكثر من ثلاثة قرون.",["for","لمدة"],[["since","منذ"],["during","أثناء"],["ago","مضى"]],"<b>for</b> + a period of time: for three centuries, for ten years.","<b>for</b> + مدة زمنية: لمدة ثلاثة قرون، لمدة عشر سنوات."),
+ G("Choose the past form: Elissa ___ the oxhide into thin strips.","اختر صيغة الماضي: قطّعت عليسة جلد الثور إلى شرائط رفيعة.",["cut","cut (فعل شاذ)"],[["cutted","خطأ شائع"],["cuts","حاضر"],["was cut","مبني للمجهول"]],"<b>cut</b> is irregular: cut – cut – cut. Others like it: put, let, set, spread.","<b>cut</b> فعل شاذ لا يتغير: cut – cut – cut، ومثله put وlet وset وspread."),
+ G("Choose the right word: The 1861 constitution was the ___ in the Arab world.","اختر الكلمة الصحيحة: كان دستور 1861 الأول في العالم العربي.",["first","الأول"],[["firstly","أولًا (ظرف)"],["once","مرة"],["one","واحد"]],"Ordinal numbers: <b>first</b>, second, third, fourth... Use 'the' before them.","الأعداد الترتيبية: <b>first</b> وsecond وthird... وتسبقها the."),
+ G("Choose the article: Ibn Khaldun was ___ important historian.","اختر أداة التنكير: كان ابن خلدون مؤرخًا مهمًّا.",["an","an قبل صوت متحرك"],[["a","a قبل صوت ساكن"],["the","أداة التعريف"],["some","بعض"]],"Use <b>an</b> before a vowel sound (an important, an hour) and <b>a</b> before a consonant sound (a historian).","نستعمل <b>an</b> قبل صوت متحرك و<b>a</b> قبل صوت ساكن."),
+ G("Choose the right word: Many tourists visit El Jem, ___ amphitheatre is huge.","اختر الكلمة الصحيحة: يزور كثير من السياح الجم التي قصرها ضخم.",["whose","للملكية"],[["who's","= who is"],["which","للأشياء"],["where","للأماكن"]],"<b>whose</b> shows possession: El Jem, whose amphitheatre... Do not confuse it with <b>who's</b> (= who is).","<b>whose</b> للملكية، ولا تخلط بينها وبين <b>who's</b> أي who is."),
+ G("Complete: If Hannibal had won at Zama, history ___ different.","أكمل: لو انتصر حنبعل في زاما، لكان التاريخ مختلفًا.",["would have been","الشرط الثالث"],[["will be","المستقبل"],["would be","الشرط الثاني"],["had been","الماضي التام"]],"<b>Third conditional</b> (imagined past): If + past perfect, <b>would have</b> + past participle.","<b>الشرط الثالث</b> (ماضٍ متخيَّل): If + الماضي التام، ثم <b>would have</b> + التصريف الثالث."),
+ G("Choose the right form: The pupils ___ about Carthage when the bell rang.","اختر الصيغة الصحيحة: كان التلاميذ يقرؤون عن قرطاج حين رنّ الجرس.",["were reading","ماضٍ مستمر"],[["read","ماضٍ بسيط"],["are reading","حاضر مستمر"],["have read","تام"]],"<b>Past continuous</b> (was/were + -ing) for an action in progress when another action happened.","<b>الماضي المستمر</b> (was/were + ing) لحدث كان جاريًا حين وقع حدث آخر.")
+]},
+{id:"words",kind:"lang",name:"Word Hunter",nameAr:"صيّاد الكلمات",span:"History vocabulary",qs:[
+ G("What does «dynasty» mean?","ما معنى كلمة «dynasty»؟",["a family of rulers, one after another","سلالة حاكمة"],[["a large army","جيش كبير"],["a written agreement between countries","معاهدة"],["a building for prayer","مكان للعبادة"]],"Example: The Hafsid <b>dynasty</b> ruled Tunis from 1229 to 1574.","مثال: حكمت <b>السلالة</b> الحفصية تونس من 1229 إلى 1574."),
+ G("What does «treaty» mean?","ما معنى كلمة «treaty»؟",["a formal written agreement between states","معاهدة"],[["a type of tax","نوع من الضرائب"],["a royal palace","قصر ملكي"],["a long war","حرب طويلة"]],"Example: The <b>Treaty</b> of Bardo was signed in 1881.","مثال: وُقّعت <b>معاهدة</b> باردو سنة 1881."),
+ G("What does «to abolish» mean?","ما معنى الفعل «to abolish»؟",["to end a law or system officially","يُلغي"],[["to build again","يُعيد البناء"],["to attack a city","يهاجم مدينة"],["to vote","يصوّت"]],"Example: Ahmad Bey <b>abolished</b> slavery in 1846.","مثال: <b>ألغى</b> أحمد باي الرق سنة 1846."),
+ G("Which English word means «ثورة»?","أي كلمة إنجليزية تعني «ثورة»؟",["revolution","ثورة"],[["reign","فترة حكم"],["region","منطقة"],["religion","دين"]],"Example: The <b>revolution</b> began in Sidi Bouzid in December 2010.","مثال: بدأت <b>الثورة</b> في سيدي بوزيد في ديسمبر 2010."),
+ G("What does «reign» mean?","ما معنى كلمة «reign»؟",["the period when a king or queen rules","فترة حكم ملك"],[["heavy rain","مطر غزير"],["a horse's strap","لجام الحصان"],["a law court","محكمة"]],"Careful! <b>reign</b>, <b>rain</b> and <b>rein</b> sound the same but mean different things.","انتبه! <b>reign</b> و<b>rain</b> و<b>rein</b> تُنطق بالطريقة نفسها ومعانيها مختلفة."),
+ G("What does «to found» a city mean?","ما معنى «to found» a city؟",["to start or create it","يؤسّس"],[["to find it again","يجدها من جديد"],["to destroy it","يدمّرها"],["to leave it","يغادرها"]],"<b>found – founded – founded</b> (to create) is a different verb from <b>find – found – found</b>.","الفعل <b>found – founded</b> (أسّس) يختلف عن <b>find – found</b> (وجد)."),
+ G("Which word means «عالِم» (a learned person)?","أي كلمة تعني «عالِم» (شخص واسع المعرفة)؟",["scholar","عالِم"],[["soldier","جندي"],["sailor","بحّار"],["scribe","ناسخ"]],"Example: Ibn Arafa was a famous <b>scholar</b> of the Zitouna.","مثال: كان ابن عرفة <b>عالمًا</b> مشهورًا في الزيتونة."),
+ G("What is a «chronicle»?","ما هو «chronicle»؟",["a record of events in time order","حولية تاريخية"],[["a type of clock","نوع من الساعات"],["a long illness","مرض مزمن"],["a poem of love","قصيدة غزل"]],"Example: Ibn Abi Dinar wrote a <b>chronicle</b> of Ifriqiya and Tunis.","مثال: كتب ابن أبي دينار <b>حولية</b> عن إفريقية وتونس."),
+ G("Which word means «استقلال»?","أي كلمة تعني «استقلال»؟",["independence","استقلال"],[["indifference","لامبالاة"],["dependence","تبعية"],["incidence","وقوع"]],"Example: Tunisia won its <b>independence</b> on 20 March 1956.","مثال: نالت تونس <b>استقلالها</b> يوم 20 مارس 1956."),
+ G("What are «ruins»?","ما معنى «ruins»؟",["the remains of old, damaged buildings","أطلال وآثار"],[["new houses","منازل جديدة"],["rules of a game","قواعد لعبة"],["roads","طرق"]],"Example: Tourists walk among the Roman <b>ruins</b> of Dougga.","مثال: يتجوّل السياح بين <b>الآثار</b> الرومانية في دقة."),
+ G("Which word means «تاجر»?","أي كلمة تعني «تاجر»؟",["merchant","تاجر"],[["mechanic","ميكانيكي"],["minister","وزير"],["marshal","مشير"]],"Example: Carthaginian <b>merchants</b> traded all over the Mediterranean.","مثال: تاجر <b>التجار</b> القرطاجيون في كامل المتوسط."),
+ G("What does «exile» mean?","ما معنى كلمة «exile»؟",["being forced to live away from your country","المنفى"],[["a way out of a building","مخرج"],["a famous speech","خطاب مشهور"],["an election","انتخابات"]],"Example: Moncef Bey died in <b>exile</b> in France in 1948.","مثال: توفي المنصف باي في <b>المنفى</b> بفرنسا سنة 1948."),
+ G("Which word means «إرث / تراث»?","أي كلمة تعني «تراث»؟",["heritage","تراث"],[["hermitage","صومعة ناسك"],["heritability","قابلية التوريث"],["hesitation","تردد"]],"Example: The Medina of Tunis is a UNESCO World <b>Heritage</b> site.","مثال: مدينة تونس العتيقة موقع من مواقع <b>التراث</b> العالمي لليونسكو."),
+ G("What is a «siege»?","ما معنى كلمة «siege»؟",["surrounding a city to force it to surrender","حصار"],[["a royal chair","كرسي العرش"],["a peace treaty","معاهدة سلام"],["a harvest","حصاد"]],"Example: Asad ibn al-Furat died during the <b>siege</b> of Syracuse.","مثال: توفي أسد بن الفرات أثناء <b>حصار</b> سرقوسة."),
+ G("Which word means «ساحل»?","أي كلمة تعني «ساحل»؟",["coast","ساحل"],[["cost","ثمن"],["coat","معطف"],["court","محكمة"]],"Example: Mahdia, Sousse and Monastir are cities of the Sahel <b>coast</b>.","مثال: المهدية وسوسة والمنستير مدن على <b>الساحل</b>.")
+]}];
+SCENES.grammar=SCENES.books;SCENES.words=SCENES.figures;
+
 const MIX={id:"mix",kind:"special",name:"Grand Mix",nameAr:"التحدي الكبير",span:"15 random questions",qs:[]};
-const ALL=[...CH,MIX];
-const TOTAL_Q=CH.reduce((n,c)=>n+c.qs.length,0);
+const ALL=[...CH,MIX,...LANG];
+const TOTAL_Q=[...CH,...LANG].reduce((n,c)=>n+c.qs.length,0);
 
 /* ================= quips ================= */
 const YES=[["Hannibal would hire you as a general.","حنبعل يريدك قائدًا في جيشه."],["Ibn Khaldun nods slowly. High praise.","ابن خلدون يومئ برأسه. هذا مديح كبير."],["The Bey tosses you a dinar from his balcony.","الباي يرمي لك دينارًا من شرفته."],["Elissa approves. Have some more oxhide.","عليسة راضية. خذ مزيدًا من جلد الثور."],["The Kairouan scribes write your name in gold ink.","نسّاخ القيروان يكتبون اسمك بماء الذهب."],["Correct! Even the camels are clapping.","صحيح! حتى الجِمال تصفّق."],["A souk merchant offers you a discount. On wisdom.","تاجر في السوق يعرض عليك تخفيضًا... في الحكمة."],["Brilliant! Have a bambalouni on the house.","رائع! بمبالوني مجانًا على حساب المحل."]];
@@ -437,6 +585,165 @@ const REVEAL=[[/Ibn Khaldun|Muqaddimah/,"khaldun"],[/Hannibal|Hamilcar/,"hanniba
 function photoHTML(key,scene,opts={}){const p=P[key];
  return `<div class="photo ${opts.cls||""}">${scene?`<div class="svgfb">${SCENES[scene]||""}</div>`:""}${p?`<img alt="${p[1]}" src="${WM(p[0])}" ${opts.lazy?'loading="lazy"':""} decoding="async" onload="this.classList.add('in');this.parentNode.classList.add('ok')" onerror="${opts.removeOnFail?"this.parentNode.remove()":"this.remove()"}">`:""}<span class="sheen"></span>${opts.chip?`<span class="chip-era">${opts.chip}</span>`:""}${p&&opts.cap!==false?`<span class="cap">${bi(p[1],p[2])}</span>`:""}</div>`}
 function revealKey(q){const t=[q.q,q.a?q.a[0]:"",q.items?q.items.map(i=>i[0]).join(" "):""].join(" ");const r=REVEAL.find(([re])=>re.test(t));return r?r[1]:null}
+
+/* ================= more photos ================= */
+Object.assign(P,{
+ kerkouane:["Punic_Town_of_Kerkuane_and_its_Necropolis-130316.jpg","Punic town of Kerkouane","المدينة البونية بكركوان"],
+ punicport:["Ports_puniques_de_Carthage_depuis_la_colline_de_Byrsa.jpg","The Punic ports seen from Byrsa hill","الموانئ البونية من تلّة بيرصا"],
+ virgil:["Virgil_mosaic_in_the_Bardo_National_Museum_(Tunis)_(12241228546).jpg","Virgil mosaic, Bardo Museum","فسيفساء فرجيل، متحف باردو"],
+ basins:["Tunezja,_Kairouan,_Baseny_Aghlabidów_-_panoramio.jpg","Aghlabid Basins, Kairouan","فسقية الأغالبة، القيروان"],
+ ribatsousse:["Ribat,_Sousse,_Tunisia.JPG","Ribat of Sousse","رباط سوسة"],
+ soussemosque:["Great_Mosque_of_Sousse_Courtyard.jpg","Great Mosque of Sousse","الجامع الكبير بسوسة"],
+ babbhar:["Bab_Bhar_(Porte_de_France)_-_Tunis_-_Tunisia_-_1899.jpg","Bab Bhar (Porte de France), Tunis, 1899","باب البحر، تونس، 1899"],
+ aqueduct:["Zaghouan_Aqueduct,_built_by_Hadrian_from_Zaghouan_to_Carthage,_Tunisia_-_52764625459.jpg","Zaghouan aqueduct, built under Hadrian","حنايا زغوان، بُنيت في عهد هادريان"],
+ bulla:["Roman_Theatre_view_from_above_-_ruin_of_Bulla_Regia.jpg","Roman theatre of Bulla Regia","المسرح الروماني ببلاريجيا"],
+ hammouda:["Hammouda_Pacha_Mosque_-_minaret.jpg","Minaret of the Hammouda Pacha Mosque","صومعة جامع حمودة باشا"],
+ kasbah:["Tunis_Mosqué_Kasbah.JPG","Kasbah Mosque, Tunis (Hafsid era)","جامع القصبة بتونس (العهد الحفصي)"],
+ souk:["Souk_El_Attarine,_la_médina_de_Tunis.jpg","Souk El Attarine, medina of Tunis","سوق العطارين، مدينة تونس العتيقة"],
+ chechia:["Tunis_Souk_des_Chéchias.jpg","Souk of the chechia makers, Tunis","سوق الشواشين، تونس"]
+});
+Object.assign(CH_PH,{carthage:["dido","punicport","kerkouane","zama","eljem","aqueduct","dougga","antonine"],kairouan:["kairouan","basins","sbeitla","ribatsousse","soussemosque","mahdia","ribat","arcade"],hafsid:["kasbah","zitouna","tunis1535","louis","souk","darkhaldun"],beys:["throne","hammouda","lions","bardo","chechia","door"],protectorate:["babbhar","theatre","cathedral","hachedtomb","avenue"],republic:["avenue","night","mausoleum","jan2011","sidibou"],books:["bluequran","bluequran2","virgil","darkhaldun","zitouna"],figures:["khaldun","virgil","chebbitomb","hachedbust","door"],leaders:["mausoleum","throne","bardo","tunis1535","kasbah"],mix:["eljem2","sidibou","kairouan","antonine","bulla","souk"],grammar:["virgil","bluequran","souk","bulla"],words:["chechia","kerkouane","punicport","basins"]});
+REVEAL.unshift([/Kerkouane/,"kerkouane"],[/Byrsa|Tyre/,"punicport"],[/Aghlabid Basins|reservoir/,"basins"],[/Sousse/,"soussemosque"],[/Dougga/,"dougga"],[/Hammuda|Hammouda/,"hammouda"],[/Jellaz|Young Tunisians/,"babbhar"],[/Perpetua|Cyprian/,"antonine"],[/Mago|Hanno/,"punicport"]);
+
+/* ================= English learning: vocabulary ================= */
+/* [id, regex, word, part of speech, Arabic, simple definition] */
+const GLOSS=[
+ ["found","\\bfound(ed|er|ers|ing)\\b","to found","verb","يؤسّس","to start a city, a school or an organisation"],
+ ["conquer","\\bconque(r|red|st|sts|ror)\\b","conquest","noun","فتح / غزو","taking control of a land by force"],
+ ["dynasty","\\bdynast(y|ies)\\b","dynasty","noun","سلالة حاكمة","a family of rulers who follow one another"],
+ ["empire","\\bempires?\\b","empire","noun","إمبراطورية","a group of lands ruled by one powerful state"],
+ ["emperor","\\bemperors?\\b","emperor","noun","إمبراطور","the ruler of an empire"],
+ ["treaty","\\btreat(y|ies)\\b","treaty","noun","معاهدة","a formal written agreement between states"],
+ ["protectorate","\\bprotectorate\\b","protectorate","noun","حماية","a country controlled and 'protected' by a stronger state"],
+ ["independence","\\bindependen(ce|t)\\b","independence","noun","استقلال","freedom from control by another country"],
+ ["republic","\\brepublic\\b","republic","noun","جمهورية","a state with an elected president, not a king"],
+ ["revolt","\\brevolts?\\b","revolt","noun","تمرّد / ثورة","a violent action against those in power"],
+ ["revolution","\\brevolution\\b","revolution","noun","ثورة","a big, fast change of a political system"],
+ ["reign","\\breign(ed|s)?\\b","to reign","verb","يحكم (ملك)","to rule as a king, queen or emperor"],
+ ["rule","\\bruled?\\b|\\bruler","to rule","verb","يحكم","to control a country"],
+ ["abolish","\\babolish(ed|es)?\\b","to abolish","verb","يُلغي","to end a law or system officially"],
+ ["constitution","\\bconstitution\\b","constitution","noun","دستور","the basic laws of a state"],
+ ["capital","\\bcapital\\b","capital","noun","عاصمة","the city where a government sits"],
+ ["province","\\bprovince\\b","province","noun","ولاية / إقليم","a region of a country or empire"],
+ ["chronicle","\\bchronicles?\\b","chronicle","noun","حولية / تاريخ","a record of events in time order"],
+ ["scholar","\\bscholar(s|ship)?\\b","scholar","noun","عالِم","a person who studies a subject deeply"],
+ ["poet","\\bpoe(t|ts|try|m)\\b","poet","noun","شاعر","a person who writes poems"],
+ ["minister","\\bminister\\b","minister","noun","وزير","a member of the government in charge of an area"],
+ ["reform","\\breform(s|ed|er|ing|ist)?\\b","reform","noun","إصلاح","a change that makes a system better"],
+ ["union","\\bunion\\b","trade union","noun","نقابة","an organisation that defends workers' rights"],
+ ["strike","\\bstrike\\b","strike","noun","إضراب","when workers stop working to protest"],
+ ["exile","\\bexile\\b","exile","noun","منفى","being forced to live away from your country"],
+ ["assassinate","\\bassassinat(ed|ion)\\b","to assassinate","verb","يغتال","to murder an important person for political reasons"],
+ ["sack","\\bsack(ed)?\\b","to sack (a city)","verb","ينهب","to destroy and steal from a city in war"],
+ ["defeat","\\bdefeat(ed|s)?\\b","to defeat","verb","يهزم","to win against someone in a war or game"],
+ ["victory","\\bvictor(y|ies|ious)\\b","victory","noun","انتصار","success in a battle or competition"],
+ ["troops","\\btroops\\b","troops","noun","جنود / قوات","soldiers"],
+ ["colonial","\\bcolon(y|ial|ies)\\b","colonial","adjective","استعماري","related to a colony, a land ruled by another country"],
+ ["nationalist","\\bnational(ist|ism)\\b|\\bnational movement\\b","national movement","noun","الحركة الوطنية","people working for their country's freedom"],
+ ["parliament","\\bparliament\\b","parliament","noun","برلمان","the elected group that makes laws"],
+ ["election","\\belect(ed|ion|ions)\\b","election","noun","انتخابات","choosing leaders by voting"],
+ ["vote","\\bvot(e|ed|ing)\\b","to vote","verb","يصوّت","to choose officially in an election"],
+ ["mausoleum","\\bmausoleum\\b","mausoleum","noun","ضريح","a large, grand tomb"],
+ ["amphitheatre","\\bamphitheat(re|er)\\b","amphitheatre","noun","مدرّج / قصر الجم","an oval open-air building for shows"],
+ ["minaret","\\bminarets?\\b","minaret","noun","صومعة / مئذنة","the tall tower of a mosque"],
+ ["harbour","\\b(harbour|port)s?\\b","harbour","noun","ميناء","a place where ships stay safe"],
+ ["merchant","\\bmerchants?\\b","merchant","noun","تاجر","a person who buys and sells goods"],
+ ["settler","\\bsettlers?\\b","settler","noun","مستوطن","a person who goes to live in a new land"],
+ ["legend","\\blegend(s|ary)?\\b","legend","noun","أسطورة","an old story that may not be true"],
+ ["heritage","\\bheritage\\b","heritage","noun","تراث","culture and buildings passed down from the past"],
+ ["manuscript","\\bmanuscripts?\\b|\\bfolio\\b","manuscript","noun","مخطوط","a book or text written by hand"],
+ ["translate","\\btranslat(e|ed|ion)\\b","to translate","verb","يترجم","to change words into another language"],
+ ["prize","\\bprize\\b","prize","noun","جائزة","an award for winning or doing very well"],
+ ["crisis","\\bcrisis\\b","crisis","noun","أزمة","a time of great danger or difficulty"],
+ ["demonstrate","\\bdemonstrat(ors|ions?)\\b","demonstration","noun","مظاهرة","a public protest by a group of people"],
+ ["martyr","\\bmartyrs?\\b","martyr","noun","شهيد","a person killed for their beliefs or cause"],
+ ["evacuate","\\bevacuat(ion|ed)\\b|\\bEvacuation\\b","evacuation","noun","جلاء","moving soldiers or people out of a place"],
+ ["bankrupt","\\bbankrupt(cy)?\\b","bankrupt","adjective","مفلس","unable to pay your debts"],
+ ["tax","\\btax(es)?\\b","tax","noun","ضريبة","money people must pay to the state"],
+ ["slavery","\\bslave(s|ry)\\b","slavery","noun","الرق / العبودية","owning people and forcing them to work"],
+ ["guarantee","\\bguarantee(d|s)?\\b","to guarantee","verb","يضمن","to promise something officially"],
+ ["treatise","\\btreatise\\b|\\bhandbook\\b","treatise","noun","رسالة / مصنَّف","a serious book on one subject"],
+ ["statue","\\bstatue\\b|\\bbust\\b","statue","noun","تمثال","a figure of a person made of stone or metal"],
+ ["campaign","\\bcampaign\\b","campaign","noun","حملة","a series of military actions"],
+ ["citadel","\\bcitadel\\b","citadel","noun","قلعة","a fortress that protects a city"],
+ ["navigator","\\bnavigator\\b|\\bsailed\\b","navigator","noun","ملّاح","a person who guides a ship"],
+ ["ruins","\\bruins?\\b|\\brazed\\b","ruins","noun","أطلال / آثار","the remains of damaged old buildings"],
+ ["coast","\\bcoast(al)?\\b","coast","noun","ساحل","land next to the sea"],
+ ["tribe","\\btribes?\\b","tribe","noun","قبيلة","a group of families with a shared origin"],
+ ["governor","\\bgovernors?\\b","governor","noun","والٍ","an official who rules a region"],
+ ["caliph","\\bcaliph(s|ate)?\\b","caliph","noun","خليفة","the supreme ruler of the Muslim state"],
+ ["emir","\\bemir(ate)?\\b","emir","noun","أمير","a ruler or prince in the Muslim world"],
+ ["corsair","\\bcorsairs?\\b","corsair","noun","قرصان","a sea raider of the Mediterranean"],
+ ["siege","\\bsiege\\b","siege","noun","حصار","surrounding a city to force it to surrender"],
+ ["surrender","\\bsurrender(ed)?\\b","to surrender","verb","يستسلم","to stop fighting and accept defeat"],
+ ["promulgate","\\bpromulgated\\b|\\badopted\\b","to adopt (a law)","verb","يعتمد / يُصدر","to officially accept a law or text"],
+ ["debt","\\bdebts?\\b","debt","noun","دَين","money that you owe"],
+ ["reservoir","\\breservoirs?\\b|\\bbasins?\\b","reservoir","noun","خزّان / فسقية","a place where water is stored"],
+ ["aqueduct","\\baqueduct\\b","aqueduct","noun","قناة / حنايا","a bridge that carries water"],
+ ["protest","\\bprotests?\\b","protest","noun","احتجاج","a public action against something"],
+ ["autonomy","\\bautonomy\\b","autonomy","noun","حكم ذاتي","the right to govern yourself"],
+ ["admiral","\\badmiral\\b","admiral","noun","أميرال","a commander of a navy"]
+].map(([id,re,w,pos,ar,def])=>({id,re:new RegExp(re,"i"),w,pos,ar,def}));
+const POS_AR={noun:"اسم",verb:"فعل",adjective:"صفة"};
+function plain(h){return String(h).replace(/<[^>]+>/g," ")}
+function enText(q){return plain([q.q,q.a&&q.a[0],q.o&&q.o.map(o=>o[0]).join(" "),q.items&&q.items.map(i=>i[0]).join(" "),q.f].filter(Boolean).join(" "))}
+function vocabFor(q){const t=enText(q);const hits=GLOSS.filter(g=>g.re.test(t));
+ const fresh=hits.filter(g=>!S.bank[g.id]),old=hits.filter(g=>S.bank[g.id]);return fresh.concat(old).slice(0,3)}
+
+/* ================= English learning: grammar ================= */
+const IRREG={took:"take",became:"become",wrote:"write",led:"lead",won:"win",fought:"fight",built:"build",left:"leave",fell:"fall",made:"make",gave:"give",began:"begin",came:"come",saw:"see",broke:"break",sent:"send",kept:"keep",taught:"teach",lost:"lose",cut:"cut",spread:"spread",held:"hold",met:"meet",ran:"run",chose:"choose",grew:"grow",rose:"rise",told:"tell",spent:"spend",brought:"bring",drove:"drive",sold:"sell",struck:"strike",stood:"stand"};
+const GRAM=[
+ {re:/\b(was|were) (\w+ed|built|born|written|made|taken|given|held|known|seen|sent|kept|taught|led|founded|killed|sacked|signed)\b/i,t:["Past passive: was/were + past participle","المبني للمجهول في الماضي"],x:["We use the passive when the action matters more than the person who did it. Form: <b>was</b> (one) / <b>were</b> (many) + past participle.","نستعمله حين يهمّنا الحدث أكثر من فاعله: <b>was</b> للمفرد و<b>were</b> للجمع + التصريف الثالث."]},
+ {re:/\bin (\d{3,4})(?! BCE)\b/,t:["in + year","in مع السنوات"],x:["Use <b>in</b> with years, months, seasons and centuries: in 1846, in May, in the 9th century.","نستعمل <b>in</b> مع السنوات والشهور والفصول والقرون."]},
+ {re:/\bon \d{1,2} [A-Z][a-z]+( \d{4})?/,t:["on + day / full date","on مع اليوم والتاريخ الكامل"],x:["Use <b>on</b> with days and dates: on 20 March 1956, on Friday. Say it: <i>on the twentieth of March</i>.","نستعمل <b>on</b> مع الأيام والتواريخ، وتُقرأ: on the twentieth of March."]},
+ {re:/\bthe (first|oldest|largest|greatest|biggest|highest|last|most \w+|best)\b/i,t:["Superlatives","صيغة التفضيل"],x:["To say 'number one' in a group: <b>the</b> + adjective-<b>est</b> (the oldest) or <b>the most</b> + long adjective (the most important).","للتعبير عن الأفضل في مجموعة: the + صفة + est، أو the most + صفة طويلة."]},
+ {re:/\b(who|which|whose|where) (was|were|is|are|had|has|led|wrote|ruled|fought|became|still|gives|carries|appears|holds)\b/i,t:["Relative clauses","جمل الصلة"],x:["Join two ideas: <b>who</b> for people, <b>which</b> for things, <b>where</b> for places, <b>whose</b> for possession.","لربط فكرتين: who للأشخاص، which للأشياء، where للأماكن، whose للملكية."]},
+ {re:new RegExp("\\b("+Object.keys(IRREG).join("|")+")\\b"),t:["Irregular past verbs","الأفعال الشاذة في الماضي"],x:null},
+ {re:/\b(\d{2,4}) BCE\b/,t:["Reading ancient dates","قراءة التواريخ القديمة"],x:["<b>BCE</b> = Before the Common Era (= BC). 814 BCE is read <i>eight hundred and fourteen B-C-E</i>. Older dates have bigger numbers.","BCE تعني قبل الميلاد. وكلما كبر الرقم كان التاريخ أقدم."]},
+ {re:/\b(1[0-9]{3}|20[0-2][0-9])\b/,t:["Saying years","نطق السنوات"],x:["Say years in two pairs: 1956 = <i>nineteen fifty-six</i>, 1846 = <i>eighteen forty-six</i>. But 2011 = <i>two thousand and eleven</i> or <i>twenty eleven</i>.","تُقرأ السنوات أزواجًا: 1956 = nineteen fifty-six، أما 2011 فتُقرأ two thousand and eleven."]},
+ {re:/\b(\d{1,2})(st|nd|rd|th)[ -]century\b/i,t:["Centuries","القرون"],x:["Use ordinal numbers: the 9th (<i>ninth</i>) century, the 19th (<i>nineteenth</i>) century. The 19th century = the 1800s.","نستعمل الأعداد الترتيبية: the 9th century. والقرن التاسع عشر = سنوات 1800."]},
+ {re:/\bby [A-Z][a-z]+/,t:["by + the doer","by لذكر الفاعل"],x:["In a passive sentence, <b>by</b> shows who did the action: <i>Carthage was destroyed by the Romans.</i>","في المبني للمجهول تُبيّن by من قام بالفعل."]},
+ {re:/\b(for|during) (about |more than |nearly |over )?(\w+ )?(years|centuries|weeks|months|days)\b/i,t:["for + a period of time","for مع المدة"],x:["Use <b>for</b> + a length of time (for 36 years) and <b>since</b> + a starting point (since 1957).","for + مدة زمنية، وsince + نقطة بداية."]},
+ {re:/\b\w+'s\b/,t:["Possessive 's","الملكية بـ 's"],x:["Add <b>'s</b> to show that something belongs to someone: <i>Hannibal's father, Tunisia's anthem</i>.","نضيف 's للملكية: Hannibal's father أي والد حنبعل."]},
+ {re:/\b(an) [aeiouAEIOU]\w*/,t:["a or an?","a أم an؟"],x:["Use <b>an</b> before a vowel sound (an emperor, an hour) and <b>a</b> before a consonant sound (a king, a university).","an قبل صوت متحرك، وa قبل صوت ساكن."]},
+ {re:/\b(after|before) (\w+ing)\b/i,t:["after / before + -ing","after/before + ing"],x:["After <b>after</b> and <b>before</b>, a verb takes <b>-ing</b>: <i>after destroying the city</i>.","بعد after وbefore يأتي الفعل بصيغة ing."]}
+];
+function grammarFor(q){const t=plain([q.q,q.f].join(" "));const hits=[];
+ GRAM.forEach((g,i)=>{const m=t.match(g.re);if(m)hits.push([i,m[0],m])});
+ if(!hits.length)return null;const pick=hits.find(h=>!S.recentTips.includes(h[0]))||hits[0];
+ S.recentTips=[pick[0],...S.recentTips].slice(0,4);
+ const g=GRAM[pick[0]];let x=g.x;
+ if(!x){const v=pick[2][1];const base=IRREG[v.toLowerCase()];x=[`<b>${v}</b> is the past of <b>${base}</b>. Irregular verbs don't take -ed, so learn them by heart: ${base} – ${v}.`,`<b>${v}</b> ماضي الفعل <b>${base}</b>، وهو فعل شاذ لا يأخذ ed فيُحفظ: ${base} – ${v}.`]}
+ return {t:g.t,x,m:pick[1]}}
+
+/* ================= pronunciation ================= */
+function say(w){try{if(!("speechSynthesis" in window))return false;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(w.replace(/^to /,"to ").replace(/\(.*?\)/g,""));u.lang="en-GB";u.rate=.85;const v=speechSynthesis.getVoices().find(v=>/^en(-|_)GB/i.test(v.lang))||speechSynthesis.getVoices().find(v=>/^en/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u);return true}catch(e){return false}}
+const SPK_SMALL=`<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/></svg>`;
+function wordCard(g,locked){return locked?`<div class="wcard locked"><span class="ww">? ? ?</span><span class="small">${bi("Not found yet","لم تُكتشف بعد")}</span></div>`:
+ `<div class="wcard"><div class="wtop"><span class="ww">${g.w}</span><span class="pos">${g.pos} · ${POS_AR[g.pos]||""}</span><button class="say" data-say="${g.w}" aria-label="Pronounce ${g.w}">${SPK_SMALL}</button></div><span class="war" lang="ar" dir="rtl">${g.ar}</span><span class="wdef">${g.def}</span></div>`}
+function learnHTML(q){const v=vocabFor(q),gr=grammarFor(q);let newCount=0;
+ v.forEach(g=>{if(!S.bank[g.id]){S.bank[g.id]=Date.now();newCount++}});if(newCount)save();
+ let h="";
+ if(v.length)h+=`<div class="learn vocab"><div class="lhead"><span class="badge">${bi("Vocabulary","مفردات")}</span>${newCount?`<span class="newwords">+${newCount} ${bi("new in your Word Bank","جديدة في بنك كلماتك")}</span>`:""}</div><div class="wgrid">${v.map(g=>wordCard(g,false)).join("")}</div></div>`;
+ if(gr)h+=`<div class="learn gram"><div class="lhead"><span class="badge">${bi("Grammar tip","قاعدة نحوية")}</span></div><strong>${bi(gr.t[0],gr.t[1])}</strong><span class="inq">${bi("In this question:","في هذا السؤال:")} <mark>${gr.m}</mark></span><span class="en">${gr.x[0]}</span><span class="ar" lang="ar">${gr.x[1]}</span></div>`;
+ return h}
+function wireSay(){app.querySelectorAll("[data-say]").forEach(b=>b.onclick=e=>{e.stopPropagation();if(!say(b.dataset.say))b.title="Pronunciation is not available in this browser"})}
+
+/* ================= Word Bank page ================= */
+function renderBank(){
+ musicLevel(.4);
+ const have=GLOSS.filter(g=>S.bank[g.id]).sort((a,b)=>a.w.localeCompare(b.w)),missing=GLOSS.filter(g=>!S.bank[g.id]);
+ app.innerHTML=header()+`<div class="card frame">${photoHTML("chechia","words",{cap:false})}<div class="qbody">
+  <div class="sect"><h3 class="en">My Word Bank</h3><span class="ar">بنك كلماتي</span></div>
+  <p class="bankp">${bi(`You have collected <b>${have.length}</b> of <b>${GLOSS.length}</b> history words. Every answer reveals new words. Tap the speaker to hear them.`,`جمعت <b>${have.length}</b> من أصل <b>${GLOSS.length}</b> كلمة. كل إجابة تكشف كلمات جديدة، واضغط على مكبّر الصوت لتسمع نطقها.`)}</p>
+  <div class="progress"><i style="width:${have.length/GLOSS.length*100}%"></i></div>
+  <div class="wgrid bank">${have.map(g=>wordCard(g,false)).join("")}${missing.slice(0,Math.max(0,12-have.length)).map(g=>wordCard(g,true)).join("")}</div>
+  <div class="row"><button class="btn" id="practice"><span class="en">Practise with Word Hunter</span><span class="ar" lang="ar">تدرّب مع صيّاد الكلمات</span></button><button class="btn ghost" id="back"><span class="en">Map</span><span class="ar" lang="ar">الخريطة</span></button></div>
+ </div></div>`;
+ wireHeader();wireSay();
+ document.getElementById("back").onclick=goMap;
+ document.getElementById("practice").onclick=()=>{sfx.click();startCh(ALL.findIndex(c=>c.id==="words"))};
+ window.scrollTo(0,0)}
 
 /* ================= sound (Web Audio, no files) ================= */
 const SND={on:true,ctx:null,master:null,nb:null};
@@ -510,10 +817,10 @@ document.addEventListener("visibilitychange",()=>{if(!SND.ctx)return;if(document
 
 /* ================= state ================= */
 const TIME_MC=25,TIME_ORDER=50;
-let S={coins:0,shown:0,medals:{},stats:{right:0,played:0,best:0},lang:"both",ch:0,list:[],qi:0,score:0,streak:0,earned:0};
+let S={coins:0,shown:0,medals:{},stats:{right:0,played:0,best:0},lang:"both",bank:{},recentTips:[],ch:0,list:[],qi:0,score:0,streak:0,earned:0};
 let timerRAF=null;
-function load(){try{const d=JSON.parse(localStorage.getItem("golden-dinar")||"{}");S.coins=d.coins||0;S.medals=d.medals||{};S.stats=Object.assign(S.stats,d.stats||{});S.lang=d.lang||"both";SND.on=d.sound!==false;MUS.on=d.music!==false}catch(e){}S.shown=S.coins}
-function save(){try{localStorage.setItem("golden-dinar",JSON.stringify({coins:S.coins,medals:S.medals,stats:S.stats,lang:S.lang,sound:SND.on,music:MUS.on}))}catch(e){}}
+function load(){try{const d=JSON.parse(localStorage.getItem("golden-dinar")||"{}");S.coins=d.coins||0;S.medals=d.medals||{};S.stats=Object.assign(S.stats,d.stats||{});S.lang=d.lang||"both";S.bank=d.bank||{};SND.on=d.sound!==false;MUS.on=d.music!==false}catch(e){}S.shown=S.coins}
+function save(){try{localStorage.setItem("golden-dinar",JSON.stringify({coins:S.coins,medals:S.medals,stats:S.stats,lang:S.lang,bank:S.bank,sound:SND.on,music:MUS.on}))}catch(e){}}
 
 const app=document.getElementById("app");
 const medalOf=(s,n)=>s===n?"gold":s>=n-2?"silver":s>=Math.ceil(n/3)?"bronze":null;
@@ -547,8 +854,8 @@ function renderSplash(){
   <div class="splash-in">
    <svg class="medallion" viewBox="0 0 100 100" aria-hidden="true">${star8(50,50,46,"#e0ac45")}${star8(50,50,30,"#0b1f3a")}<circle cx="50" cy="50" r="14" fill="#f6d27a"/></svg>
    <h1>The Golden Dinar</h1><div class="ruq">الدينار الذهبي</div>
-   <p class="en">3,000 years of Tunisian history in ${ALL.length} quests and ${TOTAL_Q} questions. Win gold, collect medals, become the Heir of Elissa.</p>
-   <p class="ar" lang="ar">3000 سنة من تاريخ تونس في ${ALL.length} تحديات و${TOTAL_Q} سؤالًا. اربح الذهب، واجمع الأوسمة، وكن وريث عليسة.</p>
+   <p class="en">3,000 years of Tunisian history in ${ALL.length} quests and ${TOTAL_Q} questions. Win gold, collect medals, learn English words and grammar, and become the Heir of Elissa.</p>
+   <p class="ar" lang="ar">3000 سنة من تاريخ تونس في ${ALL.length} تحديات و${TOTAL_Q} سؤالًا. اربح الذهب، واجمع الأوسمة، وتعلّم كلمات الإنجليزية وقواعدها، وكن وريث عليسة.</p>
    <button class="btn big" id="go"><span class="en">Enter the treasury</span><span class="ar" lang="ar">ادخل الخزينة</span></button>
    <span class="small en">Tap to start the music, coins and applause.</span><span class="small ar" lang="ar">اضغط لتبدأ الموسيقى ورنين الذهب والتصفيق.</span>
   </div></section>`;
@@ -572,6 +879,9 @@ function renderMap(){
   <div class="tiles">${ALL.map((c,i)=>c.kind==="era"?tile(c,i):"").join("")}</div>
   <div class="sect"><h3 class="en">Special Quests</h3><span class="ar">تحديات خاصة</span></div>
   <div class="tiles">${ALL.map((c,i)=>c.kind==="special"?tile(c,i):"").join("")}</div>
+  <div class="sect"><h3 class="en">English Corner</h3><span class="ar">ركن الإنجليزية</span></div>
+  <div class="tiles">${ALL.map((c,i)=>c.kind==="lang"?tile(c,i):"").join("")}</div>
+  <button class="bankbtn" id="bank"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5c3-1.5 6-1.5 10 1 4-2.5 7-2.5 10-1v14c-3-1.5-6-1.5-10 1-4-2.5-7-2.5-10-1z"/><path d="M12 6v14"/></svg><span class="bt">${bi("My Word Bank","بنك كلماتي")}<span class="small">${bi(`${Object.keys(S.bank).length} / ${GLOSS.length} words collected · vocabulary with Arabic and pronunciation`,`${Object.keys(S.bank).length} / ${GLOSS.length} كلمة · مفردات مع الترجمة والنطق`)}</span></span></button>
   <div class="card result"><span class="small">${bi("Your title","لقبك")}</span><div class="rank">${r[2]}</div><strong class="en">${r[1]}</strong>
    ${nr?`<span class="small">${bi(`${nr[0]-S.coins} dinars to <b>${nr[1]}</b>`,`${nr[0]-S.coins} دينارًا حتى لقب «${nr[2]}»`)}</span>`:`<span class="small">${bi("The highest title in the land","أعلى لقب في البلاد")}</span>`}
    <div class="statrow"><div class="stat"><b>${golds}/${ALL.length}</b><span class="small">${bi("Golden Dinars","دنانير ذهبية")}</span></div><div class="stat"><b>${S.stats.right}</b><span class="small">${bi("Right answers","إجابات صحيحة")}</span></div><div class="stat"><b>${S.stats.best}</b><span class="small">${bi("Best streak","أفضل سلسلة")}</span></div></div>
@@ -580,6 +890,7 @@ function renderMap(){
   <footer><span class="en">Dates follow Perkins, Bessis, the <i>Histoire générale de la Tunisie</i> and the Arabic chronicles.</span><span class="ar" lang="ar">التواريخ وفق بيركنز وبسيس و«التاريخ العام لتونس» والحوليات العربية.</span></footer>`;
   wireHeader();
   app.querySelectorAll(".tile").forEach(b=>b.onclick=()=>{sfx.click();startCh(+b.dataset.i)});
+  document.getElementById("bank").onclick=()=>{sfx.click();renderBank()};
 }
 
 /* ================= quiz ================= */
@@ -636,6 +947,7 @@ function renderQ(){
   const h=document.getElementById("hint");if(h)h.onclick=useHint;
   const ck=document.getElementById("check");if(ck)ck.onclick=()=>checkOrder(false);
   const qb=document.getElementById("quit");if(qb)qb.onclick=goMap;
+  wireSay();
   const nb=document.getElementById("next");if(nb){nb.onclick=()=>{sfx.click();advance()};nb.focus({preventScroll:true})}
 }
 
@@ -644,7 +956,7 @@ function feedback(q){
   let right="";
   if(!ok){right=q.t==="mc"?`<span class="gain">${bi(`Right answer: <b>${q.a[0]}</b>`,`الإجابة الصحيحة: <b>${q.a[1]}</b>`)}</span>`:`<span class="gain">${bi("Correct order: ","الترتيب الصحيح: ")}${sortedIdx(q).map(k=>q.items[k][2]).join(" → ")}</span>`}
   const gainTxt=ok?`<span class="gain"><strong>+${S.gain}</strong> ${bi("dinars","دينارًا")}${S.bonus.length?" · "+S.bonus.join(" · "):""}</span>`:"";
-  return `<div class="feedback ${ok?"ok":"no"}">${rk?photoHTML(rk,null,{cls:"reveal",removeOnFail:true}):""}<div class="fb-in"><span class="quip"><span class="en">${quip[0]}</span><span class="ar" lang="ar">${quip[1]}</span></span><span class="fact en">${q.f}</span><span class="fact ar" lang="ar">${q.fa}</span>${gainTxt}${right}</div></div>
+  return `<div class="feedback ${ok?"ok":"no"}">${rk?photoHTML(rk,null,{cls:"reveal",removeOnFail:true}):""}<div class="fb-in"><span class="quip"><span class="en">${quip[0]}</span><span class="ar" lang="ar">${quip[1]}</span></span><span class="fact en">${q.f}</span><span class="fact ar" lang="ar">${q.fa}</span>${gainTxt}${right}</div>${learnHTML(q)}</div>
   <button class="btn" id="next">${S.qi+1<S.list.length?`<span class="en">Next question</span><span class="ar" lang="ar">السؤال التالي</span>`:`<span class="en">See your reward</span><span class="ar" lang="ar">اكتشف جائزتك</span>`}</button>`}
 
 function useHint(){const q=S.list[S.qi];S.coins-=15;S.shown=S.coins;S.hinted=true;S.gone=shuffle(S.opts.filter(o=>o[0]!==q.a[0]).map(o=>o[0])).slice(0,2);save();sfx.click();renderQ()}
