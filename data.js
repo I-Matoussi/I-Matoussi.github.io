@@ -16,6 +16,17 @@ window.SITE_DATA = {
   },
   "materials": [
     {
+      "id": "mmvh5zpex",
+      "course": "Academic Writing · L3",
+      "cat": "booklets",
+      "title": "Academic Writing – Course Booklet (Semesters 1 & 2)",
+      "desc": "Student edition. Read online or download the PDF.",
+      "date": "2026-10",
+      "file": "academic-writing-booklet.pdf",
+      "assetId": "mmvh5zpex",
+      "added": 1792529851497
+    },
+    {
       "id": "mtt-media1",
       "course": "Technical Translation · L3",
       "cat": "booklets",
@@ -25,17 +36,6 @@ window.SITE_DATA = {
       "file": "technical-translation-media-politics-booklet.pdf",
       "assetId": "mtt-media1",
       "added": 1792935000000
-    },
-    {
-      "id": "mmvh66cj8",
-      "course": "Technical Translation · L3",
-      "cat": "booklets",
-      "title": "Technical Translation – Students' Booklet 2026–2027",
-      "desc": "Student edition. Read online or download the PDF.",
-      "date": "2026-10",
-      "file": "technical-translation-booklet.pdf",
-      "assetId": "mmvh66cj8",
-      "added": 1792530161396
     }
   ],
   "courses": [
