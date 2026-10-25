@@ -392,6 +392,11 @@ body.only-ar .beybub{right:auto;left:62%;border-radius:18px 18px 18px 4px;transf
 body.only-ar .bey.exit-happy{animation-name:beyOutHappyR}
 @keyframes beyOutHappyR{0%{transform:translateY(0) rotate(0);opacity:1}35%{transform:translate(14px,-70px) rotate(12deg)}100%{transform:translate(-140%,-30px) rotate(-40deg);opacity:0}}
 @media (prefers-reduced-motion:reduce){.bey,.bey *{animation-duration:.01s!important;animation-iteration-count:1!important}}
+/* visible even when the phone disables animations */
+.bey.show{transform:translateY(0);opacity:1}
+.bey.show .beybub{transform:scale(1)}
+@media (prefers-reduced-motion:reduce){.bey.show{animation:none!important;transform:none!important;opacity:1!important}.bey.show .beybub{animation:none!important;transform:scale(1)!important}.bey.exit-happy,.bey.exit-sad{opacity:0!important}.bey .dec.newdec{animation:none!important}.hantitle{animation:none!important;transform:none!important}.tttitle,.ttstage{animation:none!important;transform:none!important}}
+@media (prefers-reduced-motion:reduce) and (max-width:700px){.hantitle{transform:translateX(-50%)!important}}
 
 /* photos shown whole, over a blurred copy of themselves */
 .photo img.bgblur{object-fit:cover;filter:blur(16px) brightness(.5) saturate(1.2);transform:scale(1.25)!important;animation:none!important;opacity:1}
