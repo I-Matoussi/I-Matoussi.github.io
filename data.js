@@ -16,15 +16,15 @@ window.SITE_DATA = {
   },
   "materials": [
     {
-      "id": "mmvh5zpex",
-      "course": "Academic Writing · L3",
+      "id": "mtt-media1",
+      "course": "Technical Translation · L3",
       "cat": "booklets",
-      "title": "Academic Writing – Course Booklet (Semesters 1 & 2)",
-      "desc": "Student edition. Read online or download the PDF.",
+      "title": "Technical Translation – Students' Booklet, Semester 1 · Chapter 1: Media and Politics Headlines",
+      "desc": "Twelve lectures: headlines, bulletins, diplomacy, conflict, elections and more. Arabic → English 70 %, English → Arabic 30 %.",
       "date": "2026-10",
-      "file": "academic-writing-booklet.pdf",
-      "assetId": "mmvh5zpex",
-      "added": 1792529851497
+      "file": "technical-translation-media-politics-booklet.pdf",
+      "assetId": "mtt-media1",
+      "added": 1792935000000
     },
     {
       "id": "mmvh66cj8",

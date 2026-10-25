@@ -654,6 +654,37 @@ main.enter .section-head h2::after{animation:draw .9s cubic-bezier(.2,.7,.2,1) .
   .mosaic.play .tess i{animation:tess-fade 1s ease both!important;animation-delay:var(--t)!important}
   html{scroll-behavior:auto}
 }
+/* ---------- My notes (reader) ---------- */
+.rn-badge{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--gold);color:var(--on-gold);font-family:var(--f-mono);font-size:11px;line-height:1}
+.rn-badge:empty{display:none}
+.r-notes{position:fixed;z-index:35;right:12px;top:var(--rn-top,76px);bottom:12px;width:min(360px,calc(100vw - 24px));display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--line-2);border-radius:18px;box-shadow:var(--shadow-lg);padding:16px;animation:rn-in .28s cubic-bezier(.2,.7,.2,1)}
+@keyframes rn-in{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+.rn-hd{display:flex;align-items:flex-start;gap:10px}
+.rn-hd div{flex:1;min-width:0}
+.rn-hd b{display:block;font-family:var(--f-display);font-weight:400;font-size:24px;line-height:1.1}
+.rn-hd small{display:block;font-size:12px;color:var(--muted);margin-top:3px}
+.rn-lbl{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+#rn-text{width:100%;min-height:130px;resize:vertical;background:var(--bg);border:1px solid var(--line-2);border-radius:12px;padding:11px 13px;outline:none;font-size:14.5px;line-height:1.5;color:var(--ink)}
+#rn-text:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
+.rn-saved{font-size:12px;color:var(--muted);min-height:1.2em;margin-top:-4px}
+.rn-list-h{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px dashed var(--line-2);font-weight:700;font-size:13px}
+.rn-list{list-style:none;margin:0;padding:0;overflow:auto;flex:1;min-height:60px;display:grid;align-content:start;gap:6px}
+.rn-list li{display:flex;align-items:stretch;gap:6px}
+.rn-go{flex:1;min-width:0;display:flex;gap:10px;align-items:baseline;text-align:left;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);font-size:13px;line-height:1.35}
+.rn-go:hover{border-color:var(--gold)}
+.rn-go.cur{border-color:var(--gold-2);box-shadow:inset 0 0 0 1px var(--gold-2)}
+.rn-go b{flex:none;font-family:var(--f-mono);font-size:11px;color:var(--gold)}
+.rn-go span{min-width:0;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;color:var(--ink)}
+.rn-del{flex:none;width:30px;border-radius:10px;border:1px solid var(--line);background:none;color:var(--muted);font-size:16px}
+.rn-del:hover{color:#C9574A;border-color:#C9574A}
+.rn-empty{font-size:13px;color:var(--muted);padding:6px 2px}
+.rn-actions{display:flex;flex-wrap:wrap;gap:8px}
+.r-quote{position:fixed;z-index:41;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;border:0;background:var(--gold);color:var(--on-gold);font-weight:700;font-size:13px;box-shadow:0 10px 24px -10px rgba(0,0,0,.6)}
+.r-quote[hidden]{display:none}
+@media (max-width:640px){
+  .r-notes{left:0;right:0;bottom:0;top:auto;width:100%;height:min(68vh,560px);border-radius:20px 20px 0 0;padding-bottom:max(16px,env(safe-area-inset-bottom,0px));animation-name:rn-up}
+  @keyframes rn-up{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+}
 
 .install-btn{display:none;cursor:pointer;background:var(--gold-2);color:var(--on-gold);border-color:transparent;font-weight:600}
 .install-btn:hover{filter:brightness(1.08)}
@@ -1515,6 +1546,70 @@ function loadPdfjs(){
     .then(function(){ window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS+"pdf.worker.min.js"; });
   return R.loadP;
 }
+/* ---------- My notes (saved on this device) ---------- */
+function notesKey(m){ return "wm-notes-"+m.id; }
+function getNotes(m){ try{ var o=JSON.parse(lsGet(notesKey(m))||"{}"); return (o && typeof o==="object") ? o : {}; }catch(e){ return {}; } }
+function setNotes(m,o){ var c={}; Object.keys(o).forEach(function(k){ if (o[k] && String(o[k]).trim()) c[k]=o[k]; }); lsSet(notesKey(m), JSON.stringify(c)); }
+function notePages(m){ var o=getNotes(m); return Object.keys(o).map(Number).filter(function(n){ return n>0 && o[n] && String(o[n]).trim(); }).sort(function(a,b){ return a-b; }); }
+function notesBadge(){ if(!R.el || !R.item) return; var b=R.el.querySelector("#rn-badge"); if(b) b.textContent = notePages(R.item).length || ""; }
+function notesPanel(){ return R.el && R.el.querySelector("#r-notes"); }
+function openNotes(){
+  var p=notesPanel(); if(!p || !R.item) return;
+  var bar=R.el.querySelector(".r-bar").getBoundingClientRect(); p.style.setProperty("--rn-top", Math.round(bar.bottom+10)+"px");
+  p.hidden=false; hideDict(); fillNoteBox(); renderNoteList();
+}
+function closeNotes(){ var p=notesPanel(); if(p) p.hidden=true; }
+function fillNoteBox(){
+  var p=notesPanel(); if(!p || p.hidden || !R.item) return;
+  p.querySelector("#rn-p").textContent=R.page;
+  var ta=p.querySelector("#rn-text"); ta.value=getNotes(R.item)[R.page]||""; p.querySelector("#rn-saved").textContent="";
+}
+function renderNoteList(){
+  var p=notesPanel(); if(!p || !R.item) return;
+  var o=getNotes(R.item), pages=notePages(R.item);
+  p.querySelector("#rn-count").textContent=pages.length;
+  p.querySelector("#rn-list").innerHTML = pages.length ? pages.map(function(n){
+    return '<li><button class="rn-go'+(n===R.page?' cur':'')+'" data-r="rn-go" data-p="'+n+'"><b>p. '+n+'</b><span>'+esc(String(o[n]).slice(0,160))+'</span></button><button class="rn-del" data-r="rn-del" data-p="'+n+'" aria-label="Delete the note on page '+n+'">×</button></li>'; }).join("")
+    : '<li class="rn-empty">No notes yet. Write in the box above, or select a sentence in the booklet and tap “Add to my notes”.</li>';
+  notesBadge();
+}
+var rnT=null;
+function saveNoteBox(){
+  var p=notesPanel(); if(!p || !R.item) return;
+  var o=getNotes(R.item); o[R.page]=p.querySelector("#rn-text").value; setNotes(R.item,o);
+  p.querySelector("#rn-saved").textContent="Saved on this device ✓"; renderNoteList();
+}
+function addQuoteToNotes(text){
+  if (!R.item || !text) return;
+  var o=getNotes(R.item), cur=o[R.page]||"";
+  o[R.page] = (cur ? cur.replace(/\s+$/,"")+"\n\n" : "") + "“"+text+"”\n";
+  setNotes(R.item,o); openNotes();
+  var ta=notesPanel().querySelector("#rn-text"); ta.focus(); ta.selectionStart=ta.selectionEnd=ta.value.length;
+  notesPanel().querySelector("#rn-saved").textContent="Quote added ✓ — write your comment below it.";
+}
+async function downloadNotes(btn){
+  if (!R.item) return;
+  var o=getNotes(R.item), pages=notePages(R.item); if(!pages.length){ btn.textContent="No notes yet"; setTimeout(function(){ btn.textContent="Download my notes"; },1800); return; }
+  var txt = "MY NOTES\n"+R.item.title+"\n"+R.item.course+"\nDownloaded "+new Date().toLocaleDateString("en-GB")+"\n\n"
+    + pages.map(function(n){ return "— Page "+n+" —\n"+String(o[n]).trim()+"\n"; }).join("\n");
+  var name = "My notes - "+String(R.item.title).replace(/[\\\/:*?"<>|]+/g,"").slice(0,90)+".txt";
+  var blob = new Blob([txt],{type:"text/plain;charset=utf-8"});
+  try {
+    if (cap.downloads) await cap.downloads.save({filename:name, data:blob});
+    else { var u=URL.createObjectURL(blob), a=document.createElement("a"); a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(u); },8000); }
+    btn.textContent="Saved ✓";
+  } catch(e){ btn.textContent="Download failed"; }
+  setTimeout(function(){ btn.textContent="Download my notes"; }, 2200);
+}
+function showQuoteBtn(rect, text){
+  var q=R.el && R.el.querySelector("#r-quote"); if(!q) return;
+  R.quote=text; q.hidden=false;
+  var w=q.offsetWidth||170, left=Math.min(Math.max(12, rect.left+rect.width/2-w/2), window.innerWidth-w-12), top=rect.top-46;
+  if (top < 70) top = rect.bottom + 10;
+  q.style.left=left+"px"; q.style.top=top+"px";
+}
+function hideQuoteBtn(){ var q=R.el && R.el.querySelector("#r-quote"); if(q) q.hidden=true; }
+
 function readerEl(){
   if (R.el) return R.el;
   var d = document.createElement("div"); d.className="reader"; d.hidden=true; d.setAttribute("role","dialog"); d.setAttribute("aria-modal","true"); d.setAttribute("aria-label","PDF reader");
@@ -1526,10 +1621,16 @@ function readerEl(){
    + '<button class="r-ib" data-r="out" aria-label="Zoom out">−</button><span class="r-zoom" id="r-z">Fit</span><button class="r-ib" data-r="in" aria-label="Zoom in">+</button>'
    + '<button class="btn btn-ghost btn-sm" data-r="fit">Fit width</button>'
    + '<button class="btn btn-ghost btn-sm" data-r="dict">'+svg(RI.books,15)+'Dictionary</button>'
+   + '<button class="btn btn-ghost btn-sm" data-r="notes">'+svg('<path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/>',15)+'My notes<span class="rn-badge" id="rn-badge"></span></button>'
    + '<button class="btn btn-gold btn-sm" data-r="dl" id="r-dl">Download</button></div></div>'
    + '<div class="r-stage" id="r-stage"><div class="r-tip" id="r-tip">'+svg(RI.books,14)+'<span>Select a word (double-click, or press and hold on a phone) to look it up.</span></div>'
    + '<div class="r-pagebox" id="r-pagebox"><canvas id="r-canvas"></canvas><div class="textLayer" id="r-text"></div></div><div class="r-msg" id="r-msg" hidden></div></div>'
-   + '<div class="r-dict" id="r-dict" hidden role="dialog" aria-label="Dictionary"></div>';
+   + '<div class="r-dict" id="r-dict" hidden role="dialog" aria-label="Dictionary"></div>'
+   + '<button class="r-quote" id="r-quote" data-r="quote" hidden>'+svg('<path d="M12 5v14M5 12h14"/>',14)+'Add to my notes</button>'
+   + '<aside class="r-notes" id="r-notes" hidden aria-label="My notes"><div class="rn-hd"><div><b>My notes</b><small>Private · saved only on this device</small></div><button class="r-ib" data-r="notes-close" aria-label="Close notes">×</button></div>'
+   + '<label class="rn-lbl" for="rn-text">Note for page <span id="rn-p">1</span></label><textarea id="rn-text" placeholder="Write your note for this page: a key idea, a term, a question for class…"></textarea><div class="rn-saved" id="rn-saved"></div>'
+   + '<div class="rn-list-h"><span>All my notes in this booklet (<span id="rn-count">0</span>)</span></div><ul class="rn-list" id="rn-list"></ul>'
+   + '<div class="rn-actions"><button class="btn btn-gold btn-sm" data-r="rn-dl">Download my notes</button></div></aside>';
   document.body.appendChild(d); R.el = d;
   d.addEventListener("click", function(ev){
     var b = ev.target.closest("[data-r]"); if(!b) return;
@@ -1542,7 +1643,14 @@ function readerEl(){
     else if (k==="fit") { R.zoom = "fit"; drawPage(); }
     else if (k==="dl" && R.item) downloadItem(R.item, b);
     else if (k==="dict") showDict("", null, true);
+    else if (k==="notes") { var np=notesPanel(); if (np.hidden) openNotes(); else closeNotes(); }
+    else if (k==="notes-close") closeNotes();
+    else if (k==="rn-go") goPage(parseInt(b.dataset.p,10));
+    else if (k==="rn-del") { var o=getNotes(R.item); delete o[b.dataset.p]; setNotes(R.item,o); if (+b.dataset.p===R.page) fillNoteBox(); renderNoteList(); }
+    else if (k==="rn-dl") downloadNotes(b);
+    else if (k==="quote") { var qt=R.quote; hideQuoteBtn(); try{ window.getSelection().removeAllRanges(); }catch(e){} addQuoteToNotes(qt); }
   });
+  d.querySelector("#rn-text").addEventListener("input", function(){ clearTimeout(rnT); d.querySelector("#rn-saved").textContent="Saving…"; rnT=setTimeout(saveNoteBox, 400); });
   d.querySelector("#r-page").addEventListener("change", function(ev){ goPage(parseInt(ev.target.value,10)||1); });
   var t; window.addEventListener("resize", function(){ if (!d.hidden && R.zoom==="fit"){ clearTimeout(t); t=setTimeout(drawPage,150); } });
   return d;
@@ -1554,14 +1662,14 @@ function openReader(m, startPage){
   var d = readerEl(); R.item=m; R.page=startPage || parseInt(lsGet("wm-p-"+m.assetId)||"1",10) || 1; R.zoom="fit"; lsSet("wm-last", m.id);
   d.querySelector("#r-t").textContent = m.title; d.querySelector("#r-c").textContent = catOf(m.cat).one+" · "+m.course;
   d.querySelector("#r-n").textContent = "–"; d.querySelector("#r-dl").hidden = !cap.downloads;
-  d.hidden=false; document.body.style.overflow="hidden"; rMsg("Opening…","Loading the document.");
+  d.hidden=false; document.body.style.overflow="hidden"; rMsg("Opening…","Loading the document."); closeNotes(); hideQuoteBtn(); notesBadge();
   d.querySelector('[data-r="close"]').focus();
   if (R.task) { try{ R.task.destroy(); }catch(e){} }
   loadPdfjs().then(function(){ R.task = window.pdfjsLib.getDocument({url:pdfUrl(m), disableRange:true, disableStream:true}); return R.task.promise; })
    .then(function(pdf){ if (R.item!==m) return; R.pdf=pdf; d.querySelector("#r-n").textContent=pdf.numPages; d.querySelector("#r-page").max=pdf.numPages; if (R.page>pdf.numPages) R.page=1; rMsg(null); drawPage(); })
    .catch(function(){ if (R.item===m) rMsg("This PDF could not be opened","Check your internet connection and try again. If it still does not open, tell your instructor."); });
 }
-function goPage(n){ if(!R.pdf) return; n=Math.max(1,Math.min(R.pdf.numPages,n)); if(n===R.page) { R.el.querySelector("#r-page").value=n; return; } R.page=n; drawPage(); R.el.querySelector("#r-stage").scrollTop=0; }
+function goPage(n){ if(!R.pdf) return; n=Math.max(1,Math.min(R.pdf.numPages,n)); if(n===R.page) { R.el.querySelector("#r-page").value=n; return; } if (rnT){ clearTimeout(rnT); rnT=null; saveNoteBox(); } R.page=n; drawPage(); R.el.querySelector("#r-stage").scrollTop=0; }
 var rRender=null;
 function drawPage(){
   if (!R.pdf) return;
@@ -1583,6 +1691,8 @@ function drawPage(){
     try { var tt = window.pdfjsLib.renderTextLayer({textContentSource:page.streamTextContent(), container:tl, viewport:cssVp, textDivs:[]});
       if (tt && tt.promise) tt.promise.then(function(){ var e=document.createElement("div"); e.className="endOfContent"; tl.appendChild(e); }).catch(function(){}); } catch(e){}
     hideDict();
+    if (rnT){ clearTimeout(rnT); rnT=null; }
+    fillNoteBox(); renderNoteList();
     R.el.querySelector("#r-page").value=num; if (R.item && R.item.assetId) lsSet("wm-p-"+R.item.assetId, String(num));
     R.el.querySelector('[data-r="prev"]').disabled = num<=1;
     R.el.querySelector('[data-r="next"]').disabled = num>=R.pdf.numPages;
@@ -1626,14 +1736,17 @@ function checkSelection(){
   if (!R.el || R.el.hidden) return;
   var sel=window.getSelection(); if (!sel || sel.isCollapsed || !sel.rangeCount) return;
   var tl=R.el.querySelector("#r-text"); if (!tl.contains(sel.anchorNode)) return;
+  var raw=sel.toString().replace(/\s+/g," ").trim();
+  if (raw.length>1) showQuoteBtn(sel.getRangeAt(0).getBoundingClientRect(), raw.slice(0,800));
   var t=cleanWord(sel.toString());
   if (!t || t.length>40 || t.split(" ").length>3 || !/[A-Za-zÀ-ɏ؀-ۿ]/.test(t)) return;
   showDict(t, sel.getRangeAt(0).getBoundingClientRect(), false);
 }
 document.addEventListener("selectionchange", function(){ clearTimeout(dictT); dictT=setTimeout(checkSelection, 450); });
+document.addEventListener("selectionchange", function(){ var s=window.getSelection(); if (s && s.isCollapsed) setTimeout(function(){ var s2=window.getSelection(); if (s2 && s2.isCollapsed) hideQuoteBtn(); }, 250); });
 document.addEventListener("mousedown", function(ev){ if (R.el && !R.el.hidden && !ev.target.closest("#r-dict") && !ev.target.closest('[data-r="dict"]') && !ev.target.closest("#r-text")) hideDict(); });
 
-function closeReader(){ if(!R.el) return; hideDict(); R.el.hidden=true; document.body.style.overflow=""; R.item=null; if(R.pdf){ try{R.pdf.destroy();}catch(e){} R.pdf=null; } }
+function closeReader(){ if(!R.el) return; if (rnT){ clearTimeout(rnT); rnT=null; saveNoteBox(); } closeNotes(); hideQuoteBtn(); hideDict(); R.el.hidden=true; document.body.style.overflow=""; R.item=null; if(R.pdf){ try{R.pdf.destroy();}catch(e){} R.pdf=null; } }
 document.addEventListener("keydown", function(ev){
   if (!R.el || R.el.hidden || ev.target.id==="r-page") return;
   if (ev.target.closest && ev.target.closest("#r-dict")) { if (ev.key==="Escape") hideDict(); return; }
