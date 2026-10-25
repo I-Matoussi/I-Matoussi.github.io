@@ -1361,7 +1361,7 @@ function render(){
   if (slot("s-main", '<main><div class="wrap">'+body+'</div></main>') && view!==LAST_VIEW && LAST_VIEW!==null){ var mn=document.querySelector("#s-main main"); if(mn) mn.classList.add("enter"); }
   LAST_VIEW = view;
   slot("s-modal", modal());
-  slot("s-foot", '<div class="frieze" aria-hidden="true"></div><footer><div class="wrap"><div><div class="sig">Issam <em>Matoussi</em></div><div style="margin-top:8px">Researcher · Instructor · Academic year 2026–2027</div><div class="ver">Site version 2.2 · 23 Oct 2026</div></div><div style="display:flex;flex-direction:column;align-items:flex-end"><button class="foot-share" data-act="share">'+svg('<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4"/>',15)+'Share this site · QR code</button></div></div></footer>');
+  slot("s-foot", '<div class="frieze" aria-hidden="true"></div><footer><div class="wrap"><div><div class="sig">Issam <em>Matoussi</em></div><div style="margin-top:8px">Researcher · Instructor · Academic year 2026–2027</div><div class="ver">Site version 2.3 · 25 Oct 2026</div></div><div style="display:flex;flex-direction:column;align-items:flex-end"><button class="foot-share" data-act="share">'+svg('<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4"/>',15)+'Share this site · QR code</button></div></div></footer>');
   if (active){ var el = document.getElementById(active); if (el){ el.focus(); if (pos!=null && el.setSelectionRange) try{ el.setSelectionRange(pos,pos);}catch(e){} } }
 }
 
@@ -1553,10 +1553,11 @@ function setNotes(m,o){ var c={}; Object.keys(o).forEach(function(k){ if (o[k] &
 function notePages(m){ var o=getNotes(m); return Object.keys(o).map(Number).filter(function(n){ return n>0 && o[n] && String(o[n]).trim(); }).sort(function(a,b){ return a-b; }); }
 function notesBadge(){ if(!R.el || !R.item) return; var b=R.el.querySelector("#rn-badge"); if(b) b.textContent = notePages(R.item).length || ""; }
 function notesPanel(){ return R.el && R.el.querySelector("#r-notes"); }
+function placeNotes(){ var p=notesPanel(); if(!p || p.hidden) return; var bar=R.el.querySelector(".r-bar").getBoundingClientRect(); p.style.setProperty("--rn-top", Math.round(Math.min(bar.bottom, window.innerHeight*0.45)+10)+"px"); }
+window.addEventListener("resize", function(){ placeNotes(); });
 function openNotes(){
   var p=notesPanel(); if(!p || !R.item) return;
-  var bar=R.el.querySelector(".r-bar").getBoundingClientRect(); p.style.setProperty("--rn-top", Math.round(bar.bottom+10)+"px");
-  p.hidden=false; hideDict(); fillNoteBox(); renderNoteList();
+  p.hidden=false; placeNotes(); hideDict(); fillNoteBox(); renderNoteList();
 }
 function closeNotes(){ var p=notesPanel(); if(p) p.hidden=true; }
 function fillNoteBox(){
