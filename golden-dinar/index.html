@@ -591,6 +591,57 @@ html body.only-en:not(.peek) .beystage .beybub.big .ar,html body.only-ar:not(.pe
 @keyframes ttspark{0%,100%{transform:scale(0) rotate(0);opacity:0}50%{transform:scale(1.2) rotate(45deg);opacity:1}}
 @keyframes htitleM2{from{transform:scale(0)}to{transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){.ttover *{animation:none!important}}
+/* illustrated plates */
+.plate{background:#081a33}
+.plate .svgfb svg{width:100%;height:100%}
+.tw{animation:twk 3.2s ease-in-out infinite}@keyframes twk{50%{opacity:.12}}
+.bob{animation:bobp 4.2s ease-in-out infinite;transform-box:fill-box;transform-origin:center}@keyframes bobp{50%{transform:translateY(3px) rotate(.8deg)}}
+.wv{animation:wvp 7s linear infinite}@keyframes wvp{to{transform:translateX(40px)}}
+.snow{animation:snowp 4s linear infinite}@keyframes snowp{from{transform:translateY(-6px)}to{transform:translateY(10px);opacity:0}}
+.spin{animation:spinp 14s linear infinite;transform-box:fill-box;transform-origin:center}.spin.slow{animation-duration:60s}@keyframes spinp{to{transform:rotate(360deg)}}
+.flick{animation:flk 2.4s ease-in-out infinite alternate}@keyframes flk{from{opacity:.75}to{opacity:1}}
+.flame{animation:flm .5s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}@keyframes flm{from{transform:scale(1,1)}to{transform:scale(.88,1.12)}}
+.flagw{animation:flw 2.6s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:left center}@keyframes flw{from{transform:skewY(-2deg) scaleX(1)}to{transform:skewY(2deg) scaleX(.97)}}
+.rays{animation:rysp 30s linear infinite;transform-box:view-box;transform-origin:160px 118px}@keyframes rysp{to{transform:rotate(8deg)}}
+.dove{animation:dvp 5s ease-in-out infinite alternate}@keyframes dvp{from{transform:translate(-6px,2px)}to{transform:translate(8px,-5px)}}
+.gallop{animation:glp .5s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}@keyframes glp{from{transform:translateY(0)}to{transform:translateY(-3px)}}
+.drip{animation:drp 1.4s ease-in infinite}@keyframes drp{0%{transform:translateY(-8px);opacity:0}50%{opacity:1}100%{transform:translateY(10px);opacity:0}}
+.beam{animation:bmp 6s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:right center}@keyframes bmp{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
+/* Grand trophies (10 and 15 in a row) */
+.grover{position:fixed;inset:0;z-index:93;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px 16px;opacity:0;transition:opacity .45s;cursor:pointer;overflow:hidden}
+.grover.in{opacity:1}.grover.out{opacity:0}
+.grover.astro{background:radial-gradient(ellipse at 50% 42%,rgba(38,60,150,.96),rgba(4,8,28,.98) 72%)}
+.grover.crown{background:radial-gradient(ellipse at 50% 40%,rgba(10,84,72,.95),rgba(3,14,30,.98) 74%)}
+.grrays{position:absolute;left:50%;top:42%;width:170vmax;height:170vmax;margin:-85vmax 0 0 -85vmax;animation:hspin 26s linear infinite;pointer-events:none}
+.astro .grrays{background:repeating-conic-gradient(rgba(170,200,255,.13) 0 6deg,transparent 6deg 15deg)}
+.crown .grrays{background:repeating-conic-gradient(rgba(246,210,122,.17) 0 7deg,transparent 7deg 18deg)}
+.grfx{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.grstage{position:relative;width:min(340px,76vw,46vh);aspect-ratio:1/1.06;animation:grrise 1.2s cubic-bezier(.2,1.4,.4,1) both}
+.crown .grstage{width:min(430px,86vw,54vh);aspect-ratio:1/1.02}
+.grglow{position:absolute;left:50%;top:44%;width:96%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;animation:ttpulse 1.7s ease-in-out infinite alternate}
+.astro .grglow{background:radial-gradient(circle,rgba(190,214,255,.7),rgba(120,160,255,.16) 55%,transparent 70%)}
+.crown .grglow{background:radial-gradient(circle,rgba(255,236,170,.7),rgba(246,210,122,.16) 55%,transparent 70%)}
+.gr-svg{position:relative;width:100%;height:100%;filter:drop-shadow(0 16px 26px rgba(0,0,0,.55))}
+.crown .gr-svg{width:84%;height:auto;margin:0 8%;position:absolute;left:0;top:2%}
+.rflag{transform-origin:right center!important}.spin.rev{animation-direction:reverse;animation-duration:22s}.spin.slow2{animation-duration:40s}
+.grcrown{animation:grcrown 2.4s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes grcrown{from{transform:translateY(0)}to{transform:translateY(-4px)}}
+.grorbit{position:absolute;left:50%;top:54%;width:96%;aspect-ratio:1;transform:translate(-50%,-50%);animation:hspin 24s linear infinite;pointer-events:none}
+.grem{position:absolute;left:50%;top:50%;width:14%;aspect-ratio:1;margin:-7% 0 0 -7%;color:#f6d27a;background:radial-gradient(circle,#10305a,#071a34);border:1.5px solid #e0ac45;border-radius:50%;padding:2.2%;box-sizing:border-box;box-shadow:0 0 14px rgba(246,210,122,.55);transform:rotate(var(--a)) translateY(-300%)}
+.grem .pun{width:100%;height:100%;display:block;animation:hspinr 24s linear infinite;filter:drop-shadow(0 0 6px rgba(246,210,122,.8))}
+@keyframes hspinr{to{transform:rotate(-360deg)}}
+.grtitle{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;max-width:min(560px,94vw);padding:10px 22px 12px;border-radius:14px;background:rgba(7,21,42,.82);border:2px solid #e0ac45;text-align:center;animation:htitleM2 .6s cubic-bezier(.3,1.8,.5,1) .8s both}
+.grtitle strong{font-family:var(--display);font-size:clamp(1.15rem,4.6vw,1.9rem);color:#f6d27a;text-shadow:0 2px 0 #7a5214;line-height:1.2}
+.grtitle .ar,.grtitle strong .ar{font-family:var(--arabic);margin:0!important}
+.grtitle .hsmall{font-size:clamp(.75rem,2.6vw,.95rem);color:#fbf5e6}
+.grsub{font-size:clamp(.72rem,2.4vw,.88rem);color:#e8dcc0;max-width:46ch}
+.crc{position:absolute;top:-24px;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff4c9,#f2c75c 45%,#8a5c12);border:1px solid #7a5214;animation:crfall 2.4s linear infinite}
+@keyframes crfall{0%{transform:translateY(-30px) rotateY(0);opacity:0}10%{opacity:1}100%{transform:translateY(112vh) rotateY(720deg);opacity:1}}
+.fwb{position:absolute;width:0;height:0}.fwb i{position:absolute;left:0;top:0;width:5px;height:5px;margin:-2.5px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c),0 0 14px var(--c);animation:fwsp 1.3s cubic-bezier(.1,.7,.3,1) both}
+@keyframes fwsp{0%{transform:translate(0,0) scale(1.4);opacity:1}70%{opacity:1}100%{transform:translate(var(--dx),calc(var(--dy) + 22px)) scale(.2);opacity:0}}
+@keyframes grrise{0%{transform:translateY(70vh) scale(.6);opacity:0}70%{transform:translateY(-14px) scale(1.05);opacity:1}100%{transform:none}}
+@media (prefers-reduced-motion:reduce){.grover *{animation:none!important}.grstage{transform:none!important;opacity:1!important}.fwb{display:none}}
+.photo.plate .cap{padding:4px 9px 5px;max-width:78%}.photo.plate .cap .tag{display:none}.photo.plate .cap .en{font-size:.74rem}.photo.plate .cap .ar{font-size:.78rem}
 /* Arabic version: no English vocabulary/grammar boxes */
 body.only-ar .learn{display:none!important}
 /* navigation */
@@ -2161,7 +2212,7 @@ const P={
 const CH_PH={carthage:["dido","antonine","zama","eljem","dougga"],kairouan:["kairouan","sbeitla","ribat","mahdia","arcade"],hafsid:["zitouna","tunis1535","louis","darkhaldun"],beys:["throne","lions","bardo","door"],protectorate:["theatre","cathedral","hachedtomb","avenue"],republic:["avenue","night","mausoleum","jan2011"],books:["bluequran","bluequran2","darkhaldun","zitouna"],figures:["khaldun","chebbitomb","hachedbust","door"],leaders:["mausoleum","throne","bardo","tunis1535"],mix:["eljem2","sidibou","kairouan","antonine"]};
 const REVEAL=[[/Ibn Khaldun|Muqaddimah/,"khaldun"],[/Hannibal|Hamilcar/,"hannibal"],[/Chebbi|anthem/,"chebbi"],[/Khayr al-Din|Sadiki|Aqwam/,"khayr"],[/Ahmad Bey|slavery/,"ahmadbey"],[/Hached|UGTT/,"hachedbust"],[/Bourguiba|Neo-Destour|Monastir/,"bourguiba"],[/Elissa|Carthage founded/,"dido"],[/Zama|Massinissa|Syphax/,"zama"],[/Thysdrus|El Jem|Gordian/,"eljem"],[/Sufetula|Sbeitla/,"sbeitla"],[/Kairouan|Uqba/,"kairouan"],[/Mahdia|Fatimid/,"mahdia"],[/Aghlabid|Sicily|Asad/,"ribat"],[/Louis IX/,"louis"],[/Charles V/,"tunis1535"],[/Mudawwana|Sahnun|Blue/,"bluequran"],[/Zitouna|Ben Achour/,"zitouna"],[/Bardo|Sadiq/,"bardo"],[/1938|Martyrs|Belhouane/,"theatre"],[/Bouazizi|Ben Ali|2011|Quartet/,"jan2011"],[/Independence|republic|Bizerte|Personal Status|Essebsi/i,"avenue"],[/Ottoman|Husain|Hammuda|Moncef|Lamine|bey/i,"throne"],[/Vandal|Genseric|Belisarius|Rome destroy|Tertullian/,"antonine"]];
 
-function photoHTML(key,scene,opts={}){const p=P[key];
+function photoHTML(key,scene,opts={}){const pl=typeof key==="string"&&key.indexOf("pl:")===0?PL[key.slice(3)]:null;if(pl)return `<div class="photo ok plate ${opts.cls||""}" role="img" aria-label="${pl.n[0]}"><div class="svgfb">${pl.svg()}</div><span class="sheen"></span>${opts.chip?`<span class="chip-era">${opts.chip}</span>`:""}${opts.cap!==false?`<span class="cap"><span class="tag">Illustration</span>${bi(pl.n[0],pl.n[1])}</span>`:""}</div>`;const p=P[key];
  return `<div class="photo ${opts.cls||""}">${scene?`<div class="svgfb">${placeholder(opts.label||"")}</div>`:""}${p?`<img class="bgblur" alt="" aria-hidden="true" src="${WM(p[0])}" ${opts.lazy?'loading="lazy"':""} decoding="async" onerror="this.remove()"><img class="main" alt="${p[1]}" src="${WM(p[0])}" ${opts.lazy?'loading="lazy"':""} decoding="async" onload="this.classList.add('in');this.parentNode.classList.add('ok')" onerror="${opts.removeOnFail?"this.parentNode.remove()":"this.remove()"}">`:""}<span class="sheen"></span>${opts.chip?`<span class="chip-era">${opts.chip}</span>`:""}${p&&opts.cap!==false?`<span class="cap"><span class="tag">${plateTag(p[1])}</span>${bi(p[1],p[2])}</span>`:""}</div>`}
 function revealKey(q){const t=[q.q,q.a?q.a[0]:"",q.items?q.items.map(i=>i[0]).join(" "):""].join(" ");const r=REVEAL.find(([re])=>re.test(t));return r?r[1]:null}
 
@@ -2449,7 +2500,7 @@ function placeholder(label){const id="z"+Math.random().toString(36).slice(2,7);
  <rect width="320" height="160" fill="url(#${id}g)"/><rect width="320" height="160" fill="url(#${id}p)"/>
  ${PUNIC_RE.test(label)?`<g transform="translate(130 38)" class="phold" style="color:#e0ac45">${PUN.tanit.replace('<svg','<svg width="60" height="60"')}</g>`:`<g transform="translate(160 72)" fill="none" stroke="#e0ac45" stroke-opacity=".55" stroke-width="1.4"><path d="M0-30 9-9 30 0 9 9 0 30-9 9-30 0-9-9Z"/><path d="M-21-21 0-12 21-21 12 0 21 21 0 12-21 21-12 0Z"/><circle r="6"/></g>`}
  ${label?`<text x="160" y="132" text-anchor="middle" font-family="Marcellus,Georgia,serif" font-size="13" letter-spacing="3" fill="#f6d27a" fill-opacity=".8">${String(label).toUpperCase()}</text>`:""}</svg>`}
-function plateTag(cap){if(/Bardo/i.test(cap))return "Bardo National Museum";if(/1899|archive/i.test(cap))return "Archive photograph";if(/Turner|Cort|tapestr|Death of|conquest of Tunis|painting/i.test(cap))return "Painting";if(/mosaic/i.test(cap))return "Roman mosaic";if(/dinar|binding|Quran|folio/i.test(cap))return "Manuscripts & coins";if(/statue|bust|Portrait|Bey$|Bourguiba|Hached|Haddad|Thaalbi|Chebbi|Khayr|Hannibal/i.test(cap))return "Portrait";return "Monument";}
+function plateTag(cap){if(/illustration/i.test(cap))return "Illustration";if(/Bardo/i.test(cap))return "Bardo National Museum";if(/1899|archive/i.test(cap))return "Archive photograph";if(/Turner|Cort|tapestr|Death of|conquest of Tunis|painting/i.test(cap))return "Painting";if(/mosaic/i.test(cap))return "Roman mosaic";if(/dinar|binding|Quran|folio/i.test(cap))return "Manuscripts & coins";if(/statue|bust|Portrait|Bey$|Bourguiba|Hached|Haddad|Thaalbi|Chebbi|Khayr|Hannibal/i.test(cap))return "Portrait";return "Monument";}
 
 /* toast */
 function toast(html,icon){const t=document.createElement("div");t.className="toast";t.innerHTML=(icon||"")+`<span>${html}</span>`;document.body.appendChild(t);setTimeout(()=>t.classList.add("out"),3200);setTimeout(()=>t.remove(),3800)}
@@ -2681,7 +2732,7 @@ function wireHeader(){const h=document.getElementById("home");if(h){h.onclick=()
 function stopTimer(){if(timerRAF)cancelAnimationFrame(timerRAF);timerRAF=null}
 function nav(fn){if(reduce()){fn();window.scrollTo(0,0);return}app.classList.add("leaving");setTimeout(()=>{fn();app.classList.remove("leaving");window.scrollTo({top:0,behavior:"smooth"})},230)}
 function popQuestState(){try{if(history.state&&history.state.gd){S.skipPop=true;history.back()}}catch(e){}}
-function goMap(){stopTimer();beyAway();{const o=document.getElementById("welcomeOv");if(o&&!o.classList.contains("out"))o.remove()}closeHannibal(true);closeTanit(true);closeSheet();popQuestState();nav(renderMap)}
+function goMap(){stopTimer();beyAway();{const o=document.getElementById("welcomeOv");if(o&&!o.classList.contains("out"))o.remove()}closeHannibal(true);closeTanit(true);closeGrand(true);closeSheet();popQuestState();nav(renderMap)}
 function goHome(){stopTimer();closeSheet();popQuestState();nav(renderSplash)}
 function leave(target,kind){if(S.screen!=="quiz"){target();return}openSheet(target,kind)}
 function openSheet(target,kind){if(document.querySelector(".sheet"))return;
@@ -3175,6 +3226,170 @@ function trumpet(){const c=ac();if(!c)return;const t=c.currentTime+.9;const o=c.
  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.22,t+.06);g.gain.setValueAtTime(.2,t+.8);g.gain.exponentialRampToValueAtTime(.0001,t+1.05);o.connect(f);f.connect(g);g.connect(SND.master);o.start(t);v.start(t);o.stop(t+1.1);v.stop(t+1.1)}
 let hanT=null;
 
+/* ================= illustrated plates: original drawings matched to question topics ================= */
+const PLF=(sky,inner)=>{const id="p"+Math.random().toString(36).slice(2,7);
+ return `<svg viewBox="0 0 320 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="${id}s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sky[0]}"/><stop offset=".62" stop-color="${sky[1]}"/><stop offset="1" stop-color="${sky[2]}"/></linearGradient><radialGradient id="${id}g"><stop offset="0" stop-color="#fff3c4" stop-opacity=".95"/><stop offset=".35" stop-color="#f6d27a" stop-opacity=".45"/><stop offset="1" stop-color="#f6d27a" stop-opacity="0"/></radialGradient><linearGradient id="${id}o" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff4c9"/><stop offset=".45" stop-color="#f2c75c"/><stop offset="1" stop-color="#9a6a1c"/></linearGradient></defs><rect width="320" height="160" fill="url(#${id}s)"/>${inner.replace(/#GLOW/g,"url(#"+id+"g)").replace(/#GOLD/g,"url(#"+id+"o)")}<g fill="none" stroke="#e0ac45" stroke-opacity=".55" stroke-width="1"><rect x="6" y="6" width="308" height="148" rx="3"/><rect x="10" y="10" width="300" height="140" rx="2" stroke-opacity=".28"/></g></svg>`};
+const STR=(n,h)=>Array.from({length:n},(_,k)=>`<circle class="tw" cx="${(k*97+31)%296+12}" cy="${(k*53+17)%h+12}" r="${k%3?.7:1.1}" fill="#fff3c4" opacity="${.35+(k%4)*.15}" style="animation-delay:${(k%5)*.45}s"/>`).join("");
+const PE=(x,y,w,c)=>PUN.elephant.replace("<svg",`<svg x="${x}" y="${y}" width="${w}" height="${w}" style="color:${c||"#140a1c"}"`);
+const wave=(y,c,o,d)=>`<path class="wv" d="M-40 ${y} q20 -7 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 V170 H-40z" fill="${c}" opacity="${o}" style="animation-delay:${d||0}s"/>`;
+const star5=(cx,cy,r,f)=>{let p="";for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,rr=i%2?r*.4:r;p+=(i?"L":"M")+(cx+Math.cos(a)*rr).toFixed(1)+" "+(cy+Math.sin(a)*rr).toFixed(1)}return `<path d="${p}Z" fill="${f}"/>`};
+const jflo=(x,y,r)=>`<g transform="translate(${x} ${y})">${[0,72,144,216,288].map(a=>`<ellipse cx="0" cy="${-r*.62}" rx="${r*.3}" ry="${r*.62}" fill="#fffdf6" stroke="#cdbf9a" stroke-width=".4" transform="rotate(${a})"/>`).join("")}<circle r="${r*.2}" fill="#f2c75c"/></g>`;
+const camel=(x,y,s)=>`<g transform="translate(${x} ${y}) scale(${s})" fill="#1a0c18"><ellipse cx="22" cy="-19" rx="21" ry="9"/><path d="M12 -24 q7-14 14 0z"/><path d="M36 -24 Q47 -26 46 -41 L52 -43 Q55 -45 59 -42 L58 -38 L52 -37 Q52 -22 40 -14z"/><rect x="5" y="-14" width="3.2" height="14"/><rect x="12" y="-14" width="3.2" height="14"/><rect x="31" y="-14" width="3.2" height="14"/><rect x="38" y="-14" width="3.2" height="14"/><path d="M2 -22 q-6 4 -4 14" fill="none" stroke="#1a0c18" stroke-width="1.6"/></g>`;
+
+const PL={
+ ship:{n:["Phoenician ship (illustration)","سفينة فينيقية (رسم توضيحي)"],svg:()=>PLF(["#07142c","#173a68","#c97a3d"],`${STR(26,70)}<circle cx="262" cy="42" r="46" fill="#GLOW"/><circle cx="262" cy="42" r="15" fill="#fff6d6"/><circle cx="268" cy="38" r="13" fill="#173a68" opacity=".0"/>
+  <g class="bob"><path d="M92 102 Q108 124 160 125 Q218 123 238 92 L231 89 Q216 108 160 111 Q118 110 102 94z" fill="#5a2a14" stroke="#e0ac45" stroke-width="1.2"/><path d="M104 100 Q160 117 228 98" fill="none" stroke="#e0ac45" stroke-width="1.6"/><path d="M238 92 q10-14 7-30 l5 2 q3 15-5 31z" fill="#5a2a14" stroke="#e0ac45" stroke-width="1"/><circle cx="244" cy="66" r="2" fill="#f6d27a"/><path d="M92 102 q-8-6-9-16 l5 1 q2 8 8 11z" fill="#5a2a14"/>
+  <path d="M166 40 V106" stroke="#2b160a" stroke-width="3"/><path d="M146 40 H186 L190 90 H142z" fill="#efe4c8"/><g fill="#6b1240"><rect x="150" y="40" width="7" height="50"/><rect x="164" y="40" width="7" height="50"/><rect x="178" y="40" width="7" height="50"/></g><path d="M142 40 H190" stroke="#2b160a" stroke-width="3"/><circle cx="166" cy="64" r="8" fill="#f2c75c" stroke="#7a5214"/><path d="M166 58 v12 M160 64 h12" stroke="#7a5214" stroke-width="1.3"/>
+  <g stroke="#3a1c0e" stroke-width="1.5"><path d="M112 108 L98 128"/><path d="M134 112 L122 132"/><path d="M158 114 L150 134"/><path d="M182 112 L180 132"/><path d="M206 108 L210 128"/></g></g>
+  ${wave(122,"#0f2a50",.85,0)}${wave(134,"#0a1f3d",.9,-1.2)}${wave(146,"#071632",1,-2.4)}`)},
+ alps:{n:["Hannibal's elephants cross the Alps (illustration)","فيلة حنبعل تعبر جبال الألب (رسم توضيحي)"],svg:()=>PLF(["#1c2f5e","#8a5575","#f4b673"],`<circle cx="236" cy="82" r="60" fill="#GLOW"/>
+  <path d="M-10 160 V100 L48 40 L84 82 L118 30 L170 100 L206 56 L252 108 L290 70 L330 112 V160z" fill="#34476f"/><path d="M48 40 L36 60 L48 55 L56 64 L66 58z M118 30 L104 56 L116 50 L124 60 L134 52z M206 56 L194 74 L206 70 L214 80 L222 72z M290 70 L280 86 L290 82 L298 90z" fill="#f6f2ea"/>
+  <path d="M-10 160 V118 L40 96 L90 118 L140 104 L200 126 L250 110 L330 130 V160z" fill="#1d2a4a"/><path d="M-10 160 V138 Q80 120 160 140 T330 134 V160z" fill="#f6f2ea" opacity=".92"/>
+  ${PE(20,96,40)}${PE(70,100,36)}${PE(114,104,32)}${PE(152,108,28)}
+  ${Array.from({length:30},(_,k)=>`<circle class="snow" cx="${(k*61)%310+5}" cy="${(k*37)%150}" r="1.2" fill="#fff" opacity=".8" style="animation-delay:${(k%7)*.5}s"/>`).join("")}`)},
+ legion:{n:["Roman legion (illustration)","فيلق روماني (رسم توضيحي)"],svg:()=>PLF(["#2c0e1a","#7c2a2c","#e0894a"],`<circle cx="240" cy="96" r="58" fill="#GLOW"/><path d="M-10 160 V122 Q80 108 160 124 T330 118 V160z" fill="#1a0a12"/>
+  <g stroke="#2b160a" stroke-width="2"><path d="M30 150 L66 38"/><path d="M52 150 L84 46"/><path d="M270 150 L246 52"/></g><g fill="#cfd3d8"><path d="M66 38 l-3-12 6 9z"/><path d="M84 46 l-3-12 6 9z"/><path d="M246 52 l-3-12 6 9z"/></g>
+  <g transform="translate(112 34)"><rect x="0" y="0" width="76" height="96" rx="30" fill="#a31621" stroke="#f2c75c" stroke-width="3"/><path d="M38 8 V88 M6 48 H70" stroke="#f2c75c" stroke-width="2.4"/><circle cx="38" cy="48" r="11" fill="#f2c75c" stroke="#7a5214" stroke-width="1.5"/><path d="M26 30 q12-14 24 0 M24 66 q14 14 28 0" fill="none" stroke="#f2c75c" stroke-width="2.4"/></g>
+  <g transform="translate(246 22)"><path d="M0 128 V30" stroke="#2b160a" stroke-width="3"/><path d="M-22 30 q10-22 22-12 q12-10 22 12 q-8 8-22 6 q-14 2-22-6z" fill="#e0ac45" stroke="#7a5214"/><circle cx="0" cy="14" r="5" fill="#e0ac45"/><circle cx="0" cy="60" r="7" fill="#e0ac45"/><circle cx="0" cy="80" r="7" fill="#e0ac45"/><rect x="-14" y="96" width="28" height="9" fill="#a31621"/></g>`)},
+ dinar:{n:["The golden dinar (illustration)","الدينار الذهبي (رسم توضيحي)"],svg:()=>PLF(["#07142c","#14325a","#2a1a3a"],`${STR(30,90)}<circle cx="160" cy="80" r="86" fill="#GLOW" opacity=".8"/>
+  <g transform="translate(160 80)"><g class="spin"><circle r="52" fill="#GOLD" stroke="#7a5214" stroke-width="2.5"/><circle r="45" fill="none" stroke="#7a5214" stroke-width="1.6" stroke-dasharray="2.4 3.4"/><circle r="38" fill="#f2c75c" stroke="#9a6a1c" stroke-width="1.5"/>
+  <path d="M0-30 8-8 30 0 8 8 0 30-8 8-30 0-8-8Z" fill="none" stroke="#7a5214" stroke-width="2"/><path d="M-21-21 0-12 21-21 12 0 21 21 0 12-21 21-12 0Z" fill="none" stroke="#7a5214" stroke-width="1.4"/><circle r="7" fill="#9a6a1c"/><circle r="3" fill="#fff4c9"/></g></g>
+  <g fill="#GOLD" stroke="#7a5214" stroke-width="1.2"><ellipse cx="54" cy="136" rx="26" ry="7"/><ellipse cx="54" cy="130" rx="26" ry="7"/><ellipse cx="54" cy="124" rx="26" ry="7"/><ellipse cx="268" cy="138" rx="26" ry="7"/><ellipse cx="268" cy="132" rx="26" ry="7"/><ellipse cx="268" cy="126" rx="26" ry="7"/><ellipse cx="268" cy="120" rx="26" ry="7"/><ellipse cx="268" cy="114" rx="26" ry="7"/></g>`)},
+ scroll:{n:["Manuscripts and books (illustration)","مخطوطات وكتب (رسم توضيحي)"],svg:()=>PLF(["#140a08","#3a2012","#7a4a24"],`<circle cx="250" cy="40" r="64" fill="#GLOW" class="flick"/><g transform="translate(250 56)"><rect x="-4" y="0" width="8" height="40" fill="#efe4c8"/><path d="M0-14 q6 8 0 16 q-6-8 0-16z" fill="#ffb347" class="flame"/></g>
+  <path d="M30 128 Q80 112 160 126 Q240 112 290 128 V146 H30z" fill="#2a1408"/><path d="M42 124 Q100 106 160 120 V140 Q100 126 42 142z" fill="#f4ead2" stroke="#7a5214"/><path d="M278 124 Q220 106 160 120 V140 Q220 126 278 142z" fill="#efe1c0" stroke="#7a5214"/>
+  <g stroke="#8a6a3a" stroke-width="1" opacity=".7"><path d="M56 122 Q100 112 148 124 M56 129 Q100 119 148 131 M56 136 Q100 126 148 138"/><path d="M264 122 Q220 112 172 124 M264 129 Q220 119 172 131 M264 136 Q220 126 172 138"/></g>
+  <path d="M96 70 q30-34 66-6 q30-28 66 6 v14 q-33-26 -66 4 q-33-30 -66-4z" fill="none" stroke="#e0ac45" stroke-width="2" opacity=".8"/><path d="M200 60 L120 120" stroke="#efe4c8" stroke-width="2.6"/><path d="M200 60 q16-14 26-8 q-8 12-26 8z" fill="#efe4c8"/><path d="M120 120 l-4 8 8-4z" fill="#1a0c08"/><rect x="62" y="104" width="16" height="18" rx="3" fill="#0e0a14" stroke="#e0ac45"/>`)},
+ mosque:{n:["Minaret and prayer hall (illustration)","صومعة وبيت صلاة (رسم توضيحي)"],svg:()=>PLF(["#13224a","#6b3a6b","#f0a56a"],`<circle cx="70" cy="40" r="26" fill="#GLOW"/><path d="M62 28 a13 13 0 1 0 14 14 a10 10 0 1 1 -14 -14z" fill="#fff3c4"/>
+  <path d="M-10 160 V128 Q80 116 160 128 T330 126 V160z" fill="#2a1232"/>
+  <g transform="translate(212 20)"><rect x="-17" y="62" width="34" height="78" fill="#e9d6b0"/><rect x="-13" y="34" width="26" height="30" fill="#e2cb9d"/><rect x="-9" y="14" width="18" height="22" fill="#e9d6b0"/><path d="M-13 14 h26 M-17 62 h34 M-13 34 h26" stroke="#9a7a46" stroke-width="2"/><path d="M-9 14 q9-14 18 0z" fill="#c9a24c"/><path d="M0 0 V-10" stroke="#e0ac45" stroke-width="2"/><circle cx="0" cy="-12" r="3" fill="#e0ac45"/><g fill="#6b4a22"><path d="M-5 76 v14 q5 4 10 0 v-14 q-5-6 -10 0z"/><path d="M-5 44 v10 q5 4 10 0 v-10 q-5-5 -10 0z"/></g></g>
+  <path d="M40 140 V104 H190 V140z" fill="#e2cb9d"/><g fill="#3a1c2e">${[0,1,2,3,4].map(i=>`<path d="M${52+i*28} 140 V120 q10-18 20 0 V140z"/>`).join("")}</g><path d="M40 104 H190" stroke="#9a7a46" stroke-width="3"/>
+  <g fill="#0f1b0f"><path d="M18 140 q2-30 0-44 M18 96 q-14 -2 -18 6 M18 96 q14 -2 18 6 M18 96 q-10 -10 -4 -16 M18 96 q10 -10 4 -16" stroke="#0f1b0f" stroke-width="2.4" fill="none"/></g>`)},
+ flag:{n:["The flag of Tunisia (illustration)","علم تونس (رسم توضيحي)"],svg:()=>PLF(["#fbe1a0","#f3a96e","#b8492f"],`<circle cx="260" cy="110" r="64" fill="#GLOW"/><path d="M-10 160 V126 Q60 108 130 124 T250 118 T330 124 V160z" fill="#3b1a1a" opacity=".85"/>
+  <rect x="62" y="22" width="4" height="130" fill="#5a3a1a"/><circle cx="64" cy="20" r="5" fill="#GOLD"/>
+  <g class="flagw"><path d="M66 28 Q110 20 150 30 T236 30 V104 Q194 112 150 104 T66 104z" fill="#e70013"/><circle cx="151" cy="67" r="22" fill="#fff"/><circle cx="148" cy="67" r="16" fill="#e70013"/><circle cx="153" cy="67" r="12.5" fill="#fff"/>${star5(155,67,9,"#e70013")}</g>
+  <g fill="none" stroke="#2f5a2a" stroke-width="2"><path d="M20 150 Q50 126 96 142"/><path d="M300 150 Q268 128 226 142"/></g><g fill="#3f7a35"><ellipse cx="40" cy="138" rx="7" ry="3" transform="rotate(-30 40 138)"/><ellipse cx="62" cy="134" rx="7" ry="3" transform="rotate(-20 62 134)"/><ellipse cx="82" cy="138" rx="7" ry="3" transform="rotate(10 82 138)"/><ellipse cx="282" cy="138" rx="7" ry="3" transform="rotate(30 282 138)"/><ellipse cx="260" cy="134" rx="7" ry="3" transform="rotate(20 260 134)"/><ellipse cx="240" cy="138" rx="7" ry="3" transform="rotate(-10 240 138)"/></g>`)},
+ jasmine:{n:["Jasmine and the dawn (illustration)","الياسمين والفجر (رسم توضيحي)"],svg:()=>PLF(["#10244a","#3e5a8a","#f6c27a"],`<g class="rays" opacity=".35" fill="#fff3c4">${Array.from({length:12},(_,k)=>`<path d="M160 118 L${160+Math.cos(k*Math.PI/12-Math.PI)*220} ${118+Math.sin(k*Math.PI/12-Math.PI)*220} L${160+Math.cos((k+.5)*Math.PI/12-Math.PI)*220} ${118+Math.sin((k+.5)*Math.PI/12-Math.PI)*220}z"/>`).join("")}</g><circle cx="160" cy="118" r="60" fill="#GLOW"/>
+  <path d="M-10 160 V126 Q70 108 160 124 T330 120 V160z" fill="#1c2a3a"/>
+  <g fill="none" stroke="#2f5a2a" stroke-width="2.2" stroke-linecap="round"><path d="M-4 40 Q60 50 96 100 T150 150"/><path d="M324 30 Q250 50 224 104 T170 152"/></g><g fill="#3f7a35"><ellipse cx="46" cy="58" rx="9" ry="3.6" transform="rotate(20 46 58)"/><ellipse cx="84" cy="86" rx="9" ry="3.6" transform="rotate(50 84 86)"/><ellipse cx="270" cy="58" rx="9" ry="3.6" transform="rotate(-20 270 58)"/><ellipse cx="236" cy="88" rx="9" ry="3.6" transform="rotate(-50 236 88)"/></g>
+  ${jflo(28,46,13)}${jflo(66,70,11)}${jflo(100,106,12)}${jflo(292,42,13)}${jflo(254,72,11)}${jflo(222,108,12)}${jflo(140,138,10)}${jflo(190,140,10)}
+  <path class="dove" d="M150 50 q10-14 24-6 q8-10 20-4 q-10 4-14 12 q6 8 18 8 q-14 6-22-2 q-10 6-26-8z" fill="#fffdf6" stroke="#cdbf9a" stroke-width=".6"/>`)},
+ wheat:{n:["Grain and olives of Roman Africa (illustration)","قمح وزيتون إفريقيا الرومانية (رسم توضيحي)"],svg:()=>PLF(["#ffd98a","#f3a94e","#8a4a1c"],`<circle cx="160" cy="92" r="70" fill="#GLOW"/><path d="M-10 160 V110 Q80 98 160 108 T330 104 V160z" fill="#c98a2c"/><path d="M-10 160 V126 Q80 114 160 124 T330 120 V160z" fill="#a8681e"/>
+  <g fill="none" stroke="#6a4210" stroke-width="2">${[60,90,230,262].map((x,i)=>`<path d="M${x} 154 Q${x+(i%2?8:-8)} 110 ${x+(i%2?14:-14)} ${50+i*6}"/>`).join("")}</g>
+  <g fill="#e8b84a" stroke="#8a5c12" stroke-width=".8">${[[46,50],[76,56],[216,56],[248,62]].map(([x,y])=>Array.from({length:6},(_,k)=>`<ellipse cx="${x+(k%2?5:-5)}" cy="${y+k*9}" rx="4.2" ry="7.5" transform="rotate(${k%2?28:-28} ${x+(k%2?5:-5)} ${y+k*9})"/>`).join("")).join("")}</g>
+  <g transform="translate(140 66)"><path d="M10 0 h20 v8 q14 6 12 30 q-2 28 -22 32 q-20-4-22-32 q-2-24 12-30z" fill="#8a4a2a" stroke="#4a2410" stroke-width="2"/><path d="M-4 30 h48 M-2 46 h44" stroke="#e0ac45" stroke-width="2"/><path d="M-2 14 q-14 4 -10 20 M42 14 q14 4 10 20" fill="none" stroke="#4a2410" stroke-width="3"/></g>
+  <g fill="#3f7a35"><ellipse cx="110" cy="146" rx="10" ry="3.8" transform="rotate(-18 110 146)"/><ellipse cx="128" cy="150" rx="10" ry="3.8" transform="rotate(8 128 150)"/><ellipse cx="206" cy="150" rx="10" ry="3.8" transform="rotate(-8 206 150)"/><ellipse cx="224" cy="146" rx="10" ry="3.8" transform="rotate(18 224 146)"/></g>`)},
+ horseman:{n:["Numidian horseman (illustration)","فارس نوميدي (رسم توضيحي)"],svg:()=>PLF(["#2a1240","#a8465a","#f6b35e"],`<circle cx="236" cy="104" r="62" fill="#GLOW"/><path d="M-10 160 V122 Q60 100 130 120 T330 112 V160z" fill="#4a1c2a"/><path d="M-10 160 V138 Q80 122 170 140 T330 134 V160z" fill="#2a0e1a"/>
+  <g fill="#120810" class="gallop"><path d="M88 108 Q92 90 112 90 L160 90 Q178 90 182 104 Q184 114 176 118 L96 122 Q86 120 88 108z"/><path d="M168 94 L190 66 Q194 60 202 62 L214 68 Q218 72 212 76 L204 76 L186 104z"/><path d="M204 62 l3-9 4 8z"/><path d="M88 106 Q74 104 66 118 Q76 112 88 116z"/><path d="M108 120 L92 144 L98 146 L118 124z M130 122 L128 146 L134 146 L142 122z M158 120 L176 138 L170 144 L150 124z M174 112 L196 128 L192 134 L168 120z" stroke="#120810" stroke-width="2"/>
+  <circle cx="140" cy="76" r="7"/><path d="M134 82 L146 82 L152 100 L130 100z"/><path d="M130 100 L120 110" stroke="#120810" stroke-width="4"/></g><path d="M118 62 L236 28" stroke="#120810" stroke-width="2.4"/><path d="M236 28 l-12 0 6-6z" fill="#cfd3d8"/>`)},
+ arch:{n:["Andalusian horseshoe arch (illustration)","قوس أندلسي على شكل حدوة (رسم توضيحي)"],svg:()=>PLF(["#0e2a3a","#1f5a6a","#e8b26a"],`<rect x="0" y="0" width="320" height="160" fill="#e8d3a4" opacity=".0"/>
+  <g><path d="M70 160 V74 A90 90 0 1 1 250 74 V160z" fill="#f4e6c4"/><path d="M86 160 V80 A74 74 0 1 1 234 80 V160z" fill="#1f7a8a"/><path d="M96 160 V82 A64 64 0 1 1 224 82 V160z" fill="#fdf0c8"/>
+  ${Array.from({length:15},(_,k)=>{const a=Math.PI+(k+.5)*Math.PI/15,x1=160+Math.cos(a)*64,y1=82+Math.sin(a)*64,x2=160+Math.cos(a)*90,y2=74+Math.sin(a)*90;return `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)} L${x2.toFixed(1)} ${y2.toFixed(1)}" stroke="${k%2?"#a8463a":"#7a5214"}" stroke-width="5"/>`}).join("")}</g>
+  <path d="M96 160 V84 A64 64 0 1 1 224 84 V160z" fill="#0a2634"/><circle cx="160" cy="72" r="46" fill="#GLOW" opacity=".7"/><path d="M110 160 V100 Q160 70 210 100 V160z" fill="#2f6a3a"/><g fill="#a8463a"><circle cx="138" cy="112" r="6"/><circle cx="178" cy="106" r="6"/><circle cx="160" cy="124" r="6"/></g><rect x="150" y="136" width="20" height="24" fill="#f4e6c4"/><path d="M158 136 q-2-12 2-18 q4 6 2 18z" fill="#7bd0e8" class="drip"/>
+  <g fill="none" stroke="#e0ac45" stroke-width="1.2" opacity=".7"><path d="M10 20 H62 M10 28 H62 M258 20 H310 M258 28 H310"/></g>`)},
+ corsair:{n:["Corsair xebec at sea (illustration)","سفينة قرصان في عرض البحر (رسم توضيحي)"],svg:()=>PLF(["#1a1a3a","#5a3a5a","#e08a50"],`<circle cx="70" cy="84" r="48" fill="#GLOW"/>
+  <g class="bob"><path d="M60 112 Q70 132 140 132 Q214 132 256 100 L250 96 Q216 116 140 118 Q84 118 68 104z" fill="#2a120c" stroke="#e0ac45" stroke-width="1.2"/><path d="M256 100 L284 86 L262 108z" fill="#2a120c" stroke="#e0ac45"/>
+  <path d="M120 112 V30" stroke="#2b160a" stroke-width="3"/><path d="M120 34 L66 106 H120z" fill="#efe4c8" stroke="#7a5214"/><path d="M196 112 V44" stroke="#2b160a" stroke-width="3"/><path d="M196 46 L150 108 H196z" fill="#e8dcc0" stroke="#7a5214"/><path d="M120 30 L84 40 L120 42z" fill="#e70013"/><g transform="translate(86 36)"><circle cx="0" cy="0" r="0"/></g><path d="M196 44 V30 l24 6 -24 6z" fill="#e70013"/><circle cx="206" cy="36" r="4" fill="#fff"/><circle cx="207.5" cy="36" r="3" fill="#e70013"/></g>
+  ${wave(124,"#2a2048",.8,0)}${wave(136,"#1c1638",.9,-1)}${wave(148,"#120e28",1,-2)}<path d="M240 40 q8-6 16 0 q8-6 16 0 M270 62 q6-4 12 0 q6-4 12 0" fill="none" stroke="#fff" stroke-width="1.4" opacity=".7"/>`)},
+ treaty:{n:["A treaty and its seal (illustration)","معاهدة وختمها (رسم توضيحي)"],svg:()=>PLF(["#10141c","#2a2230","#4a3020"],`<circle cx="160" cy="70" r="80" fill="#GLOW" opacity=".45"/>
+  <path d="M70 30 H250 V132 Q250 142 240 142 H80 Q70 142 70 132z" fill="#f2e6c8" stroke="#8a6a3a" stroke-width="2"/><path d="M60 26 q0 12 10 12 H250 q10 0 10-12z" fill="#e2d2a8" stroke="#8a6a3a"/>
+  <g stroke="#6a4a22" stroke-width="2" opacity=".7"><path d="M92 54 H228 M92 66 H228 M92 78 H200 M92 90 H228 M92 102 H180"/></g><path d="M96 56 q10-8 16 0 M96 80 q10-8 16 0" fill="none" stroke="#a31621" stroke-width="1.4"/>
+  <g transform="translate(206 112)"><path d="M-10 18 l-6 30 10-8 6 10 4-30z" fill="#a31621"/><circle r="22" fill="#a31621" stroke="#6b0f1a" stroke-width="2"/><circle r="16" fill="none" stroke="#d94a56" stroke-width="1.6"/><path d="M-9 4 a9 9 0 1 1 10 6 a7 7 0 1 0 -10 -6z" fill="#e8b0b6"/></g>
+  <path d="M260 40 L150 128" stroke="#efe4c8" stroke-width="2.6"/><path d="M260 40 q20-16 34-8 q-10 14-34 8z" fill="#efe4c8"/>`)},
+ cross:{n:["Early Christian basilica (illustration)","كنيسة مسيحية قديمة (رسم توضيحي)"],svg:()=>PLF(["#2a2a5a","#b0607a","#f6c07a"],`<circle cx="160" cy="70" r="70" fill="#GLOW" opacity=".55"/><path d="M-10 160 V130 Q80 118 160 128 T330 126 V160z" fill="#3a2230"/>
+  <g transform="translate(160 20)"><path d="M-70 130 V60 L0 14 L70 60 V130z" fill="#e6d2a8" stroke="#8a6a3a" stroke-width="2"/><path d="M0 14 V-6 M-9 3 H9" stroke="#e0ac45" stroke-width="3.4"/><path d="M-30 130 V84 A30 30 0 0 1 30 84 V130z" fill="#2a1a2a"/><path d="M-30 84 A30 30 0 0 1 30 84" fill="none" stroke="#e0ac45" stroke-width="3"/><g fill="#2a1a2a"><path d="M-58 100 V82 a8 8 0 0 1 16 0 V100z"/><path d="M42 100 V82 a8 8 0 0 1 16 0 V100z"/></g><circle cx="0" cy="48" r="9" fill="#2a1a2a" stroke="#e0ac45" stroke-width="2"/><path d="M0 40 V56 M-8 48 H8" stroke="#e0ac45" stroke-width="1.6"/></g>
+  <g stroke="#0f1b0f" stroke-width="2.4" fill="none"><path d="M26 148 q2-40 0-60 M26 88 q-16 -2 -20 8 M26 88 q16 -2 20 8 M26 88 q-10 -12 -4 -18 M26 88 q10 -12 4 -18"/><path d="M296 148 q2-40 0-60 M296 88 q-16 -2 -20 8 M296 88 q16 -2 20 8 M296 88 q-10 -12 -4 -18 M296 88 q10 -12 4 -18"/></g>`)},
+ dome:{n:["Sufi shrine with green dome (illustration)","ضريح صوفي بقبة خضراء (رسم توضيحي)"],svg:()=>PLF(["#bfe6f2","#f4efe0","#f0c88a"],`<path d="M-10 160 V134 Q80 122 160 134 T330 130 V160z" fill="#e8d6a8"/>
+  <g transform="translate(160 24)"><rect x="-56" y="64" width="112" height="72" fill="#fffdf6" stroke="#cbbf9a" stroke-width="1.6"/><rect x="-40" y="42" width="80" height="24" fill="#fffdf6" stroke="#cbbf9a" stroke-width="1.6"/><path d="M-36 42 q36-52 72 0z" fill="#2f8a5a" stroke="#1d5a3a" stroke-width="2"/><path d="M-24 42 q24-40 24 -50 M0 -8 q0 22 0 50 M24 42 q-24-40-24-50" fill="none" stroke="#1d5a3a" stroke-width="1.2" opacity=".6"/><path d="M0 -8 V-18" stroke="#e0ac45" stroke-width="2"/><circle cx="0" cy="-20" r="3" fill="#e0ac45"/><path d="M-14 136 V96 a14 14 0 0 1 28 0 V136z" fill="#2a5a9a" stroke="#1a3a6a" stroke-width="2"/><g fill="#2a5a9a"><rect x="-48" y="80" width="14" height="22" rx="7"/><rect x="34" y="80" width="14" height="22" rx="7"/></g></g>
+  <g stroke="#2a3a1a" stroke-width="2.4" fill="none"><path d="M36 148 q2-44 0-66 M36 82 q-18 -2 -22 8 M36 82 q18 -2 22 8 M36 82 q-12 -12 -4 -20 M36 82 q12 -12 4 -20"/><path d="M286 148 q2-44 0-66 M286 82 q-18 -2 -22 8 M286 82 q18 -2 22 8 M286 82 q-12 -12 -4 -20 M286 82 q12 -12 4 -20"/></g>`)},
+ sport:{n:["The victory medal (illustration)","ميدالية الفوز (رسم توضيحي)"],svg:()=>PLF(["#0c1c3c","#1c3c7a","#2a5a9a"],`${STR(22,60)}<circle cx="160" cy="84" r="86" fill="#GLOW" opacity=".6"/>
+  <g fill="#0a1630"><path d="M-10 160 V110 H40 Q60 70 80 110 H110 Q130 70 150 110 H330 V160z" opacity=".7"/></g><path d="M-10 160 V138 H330 V160z" fill="#a8463a"/><g stroke="#fff" stroke-width="1.2" opacity=".6"><path d="M-10 146 H330 M-10 152 H330"/></g>
+  <path d="M124 10 L150 66 H170 L196 10z" fill="#e70013"/><path d="M146 10 L160 40 L174 10z" fill="#fff"/>
+  <g transform="translate(160 92)"><g class="spin"><circle r="34" fill="#GOLD" stroke="#7a5214" stroke-width="2.4"/><circle r="27" fill="none" stroke="#7a5214" stroke-width="1.4" stroke-dasharray="2 3"/></g>${star5(0,0,16,"#7a5214")}</g>
+  <g fill="#3f7a35" stroke="#2f5a2a">${Array.from({length:7},(_,k)=>{const a=(200-k*17)*Math.PI/180,x=160+Math.cos(a)*50,y=92+Math.sin(a)*50;return `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="9" ry="3.6" transform="rotate(${200-k*17+90} ${x.toFixed(1)} ${y.toFixed(1)})"/><ellipse cx="${(320-x).toFixed(1)}" cy="${y.toFixed(1)}" rx="9" ry="3.6" transform="rotate(${-(200-k*17+90)} ${(320-x).toFixed(1)} ${y.toFixed(1)})"/>`}).join("")}</g>`)},
+ science:{n:["Astrolabe of the medieval scholars (illustration)","إسطرلاب علماء العصر الوسيط (رسم توضيحي)"],svg:()=>PLF(["#080f26","#14284e","#2a2048"],`${STR(40,110)}<circle cx="160" cy="80" r="80" fill="#GLOW" opacity=".5"/>
+  <g transform="translate(160 82)"><g class="spin slow"><circle r="58" fill="#GOLD" stroke="#7a5214" stroke-width="2.4"/><circle r="50" fill="#14284e" stroke="#7a5214" stroke-width="1.6"/>${Array.from({length:36},(_,k)=>{const a=k*Math.PI/18,l=k%3?3:6;return `<path d="M${(Math.cos(a)*(58-l)).toFixed(1)} ${(Math.sin(a)*(58-l)).toFixed(1)} L${(Math.cos(a)*58).toFixed(1)} ${(Math.sin(a)*58).toFixed(1)}" stroke="#7a5214" stroke-width="1.2"/>`}).join("")}
+  <circle r="34" fill="none" stroke="#e0ac45" stroke-width="1.2"/><circle r="18" fill="none" stroke="#e0ac45" stroke-width="1"/><path d="M-50 0 H50 M0 -50 V50" stroke="#e0ac45" stroke-width="1" opacity=".7"/><path d="M0-44 6-14 36-8 10 6 14 36 0 20-14 36-10 6-36-8-6-14Z" fill="none" stroke="#f6d27a" stroke-width="1.8"/></g><path d="M-48 36 L48 -36" stroke="#f2c75c" stroke-width="3"/><circle r="5" fill="#f2c75c" stroke="#7a5214"/></g>
+  <path d="M168 12 a12 12 0 1 0 10 14 a9 9 0 1 1 -10 -14z" fill="#fff3c4" transform="translate(120 -2)"/>`)},
+ law:{n:["The scales of justice (illustration)","ميزان العدالة (رسم توضيحي)"],svg:()=>PLF(["#1a1830","#3a3058","#8a6a5a"],`<circle cx="160" cy="70" r="76" fill="#GLOW" opacity=".5"/><rect x="40" y="18" width="240" height="112" rx="6" fill="#efe4c8" opacity=".14"/><g stroke="#efe4c8" stroke-width="1.6" opacity=".35"><path d="M60 36 H260 M60 50 H260 M60 114 H260"/></g>
+  <g class="bob"><path d="M160 30 V126" stroke="#GOLD" stroke-width="5"/><path d="M92 46 H228" stroke="#GOLD" stroke-width="4"/><circle cx="160" cy="28" r="7" fill="#GOLD"/><path d="M92 46 L72 96 H112z M228 46 L208 96 H248z" fill="none" stroke="#e0ac45" stroke-width="1.4"/><path d="M68 96 H116 Q112 110 92 110 Q72 110 68 96z M204 96 H252 Q248 110 228 110 Q208 110 204 96z" fill="#GOLD" stroke="#7a5214"/></g>
+  <path d="M130 134 H190 L184 126 H136z" fill="#GOLD" stroke="#7a5214"/><g fill="#3f7a35"><ellipse cx="106" cy="140" rx="12" ry="4" transform="rotate(-12 106 140)"/><ellipse cx="214" cy="140" rx="12" ry="4" transform="rotate(12 214 140)"/></g>`)},
+ caravan:{n:["Caravan at sunset (illustration)","قافلة عند الغروب (رسم توضيحي)"],svg:()=>PLF(["#2a1250","#b0405a","#ffb860"],`${STR(14,50)}<circle cx="240" cy="108" r="64" fill="#GLOW"/><circle cx="240" cy="108" r="22" fill="#fff0c0"/><path d="M-10 160 V116 Q70 92 150 114 T330 106 V160z" fill="#5a1c34"/><path d="M-10 160 V134 Q90 118 180 136 T330 130 V160z" fill="#2a0c1c"/>${camel(24,132,1.25)}${camel(104,128,1.25)}${camel(184,132,1.25)}`)},
+ harbour:{n:["Harbour and lighthouse (illustration)","ميناء ومنارة (رسم توضيحي)"],svg:()=>PLF(["#0a1a3a","#2a4a7a","#f2a860"],`${STR(18,50)}<g transform="translate(236 20)"><path d="M-12 120 L-7 40 H7 L12 120z" fill="#f4efe0" stroke="#8a7a5a"/><path d="M-9 80 H9 M-10 100 H10" stroke="#a31621" stroke-width="5"/><rect x="-9" y="28" width="18" height="14" fill="#ffe08a"/><path d="M-11 28 H11 L0 16z" fill="#a31621"/><path class="beam" d="M0 35 L-240 5 V70z" fill="#fff3c4" opacity=".18"/></g>
+  <path d="M-10 160 V126 H330 V160z" fill="#0f2a50"/>${wave(130,"#0f2a50",.9,0)}${wave(142,"#0a1f3d",1,-1.2)}
+  <g class="bob"><path d="M60 118 q30 18 70 0 l-8-12 h-54z" fill="#5a2a14" stroke="#e0ac45"/><path d="M92 106 V70 L124 104z" fill="#efe4c8"/><path d="M92 70 V108" stroke="#2b160a" stroke-width="2"/></g><path d="M140 128 H262 V138 H140z" fill="#3a2a2a" opacity=".8"/>`)}
+};
+const PLATE_KEY=Object.keys(PL).map(k=>"pl:"+k);
+
+/* ================= each question gets the picture of its own subject ================= */
+const QREL=[
+ [/Kusayla|Kharijite|Abu Yazid|Warfajuma|Berber revolt|Rustamid/i,"pl:horseman"],
+ [/Raqqada|capital of Ifriqiya|province.*Tunisia/i,["kairouan","arcade"]],
+ [/janissar|Financial Commission|mejba|poll tax|1864 revolt|Ali Ben Ghedhahem/i,["throne","pl:dinar"]],
+ [/Truth and Dignity|Arab League|presidential palace|Carthage Palace/i,["avenue","pl:flag"]],
+ [/newspaper|magazine|journal|\bpress\b|printing|archives?|historian|chronicle|Ithaf|al-Mu'nis/i,"pl:scroll"],
+ [/Spanish expedition|Spanish (?:fleet|fortress|garrison)/i,"tunis1535"],
+ [/Khaldun|Muqaddimah|Asabiyya|Asabiyyah/i,"khaldun"],
+ [/Alps|Cannae|Trasimene|elephants?\b/i,"pl:alps"],
+ [/Hannibal|Hamilcar|Hasdrubal|Barca\b/i,"hannibal"],
+ [/Zama|Scipio|Massinissa|Syphax|Masinissa/i,"zama"],
+ [/Jugurth|Numidia|Berber (?:king|prince|queen)|Kahina|Tacfarinas|horsem[ae]n|cavalry/i,"pl:horseman"],
+ [/Elissa|Dido|Tyre|legend of Carthage|founded Carthage|Carthage was founded|foundation of Carthage/i,"dido"],
+ [/Cartagena|New Carthage|Cartago Nova|Spain.*Carthagin|Carthaginian.*Spain/i,"punicport"],
+ [/Lavigerie|cathedral|Saint Louis Cathedral/i,"cathedral"],
+ [/Phoenician|Mago|Hanno|navigat|merchant|trad(?:e|ing) (?:post|route|empire)|fleet|galley|\bships?\b|naval/i,["pl:ship","punicport"]],
+ [/Kerkouane/i,"kerkouane"],
+ [/tophet|stela|stelae|Tanit|Baal|Punic god|goddess/i,["tanit","stelae"]],
+ [/Cothon|Byrsa|Punic harbou?r|Punic port/i,"punicport"],
+ [/Punic War|Punic/i,["pl:legion","punicport","zama"]],
+ [/Perpetua|Cyprian|Augustine|Tertullian|Donatis|martyr(?!s' Day)|Christian|basilica|bishop|Council of Carthage|Vandal|Genseric|Gaiseric|Belisarius|Byzantine|Justinian/i,"pl:cross"],
+ [/Roman Africa|granary|olive oil|grain|wheat|harvest|amphora|agricultur|farm/i,"pl:wheat"],
+ [/Virgil|mosaic|Aeneid|Dionysus|Ulysses|Neptune/i,["virgil","ulysses","neptune","dionysus","ladycarthage"]],
+ [/Dougga|Thugga/i,"dougga"],[/Bulla Regia/i,"bulla"],[/Sbeitla|Sufetula/i,"sbeitla"],[/Thysdrus|El Jem|Gordian/i,"eljem2"],
+ [/Zaghouan|aqueduct|Hadrian|water supply|cisterns?/i,"aqueduct"],
+ [/Antonine|Roman bath|Rome destroy|Roman Carthage|Julius Caesar|Caesar|Pompey|Thapsus|legion|Augustus|Septimius|Roman (?:emperor|army|province|governor)/i,["pl:legion","antonine"]],
+ [/Uqba|Oqba|Kairouan|Qayrawan|Hasan ibn al-Nu'man|Hassan|Mu'awiya|conquest of Ifriqiya|Arab conquest/i,["kairouan","prayerhall","arcade","kairouanmin"]],
+ [/Aghlabid basins|reservoir|cistern of Kairouan/i,"basins"],
+ [/Aghlabid|Ibrahim ibn|Ziyadat|Asad ibn|Sicily|Ribat|Monastir/i,["ribat","ribatsousse","basins"]],
+ [/Sahnun|Mudawwana|Maliki|jurist|qadi|Quran|Qur'an|Blue Quran|calligraph/i,["bluequran","bluequran2","fatbinding"]],
+ [/Fatimid|Mahdi|Mahdia|Ubayd|Mu'izz|Shi'i|Shia|Ismaili|Isma'ili|Cairo/i,["mahdia","mahdiagalley","mahdiaeros"]],
+ [/Zirid|Banu Hilal|Hilali|Hilal|Bedouin|nomad|Sahara|caravan|Sulaym|migration/i,"pl:caravan"],
+ [/Almohad|Andalus|Morisco|Moriscos|Granada|Cordoba|Córdoba|Reconquista|Alhambra/i,"pl:arch"],
+ [/Sufi|\bsaints?\b|zawiya|marabout|Sidi (?:Belhassen|Bel Hassen|Mahrez|Mahrez|Sahbi|Abdel)|Shadhili|Shadhiliyya|mystic/i,"pl:dome"],
+ [/Louis IX|Saint Louis|Eighth Crusade|Crusade/i,"louis"],
+ [/Charles V|Habsburg|1535|Barbarossa|Hayreddin|Uluj|Don John/i,"tunis1535"],
+ [/corsair|pirate|Barbary|privateer|galley slaves?|Algiers|Ottoman navy/i,"pl:corsair"],
+ [/Hafsid|Abu Zakariya|Hafsids/i,["kasbah","zitouna","souk","darkhaldun"]],
+ [/Zitouna|Ez-Zitouna|Ben Achour|university|madrasa|school|education|students?|teaching|Sadiki College|scholar/i,["zitouna","pl:science","sadiki1899"]],
+ [/astronom|astrolabe|mathematic|medicine|physician|physics|science|geograph|map-?maker|encyclop/i,"pl:science"],
+ [/Husainid|Husayn ibn Ali|Hussein ibn Ali|Hammuda|Hammouda|Hammouda Pasha|Dey|Murad Bey|Muradid|Ottoman/i,["hammouda","throne","lions"]],
+ [/Ahmad Bey|abolition|abolish|slave|slavery/i,"ahmadbey"],
+ [/Khayr al-Din|Khayreddine|Kheireddine|Sadiki|Aqwam|reform(?:s|er)? of 18/i,"khayr"],
+ [/Fundamental Pact|Ahd al-Aman|Constitution of 1861|1861|Council of State|Grand Council|constitution|constitutional|Assembly|parliament|election|vote|law\b|legislat|court|judge|justice|Code of|rights/i,"pl:law"],
+ [/Moncef|Munsif|Lamine Bey|Amin Bey|last Bey|Naceur/i,["moncef","sadokbey"]],
+ [/Sadok|Sadiq Bey|Muhammad al-Sadiq|Bardo Treaty|Treaty of Bardo|Treaty of La Marsa|La Marsa|Convention|treaty|Treaty|1881|1883|Kroumir|French invasion/i,["pl:treaty","bardo","sadokbey"]],
+ [/Bardo|Museum/i,["bardo","bardoroom","bardoceiling"]],
+ [/Thaalbi|Destour\b|Young Tunisians|Jellaz|Ali Bach Hamba|Bach Hamba|Mohamed Ali Hammi|Hammi/i,["thaalbi","babbhar"]],
+ [/Tahar Haddad|Haddad|women|woman|Personal Status|Code of Personal Status|Bchira|feminis/i,["haddad","bourgwomen"]],
+ [/Farhat Hached|Hached|UGTT|trade union|workers?|labou?r|strike/i,["hachedbust","hached","bourghached"]],
+ [/Neo-Destour|Bourguiba|Habib|Monastir|Moknine|independence|1956|republic|1957|Republic|Mongi Slim|Salah Ben Youssef|Ben Youssef|Bizerte crisis/i,["bourguiba","pl:flag","avenue","bourgwomen"]],
+ [/1938|Martyrs|April 9|9 April|massacre|Belhouane/i,"theatre"],
+ [/Bouazizi|Ben Ali|2011|Quartet|revolution|14 January|Jasmine|Arab Spring|uprising|protest/i,["jan2011","pl:jasmine"]],
+ [/Chebbi|Abou el-Kacem|Abu al-Qasim|anthem|poet|poem|poetry|Will to Live/i,"chebbi"],
+ [/Protectorate|French|France|Cardinal Lavigerie|cathedral|colon|settler|Lyautey|Resident-General|Resident General|Marsa/i,["cathedral","avenue","cafe1899","pl:treaty"]],
+ [/Olympic|Olympics|athlete|football|World Cup|Mellouli|Ons Jabeur|tennis|swim|sport|medal|champion|Oussama|Esperance|Espérance|Club Africain/i,"pl:sport"],
+ [/novel|novelist|\bwriter\b|\bauthor\b|book|poet|literature|Booker|manuscript|library|Arabic Booker|Meddeb|published|memoir|autobiograph|Taht|Sorbonne|Nobel|translated|film|cinema|director|Cannes|Carthage Film|JCC|music|malouf|ma'luf|song|singer|composer|Oud|oud/i,"pl:scroll"],
+ [/dinar|coin|currency|mint|gold|silver|minted|money|treasure|bank|economy|economic|tax|tribute/i,"pl:dinar"],
+ [/Bizerte|Goulette|La Goulette|Tabarka|port\b|harbou?r|lighthouse|Sfax|Gabes|Gabès|coast|island/i,"pl:harbour"],
+ [/Djerba|Sidi Bou Said|Tozeur|Matmata|Hammamet|Nabeul|Chott/i,"sidibou"],
+ [/minaret|mosque|Great Mosque|Jemaa|prayer|imam|caliph|Islam|Muslim|hijra|Hijri/i,"pl:mosque"],
+ [/medina|souk|Souk|chechia|fez|Tunis,|Tunis /i,["souk","chechia","kasbah"]]
+];
+const hash=s=>{let h=0;for(let i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return Math.abs(h)};
+function qPhotoKey(q,id){if(!q||/^city/.test(id||""))return null;
+ const t=String(q.q||"").replace(/<[^>]+>/g," ");
+ for(const [re,k] of QREL){if(re.test(t)){return Array.isArray(k)?k[hash(t)%k.length]:k}}
+ return null}
+
 function medalSound(){const c=ac();if(!c)return;const t=c.currentTime;
  noise(t,.03,5200,2,.5,"bandpass");noise(t+.012,.05,2600,3,.35,"bandpass");
  [1568,2093,2637,3136,4186].forEach((f,i)=>tone(f,t+.06+i*.07,.9-i*.08,"triangle",.07));
@@ -3195,7 +3410,7 @@ const TANIT_TROPHY=`<svg class="tt-svg" viewBox="0 0 220 280" aria-hidden="true"
  <rect x="80" y="220" width="60" height="22" rx="3" fill="url(#ttg)" stroke="#7a5214"/><text x="110" y="235.5" text-anchor="middle" font-family="Marcellus,Georgia,serif" font-size="10" fill="#5c3a0c" letter-spacing="1">TANIT</text>
 </svg>`;
 let ttT=null;
-function tanitTrophy(bonus){closeTanit(true);const el=document.createElement("div");el.className="ttover";el.setAttribute("role","dialog");el.setAttribute("aria-label","Golden Tanit Trophy");
+function tanitTrophy(bonus){closeTanit(true);closeGrand(true);const el=document.createElement("div");el.className="ttover";el.setAttribute("role","dialog");el.setAttribute("aria-label","Golden Tanit Trophy");
  el.innerHTML=`<div class="ttrays"></div><div class="ttstage"><div class="ttglow"></div>${TANIT_TROPHY}${Array.from({length:14},(_,k)=>`<i class="ttspark" style="left:${(8+Math.random()*84).toFixed(0)}%;top:${(5+Math.random()*70).toFixed(0)}%;animation-delay:${(Math.random()*2).toFixed(2)}s"></i>`).join("")}</div>
   <div class="tttitle"><span class="hsmall">${bi(`${S.streak} right answers in a row!`,`${S.streak} إجابات صحيحة متتالية!`)}</span><strong>${bi("The Golden Tanit Trophy!","كأس تانيت الذهبية!")}</strong>${bonus?`<span class="hbonus">+${bonus} ${bi("dinars","دينارًا")}</span>`:""}</div>
   <span class="hantap">${bi("Tap to continue","اضغط للمتابعة")}</span>`;
@@ -3205,6 +3420,72 @@ function tanitTrophy(bonus){closeTanit(true);const el=document.createElement("di
  try{sfx.fanfare()}catch(e){}setTimeout(()=>{try{sfx.cheer();sfx.applause(3.6,1.3)}catch(e){}},500);setTimeout(()=>{try{medalSound()}catch(e){}},1150);
  el.onclick=()=>closeTanit();ttT=setTimeout(()=>closeTanit(),5600)}
 function closeTanit(now){clearTimeout(ttT);const el=document.querySelector(".ttover");if(!el)return;try{musicLevel(el._restore||.22)}catch(e){}if(now){el.remove();return}el.classList.add("out");setTimeout(()=>el.remove(),500)}
+/* ===== Grand trophies: 10 right answers (Golden Astrolabe of Ibn Khaldun) and 15 (Grand Dinar Crown) ===== */
+const ASTRO_SVG=`<svg class="gr-svg" viewBox="0 0 260 340" aria-hidden="true"><defs>
+ <linearGradient id="grg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff4c9"/><stop offset=".35" stop-color="#f2c75c"/><stop offset=".7" stop-color="#c8922c"/><stop offset="1" stop-color="#8a5c12"/></linearGradient>
+ <linearGradient id="grm" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#cfc6b2"/><stop offset=".5" stop-color="#f7f3ea"/><stop offset="1" stop-color="#bfb6a2"/></linearGradient>
+ <radialGradient id="grn" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#26418a"/><stop offset="1" stop-color="#0a1230"/></radialGradient>
+ <clipPath id="grc"><circle r="86"/></clipPath></defs>
+ <path d="M64 306 h132 l10 26 H54z" fill="url(#grm)" stroke="#a89c82" stroke-width="1.5"/><rect x="48" y="326" width="164" height="12" rx="2" fill="url(#grg)" stroke="#7a5214"/>
+ <rect x="98" y="262" width="64" height="46" fill="url(#grg)" stroke="#7a5214" stroke-width="2"/><path d="M110 266 V304 M122 266 V304 M134 266 V304 M146 266 V304" stroke="#7a5214" stroke-width="1.4" opacity=".6"/>
+ <path d="M70 270 Q130 236 190 270 L184 278 Q130 250 76 278z" fill="url(#grg)" stroke="#7a5214" stroke-width="2"/>
+ <g transform="translate(130 140)">
+  <path d="M-18 -98 q18-34 36 0 l-7 7 q-11-18 -22 0z" fill="url(#grg)" stroke="#7a5214" stroke-width="1.6"/><circle cy="-120" r="10" fill="none" stroke="url(#grg)" stroke-width="6"/><circle cy="-120" r="10" fill="none" stroke="#7a5214" stroke-width=".8"/>
+  <circle r="100" fill="url(#grg)" stroke="#7a5214" stroke-width="2.4"/>
+  <g class="spin slow">${Array.from({length:72},(_,k)=>{const a=k*Math.PI/36,l=k%6?4:9;return `<path d="M${(Math.cos(a)*(98-l)).toFixed(1)} ${(Math.sin(a)*(98-l)).toFixed(1)} L${(Math.cos(a)*98).toFixed(1)} ${(Math.sin(a)*98).toFixed(1)}" stroke="#6a440c" stroke-width="1.3"/>`}).join("")}<circle r="88" fill="none" stroke="#7a5214" stroke-width="1"/></g>
+  <circle r="86" fill="url(#grn)" stroke="#7a5214" stroke-width="2"/>
+  <g clip-path="url(#grc)" fill="none" stroke="#e0ac45" stroke-width="1" opacity=".75"><circle cy="14" r="70"/><circle cy="26" r="54"/><circle cy="38" r="38"/><circle cy="50" r="22"/><path d="M-86 0 H86 M0 -86 V86"/><ellipse cy="10" rx="86" ry="46"/></g>
+  <g class="spin rev"><path d="${(()=>{let p="";for(let i=0;i<24;i++){const a=-Math.PI/2+i*Math.PI/12,r=i%2?44:80;p+=(i?"L":"M")+(Math.cos(a)*r).toFixed(1)+" "+(Math.sin(a)*r).toFixed(1)}return p+"Z"})()}" fill="rgba(246,210,122,.10)" stroke="#f6d27a" stroke-width="1.8"/>${Array.from({length:12},(_,k)=>{const a=-Math.PI/2+k*Math.PI/6;return `<circle cx="${(Math.cos(a)*80).toFixed(1)}" cy="${(Math.sin(a)*80).toFixed(1)}" r="3.2" fill="#fff3c4"/>`}).join("")}<circle r="30" fill="none" stroke="#f6d27a" stroke-width="1.4" stroke-dasharray="3 4"/></g>
+  <g class="spin slow2"><path d="M-92 40 L92 -40" stroke="url(#grg)" stroke-width="6" stroke-linecap="round"/><path d="M-92 40 L92 -40" stroke="#7a5214" stroke-width=".9"/><circle cx="-70" cy="30.4" r="4" fill="#7a5214"/><circle cx="70" cy="-30.4" r="4" fill="#7a5214"/></g>
+  <circle r="9" fill="url(#grg)" stroke="#7a5214" stroke-width="1.6"/><circle r="3.4" fill="#fff4c9"/>
+ </g></svg>`;
+function flagG(){return `<path d="M0 0 Q20 -5 40 0 T80 0 V52 Q60 57 40 52 T0 52z" fill="#e70013"/><circle cx="40" cy="26" r="14" fill="#fff"/><circle cx="37.5" cy="26" r="10" fill="#e70013"/><circle cx="41" cy="26" r="8" fill="#fff"/>${star5(42,26,6,"#e70013")}`}
+const CROWN_SVG=`<svg class="gr-svg" viewBox="0 0 300 320" aria-hidden="true"><defs>
+ <linearGradient id="gcg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff4c9"/><stop offset=".35" stop-color="#f2c75c"/><stop offset=".7" stop-color="#c8922c"/><stop offset="1" stop-color="#8a5c12"/></linearGradient></defs>
+ <g transform="rotate(-16 150 300)"><rect x="70" y="40" width="5" height="262" fill="#7a5214"/><circle cx="72.5" cy="36" r="6" fill="url(#gcg)"/><g transform="translate(75 46)"><g class="flagw">${flagG()}</g></g></g>
+ <g transform="rotate(16 150 300)"><rect x="225" y="40" width="5" height="262" fill="#7a5214"/><circle cx="227.5" cy="36" r="6" fill="url(#gcg)"/><g transform="translate(225 46)"><g class="flagw rflag"><g transform="scale(-1 1)">${flagG()}</g></g></g></g>
+ <g transform="translate(150 196)"><circle r="92" fill="#GLOWC"/><g class="spin"><circle r="68" fill="url(#gcg)" stroke="#7a5214" stroke-width="3"/><circle r="60" fill="none" stroke="#7a5214" stroke-width="1.8" stroke-dasharray="2.4 3.6"/><circle r="52" fill="#f2c75c" stroke="#9a6a1c" stroke-width="1.6"/>
+  <path d="M0-42 11-11 42 0 11 11 0 42-11 11-42 0-11-11Z" fill="none" stroke="#7a5214" stroke-width="2.4"/><path d="M-29-29 0-16 29-29 16 0 29 29 0 16-29 29-16 0Z" fill="none" stroke="#7a5214" stroke-width="1.6"/><circle r="9" fill="#9a6a1c"/><circle r="4" fill="#fff4c9"/></g></g>
+ <g fill="#3f7a35" stroke="#2f5a2a" stroke-width=".6">${Array.from({length:9},(_,k)=>{const a=(160-k*14)*Math.PI/180,x=150+Math.cos(a)*84,y=196+Math.sin(a)*84;return `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="11" ry="4.4" transform="rotate(${(160-k*14+90).toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})"/><ellipse cx="${(300-x).toFixed(1)}" cy="${y.toFixed(1)}" rx="11" ry="4.4" transform="rotate(${(-(160-k*14+90)).toFixed(0)} ${(300-x).toFixed(1)} ${y.toFixed(1)})"/>`}).join("")}</g>
+ <g transform="translate(150 112)"><g class="grcrown"><path d="M-46 -2 Q0 -66 46 -2z" fill="#6b1240" stroke="#3a0a24"/>
+  <path d="M-52 4 L-60 -34 L-36 -14 L-20 -46 L0 -16 L20 -46 L36 -14 L60 -34 L52 4z" fill="url(#gcg)" stroke="#7a5214" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M-52 4 H52 L47 26 H-47z" fill="url(#gcg)" stroke="#7a5214" stroke-width="2"/>
+  <g fill="#fff4e0" stroke="#bfa26a" stroke-width=".6"><circle cx="-60" cy="-37" r="4.4"/><circle cx="-20" cy="-49" r="4.4"/><circle cx="20" cy="-49" r="4.4"/><circle cx="60" cy="-37" r="4.4"/><circle cx="0" cy="-19" r="3.6"/></g>
+  <circle cx="-32" cy="15" r="5.6" fill="#d11a2a" stroke="#6b0f1a"/><circle cx="0" cy="15" r="6.4" fill="#1d6bd1" stroke="#0e3a7a"/><circle cx="32" cy="15" r="5.6" fill="#1fa65a" stroke="#0f5a30"/>
+  <path d="M-44 -6 Q-38 -66 0 -72 Q38 -66 44 -6" fill="none" stroke="url(#gcg)" stroke-width="5"/><path d="M-44 -6 Q-38 -66 0 -72 Q38 -66 44 -6" fill="none" stroke="#7a5214" stroke-width=".8"/>
+  <circle cy="-76" r="7" fill="url(#gcg)" stroke="#7a5214"/><path d="M0 -84 V-98" stroke="#7a5214" stroke-width="2.4"/><path d="M-9 -96 a10 10 0 1 0 14 8 a8 8 0 1 1 -14 -8z" fill="#f6d27a" stroke="#7a5214" stroke-width="1" transform="translate(2 -6)"/>${star5(10,-100,5,"#f6d27a")}</g></g>
+ <path d="M46 286 H254 L242 304 L254 322 H46 L58 304z" fill="#a31621" stroke="#e0ac45" stroke-width="2"/><text x="150" y="311" text-anchor="middle" font-family="Marcellus,Georgia,serif" font-size="17" letter-spacing="3" fill="#fbe9a8">×15 PERFECT</text></svg>`.replace("#GLOWC","rgba(255,226,140,.35)");
+function fwSound(){const c=ac();if(!c)return;const t=c.currentTime;noise(t,.5,170,1,.55,"lowpass");tone(70,t,.35,"sine",.3,34);for(let i=0;i<9;i++)noise(t+.12+i*.045+Math.random()*.03,.03,4200+Math.random()*3000,3,.1+Math.random()*.08,"highpass")}
+function astroSound(){const c=ac();if(!c)return;const t=c.currentTime;
+ [110,165,220,277].forEach((f,i)=>tone(f,t+i*.06,3.6,"sine",.055));
+ [784,988,1175,1480,1760,1976,2349,2960].forEach((f,i)=>{tone(f,t+.25+i*.18,1.8-i*.1,"triangle",.07);tone(f*2,t+.25+i*.18,.9,"sine",.025)});
+ noise(t+.1,1.2,7000,1.5,.05,"highpass");
+ [[392,1.9],[494,1.9],[587,1.9],[784,1.9]].forEach(([f,s],i)=>{tone(f,t+s,1.5,"sawtooth",.04);tone(f*2,t+s,1.5,"square",.02)});
+ setTimeout(()=>{try{sfx.cheer();sfx.applause(3.4,1.1)}catch(e){}},1700)}
+function crownSound(){const c=ac();if(!c)return;const t=c.currentTime;
+ for(let i=0;i<14;i++){tone(120,t+i*.055,.1,"sine",.2+i*.008,55);noise(t+i*.055,.05,1100,1,.1,"lowpass")}
+ setTimeout(()=>{try{sfx.fanfare()}catch(e){}},820);
+ [[523,.9],[659,.9],[784,.9],[1047,.9],[523,2.2],[659,2.2],[784,2.2],[1047,2.2],[1319,2.2]].forEach(([f,s],i)=>{tone(f,t+s,2.2,"triangle",.05);tone(f/2,t+s,2.2,"sawtooth",.025)});
+ setTimeout(()=>{try{sfx.cheer();sfx.applause(5,1.5);medalSound()}catch(e){}},1500);
+ [1900,2700,3500,4300].forEach(ms=>setTimeout(()=>{try{sfx.cheer()}catch(e){}},ms))}
+function grFireworks(box,n){const cols=["#ffd86b","#ff7a5a","#7ad7ff","#b6ff8a","#ff8ad8","#ffffff"];
+ for(let b=0;b<n;b++)setTimeout(()=>{if(!box.isConnected)return;const e=document.createElement("div");e.className="fwb";e.style.cssText=`left:${(10+Math.random()*80).toFixed(0)}%;top:${(6+Math.random()*48).toFixed(0)}%;--c:${cols[b%cols.length]}`;
+  e.innerHTML=Array.from({length:20},(_,k)=>{const a=k/20*Math.PI*2,d=44+Math.random()*40;return `<i style="--dx:${(Math.cos(a)*d).toFixed(0)}px;--dy:${(Math.sin(a)*d).toFixed(0)}px"></i>`}).join("");box.appendChild(e);setTimeout(()=>e.remove(),1500);try{fwSound()}catch(_){}},900+b*620)}
+let grT=null;
+function grandTrophy(kind,bonus){closeGrand(true);const A=kind==="astro";
+ const el=document.createElement("div");el.className="grover "+kind;el.setAttribute("role","dialog");el.setAttribute("aria-label",A?"Golden Astrolabe":"Grand Dinar Crown");
+ const orbit=A?"":`<div class="grorbit">${["tanit","crescent","horse","elephant","standard","baal"].map((k,i)=>`<span class="grem" style="--a:${i*60}deg">${PUN[k]}</span>`).join("")}</div>`;
+ const fall=Array.from({length:A?16:26},(_,k)=>A?`<i class="ttspark" style="left:${(6+Math.random()*88).toFixed(0)}%;top:${(4+Math.random()*80).toFixed(0)}%;animation-delay:${(Math.random()*2.2).toFixed(2)}s"></i>`:`<i class="crc" style="left:${(Math.random()*100).toFixed(0)}%;animation-delay:${(Math.random()*3.2).toFixed(2)}s;animation-duration:${(1.8+Math.random()*1.4).toFixed(2)}s"></i>`).join("");
+ el.innerHTML=`<div class="grrays"></div><div class="grfx">${fall}</div><div class="grstage"><div class="grglow"></div>${orbit}${A?ASTRO_SVG:CROWN_SVG}</div>
+  <div class="grtitle"><span class="hsmall">${A?bi(`${S.streak} right answers in a row!`,`${S.streak} إجابات صحيحة متتالية!`):bi(`${S.streak} in a row — a perfect round!`,`${S.streak} متتالية — جولة مثالية!`)}</span><strong>${A?bi("The Golden Astrolabe of Ibn Khaldun","إسطرلاب ابن خلدون الذهبي"):bi("The Grand Dinar Crown","تاج الدينار الأعظم")}</strong><span class="grsub">${A?bi("Knowledge lights the way, like the scholar of Tunis.","العلم يضيء الطريق، كعالم تونس الكبير."):bi("From Carthage to the Republic, you have mastered them all!","من قرطاج إلى الجمهورية، أتقنتَ كل العصور!")}</span>${bonus?`<span class="hbonus">+${bonus} ${bi("dinars","دينارًا")}</span>`:""}</div>
+  <span class="hantap">${bi("Tap to continue","اضغط للمتابعة")}</span>`;
+ document.body.appendChild(el);requestAnimationFrame(()=>el.classList.add("in"));
+ try{confetti()}catch(e){}
+ el._restore=MUS.level;try{musicLevel(.04)}catch(e){}
+ try{A?astroSound():crownSound()}catch(e){}
+ if(!A)grFireworks(el.querySelector(".grfx"),7);
+ el.onclick=()=>closeGrand();grT=setTimeout(()=>closeGrand(),A?7600:9200)}
+function closeGrand(now){clearTimeout(grT);const el=document.querySelector(".grover");if(!el)return;try{musicLevel(el._restore||.22)}catch(e){}if(now){el.remove();return}el.classList.add("out");setTimeout(()=>el.remove(),500)}
 function hannibalTriumph(bonus){closeHannibal(true);const el=document.createElement("div");el.className="hanover";el.setAttribute("role","dialog");el.setAttribute("aria-label","Hannibal's triumph");
  el.innerHTML=`<div class="hanstage">${HAN_SVG}
   ${Array.from({length:22},(_,k)=>`<i class="hpetal ${k%3?"":"gold"}" style="left:${(k*4.6+Math.random()*4)%100}%;animation-delay:${(Math.random()*2.4).toFixed(2)}s;animation-duration:${(2.6+Math.random()*1.8).toFixed(2)}s"></i>`).join("")}
@@ -3335,7 +3616,7 @@ function startTimer(){stopTimer();const tick=()=>{const bar=document.querySelect
   const sec=Math.ceil(left/1000);if(sec<=5&&sec>0&&sec!==S.lastTick){S.lastTick=sec;sfx.tick()}
   if(left<=0&&!S.answered){S.late=true;const q=S.list[S.qi];if(q.t==="mc")answer(null,null);else checkOrder(true);return}timerRAF=requestAnimationFrame(tick)};timerRAF=requestAnimationFrame(tick)}
 
-function sceneFor(q){const id=(S.cur.id==="mix"||S.cur.id==="daily")?chOf(q):S.cur.id;const list=CH_PH[id];return [list[S.qi%list.length],id]}
+function sceneFor(q){const id=(S.cur.id==="mix"||S.cur.id==="daily")?chOf(q):S.cur.id;const list=CH_PH[id];let k=null;try{k=qPhotoKey(q,id)}catch(e){}return [k||list[S.qi%list.length],id]}
 function renderQ(){
   S.screen="quiz";musicLevel(.22);
   const c=S.cur,q=S.list[S.qi],n=S.list.length;const [pk,scene]=sceneFor(q);
@@ -3391,10 +3672,10 @@ function reward(ok,base,el){
     S.bonusEn=[];let g=base;if(S.streak>=3){g*=2;S.bonus.push(bi("streak ×2","سلسلة ×2"));S.bonusEn.push("streak ×2")}
     if(left>S.limit/2){g+=5;S.bonus.push(bi("speed +5","سرعة +5"));S.bonusEn.push("speed +5");S.stats.speed=(S.stats.speed||0)+1}
     if(S.score%3===0&&S.score/3<=5){S.beyLevel=S.score/3;S.newDec=S.beyLevel}
-    S.trophy=S.streak%6===0;S.triumph=!S.trophy&&S.streak%4===0;if(S.trophy){g+=30;S.bonus.push(bi("Tanit Trophy +30","كأس تانيت +30"));S.bonusEn.push("Tanit Trophy +30")}if(S.triumph){g+=20;S.bonus.push(bi("Hannibal +20","حنبعل +20"));S.bonusEn.push("Hannibal +20")}
+    S.t15=S.streak%15===0;S.t10=!S.t15&&S.streak%10===0;S.trophy=!S.t15&&!S.t10&&S.streak%6===0;S.triumph=!S.t15&&!S.t10&&!S.trophy&&S.streak%4===0;if(S.t15){g+=100;S.bonus.push(bi("Dinar Crown +100","تاج الدينار +100"));S.bonusEn.push("Dinar Crown +100")}if(S.t10){g+=50;S.bonus.push(bi("Golden Astrolabe +50","الإسطرلاب الذهبي +50"));S.bonusEn.push("Golden Astrolabe +50")}if(S.trophy){g+=30;S.bonus.push(bi("Tanit Trophy +30","كأس تانيت +30"));S.bonusEn.push("Tanit Trophy +30")}if(S.triumph){g+=20;S.bonus.push(bi("Hannibal +20","حنبعل +20"));S.bonusEn.push("Hannibal +20")}
     const before=rank(S.coins)[1];S.gain=g;S.coins+=g;S.earned+=g;S.quip=pick(YES);sfx.cash();buzz(18);if(rank(S.coins)[1]!==before)S.pendingLevel=rank(S.coins)}
   else{S.streak=0;S.gain=0;S.quip=S.late?pick(LATE):pick(NO);sfx.wrong();buzz([40,50,40])}
-  save();renderQ();if(ok&&S.trophy){S.trophy=false;beyAway();setTimeout(()=>tanitTrophy(30),650)}else if(ok&&S.triumph&&S.bey!==false){S.triumph=false;beyAway();setTimeout(()=>hannibalTriumph(20),650)}else beyReact(ok);
+  save();renderQ();if(ok&&S.t15){S.t15=false;beyAway();setTimeout(()=>grandTrophy("crown",100),650)}else if(ok&&S.t10){S.t10=false;beyAway();setTimeout(()=>grandTrophy("astro",50),650)}else if(ok&&S.trophy){S.trophy=false;beyAway();setTimeout(()=>tanitTrophy(30),650)}else if(ok&&S.triumph&&S.bey!==false){S.triumph=false;beyAway();setTimeout(()=>hannibalTriumph(20),650)}else beyReact(ok);
   if(ok)flyCoins(from,S.gain);checkAch();
 }
 function answer(o,btn){if(S.answered)return;const q=S.list[S.qi];S.last=o;reward(!!o&&o[0]===q.a[0],10,btn)}
