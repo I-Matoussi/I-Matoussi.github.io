@@ -564,6 +564,28 @@ html body.only-en:not(.peek) .beystage .beybub.big .ar,html body.only-ar:not(.pe
 .beybub .decnote span[lang=ar]{font-family:var(--arabic);font-size:.95rem}
 .dgauge{display:inline-flex;gap:3px;margin-inline-start:8px;vertical-align:1px}.dgauge i{width:7px;height:7px;border-radius:2px;background:rgba(255,255,255,.18)}
 .dgauge i.on:nth-child(1){background:#2a9d8f}.dgauge i.on:nth-child(2){background:#7fb069}.dgauge i.on:nth-child(3){background:#e8b84a}.dgauge i.on:nth-child(4){background:#e8833a}.dgauge i.on:nth-child(5){background:#d9534f}
+
+/* Golden Tanit Trophy */
+.ttover{position:fixed;inset:0;z-index:92;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px;background:radial-gradient(ellipse at 50% 45%,rgba(107,18,64,.92),rgba(5,14,30,.96) 70%);opacity:0;transition:opacity .4s;cursor:pointer;overflow:hidden}
+.ttover.in{opacity:1}.ttover.out{opacity:0}
+.ttrays{position:absolute;left:50%;top:42%;width:170vmax;height:170vmax;margin:-85vmax 0 0 -85vmax;background:repeating-conic-gradient(rgba(246,210,122,.16) 0 7deg,transparent 7deg 18deg);animation:hspin 22s linear infinite;pointer-events:none}
+.ttstage{position:relative;width:min(300px,62vw);aspect-ratio:220/280;animation:ttrise 1.1s cubic-bezier(.2,1.4,.4,1) both}
+.ttglow{position:absolute;left:50%;top:38%;width:90%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,236,170,.75),rgba(246,210,122,.15) 55%,transparent 70%);animation:ttpulse 1.6s ease-in-out infinite alternate}
+.tt-svg{position:relative;width:100%;height:100%;filter:drop-shadow(0 18px 30px rgba(0,0,0,.55))}
+.tt-shine{animation:ttshine 2.2s ease-in-out .9s infinite}
+.tt-laurel{transform-box:view-box;transform-origin:110px 150px;animation:ttlaurel 1s cubic-bezier(.3,1.6,.5,1) .5s both}
+.ttspark{position:absolute;width:14px;height:14px;background:radial-gradient(circle,#fff 0,#fff3c4 30%,transparent 70%);clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);animation:ttspark 1.6s ease-in-out infinite}
+.tttitle{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 24px 12px;border-radius:14px;background:rgba(7,21,42,.8);border:2px solid #e0ac45;text-align:center;animation:htitleM2 .6s cubic-bezier(.3,1.8,.5,1) .7s both}
+.tttitle strong{font-family:var(--display);font-size:clamp(1.3rem,5vw,2.1rem);color:#f6d27a;text-shadow:0 2px 0 #7a5214}
+.tttitle .ar,.tttitle strong .ar{font-family:var(--arabic);margin:0!important}
+.tttitle .hsmall{font-size:clamp(.75rem,2.6vw,.95rem);color:#fbf5e6}
+@keyframes ttrise{0%{transform:translateY(70vh) scale(.6);opacity:0}70%{transform:translateY(-14px) scale(1.06);opacity:1}100%{transform:none}}
+@keyframes ttpulse{from{opacity:.65;transform:translate(-50%,-50%) scale(.92)}to{opacity:1;transform:translate(-50%,-50%) scale(1.06)}}
+@keyframes ttshine{0%{transform:translateX(0) skewX(-18deg)}60%,100%{transform:translateX(340px) skewX(-18deg)}}
+@keyframes ttlaurel{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+@keyframes ttspark{0%,100%{transform:scale(0) rotate(0);opacity:0}50%{transform:scale(1.2) rotate(45deg);opacity:1}}
+@keyframes htitleM2{from{transform:scale(0)}to{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.ttover *{animation:none!important}}
 /* Arabic version: no English vocabulary/grammar boxes */
 body.only-ar .learn{display:none!important}
 /* navigation */
@@ -2654,7 +2676,7 @@ function wireHeader(){const h=document.getElementById("home");if(h){h.onclick=()
 function stopTimer(){if(timerRAF)cancelAnimationFrame(timerRAF);timerRAF=null}
 function nav(fn){if(reduce()){fn();window.scrollTo(0,0);return}app.classList.add("leaving");setTimeout(()=>{fn();app.classList.remove("leaving");window.scrollTo({top:0,behavior:"smooth"})},230)}
 function popQuestState(){try{if(history.state&&history.state.gd){S.skipPop=true;history.back()}}catch(e){}}
-function goMap(){stopTimer();beyAway();{const o=document.getElementById("welcomeOv");if(o&&!o.classList.contains("out"))o.remove()}closeHannibal(true);closeSheet();popQuestState();nav(renderMap)}
+function goMap(){stopTimer();beyAway();{const o=document.getElementById("welcomeOv");if(o&&!o.classList.contains("out"))o.remove()}closeHannibal(true);closeTanit(true);closeSheet();popQuestState();nav(renderMap)}
 function goHome(){stopTimer();closeSheet();popQuestState();nav(renderSplash)}
 function leave(target,kind){if(S.screen!=="quiz"){target();return}openSheet(target,kind)}
 function openSheet(target,kind){if(document.querySelector(".sheet"))return;
@@ -3021,7 +3043,7 @@ function beyReact(ok){if(S.bey===false)return;
  if(nd){el.querySelector(".beybub").innerHTML+=`<span class="decnote">${S.lang==="ar"?`<span lang="ar" dir="rtl">وسام جديد: ${DECOR[nd][1]}</span>`:S.lang==="both"?`New: ${DECOR[nd][0]}<br><span lang="ar" dir="rtl">${DECOR[nd][1]}</span>`:`New decoration: ${DECOR[nd][0]}`}</span>`;S.newDec=0}
  el.querySelectorAll(".dec").forEach(d=>d.classList.remove("newdec"));
  el.className="bey";void el.offsetWidth;el.classList.add("show",ok?"happy":"sad");for(let k=1;k<=L;k++)el.classList.add("d"+k);
- if(nd){const d=el.querySelector(".dec"+nd);if(d)d.classList.add("newdec");setTimeout(()=>{try{sfx.coin();sfx.coin()}catch(e){}},700)}
+ if(nd){const d=el.querySelector(".dec"+nd);if(d)d.classList.add("newdec");setTimeout(medalSound,650)}
 
  {const key=ok?(BEY_YES.indexOf(p)>=0?"yes"+BEY_YES.indexOf(p):"streak"):"no"+BEY_NO.indexOf(p);beyPlay(S.lang==="ar"?[key+"_ar"]:S.lang==="both"?[key+"_en",key+"_ar"]:[key+"_en"])}
  beyT1=setTimeout(()=>{el.classList.add(ok?"exit-happy":"exit-sad")},nd?3400:ok?1900:1700);
@@ -3147,6 +3169,37 @@ function trumpet(){const c=ac();if(!c)return;const t=c.currentTime+.9;const o=c.
  v.frequency.value=22;vg.gain.value=18;v.connect(vg);vg.connect(o.frequency);f.type="bandpass";f.frequency.value=1100;f.Q.value=2.5;
  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.22,t+.06);g.gain.setValueAtTime(.2,t+.8);g.gain.exponentialRampToValueAtTime(.0001,t+1.05);o.connect(f);f.connect(g);g.connect(SND.master);o.start(t);v.start(t);o.stop(t+1.1);v.stop(t+1.1)}
 let hanT=null;
+
+function medalSound(){const c=ac();if(!c)return;const t=c.currentTime;
+ noise(t,.03,5200,2,.5,"bandpass");noise(t+.012,.05,2600,3,.35,"bandpass");
+ [1568,2093,2637,3136,4186].forEach((f,i)=>tone(f,t+.06+i*.07,.9-i*.08,"triangle",.07));
+ tone(6272,t+.06,.5,"sine",.025);
+ [[392,0],[523,.16],[659,.32],[784,.48]].forEach(([f,s])=>{tone(f,t+.45+s,s<.4?.18:.7,"sawtooth",.045);tone(f*2,t+.45+s,s<.4?.18:.7,"square",.025)})}
+/* ===== the Golden Tanit Trophy (every 6 right answers in a row) ===== */
+const TANIT_TROPHY=`<svg class="tt-svg" viewBox="0 0 220 280" aria-hidden="true"><defs>
+ <linearGradient id="ttg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff4c9"/><stop offset=".35" stop-color="#f2c75c"/><stop offset=".7" stop-color="#c8922c"/><stop offset="1" stop-color="#8a5c12"/></linearGradient>
+ <linearGradient id="ttm" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d9d1bf"/><stop offset=".5" stop-color="#f7f3ea"/><stop offset="1" stop-color="#cfc6b2"/></linearGradient>
+ <linearGradient id="tts" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".85"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+ <clipPath id="ttc"><circle cx="110" cy="50" r="19"/><rect x="104" y="66" width="12" height="10"/><path d="M48 66h9v12h106v-12h9v20H48z"/><path d="M110 86 62 196h96z"/></clipPath></defs>
+ <g class="tt-laurel" fill="#e0ac45" stroke="#8a5c12" stroke-width=".8">${Array.from({length:9},(_,k)=>{const a=(200-k*15)*Math.PI/180,x=110+Math.cos(a)*92,y=150+Math.sin(a)*92;return `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="11" ry="4.5" transform="rotate(${(200-k*15+90).toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})"/><ellipse cx="${(220-x).toFixed(1)}" cy="${y.toFixed(1)}" rx="11" ry="4.5" transform="rotate(${(-(200-k*15+90)).toFixed(0)} ${(220-x).toFixed(1)} ${y.toFixed(1)})"/>`}).join("")}</g>
+ <g stroke="#7a5214" stroke-width="2" stroke-linejoin="round"><circle cx="110" cy="50" r="19" fill="url(#ttg)"/><rect x="104" y="66" width="12" height="10" fill="url(#ttg)"/><path d="M48 66h9v12h106v-12h9v20H48z" fill="url(#ttg)"/><path d="M110 86 62 196h96z" fill="url(#ttg)"/></g>
+ <path d="M96 40 q8-10 20-6" fill="none" stroke="#fff8dc" stroke-width="3" stroke-linecap="round" opacity=".9"/><path d="M104 108 L84 170" stroke="#fff8dc" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+ <g clip-path="url(#ttc)"><rect class="tt-shine" x="-60" y="0" width="50" height="210" fill="url(#tts)" transform="skewX(-18)"/></g>
+ <rect x="50" y="196" width="120" height="12" rx="2" fill="url(#ttg)" stroke="#7a5214" stroke-width="1.5"/>
+ <path d="M58 208h104l8 46H50z" fill="url(#ttm)" stroke="#a89c82" stroke-width="1.5"/><rect x="44" y="254" width="132" height="12" rx="2" fill="url(#ttg)" stroke="#7a5214" stroke-width="1.5"/>
+ <rect x="80" y="220" width="60" height="22" rx="3" fill="url(#ttg)" stroke="#7a5214"/><text x="110" y="235.5" text-anchor="middle" font-family="Marcellus,Georgia,serif" font-size="10" fill="#5c3a0c" letter-spacing="1">TANIT</text>
+</svg>`;
+let ttT=null;
+function tanitTrophy(bonus){closeTanit(true);const el=document.createElement("div");el.className="ttover";el.setAttribute("role","dialog");el.setAttribute("aria-label","Golden Tanit Trophy");
+ el.innerHTML=`<div class="ttrays"></div><div class="ttstage"><div class="ttglow"></div>${TANIT_TROPHY}${Array.from({length:14},(_,k)=>`<i class="ttspark" style="left:${(8+Math.random()*84).toFixed(0)}%;top:${(5+Math.random()*70).toFixed(0)}%;animation-delay:${(Math.random()*2).toFixed(2)}s"></i>`).join("")}</div>
+  <div class="tttitle"><span class="hsmall">${bi(`${S.streak} right answers in a row!`,`${S.streak} إجابات صحيحة متتالية!`)}</span><strong>${bi("The Golden Tanit Trophy!","كأس تانيت الذهبية!")}</strong>${bonus?`<span class="hbonus">+${bonus} ${bi("dinars","دينارًا")}</span>`:""}</div>
+  <span class="hantap">${bi("Tap to continue","اضغط للمتابعة")}</span>`;
+ document.body.appendChild(el);requestAnimationFrame(()=>el.classList.add("in"));
+ try{confetti()}catch(e){}
+ const before=MUS.level;el._restore=before;try{musicLevel(.05)}catch(e){}
+ try{sfx.fanfare()}catch(e){}setTimeout(()=>{try{sfx.cheer();sfx.applause(3.6,1.3)}catch(e){}},500);setTimeout(()=>{try{medalSound()}catch(e){}},1150);
+ el.onclick=()=>closeTanit();ttT=setTimeout(()=>closeTanit(),5600)}
+function closeTanit(now){clearTimeout(ttT);const el=document.querySelector(".ttover");if(!el)return;try{musicLevel(el._restore||.22)}catch(e){}if(now){el.remove();return}el.classList.add("out");setTimeout(()=>el.remove(),500)}
 function hannibalTriumph(bonus){closeHannibal(true);const el=document.createElement("div");el.className="hanover";el.setAttribute("role","dialog");el.setAttribute("aria-label","Hannibal's triumph");
  el.innerHTML=`<div class="hanstage">${HAN_SVG}
   ${Array.from({length:22},(_,k)=>`<i class="hpetal ${k%3?"":"gold"}" style="left:${(k*4.6+Math.random()*4)%100}%;animation-delay:${(Math.random()*2.4).toFixed(2)}s;animation-duration:${(2.6+Math.random()*1.8).toFixed(2)}s"></i>`).join("")}
@@ -3258,7 +3311,7 @@ function startCh(i){
   S.ch=i;const c=ALL[i];
   const pool=c.id==="mix"?CH.flatMap(x=>x.qs):c.qs;
   startRun(c,freshRound(c.id,pool,Math.min(ROUND,pool.length)))}
-function startRun(c,list){S.cur=c;S.list=list;S.beyLevel=0;S.newDec=0;
+function startRun(c,list){S.cur=c;S.list=list;S.beyLevel=0;S.newDec=0;{const o=document.getElementById("welcomeOv");if(o)o.remove()}
   S.qi=0;S.score=0;S.streak=0;S.earned=0;S.rankAtStart=rank(S.coins)[1];try{if(!(history.state&&history.state.gd))history.pushState({gd:1},"")}catch(e){}
   nav(nextQ)}
 const chOf=q=>([...CH,...LANG].find(c=>c.qs.includes(q))||{id:"mix"}).id;
@@ -3333,10 +3386,10 @@ function reward(ok,base,el){
     S.bonusEn=[];let g=base;if(S.streak>=3){g*=2;S.bonus.push(bi("streak ×2","سلسلة ×2"));S.bonusEn.push("streak ×2")}
     if(left>S.limit/2){g+=5;S.bonus.push(bi("speed +5","سرعة +5"));S.bonusEn.push("speed +5");S.stats.speed=(S.stats.speed||0)+1}
     if(S.score%3===0&&S.score/3<=5){S.beyLevel=S.score/3;S.newDec=S.beyLevel}
-    S.triumph=S.streak%4===0;if(S.triumph){g+=20;S.bonus.push(bi("Hannibal +20","حنبعل +20"));S.bonusEn.push("Hannibal +20")}
+    S.trophy=S.streak%6===0;S.triumph=!S.trophy&&S.streak%4===0;if(S.trophy){g+=30;S.bonus.push(bi("Tanit Trophy +30","كأس تانيت +30"));S.bonusEn.push("Tanit Trophy +30")}if(S.triumph){g+=20;S.bonus.push(bi("Hannibal +20","حنبعل +20"));S.bonusEn.push("Hannibal +20")}
     const before=rank(S.coins)[1];S.gain=g;S.coins+=g;S.earned+=g;S.quip=pick(YES);sfx.cash();buzz(18);if(rank(S.coins)[1]!==before)S.pendingLevel=rank(S.coins)}
   else{S.streak=0;S.gain=0;S.quip=S.late?pick(LATE):pick(NO);sfx.wrong();buzz([40,50,40])}
-  save();renderQ();if(ok&&S.triumph&&S.bey!==false){S.triumph=false;beyAway();setTimeout(()=>hannibalTriumph(20),650)}else beyReact(ok);
+  save();renderQ();if(ok&&S.trophy){S.trophy=false;beyAway();setTimeout(()=>tanitTrophy(30),650)}else if(ok&&S.triumph&&S.bey!==false){S.triumph=false;beyAway();setTimeout(()=>hannibalTriumph(20),650)}else beyReact(ok);
   if(ok)flyCoins(from,S.gain);checkAch();
 }
 function answer(o,btn){if(S.answered)return;const q=S.list[S.qi];S.last=o;reward(!!o&&o[0]===q.a[0],10,btn)}
