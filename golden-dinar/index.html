@@ -2994,7 +2994,7 @@ function beyReact(ok){if(S.bey===false)return;
  el.querySelector(".beybub").innerHTML=S.lang==="ar"?`<span lang="ar" dir="rtl">${p[1]}</span>`:S.lang==="both"?`${p[0]}<br><span lang="ar" dir="rtl">${p[1]}</span>`:p[0];
  el.className="bey";void el.offsetWidth;el.classList.add("show",ok?"happy":"sad");
 
- {const key=ok?(BEY_YES.indexOf(p)>=0?"yes"+BEY_YES.indexOf(p):"streak"):"no"+BEY_NO.indexOf(p);beyPlay(S.lang==="ar"?[key+"_ar",key+"_en"]:[key+"_en",key+"_ar"])}
+ {const key=ok?(BEY_YES.indexOf(p)>=0?"yes"+BEY_YES.indexOf(p):"streak"):"no"+BEY_NO.indexOf(p);beyPlay(S.lang==="ar"?[key+"_ar"]:S.lang==="both"?[key+"_en",key+"_ar"]:[key+"_en"])}
  beyT1=setTimeout(()=>{el.classList.add(ok?"exit-happy":"exit-sad")},ok?1900:1700);
  beyT2=setTimeout(()=>{el.className="bey"},ok?2600:2400)}
 function beyGreet(){if(S.bey===false||window.__beyGreeted)return;window.__beyGreeted=true;
