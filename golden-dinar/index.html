@@ -707,6 +707,40 @@ html body.only-en:not(.peek) .beystage .beybub.big .ar,html body.only-ar:not(.pe
 .chestov.open .chbox::before{content:"";position:absolute;left:50%;top:44%;width:150%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,240,180,.95),rgba(246,210,122,.3) 40%,transparent 68%);animation:ttpulse 1.2s ease-in-out infinite alternate}
 .chmsg{position:relative;margin:0;max-width:30ch;text-align:center;color:#fbf5e6;font-size:1.05rem}
 @media (prefers-reduced-motion:reduce){.chbox,.flip,.cardov *,.chestov *{animation:none!important}.flip>div{transition:none!important}}
+/* Oracle of Tanit */
+.oraclebtn{display:flex;align-items:center;gap:12px;width:100%;margin:12px 0 0;padding:12px 14px;border-radius:14px;border:1.5px solid #c9a2ff;background:linear-gradient(120deg,#2a0f4a,#6b1240 60%,#14325a);color:var(--sand,#fbf5e6);cursor:pointer;text-align:start;font:inherit;box-shadow:0 0 18px rgba(201,162,255,.25)}
+.oraclebtn:not(.done){animation:orpulse 2.4s ease-in-out infinite}@keyframes orpulse{50%{box-shadow:0 0 26px rgba(201,162,255,.55)}}
+.oraclebtn .orbico{width:46px;height:46px;flex:none;color:#f6d27a;filter:drop-shadow(0 0 6px rgba(246,210,122,.7))}.oraclebtn .orbico .pun{width:100%;height:100%}
+.oraclebtn .mt{flex:1;display:flex;flex-direction:column;gap:3px}.oraclebtn .mgo{font-weight:800;color:#f6d27a}
+.punic-oracle{margin:6px 0 14px}
+.orov{position:fixed;inset:0;z-index:96;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px;background:radial-gradient(ellipse at 50% 45%,rgba(70,24,110,.96),rgba(6,6,24,.98) 74%);opacity:0;transition:opacity .4s;overflow:hidden}
+.orov.in{opacity:1}
+.orrays{position:absolute;left:50%;top:46%;width:170vmax;height:170vmax;margin:-85vmax 0 0 -85vmax;background:repeating-conic-gradient(rgba(201,162,255,.10) 0 6deg,transparent 6deg 16deg);animation:hspin 34s linear infinite;pointer-events:none;transition:filter .6s}
+.orov.rich .orrays{background:repeating-conic-gradient(rgba(246,210,122,.2) 0 7deg,transparent 7deg 18deg)}
+.orov.sad{background:radial-gradient(ellipse at 50% 45%,rgba(40,44,64,.97),rgba(6,8,16,.98) 74%)}.orov.sad .orrays{opacity:.25}
+.orx{position:absolute;top:10px;right:12px;z-index:3;width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(246,210,122,.6);background:rgba(7,21,42,.6);color:#f6d27a;font-size:1.5rem;line-height:1;cursor:pointer}
+.orsub{position:relative;margin:0;max-width:36ch;text-align:center;color:#e8dcc0}
+.ornote{position:relative;margin:4px 0 0;max-width:48ch;text-align:center;color:#a99fc0;opacity:.85}
+.orfan{position:relative;display:flex;justify-content:center;align-items:flex-end;height:min(240px,40vh);width:min(520px,94vw);margin:8px 0}
+.orc{position:absolute;bottom:0;left:50%;width:min(118px,22vw);aspect-ratio:3/4.3;margin-left:calc(min(118px,22vw)/-2);border-radius:12px;border:2.5px solid #e0ac45;background:radial-gradient(circle,#3a1a6e,#120a2a);box-shadow:0 8px 20px rgba(0,0,0,.55);cursor:pointer;display:flex;align-items:center;justify-content:center;transform:translateX(calc(var(--i)*min(84px,15vw))) rotate(calc(var(--i)*7deg)) translateY(calc(var(--i)*var(--i)*5px));transform-origin:50% 120%;transition:transform .45s cubic-bezier(.3,1.4,.5,1),opacity .4s;animation:orfloat 2.6s ease-in-out infinite alternate;animation-delay:calc(var(--i)*.25s)}
+.orc .fb-emb{width:52%;color:#f6d27a}.orc .fb-emb .pun{width:100%;height:auto}
+.orc:hover,.orc:focus-visible{transform:translateX(calc(var(--i)*min(84px,15vw))) rotate(calc(var(--i)*7deg)) translateY(-18px);box-shadow:0 0 22px rgba(246,210,122,.6)}
+@keyframes orfloat{to{margin-bottom:8px}}
+.orc.chosen{transform:translateY(-30px) scale(1.15);z-index:2;animation:none}.orc.gone{opacity:0;transform:translateY(60px) scale(.8)}
+.orflip{width:min(300px,80vw,50vh)}
+.orflip .fback{background:radial-gradient(circle,#3a1a6e,#120a2a)}
+.orfront{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px 16px 14px;border-radius:14px;border:3px solid #e0ac45;background:radial-gradient(circle at 50% 22%,#2c4a8a,#0b1530 70%);box-shadow:0 10px 30px rgba(0,0,0,.6);text-align:center;overflow:auto}
+.orfront.big{border-color:#fff1b8;box-shadow:0 0 30px rgba(246,210,122,.75)}
+.orfront.empty{border-color:#7d8692;background:radial-gradient(circle at 50% 22%,#3a4256,#10141e 70%)}
+.orsym{width:34%;color:#f6d27a;filter:drop-shadow(0 0 10px rgba(246,210,122,.7))}.orsym .pun{width:100%;height:auto}
+.orfront.empty .orsym{color:#aab2c0;filter:none}
+.ortitle{font-family:var(--display);font-size:1.15rem;color:#f6d27a;line-height:1.2}.orvirtue{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#c9a2ff}
+.ormsg{margin:4px 0;font-size:.88rem;line-height:1.45;color:#fbf5e6}
+.orlucky{color:#e8dcc0}
+.orprize{margin-top:4px;padding:7px 10px;border-radius:10px;font-size:.9rem;background:linear-gradient(90deg,#9a6a1c,#f2c75c,#9a6a1c);color:#1a1206}
+.orfront.empty .orprize{background:rgba(255,255,255,.1);color:#d0d6e0}
+.orfront .en,.orfront .ar{display:block}
+@media (prefers-reduced-motion:reduce){.orc,.oraclebtn,.orov *{animation:none!important}.orc{transition:none}}
 /* Arabic version: no English vocabulary/grammar boxes */
 body.only-ar .learn{display:none!important}
 /* navigation */
@@ -2773,8 +2807,8 @@ function startTeacher(id,n){const c=ALL.find(x=>x.id===id);const pool=c.id==="mi
 const TIME_MC=25,TIME_ORDER=50;
 let S={coins:0,shown:0,medals:{},stats:{right:0,played:0,best:0},lang:"en",bank:{},recentTips:[],ach:{},daily:{},cards:{},stars:{},days:{},pages:{},vib:true,name:"",klass:"",cur:null,ch:0,list:[],qi:0,score:0,streak:0,earned:0};
 let timerRAF=null;
-function load(){try{const d=JSON.parse(localStorage.getItem("golden-dinar")||"{}");S.coins=d.coins||0;S.medals=d.medals||{};S.stats=Object.assign(S.stats,d.stats||{});S.lang=d.lang||"en";S.bank=d.bank||{};S.ach=d.ach||{};S.daily=d.daily||{};S.vib=d.vib!==false;S.name=d.name||"";S.klass=d.klass||"";SND.on=d.sound!==false;MUS.on=d.music!==false;S.seen=d.seen||{};S.bey=d.bey!==false;S.cards=d.cards||{};S.stars=d.stars||{};S.days=d.days||{};S.pages=d.pages||{}}catch(e){}S.shown=S.coins}
-function save(){try{localStorage.setItem("golden-dinar",JSON.stringify({coins:S.coins,medals:S.medals,stats:S.stats,lang:S.lang,bank:S.bank,ach:S.ach,daily:S.daily,vib:S.vib,name:S.name,klass:S.klass,sound:SND.on,music:MUS.on,seen:S.seen,bey:S.bey,cards:S.cards,stars:S.stars,days:S.days,pages:S.pages}))}catch(e){}}
+function load(){try{const d=JSON.parse(localStorage.getItem("golden-dinar")||"{}");S.coins=d.coins||0;S.medals=d.medals||{};S.stats=Object.assign(S.stats,d.stats||{});S.lang=d.lang||"en";S.bank=d.bank||{};S.ach=d.ach||{};S.daily=d.daily||{};S.vib=d.vib!==false;S.name=d.name||"";S.klass=d.klass||"";SND.on=d.sound!==false;MUS.on=d.music!==false;S.seen=d.seen||{};S.bey=d.bey!==false;S.cards=d.cards||{};S.stars=d.stars||{};S.days=d.days||{};S.pages=d.pages||{};S.oracle=d.oracle||null}catch(e){}S.shown=S.coins}
+function save(){try{localStorage.setItem("golden-dinar",JSON.stringify({coins:S.coins,medals:S.medals,stats:S.stats,lang:S.lang,bank:S.bank,ach:S.ach,daily:S.daily,vib:S.vib,name:S.name,klass:S.klass,sound:SND.on,music:MUS.on,seen:S.seen,bey:S.bey,cards:S.cards,stars:S.stars,days:S.days,pages:S.pages,oracle:S.oracle}))}catch(e){}}
 
 const app=document.getElementById("app");
 const medalOf=(s,n)=>s===n?"gold":s>=n-2?"silver":s>=Math.ceil(n/3)?"bronze":null;
@@ -2797,7 +2831,7 @@ function wireHeader(){const h=document.getElementById("home");if(h){h.onclick=()
 function stopTimer(){if(timerRAF)cancelAnimationFrame(timerRAF);timerRAF=null}
 function nav(fn){if(reduce()){fn();window.scrollTo(0,0);return}app.classList.add("leaving");setTimeout(()=>{fn();app.classList.remove("leaving");window.scrollTo({top:0,behavior:"smooth"})},230)}
 function popQuestState(){try{if(history.state&&history.state.gd){S.skipPop=true;history.back()}}catch(e){}}
-function goMap(){stopTimer();beyAway();{const o=document.getElementById("welcomeOv");if(o&&!o.classList.contains("out"))o.remove()}closeHannibal(true);closeTanit(true);closeGrand(true);closeChest();closeCard();closeSheet();popQuestState();nav(renderMap)}
+function goMap(){stopTimer();beyAway();{const o=document.getElementById("welcomeOv");if(o&&!o.classList.contains("out"))o.remove()}closeHannibal(true);closeTanit(true);closeGrand(true);closeChest();closeCard();{const o=document.querySelector(".orov");if(o)o.remove()}closeSheet();popQuestState();nav(renderMap)}
 function goHome(){stopTimer();closeSheet();popQuestState();nav(renderSplash)}
 function leave(target,kind){if(S.screen!=="quiz"){target();return}openSheet(target,kind)}
 function openSheet(target,kind){if(document.querySelector(".sheet"))return;
@@ -3691,6 +3725,82 @@ function shareResult(c,n){const st=starsOf(S.score,n);
  if(navigator.share){navigator.share({text:txt}).catch(()=>{});return}
  try{navigator.clipboard.writeText(txt).then(()=>toast(bi("Copied! Paste it in WhatsApp or Facebook.","نُسخ! الصقه في واتساب أو فيسبوك."),COIN))}catch(e){toast(txt.replace(/\n/g,"<br>"))}}
 
+/* ================= The Oracle of Tanit: a daily card reading inspired by the symbols of Carthage ================= */
+const ORACLE={
+ tanit:{v:["Protection","الحماية"],m:[["Tanit spreads her arms over you today. Someone close to you needs a kind word: give it, and it will come back to you.","تبسط تانيت ذراعيها فوقك اليوم. أحد المقرّبين منك يحتاج كلمة طيبة: قلها، وستعود إليك."],["Your home is your fortress today. A quiet evening with family will bring the best news of the week.","بيتك حصنك اليوم. سهرة هادئة مع العائلة ستحمل أجمل أخبار الأسبوع."],["The goddess watches over your plans. Start the task you have been delaying; it is protected.","الإلهة تحرس خططك. ابدأ العمل الذي تؤجّله؛ إنه محميّ."]]},
+ crescent:{v:["New beginnings","البدايات الجديدة"],m:[["The crescent rises over the disc: a new chapter begins. Say yes to something you have never tried.","يعلو الهلال فوق القرص: فصل جديد يبدأ. قل نعم لشيء لم تجرّبه من قبل."],["Like the moon, your mood will change today, and that is fine. By evening the light returns.","كالقمر، سيتقلّب مزاجك اليوم ولا بأس. ففي المساء يعود النور."],["A small change in your routine opens a big door. Take a different road today.","تغيير صغير في عاداتك يفتح بابًا كبيرًا. اسلك طريقًا مختلفًا اليوم."]]},
+ horse:{v:["Energy and freedom","الطاقة والحرية"],m:[["The horse of the Punic coins gallops for you: energy is high, so move fast on what matters.","حصان النقود البونية يعدو من أجلك: طاقتك عالية، فأسرع إلى ما يهمّك."],["Under the palm tree the horse rests before the race. Rest well tonight; tomorrow you will win.","تحت النخلة يستريح الحصان قبل السباق. نم جيدًا الليلة؛ غدًا تنتصر."],["Freedom calls you. An idea that feels wild today may be your best one.","الحرية تناديك. فكرة تبدو جامحة اليوم قد تكون أفضل أفكارك."]]},
+ elephant:{v:["Strength and patience","القوة والصبر"],m:[["Hannibal's elephant crosses mountains step by step. Be patient: your effort is closer to the top than you think.","فيل حنبعل يعبر الجبال خطوة بخطوة. اصبر: جهدك أقرب إلى القمّة مما تظن."],["You are stronger than the problem in front of you. Face it calmly and it will step aside.","أنت أقوى من المشكلة التي أمامك. واجهها بهدوء وستتنحّى."],["An elephant never forgets: someone will remember a good thing you did long ago.","الفيل لا ينسى: سيتذكّر أحدهم معروفًا صنعته منذ زمن."]]},
+ baal:{v:["Wisdom and authority","الحكمة والهيبة"],m:[["Baal Hammon lends you a wise voice. People will listen to your advice today.","يعيرك بعل حمون صوتًا حكيمًا. سيصغي الناس إلى نصيحتك اليوم."],["Think twice before you decide; the second answer is the right one.","فكّر مرّتين قبل أن تقرّر؛ الجواب الثاني هو الصحيح."],["A responsibility comes your way. Accept it with a calm heart: you are ready.","تأتيك مسؤولية. اقبلها بقلب مطمئن: أنت جاهز."]]},
+ stela:{v:["Promises and memory","الوعود والذاكرة"],m:[["Like a stone stela, your word is strong today. Keep a promise and you will earn lasting trust.","كالنصب الحجري، كلمتك ثابتة اليوم. أوفِ بوعد تكسب ثقة دائمة."],["Write something down today: a goal, a memory, a thank-you. Carved words last.","اكتب شيئًا اليوم: هدفًا أو ذكرى أو شكرًا. الكلمات المنقوشة تدوم."],["An old friend or an old project returns. Give it a second chance.","يعود صديق قديم أو مشروع قديم. امنحه فرصة ثانية."]]},
+ standard:{v:["Courage and leadership","الشجاعة والقيادة"],m:[["Raise your standard: today others will follow if you take the first step.","ارفع رايتك: اليوم سيتبعك الآخرون إن خطوت الخطوة الأولى."],["A small act of courage, a question in class or a new hello, will change your day.","فعل شجاعة صغير، سؤال في القسم أو تحية جديدة، سيغيّر يومك."],["Lead by example today. Do the right thing even when nobody is watching.","كن قدوة اليوم. افعل الصواب حتى حين لا يراك أحد."]]},
+ purple:{v:["Success and elegance","النجاح والأناقة"],m:[["Carthage's purple and gold shine on you. Dress well, speak well: success notices you today.","يلمع عليك أرجوان قرطاج وذهبها. البس جيدًا وتكلّم جيدًا: النجاح يلاحظك اليوم."],["Your work has value; ask for what you deserve, politely and clearly.","لعملك قيمة؛ اطلب ما تستحقّه بلطف ووضوح."],["Treat yourself to something small and beautiful today. You have earned it.","دلّل نفسك بشيء صغير وجميل اليوم. لقد استحققته."]]}
+};
+const ORACLE_LUCKY=["carthage","kairouan","hafsid","beys","protectorate","republic","books","figures","leaders"];
+function orchFanfare(big){const c=ac();if(!c)return;const t=c.currentTime+.05,out=SND.master;
+ const voice=(f,s,d,type,vol,cut,det)=>{const o=c.createOscillator(),g=c.createGain(),fl=c.createBiquadFilter();o.type=type;o.frequency.value=f;if(det)o.detune.value=det;fl.type="lowpass";fl.frequency.value=cut;g.gain.setValueAtTime(.0001,t+s);g.gain.exponentialRampToValueAtTime(vol,t+s+.06);g.gain.setValueAtTime(vol,t+s+d*.7);g.gain.exponentialRampToValueAtTime(.0001,t+s+d);o.connect(fl);fl.connect(g);g.connect(out);o.start(t+s);o.stop(t+s+d+.05)};
+ for(let i=0;i<10;i++){tone(65,t+i*.06,.18,"sine",.12+i*.012,45);noise(t+i*.06,.08,180,1,.08,"lowpass")}
+ const chords=big?[[0,[262,330,392,523]],[.75,[349,440,523,698]],[1.5,[392,494,587,784]],[2.25,[523,659,784,1047]]]:[[0,[262,330,392]],[.7,[349,440,523]],[1.4,[392,494,587,784]]];
+ chords.forEach(([s,fs],i)=>{const last=i===chords.length-1,d=last?2.6:.85;fs.forEach(f=>{voice(f/2,.6+s,d,"sawtooth",.035,1400,-7);voice(f/2,.6+s,d,"sawtooth",.035,1400,7);voice(f,.6+s,d,"triangle",.03,3000)})});
+ const mel=big?[[523,.6,.25],[659,.85,.25],[784,1.1,.4],[698,1.5,.25],[784,1.75,.25],[880,2.0,.25],[1047,2.25,1.6]]:[[523,.6,.3],[659,.9,.3],[784,1.2,.5],[1047,1.75,1.3]];
+ mel.forEach(([f,s,d])=>{voice(f,s,d,"sawtooth",.06,2200);voice(f*1.005,s,d,"square",.025,1800)});
+ const end=big?2.85:2.45;noise(t+end-.4,1.8,7000,.7,.18,"highpass");tone(65,t+end-.4,1.2,"sine",.25,50);
+ if(big)setTimeout(()=>{try{sfx.cheer();sfx.applause(3,1)}catch(e){}},2600)}
+function sadTrombone(){const c=ac();if(!c)return;const t=c.currentTime+.05;
+ [[196,0,.45],[185,.5,.45],[175,1.0,.45],[165,1.5,1.4]].forEach(([f,s,d],i)=>{const o=c.createOscillator(),g=c.createGain(),fl=c.createBiquadFilter();o.type="sawtooth";o.frequency.setValueAtTime(f*1.03,t+s);o.frequency.exponentialRampToValueAtTime(f,t+s+.12);
+  if(i===3){const l=c.createOscillator(),lg=c.createGain();l.frequency.value=6;lg.gain.value=5;l.connect(lg);lg.connect(o.frequency);l.start(t+s+.3);l.stop(t+s+d);o.frequency.exponentialRampToValueAtTime(f*.94,t+s+d)}
+  fl.type="lowpass";fl.frequency.setValueAtTime(500,t+s);fl.frequency.linearRampToValueAtTime(1100,t+s+.15);fl.frequency.linearRampToValueAtTime(420,t+s+d);
+  g.gain.setValueAtTime(.0001,t+s);g.gain.exponentialRampToValueAtTime(.16,t+s+.05);g.gain.setValueAtTime(.14,t+s+d*.75);g.gain.exponentialRampToValueAtTime(.0001,t+s+d);o.connect(fl);fl.connect(g);g.connect(SND.master);o.start(t+s);o.stop(t+s+d+.05)})}
+function oracleRoll(){const r=Math.random();
+ if(r<.30)return {k:"none"};
+ if(r<.58)return {k:"coins",v:[10,15,20,25,30][Math.floor(Math.random()*5)]};
+ if(r<.72)return {k:"treasure",v:[60,75,100][Math.floor(Math.random()*3)]};
+ if(r<.88){const pool=CARDS.filter(k=>k[2]!=="g"&&!S.cards[k[0]]);if(pool.length)return {k:"card",id:pool[Math.floor(Math.random()*pool.length)][0]};return {k:"coins",v:25}}
+ return {k:"double"}}
+function prizeText(p){if(!p)return "";
+ return {none:bi("No treasure today. The sands of Carthage keep their secrets until tomorrow.","لا كنز اليوم. رمال قرطاج تحفظ أسرارها حتى الغد."),
+  coins:bi(`A little treasure: <b>+${p.v} dinars</b>!`,`كنز صغير: <b>+${p.v} دينارًا</b>!`),
+  treasure:bi(`<b>A great treasure! +${p.v} dinars</b> from the vaults of Carthage!`,`<b>كنز عظيم! +${p.v} دينارًا</b> من خزائن قرطاج!`),
+  card:(()=>{const k=CARDS.find(x=>x[0]===p.id);return k?bi(`A new Museum card: <b>${k[4]}</b>!`,`بطاقة جديدة للمتحف: <b>${k[5]}</b>!`):""})(),
+  double:bi("<b>Double dinars!</b> Your next 3 right answers pay ×2.","<b>دنانير مضاعفة!</b> إجاباتك الثلاث الصحيحة القادمة ×2.")}[p.k]}
+function oracleFront(o){const sym=o.sym,info=PUN_INFO.find(x=>x[0]===sym)||[sym,sym,sym,"",""],d=ORACLE[sym],msg=d.m[o.mi%d.m.length],lucky=ALL.find(c=>c.id===o.lucky);
+ return `<div class="orfront ${o.p.k==="none"?"empty":"win"} ${o.p.k==="treasure"?"big":""}"><span class="orsym">${PUN[sym]}</span><strong class="ortitle">${bi(info[1],info[2])}</strong><span class="orvirtue">${bi(d.v[0],d.v[1])}</span>
+  <p class="ormsg">${bi(msg[0],msg[1])}</p>${lucky?`<span class="orlucky small">${bi(`Lucky quest today: <b>${lucky.name}</b>`,`تحدي الحظ اليوم: <b>${lucky.nameAr}</b>`)}</span>`:""}
+  <div class="orprize">${prizeText(o.p)}</div></div>`}
+function oracleDone(){return S.oracle&&S.oracle.day===today()}
+function openOracle(){if(document.querySelector(".orov"))return;
+ const el=document.createElement("div");el.className="orov";el.setAttribute("role","dialog");el.setAttribute("aria-label","The Oracle of Tanit");
+ const done=oracleDone();
+ el.innerHTML=`<div class="orrays"></div><button class="orx" aria-label="Close">×</button>
+  <p class="cv-top">${bi("The Oracle of Tanit","عرّافة تانيت")}</p>
+  <p class="orsub">${done?bi("Here is your card for today. Come back tomorrow for a new reading!","هذه بطاقتك لليوم. عد غدًا لقراءة جديدة!"):bi("Close your eyes, make a wish, and pick one card.","أغمض عينيك، تمنَّ أمنية، واختر بطاقة واحدة.")}</p>
+  <div class="orfan" ${done?"hidden":""}>${[0,1,2,3,4].map(i=>`<button class="orc" style="--i:${i-2}" aria-label="Card ${i+1}"><span class="fb-emb">${PUN.tanit}</span></button>`).join("")}</div>
+  <div class="flip orflip" ${done?"":"hidden"}><div class="fback"><span class="fb-emb">${PUN.tanit}</span><span class="fb-t">ORACLE OF TANIT</span></div><div class="ffront">${done?oracleFront(S.oracle):""}</div></div>
+  <div class="row orrow" ${done?"":"hidden"}><button class="btn" id="orLucky">${bi("Play the lucky quest","العب تحدي الحظ")}</button><button class="btn ghost" id="orOk">${bi("Close","إغلاق")}</button></div>
+  <p class="ornote small">${bi("Just for fun: Carthaginians read signs and omens, but this oracle is a game, not a real prediction.","للتسلية فقط: كان القرطاجيون يقرؤون العلامات والفأل، لكن هذه العرّافة لعبة وليست تنبّؤًا حقيقيًا.")}</p>`;
+ document.body.appendChild(el);requestAnimationFrame(()=>el.classList.add("in"));
+ if(done)el.querySelector(".orflip").classList.add("flipped");
+ const close=()=>{closeOracle()};el.querySelector(".orx").onclick=close;el.querySelector("#orOk").onclick=()=>{sfx.click();close()};
+ el.querySelector("#orLucky").onclick=()=>{sfx.click();const i=ALL.findIndex(c=>c.id===(S.oracle&&S.oracle.lucky));close();if(i>=0)startCh(i)};
+ try{musicLevel(.15)}catch(e){}
+ el.querySelectorAll(".orc").forEach(b=>b.onclick=()=>{if(oracleDone())return;sfx.click();
+  const syms=Object.keys(ORACLE),sym=syms[Math.floor(Math.random()*syms.length)],p=oracleRoll();
+  const o={day:today(),sym,mi:Math.floor(Math.random()*3),p,lucky:ORACLE_LUCKY[Math.floor(Math.random()*ORACLE_LUCKY.length)]};
+  if(p.k==="coins"||p.k==="treasure"){S.coins+=p.v;setShown(S.coins)}
+  if(p.k==="card"){S.cards[p.id]=Date.now();try{pageDone(CARDS.find(x=>x[0]===p.id)[1])}catch(e){}}
+  if(p.k==="double")S.dbl=3;
+  S.oracle=o;save();
+  b.classList.add("chosen");el.querySelectorAll(".orc").forEach(x=>{if(x!==b)x.classList.add("gone")});
+  setTimeout(()=>{el.querySelector(".orfan").hidden=true;const f=el.querySelector(".orflip");f.querySelector(".ffront").innerHTML=oracleFront(o);f.hidden=false;
+   el.querySelector(".orsub").innerHTML=bi("The oracle has spoken…","لقد نطقت العرّافة…");
+   setTimeout(()=>{f.classList.add("flipped");try{musicLevel(.03)}catch(e){}
+    if(p.k==="none"){sadTrombone();el.classList.add("sad")}else{orchFanfare(p.k==="treasure"||p.k==="card");el.classList.add("rich");try{confetti()}catch(e){}if(p.k==="treasure"){try{grFireworks(el,4)}catch(e){}}}
+    setTimeout(()=>{el.querySelector(".orrow").hidden=false;try{musicLevel(.15)}catch(e){}},p.k==="none"?2600:3400)},450)},650)})}
+function closeOracle(){const el=document.querySelector(".orov");if(el)el.remove();try{musicLevel(S.screen==="quiz"?.22:.5)}catch(e){}
+ document.querySelectorAll("button[data-oracle]").forEach(b=>{b.outerHTML=oracleButton()})}
+document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-oracle]");if(t){sfx.click();openOracle()}});
+function oracleButton(){const d=oracleDone();return `<button class="oraclebtn ${d?"done":""}" data-oracle="1"><span class="orbico">${PUN.crescent}</span><span class="mt"><strong>${bi("The Oracle of Tanit","عرّافة تانيت")}</strong><span class="small">${d?bi("Today's card is drawn. Tap to read it again.","سُحبت بطاقة اليوم. اضغط لقراءتها مجددًا."):bi("Pick today's card: your Carthaginian reading, and maybe a treasure!","اختر بطاقة اليوم: قراءتك القرطاجية، وربما كنز!")}</span></span><span class="mgo">${d?"✓":bi("Draw","اسحب")}</span></button>`}
+
 function hannibalTriumph(bonus){closeHannibal(true);const el=document.createElement("div");el.className="hanover";el.setAttribute("role","dialog");el.setAttribute("aria-label","Hannibal's triumph");
  el.innerHTML=`<div class="hanstage">${HAN_SVG}
   ${Array.from({length:22},(_,k)=>`<i class="hpetal ${k%3?"":"gold"}" style="left:${(k*4.6+Math.random()*4)%100}%;animation-delay:${(Math.random()*2.4).toFixed(2)}s;animation-duration:${(2.6+Math.random()*1.8).toFixed(2)}s"></i>`).join("")}
@@ -3738,6 +3848,7 @@ const PUN_INFO=[
 const PUNIC_RE=/Carthage|Kerkouane|Dougga|Hannibal|Punic|قرطاج|كركوان/i;
 function sico(k){return `<span class="sico">${PUN[k]}</span>`}
 function punicGallery(){return `<div class="sect"><h3 class="en">${sico("crescent")}Symbols of Carthage</h3><span class="ar">رموز قرطاج</span></div>
+ <div class="punic-oracle">${oracleButton()}</div>
  <p class="small punintro">${bi("The emblems used in this game come from Punic coins, stelae and texts. Their meanings are not all certain, and historians still debate some of them.","الشعارات المستعملة في هذه اللعبة مأخوذة من النقود والأنصاب والنصوص البونية. ليست كل دلالاتها مؤكدة، وما زال المؤرخون يناقشون بعضها.")}</p>
  <div class="pungrid">${PUN_INFO.map(([k,en,ar,nen,nar],i)=>`<figure class="puncard" style="animation-delay:${i*60}ms"><div class="punic-ico">${PUN[k]}</div><figcaption><strong>${bi(en,ar)}</strong><span class="small">${bi(nen,nar)}</span></figcaption></figure>`).join("")}</div>`}
 
@@ -3774,6 +3885,7 @@ function renderMap(){
   <div class="tiles">${ALL.map((c,i)=>c.kind==="special"?tile(c,i):"").join("")}${citiesTile()}</div>
   <button class="daily ${dailyDone()?"done":""}" id="daily">${FLAME}<span class="dt"><strong>${bi("Daily Challenge","تحدي اليوم")}</strong><span class="small" style="color:inherit">${dailyDone()?bi("Done for today. Come back tomorrow!","أنجزته اليوم. عد غدًا!"):bi("5 questions · +30 bonus dinars","5 أسئلة · مكافأة 30 دينارًا")}</span></span><span class="dstreak">${FLAME}${S.daily.streak||0}</span></button>${dayAlive()&&S.days.last!==today()?`<div class="streakwarn">${FLAME}<span>${bi(`Play one round today to keep your <b>${dayAlive()}-day</b> streak!`,`العب جولة واحدة اليوم لتحافظ على سلسلة <b>${dayAlive()}</b> أيام!`)}</span></div>`:""}
   <button class="museum" id="museumBtn"><span class="mfan"><i></i><i></i><i></i></span><span class="mt"><strong>${bi("The Museum","المتحف")} · ${Object.keys(S.cards).length}/${CARDS.length}</strong><span class="small">${bi("Collect cards of Tunisian history","اجمع بطاقات تاريخ تونس")}</span><span class="gbar"><i style="width:${Math.max(3,Object.keys(S.cards).length/CARDS.length*100)}%"></i></span></span><span class="mgo">${bi("Open","افتح")}</span></button>
+  ${oracleButton()}
   <button class="getapp" id="getApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M4 19h16"/></svg><span class="ga-t"><strong>${bi("Get the app","حمّل التطبيق")}</strong><span class="small">${bi("Phone & computer · free · share with friends","هاتف وحاسوب · مجانًا · شاركه مع أصدقائك")}</span></span><span class="ga-go">${bi("Install","تثبيت")}</span></button>
   <div class="quick two"><button class="qk" id="qAch">${SEAL("#e0ac45","#0b1f3a")}<span>${bi("Achievements","الإنجازات")}</span></button><button class="qk" id="bank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5c3-1.5 6-1.5 10 1 4-2.5 7-2.5 10-1v14c-3-1.5-6-1.5-10 1-4-2.5-7-2.5-10-1z"/><path d="M12 6v14"/></svg><span>Word Bank · ${Object.keys(S.bank).length}/${GLOSS.length}</span></button></div>
   <div class="sect"><h3>English Corner</h3><span class="small">English only</span></div>
