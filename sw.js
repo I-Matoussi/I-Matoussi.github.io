@@ -3,10 +3,10 @@
    - Every booklet listed in data.js is saved too, so it can be read offline
      even if the student never opened it while online. New booklets are saved
      the next time the student opens the site with internet. */
-var VERSION = "im-v3";
+var VERSION = "im-v4";
 var SHELL = ["./", "index.html", "data.js", "manifest.webmanifest", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
 var PDFJS = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
-var LIBS = [PDFJS + "pdf.min.js", PDFJS + "pdf.worker.min.js"];
+var LIBS = [PDFJS + "pdf.min.js", PDFJS + "pdf.worker.min.js", "https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"];
 var CDN = /^(cdnjs\.cloudflare\.com|fonts\.googleapis\.com|fonts\.gstatic\.com|upload\.wikimedia\.org)$/;
 
 function saveLibs(c){

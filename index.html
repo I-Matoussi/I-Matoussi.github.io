@@ -697,6 +697,34 @@ main.enter .section-head h2::after{animation:draw .9s cubic-bezier(.2,.7,.2,1) .
 .r-notes{overflow:auto}
 .rn-list{flex:1 1 auto}
 .shelf-notes{border-color:var(--gold);color:var(--gold)}
+/* ---------- Write on the page ---------- */
+.r-pagebox .ann{position:absolute;left:0;top:0;z-index:3;pointer-events:none}
+.ann svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.ann path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.ann-t{position:absolute;pointer-events:none;line-height:1.35}
+.ann-t textarea{display:block;width:100%;min-height:1.6em;resize:none;overflow:hidden;border:0;background:transparent;color:inherit;font:inherit;font-family:var(--f-body);line-height:1.35;padding:.25em;margin:0;outline:none;border-radius:4px}
+.ann-grip,.ann-x{display:none}
+.writing .r-pagebox .ann{pointer-events:auto}
+.writing #r-text{pointer-events:none}
+.w-pen .ann svg{cursor:crosshair;touch-action:none}
+.w-type .ann{cursor:text}
+.w-type .ann-t{pointer-events:auto}
+.w-type .ann-t textarea{background:rgba(255,250,225,.55);box-shadow:0 0 0 1px rgba(29,63,154,.35)}
+.w-type .ann-t textarea:focus{background:rgba(255,250,225,.85);box-shadow:0 0 0 2px rgba(29,63,154,.7)}
+.w-type .ann-grip,.w-type .ann-x{display:grid;place-items:center;position:absolute;top:-1.15em;width:1.5em;height:1.5em;font-size:max(12px,.8em);border-radius:6px;border:0;background:#1D3F9A;color:#fff;line-height:1;cursor:grab;touch-action:none}
+.w-type .ann-grip{left:-.2em}
+.w-type .ann-x{right:-.2em;background:#B4483C;cursor:pointer}
+.w-pen .ann-t{pointer-events:none}
+.r-wbar{position:fixed;z-index:36;left:50%;transform:translateX(-50%);bottom:max(14px,env(safe-area-inset-bottom,0px));display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;max-width:calc(100vw - 20px);padding:8px 10px;border-radius:18px;background:var(--surface);border:1px solid var(--gold);box-shadow:var(--shadow-lg)}
+.r-wbar[hidden]{display:none}
+.r-wbar .w-tip{flex-basis:100%;text-align:center;font-size:12px;color:var(--muted)}
+.r-wbar [aria-pressed="true"]{background:var(--teal-3);color:var(--on-teal);border-color:var(--teal-3)}
+.w-col{width:26px;height:26px;border-radius:999px;border:2px solid var(--line-2);padding:0}
+.w-col[aria-pressed="true"]{box-shadow:0 0 0 2px var(--surface),0 0 0 4px var(--gold)}
+.w-btn{background:var(--gold-soft);border-color:var(--gold);color:var(--gold)}
+.w-btn:hover,.w-btn[aria-pressed="true"]{background:var(--gold);color:var(--on-gold);border-color:var(--gold)}
+.writing .r-stage{padding-bottom:140px}
+@media (max-width:640px){.r-wbar{left:8px;right:8px;transform:none;max-width:none}}
 
 .install-btn{display:none;cursor:pointer;background:var(--gold-2);color:var(--on-gold);border-color:transparent;font-weight:600}
 .install-btn:hover{filter:brightness(1.08)}
@@ -1373,7 +1401,7 @@ function render(){
   if (slot("s-main", '<main><div class="wrap">'+body+'</div></main>') && view!==LAST_VIEW && LAST_VIEW!==null){ var mn=document.querySelector("#s-main main"); if(mn) mn.classList.add("enter"); }
   LAST_VIEW = view;
   slot("s-modal", modal());
-  slot("s-foot", '<div class="frieze" aria-hidden="true"></div><footer><div class="wrap"><div><div class="sig">Issam <em>Matoussi</em></div><div style="margin-top:8px">Researcher · Instructor · Academic year 2026–2027</div><div class="ver">Site version 2.4 · 26 Oct 2026</div></div><div style="display:flex;flex-direction:column;align-items:flex-end"><button class="foot-share" data-act="share">'+svg('<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4"/>',15)+'Share this site · QR code</button></div></div></footer>');
+  slot("s-foot", '<div class="frieze" aria-hidden="true"></div><footer><div class="wrap"><div><div class="sig">Issam <em>Matoussi</em></div><div style="margin-top:8px">Researcher · Instructor · Academic year 2026–2027</div><div class="ver">Site version 2.5 · 26 Oct 2026</div></div><div style="display:flex;flex-direction:column;align-items:flex-end"><button class="foot-share" data-act="share">'+svg('<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h4v4"/>',15)+'Share this site · QR code</button></div></div></footer>');
   if (active){ var el = document.getElementById(active); if (el){ el.focus(); if (pos!=null && el.setSelectionRange) try{ el.setSelectionRange(pos,pos);}catch(e){} } }
 }
 
@@ -1655,6 +1683,166 @@ function showQuoteBtn(rect, text){
 }
 function hideQuoteBtn(){ var q=R.el && R.el.querySelector("#r-quote"); if(q) q.hidden=true; }
 
+/* ---------- Write on the page (answers saved on this device) ---------- */
+var W = {mode:null, color:"#1D3F9A", saveT:null, drawing:null};
+function annKey(m){ return "wm-ann-"+m.id; }
+function getAnn(m){ try{ var o=JSON.parse(lsGet(annKey(m))||"{}"); return (o && typeof o==="object") ? o : {}; }catch(e){ return {}; } }
+function setAnn(m,o){
+  var c={}; Object.keys(o).forEach(function(k){ var p=o[k]; if(!p) return;
+    var t=(p.t||[]).filter(function(b){ return b.text && b.text.trim(); }), s=(p.s||[]).filter(function(x){ return x.pts && x.pts.length>1; });
+    if (t.length || s.length) c[k]={t:t, s:s}; });
+  lsSet(annKey(m), JSON.stringify(c));
+}
+function annPage(){ var o=getAnn(R.item); return o[R.page] || {t:[], s:[]}; }
+function annPages(m){ return Object.keys(getAnn(m)).map(Number).filter(function(n){ return n>0; }).sort(function(a,b){ return a-b; }); }
+function putAnnPage(pg){ var o=getAnn(R.item); o[R.page]=pg; setAnn(R.item,o); annStatus(); }
+function annLayer(){ return R.el && R.el.querySelector("#r-ann"); }
+function annStatus(){ var b=R.el && R.el.querySelector("#w-badge"); if(b && R.item){ var n=annPages(R.item).length; b.textContent = n || ""; } }
+
+function setWriteMode(mode){
+  W.mode = mode; var d=R.el; if(!d) return;
+  d.classList.toggle("writing", !!mode);
+  d.classList.toggle("w-pen", mode==="pen");
+  d.classList.toggle("w-type", mode==="type");
+  d.querySelector("#r-wbar").hidden = !mode;
+  d.querySelector('[data-r="write"]').setAttribute("aria-pressed", mode ? "true" : "false");
+  d.querySelectorAll("[data-w]").forEach(function(b){ if (b.dataset.w==="type"||b.dataset.w==="pen") b.setAttribute("aria-pressed", b.dataset.w===mode ? "true" : "false"); });
+  d.querySelectorAll(".ann-t textarea").forEach(function(ta){ ta.readOnly = mode!=="type"; });
+  if (mode){ hideDict(); hideQuoteBtn(); try{ window.getSelection().removeAllRanges(); }catch(e){} }
+  var tip=d.querySelector("#w-tip");
+  if (tip) tip.textContent = mode==="pen" ? "Draw with your finger, stylus or mouse." : mode==="type" ? "Tap anywhere on the page to type your answer there." : "";
+}
+
+function renderAnn(cssW, cssH){
+  var L=annLayer(); if(!L || !R.item) return;
+  L.style.width=Math.floor(cssW)+"px"; L.style.height=Math.floor(cssH)+"px";
+  L.dataset.w=cssW; L.dataset.h=cssH;
+  var pg=annPage(), H=Math.round(1000*cssH/cssW);
+  var svgEl=L.querySelector("#r-ink"); svgEl.setAttribute("viewBox","0 0 1000 "+H);
+  svgEl.innerHTML = pg.s.map(function(st){ return '<path d="'+pathD(st.pts,H)+'" stroke="'+esc(st.c)+'" stroke-width="'+(st.w||2.6)+'"/>'; }).join("");
+  L.querySelectorAll(".ann-t").forEach(function(e){ e.remove(); });
+  pg.t.forEach(function(b){ L.appendChild(textBox(b, cssW)); });
+}
+function pathD(pts,H){ return pts.map(function(p,i){ return (i?"L":"M")+(p[0]*1000).toFixed(1)+" "+(p[1]*H).toFixed(1); }).join(""); }
+function fontPx(cssW){ return Math.max(9, cssW*0.0185); }
+function textBox(b, cssW){
+  var e=document.createElement("div"); e.className="ann-t"; e.dataset.id=b.id;
+  e.style.left=(b.x*100)+"%"; e.style.top=(b.y*100)+"%"; e.style.width=(b.w*100)+"%"; e.style.fontSize=fontPx(cssW)+"px"; e.style.color=b.c||"#1D3F9A";
+  e.innerHTML='<span class="ann-grip" title="Move">⠿</span><textarea dir="auto" rows="1" spellcheck="false" aria-label="Your answer"></textarea><button class="ann-x" title="Delete" aria-label="Delete this answer">×</button>';
+  var ta=e.querySelector("textarea"); ta.value=b.text||""; ta.readOnly = W.mode!=="type";
+  setTimeout(function(){ grow(ta); },0);
+  ta.addEventListener("input", function(){ grow(ta); queueBoxSave(e); });
+  ta.addEventListener("blur", function(){ saveBox(e); if (!ta.value.trim()) { removeBox(e.dataset.id); e.remove(); } });
+  e.querySelector(".ann-x").addEventListener("click", function(ev){ ev.stopPropagation(); removeBox(e.dataset.id); e.remove(); });
+  var grip=e.querySelector(".ann-grip");
+  grip.addEventListener("pointerdown", function(ev){
+    if (W.mode!=="type") return; ev.preventDefault(); ev.stopPropagation(); grip.setPointerCapture(ev.pointerId);
+    var L=annLayer(), r=L.getBoundingClientRect(), ox=ev.clientX, oy=ev.clientY, bx=parseFloat(e.style.left), by=parseFloat(e.style.top);
+    function mv(m){ e.style.left=Math.max(0,Math.min(96, bx+(m.clientX-ox)/r.width*100))+"%"; e.style.top=Math.max(0,Math.min(98, by+(m.clientY-oy)/r.height*100))+"%"; }
+    function up(){ grip.removeEventListener("pointermove",mv); grip.removeEventListener("pointerup",up); saveBox(e); }
+    grip.addEventListener("pointermove",mv); grip.addEventListener("pointerup",up);
+  });
+  return e;
+}
+function grow(ta){ ta.style.height="auto"; ta.style.height=ta.scrollHeight+"px"; }
+function queueBoxSave(e){ clearTimeout(W.saveT); W.saveT=setTimeout(function(){ saveBox(e); }, 350); }
+function saveBox(e){
+  if (!R.item) return; var pg=annPage(), id=e.dataset.id, ta=e.querySelector("textarea");
+  var b=pg.t.find(function(x){ return x.id===id; });
+  if (!b){ b={id:id, ts:Date.now()}; pg.t.push(b); }
+  b.x=parseFloat(e.style.left)/100; b.y=parseFloat(e.style.top)/100; b.w=parseFloat(e.style.width)/100; b.text=ta.value; b.c=e.style.color||"#1D3F9A";
+  putAnnPage(pg);
+}
+function removeBox(id){ var pg=annPage(); pg.t=pg.t.filter(function(x){ return x.id!==id; }); putAnnPage(pg); }
+function flushAnn(){ if (W.saveT){ clearTimeout(W.saveT); W.saveT=null; } var L=annLayer(); if(L) L.querySelectorAll(".ann-t").forEach(function(e){ if (e.querySelector("textarea").value.trim()) saveBox(e); }); }
+
+function annClick(ev){
+  if (W.mode!=="type" || ev.target.closest(".ann-t")) return;
+  var L=annLayer(), r=L.getBoundingClientRect();
+  var x=(ev.clientX-r.left)/r.width, y=(ev.clientY-r.top)/r.height;
+  if (x<0||y<0||x>1||y>1) return;
+  var b={id:"t"+Date.now().toString(36), x:Math.min(x,0.9), y:Math.max(0,y-0.008), w:Math.max(0.12, Math.min(0.5, 0.97-x)), text:"", c:W.color, ts:Date.now()};
+  var e=textBox(b, parseFloat(L.dataset.w)); L.appendChild(e); e.querySelector("textarea").focus();
+}
+function inkDown(ev){
+  if (W.mode!=="pen") return; ev.preventDefault();
+  var svgEl=annLayer().querySelector("#r-ink"), r=svgEl.getBoundingClientRect(), H=parseFloat(svgEl.getAttribute("viewBox").split(" ")[3]);
+  svgEl.setPointerCapture(ev.pointerId);
+  var p=document.createElementNS("http://www.w3.org/2000/svg","path"); p.setAttribute("stroke",W.color); p.setAttribute("stroke-width","2.6"); svgEl.appendChild(p);
+  W.drawing={pts:[[(ev.clientX-r.left)/r.width,(ev.clientY-r.top)/r.height]], el:p, r:r, H:H};
+}
+function inkMove(ev){ var d=W.drawing; if(!d) return; ev.preventDefault();
+  var x=(ev.clientX-d.r.left)/d.r.width, y=(ev.clientY-d.r.top)/d.r.height, last=d.pts[d.pts.length-1];
+  if (Math.abs(x-last[0])+Math.abs(y-last[1]) < 0.002) return;
+  d.pts.push([+x.toFixed(4),+y.toFixed(4)]); d.el.setAttribute("d", pathD(d.pts,d.H)); }
+function inkUp(){ var d=W.drawing; W.drawing=null; if(!d) return;
+  if (d.pts.length<2) d.pts.push([d.pts[0][0]+0.001,d.pts[0][1]+0.001]);
+  var pg=annPage(); pg.s.push({c:W.color, w:2.6, pts:d.pts, ts:Date.now()}); putAnnPage(pg); }
+function annUndo(){
+  flushAnn(); var pg=annPage(), lt=0, kind=null, idx=-1;
+  pg.s.forEach(function(s,i){ if((s.ts||0)>=lt){ lt=s.ts||0; kind="s"; idx=i; } });
+  pg.t.forEach(function(t,i){ if((t.ts||0)>=lt){ lt=t.ts||0; kind="t"; idx=i; } });
+  if (!kind) return; pg[kind].splice(idx,1); putAnnPage(pg); redrawAnn();
+}
+function annClear(btn){
+  if (btn.dataset.armed!=="1"){ btn.dataset.armed="1"; var back=btn.innerHTML; btn.textContent="Tap again to clear this page"; setTimeout(function(){ btn.dataset.armed=""; btn.innerHTML=back; }, 3000); return; }
+  btn.dataset.armed=""; var o=getAnn(R.item); delete o[R.page]; setAnn(R.item,o); annStatus(); redrawAnn(); btn.innerHTML=btn.dataset.label;
+}
+function redrawAnn(){ var L=annLayer(); if(L && L.dataset.w) renderAnn(parseFloat(L.dataset.w), parseFloat(L.dataset.h)); }
+
+/* ----- Save my booklet: the PDF with the student's answers written in ----- */
+var PDFLIB_P=null;
+function loadPdfLib(){ if(!PDFLIB_P) PDFLIB_P=loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"); return PDFLIB_P; }
+function wrapLines(ctx, text, maxW){
+  var out=[]; String(text).split("\n").forEach(function(par){
+    var words=par.split(/(\s+)/), line="";
+    words.forEach(function(w){ var test=line+w; if (ctx.measureText(test).width>maxW && line.trim()){ out.push(line.trimEnd()); line=w.trimStart(); } else line=test; });
+    out.push(line);
+  }); return out;
+}
+async function exportBooklet(btn){
+  if (!R.item || !R.pdf) return; flushAnn();
+  var ann=getAnn(R.item), pages=annPages(R.item), back=btn.innerHTML;
+  if (!pages.length){ btn.textContent="Write something first"; setTimeout(function(){ btn.innerHTML=back; },2000); return; }
+  btn.disabled=true; btn.textContent="Preparing…";
+  try {
+    await loadPdfLib(); var PL=window.PDFLib;
+    var bytes=await (await fetch(pdfUrlOf(R.item))).arrayBuffer();
+    var src=await PL.PDFDocument.load(bytes), out=await PL.PDFDocument.create();
+    var n=src.getPageCount(), all=[]; for (var q=0;q<n;q++) all.push(q);
+    var copied=await out.copyPages(src, all);
+    for (var i=1;i<=n;i++){
+      if (!ann[i]) { out.addPage(copied[i-1]); continue; }
+      btn.textContent="Preparing… page "+i;
+      var page=await R.pdf.getPage(i), vp1=page.getViewport({scale:1}), sc=2, vp=page.getViewport({scale:sc});
+      var cv=document.createElement("canvas"); cv.width=Math.floor(vp.width); cv.height=Math.floor(vp.height);
+      var ctx=cv.getContext("2d"); ctx.fillStyle="#fff"; ctx.fillRect(0,0,cv.width,cv.height);
+      await page.render({canvasContext:ctx, viewport:vp}).promise;
+      var Wd=cv.width, Hd=cv.height, pg=ann[i];
+      (pg.s||[]).forEach(function(s){ ctx.strokeStyle=s.c; ctx.lineWidth=(s.w||2.6)/1000*Wd; ctx.lineCap="round"; ctx.lineJoin="round"; ctx.beginPath();
+        s.pts.forEach(function(p,k){ var x=p[0]*Wd, y=p[1]*Hd; if(k) ctx.lineTo(x,y); else ctx.moveTo(x,y); }); ctx.stroke(); });
+      (pg.t||[]).forEach(function(b){
+        var fs=fontPx(Wd), pad=fs*0.25, bw=b.w*Wd;
+        ctx.font=fs+"px Manrope, 'Segoe UI', Arial, sans-serif"; ctx.fillStyle=b.c||"#1D3F9A"; ctx.textBaseline="top";
+        var lines=wrapLines(ctx, b.text, bw-pad*2), lh=fs*1.35;
+        lines.forEach(function(l,k){ var rtl=/[֐-ࣿ]/.test(l) && !/^[\s\x00-\x7F]*[A-Za-z]/.test(l);
+          ctx.direction = rtl ? "rtl" : "ltr"; ctx.textAlign = rtl ? "right" : "left";
+          ctx.fillText(l, rtl ? b.x*Wd+bw-pad : b.x*Wd+pad, b.y*Hd+pad+k*lh); });
+      });
+      var jpg=await new Promise(function(res){ cv.toBlob(res,"image/jpeg",0.88); });
+      var img=await out.embedJpg(await jpg.arrayBuffer());
+      var np=out.addPage([vp1.width, vp1.height]); np.drawImage(img,{x:0,y:0,width:vp1.width,height:vp1.height});
+    }
+    var outBytes=await out.save();
+    var name="My booklet - "+String(R.item.title).replace(/[\\\/:*?"<>|]+/g,"").slice(0,80)+".pdf";
+    await saveBlob(new Blob([outBytes],{type:"application/pdf"}), name);
+    btn.textContent="Saved ✓";
+  } catch(e){ btn.textContent="Could not create the PDF"; }
+  setTimeout(function(){ btn.disabled=false; btn.innerHTML=back; }, 2500);
+}
+
+function pdfUrlOf(m){ return pdfUrl(m); }
+
 function readerEl(){
   if (R.el) return R.el;
   var d = document.createElement("div"); d.className="reader"; d.hidden=true; d.setAttribute("role","dialog"); d.setAttribute("aria-modal","true"); d.setAttribute("aria-label","PDF reader");
@@ -1667,9 +1855,10 @@ function readerEl(){
    + '<button class="btn btn-ghost btn-sm" data-r="fit">Fit width</button>'
    + '<button class="btn btn-ghost btn-sm" data-r="dict">'+svg(RI.books,15)+'Dictionary</button>'
    + '<button class="btn btn-sm rn-btn" data-r="notes">'+svg('<path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/>',15)+'My notes<span class="rn-badge" id="rn-badge"></span></button>'
+   + '<button class="btn btn-sm w-btn" data-r="write" aria-pressed="false">'+svg('<path d="M3 21l3.5-1 11-11-2.5-2.5-11 11z"/><path d="M14 5.5l2.5 2.5M3 21h18"/>',15)+'Write on the page<span class="rn-badge" id="w-badge"></span></button>'
    + '<button class="btn btn-gold btn-sm" data-r="dl" id="r-dl">Download</button></div></div>'
    + '<div class="r-stage" id="r-stage"><div class="r-tip" id="r-tip">'+svg(RI.books,14)+'<span>Select a word (double-click, or press and hold on a phone) to look it up.</span></div>'
-   + '<div class="r-pagebox" id="r-pagebox"><canvas id="r-canvas"></canvas><div class="textLayer" id="r-text"></div></div><div class="r-msg" id="r-msg" hidden></div></div>'
+   + '<div class="r-pagebox" id="r-pagebox"><canvas id="r-canvas"></canvas><div class="textLayer" id="r-text"></div><div class="ann" id="r-ann"><svg id="r-ink" viewBox="0 0 1000 1414"></svg></div></div><div class="r-msg" id="r-msg" hidden></div></div>'
    + '<div class="r-dict" id="r-dict" hidden role="dialog" aria-label="Dictionary"></div>'
    + '<button class="r-quote" id="r-quote" data-r="quote" hidden>'+svg('<path d="M12 5v14M5 12h14"/>',14)+'Add to my notes</button>'
    + '<aside class="r-notes" id="r-notes" hidden aria-label="My notes"><div class="rn-hd"><div><b>My notes</b><small>Private · saved only on this device</small></div><button class="r-ib" data-r="notes-close" aria-label="Close notes">×</button></div>'
@@ -1680,7 +1869,18 @@ function readerEl(){
    + '<button class="btn btn-ghost btn-sm" data-r="rn-txt">Text file</button>'
    + '<button class="btn btn-ghost btn-sm" data-r="rn-share">'+svg('<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>',14)+'Share / send</button>'
    + '<label class="btn btn-ghost btn-sm rn-open">'+svg('<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',14)+'Open saved notes<input type="file" id="rn-file" accept=".txt,text/plain" hidden></label>'
-   + '</div><small>Your notes are also kept automatically in this browser. Save a file to keep them safe, move them to another device, or send them to yourself.</small></div></aside>';
+   + '</div><small>Your notes are also kept automatically in this browser. Save a file to keep them safe, move them to another device, or send them to yourself.</small></div></aside>'
+   + '<div class="r-wbar" id="r-wbar" hidden role="toolbar" aria-label="Writing tools">'
+   + '<button class="btn btn-ghost btn-sm" data-w="type" aria-pressed="true">'+svg('<path d="M4 7V5h16v2M9 19h6M12 5v14"/>',14)+'Type</button>'
+   + '<button class="btn btn-ghost btn-sm" data-w="pen" aria-pressed="false">'+svg('<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>',14)+'Pen</button>'
+   + '<button class="w-col" data-w="col" data-c="#1D3F9A" style="background:#1D3F9A" aria-label="Blue" aria-pressed="true"></button>'
+   + '<button class="w-col" data-w="col" data-c="#C0392B" style="background:#C0392B" aria-label="Red" aria-pressed="false"></button>'
+   + '<button class="w-col" data-w="col" data-c="#1B1B1B" style="background:#1B1B1B" aria-label="Black" aria-pressed="false"></button>'
+   + '<button class="btn btn-ghost btn-sm" data-w="undo">↶ Undo</button>'
+   + '<button class="btn btn-ghost btn-sm" data-w="clear" data-label="Clear page">Clear page</button>'
+   + '<button class="btn btn-gold btn-sm" data-w="export">'+svg('<path d="M12 3v12M7 10l5 5 5-5M5 21h14"/>',14)+'Save my booklet (PDF)</button>'
+   + '<button class="btn btn-primary btn-sm" data-w="done">✓ Done</button>'
+   + '<div class="w-tip" id="w-tip"></div></div>';
   document.body.appendChild(d); R.el = d;
   d.addEventListener("click", function(ev){
     var b = ev.target.closest("[data-r]"); if(!b) return;
@@ -1695,6 +1895,7 @@ function readerEl(){
     else if (k==="dict") showDict("", null, true);
     else if (k==="notes") { var np=notesPanel(); if (np.hidden) openNotes(); else closeNotes(); }
     else if (k==="notes-close") closeNotes();
+    else if (k==="write") { if (W.mode) { flushAnn(); setWriteMode(null); } else setWriteMode("type"); }
     else if (k==="rn-go") goPage(parseInt(b.dataset.p,10));
     else if (k==="rn-del") { var o=getNotes(R.item); delete o[b.dataset.p]; setNotes(R.item,o); if (+b.dataset.p===R.page) fillNoteBox(); renderNoteList(); }
     else if (k==="rn-word") exportNotes("word", b);
@@ -1702,6 +1903,19 @@ function readerEl(){
     else if (k==="rn-share") exportNotes("share", b);
     else if (k==="quote") { var qt=R.quote; hideQuoteBtn(); try{ window.getSelection().removeAllRanges(); }catch(e){} addQuoteToNotes(qt); }
   });
+  d.querySelector("#r-wbar").addEventListener("click", function(ev){
+    var b=ev.target.closest("[data-w]"); if(!b) return; var w=b.dataset.w;
+    if (w==="type"||w==="pen") { flushAnn(); setWriteMode(w); }
+    else if (w==="col") { W.color=b.dataset.c; d.querySelectorAll(".w-col").forEach(function(c){ c.setAttribute("aria-pressed", c===b ? "true" : "false"); }); }
+    else if (w==="undo") annUndo();
+    else if (w==="clear") annClear(b);
+    else if (w==="export") exportBooklet(b);
+    else if (w==="done") { flushAnn(); setWriteMode(null); }
+  });
+  var annL=d.querySelector("#r-ann"), ink=d.querySelector("#r-ink");
+  annL.addEventListener("click", annClick);
+  ink.addEventListener("pointerdown", inkDown); ink.addEventListener("pointermove", inkMove);
+  ink.addEventListener("pointerup", inkUp); ink.addEventListener("pointercancel", inkUp);
   d.querySelector("#rn-file").addEventListener("change", function(ev){ var f=ev.target.files && ev.target.files[0]; importNotes(f); ev.target.value=""; });
   d.querySelector("#rn-text").addEventListener("input", function(){ clearTimeout(rnT); d.querySelector("#rn-saved").textContent="Saving…"; rnT=setTimeout(saveNoteBox, 400); });
   d.querySelector("#r-page").addEventListener("change", function(ev){ goPage(parseInt(ev.target.value,10)||1); });
@@ -1715,14 +1929,14 @@ function openReader(m, startPage){
   var d = readerEl(); R.item=m; R.page=startPage || parseInt(lsGet("wm-p-"+m.assetId)||"1",10) || 1; R.zoom="fit"; lsSet("wm-last", m.id);
   d.querySelector("#r-t").textContent = m.title; d.querySelector("#r-c").textContent = catOf(m.cat).one+" · "+m.course;
   d.querySelector("#r-n").textContent = "–"; d.querySelector("#r-dl").hidden = !cap.downloads;
-  d.hidden=false; document.body.style.overflow="hidden"; rMsg("Opening…","Loading the document."); closeNotes(); hideQuoteBtn(); notesBadge();
+  d.hidden=false; document.body.style.overflow="hidden"; rMsg("Opening…","Loading the document."); closeNotes(); hideQuoteBtn(); notesBadge(); setWriteMode(null); annStatus();
   d.querySelector('[data-r="close"]').focus();
   if (R.task) { try{ R.task.destroy(); }catch(e){} }
   loadPdfjs().then(function(){ R.task = window.pdfjsLib.getDocument({url:pdfUrl(m), disableRange:true, disableStream:true}); return R.task.promise; })
    .then(function(pdf){ if (R.item!==m) return; R.pdf=pdf; d.querySelector("#r-n").textContent=pdf.numPages; d.querySelector("#r-page").max=pdf.numPages; if (R.page>pdf.numPages) R.page=1; rMsg(null); drawPage(); if (R.wantNotes){ R.wantNotes=false; setTimeout(openNotes, 300); } else if (!lsGet("wm-notes-tip")){ lsSet("wm-notes-tip","1"); setTimeout(function(){ var nb=R.el.querySelector('[data-r="notes"]'); if(nb){ nb.classList.add("pulse"); setTimeout(function(){ nb.classList.remove("pulse"); }, 4200); } }, 900); } })
    .catch(function(){ if (R.item===m) rMsg("This PDF could not be opened","Check your internet connection and try again. If it still does not open, tell your instructor."); });
 }
-function goPage(n){ if(!R.pdf) return; n=Math.max(1,Math.min(R.pdf.numPages,n)); if(n===R.page) { R.el.querySelector("#r-page").value=n; return; } if (rnT){ clearTimeout(rnT); rnT=null; saveNoteBox(); } R.page=n; drawPage(); R.el.querySelector("#r-stage").scrollTop=0; }
+function goPage(n){ if(!R.pdf) return; n=Math.max(1,Math.min(R.pdf.numPages,n)); if(n===R.page) { R.el.querySelector("#r-page").value=n; return; } if (rnT){ clearTimeout(rnT); rnT=null; saveNoteBox(); } flushAnn(); R.page=n; drawPage(); R.el.querySelector("#r-stage").scrollTop=0; }
 var rRender=null;
 function drawPage(){
   if (!R.pdf) return;
@@ -1741,6 +1955,7 @@ function drawPage(){
     var tl=R.el.querySelector("#r-text"), cssVp=page.getViewport({scale:R.scale});
     tl.innerHTML=""; tl.style.width=Math.floor(cssVp.width)+"px"; tl.style.height=Math.floor(cssVp.height)+"px";
     tl.style.setProperty("--scale-factor", R.scale);
+    renderAnn(cssVp.width, cssVp.height);
     try { var tt = window.pdfjsLib.renderTextLayer({textContentSource:page.streamTextContent(), container:tl, viewport:cssVp, textDivs:[]});
       if (tt && tt.promise) tt.promise.then(function(){ var e=document.createElement("div"); e.className="endOfContent"; tl.appendChild(e); }).catch(function(){}); } catch(e){}
     hideDict();
@@ -1786,7 +2001,7 @@ function showDict(word, rect, focus){
 function hideDict(){ if(R.el){ var b=R.el.querySelector("#r-dict"); if(b) b.hidden=true; } }
 var dictT=null;
 function checkSelection(){
-  if (!R.el || R.el.hidden) return;
+  if (!R.el || R.el.hidden || W.mode) return;
   var sel=window.getSelection(); if (!sel || sel.isCollapsed || !sel.rangeCount) return;
   var tl=R.el.querySelector("#r-text"); if (!tl.contains(sel.anchorNode)) return;
   var raw=sel.toString().replace(/\s+/g," ").trim();
@@ -1799,7 +2014,7 @@ document.addEventListener("selectionchange", function(){ clearTimeout(dictT); di
 document.addEventListener("selectionchange", function(){ var s=window.getSelection(); if (s && s.isCollapsed) setTimeout(function(){ var s2=window.getSelection(); if (s2 && s2.isCollapsed) hideQuoteBtn(); }, 250); });
 document.addEventListener("mousedown", function(ev){ if (R.el && !R.el.hidden && !ev.target.closest("#r-dict") && !ev.target.closest('[data-r="dict"]') && !ev.target.closest("#r-text")) hideDict(); });
 
-function closeReader(){ if(!R.el) return; if (rnT){ clearTimeout(rnT); rnT=null; saveNoteBox(); } closeNotes(); hideQuoteBtn(); hideDict(); R.el.hidden=true; document.body.style.overflow=""; R.item=null; if(R.pdf){ try{R.pdf.destroy();}catch(e){} R.pdf=null; } render(); }
+function closeReader(){ if(!R.el) return; if (rnT){ clearTimeout(rnT); rnT=null; saveNoteBox(); } flushAnn(); setWriteMode(null); closeNotes(); hideQuoteBtn(); hideDict(); R.el.hidden=true; document.body.style.overflow=""; R.item=null; if(R.pdf){ try{R.pdf.destroy();}catch(e){} R.pdf=null; } render(); }
 document.addEventListener("keydown", function(ev){
   if (!R.el || R.el.hidden || ev.target.id==="r-page") return;
   if (ev.target.closest && ev.target.closest("#r-dict")) { if (ev.key==="Escape") hideDict(); return; }
