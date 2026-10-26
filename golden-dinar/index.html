@@ -642,6 +642,71 @@ html body.only-en:not(.peek) .beystage .beybub.big .ar,html body.only-ar:not(.pe
 @keyframes grrise{0%{transform:translateY(70vh) scale(.6);opacity:0}70%{transform:translateY(-14px) scale(1.05);opacity:1}100%{transform:none}}
 @media (prefers-reduced-motion:reduce){.grover *{animation:none!important}.grstage{transform:none!important;opacity:1!important}.fwb{display:none}}
 .photo.plate .cap{padding:4px 9px 5px;max-width:78%}.photo.plate .cap .tag{display:none}.photo.plate .cap .en{font-size:.74rem}.photo.plate .cap .ar{font-size:.78rem}
+/* Engagement: day chip, stars, goals, Museum, card reveal, chest */
+.daychip{display:inline-flex;align-items:center;gap:3px;height:40px;padding:0 11px 0 8px;border-radius:999px;border:1.5px solid rgba(224,172,69,.45);background:rgba(7,21,42,.55);color:#9aa6b8;font:800 1rem/1 var(--body,system-ui);cursor:pointer}
+.daychip svg{width:20px;height:20px}
+.daychip.lit{color:#ff9d3a;border-color:#ff9d3a;box-shadow:0 0 12px rgba(255,157,58,.35)}
+.daychip.lit svg{animation:flk 1.2s ease-in-out infinite alternate}
+.daychip.risk{color:#ffcf8a;border-style:dashed;animation:riskp 1.6s ease-in-out infinite}
+@keyframes riskp{50%{box-shadow:0 0 0 4px rgba(255,157,58,.18)}}
+.stars{display:inline-flex;gap:2px;vertical-align:middle}.stars i{display:inline-block;width:15px;height:15px}.stars svg{width:100%;height:100%;fill:rgba(255,255,255,.14);stroke:rgba(224,172,69,.55);stroke-width:1.2}
+.stars i.on svg{fill:#f6d27a;stroke:#9a6a1c;filter:drop-shadow(0 0 3px rgba(246,210,122,.7))}
+.tstars{display:block;margin-top:4px}
+.rstars{display:flex;justify-content:center;margin:2px 0 6px}.stars.big i{width:46px;height:46px;margin:0 3px}
+.stars.big i.on{animation:starpop .55s cubic-bezier(.3,1.8,.5,1) both}
+@keyframes starpop{from{transform:scale(0) rotate(-40deg)}to{transform:none}}
+.goals{text-align:start;margin:12px auto 6px;max-width:520px;padding:12px 14px;border-radius:12px;background:rgba(7,21,42,.45);border:1px solid rgba(224,172,69,.35)}
+.goals h4{margin:0 0 8px;font-family:var(--display);color:var(--gold-hi,#f6d27a);font-size:1rem}
+.goal{display:flex;flex-direction:column;gap:5px;margin:0 0 10px;font-size:.88rem;line-height:1.4}.goal:last-child{margin-bottom:0}
+.gbar{height:7px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}.gbar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#e0ac45,#f6d27a)}
+.museum{display:flex;align-items:center;gap:12px;width:100%;margin:12px 0 0;padding:12px 14px;border-radius:14px;border:1.5px solid #e0ac45;background:linear-gradient(120deg,#3a0f2a,#14325a);color:var(--sand,#fbf5e6);cursor:pointer;text-align:start;font:inherit}
+.museum .mfan{position:relative;width:54px;height:44px;flex:none}.museum .mfan i{position:absolute;bottom:0;left:16px;width:24px;height:34px;border-radius:4px;border:1.5px solid #f6d27a;background:linear-gradient(160deg,#f2c75c,#8a5c12);transform-origin:50% 100%}
+.museum .mfan i:nth-child(1){transform:rotate(-20deg);background:linear-gradient(160deg,#c98a4a,#6f3f17)}.museum .mfan i:nth-child(2){transform:rotate(0);background:linear-gradient(160deg,#cfe4ff,#5a7aa8)}.museum .mfan i:nth-child(3){transform:rotate(20deg)}
+.museum .mt{flex:1;display:flex;flex-direction:column;gap:4px}.museum .mt .gbar{max-width:260px}
+.museum .mgo{font-weight:800;color:#f6d27a}
+.streakwarn{display:flex;align-items:center;gap:8px;margin:10px 0 0;padding:9px 12px;border-radius:12px;background:rgba(255,157,58,.12);border:1px dashed #ff9d3a;color:#ffd7a8;font-size:.9rem}.streakwarn svg{color:#ff9d3a;flex:none}
+/* card faces */
+.gcard{position:relative;display:flex;flex-direction:column;width:100%;border-radius:12px;overflow:hidden;background:linear-gradient(170deg,#14325a,#081a33);border:3px solid var(--rc,#c98a4a);box-shadow:0 6px 18px rgba(0,0,0,.45);text-align:center}
+.gcard.r-c{--rc:#c98a4a}.gcard.r-r{--rc:#8fc3ff}.gcard.r-g{--rc:#f6d27a;box-shadow:0 0 18px rgba(246,210,122,.55),0 6px 18px rgba(0,0,0,.45)}
+.gcard.r-g::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,rgba(255,244,200,.35) 50%,transparent 65%);background-size:250% 100%;animation:gshine 2.8s linear infinite;pointer-events:none}
+@keyframes gshine{from{background-position:120% 0}to{background-position:-120% 0}}
+.gc-img .photo{aspect-ratio:4/3!important;border-radius:0}.gc-img .photo::after{display:none}
+.gc-rar{position:absolute;top:8px;right:8px;z-index:4;padding:2px 8px;border-radius:999px;font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;background:var(--rc);color:#1a1206}
+.gc-body{display:flex;flex-direction:column;gap:3px;padding:8px 8px 10px}.gc-body strong{font-family:var(--display);color:#fbf5e6;font-size:.86rem;line-height:1.25}
+.gcard.big .gc-body{padding:12px 14px 16px;gap:6px}.gcard.big .gc-body strong{font-size:1.25rem;color:#f6d27a}
+.gc-fact{margin:4px 0 0;font-size:.9rem;line-height:1.45;color:#e8dcc0}
+/* album */
+.apage{margin:16px 0 0;padding:12px;border-radius:14px;background:rgba(7,21,42,.4);border:1px solid rgba(224,172,69,.25)}.apage.full{border-color:#f6d27a;box-shadow:inset 0 0 0 1px rgba(246,210,122,.4)}
+.aph{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:0 0 10px}.aph strong{font-family:var(--display);color:#f6d27a}
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.aslot{padding:0;border:0;background:none;cursor:pointer;font:inherit;color:inherit}
+.aslot.miss{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:150px;border-radius:12px;border:2px dashed var(--rc,#c98a4a);background:repeating-linear-gradient(45deg,rgba(255,255,255,.03) 0 8px,transparent 8px 16px);color:var(--rc);opacity:.75}
+.aslot.miss.r-c{--rc:#c98a4a}.aslot.miss.r-r{--rc:#8fc3ff}.aslot.miss.r-g{--rc:#f6d27a}.aslot.miss .q{font:700 2.2rem var(--display)}
+/* card reveal */
+.cardov,.chestov{position:fixed;inset:0;z-index:95;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px;background:radial-gradient(ellipse at 50% 45%,rgba(30,50,110,.95),rgba(4,8,24,.97) 72%);opacity:0;transition:opacity .35s;overflow:hidden}
+.cardov.in,.chestov.in{opacity:1}
+.cvrays,.chrays{position:absolute;left:50%;top:45%;width:170vmax;height:170vmax;margin:-85vmax 0 0 -85vmax;background:repeating-conic-gradient(rgba(246,210,122,.12) 0 7deg,transparent 7deg 18deg);animation:hspin 26s linear infinite;pointer-events:none}
+.cvrays.r-r{background:repeating-conic-gradient(rgba(150,200,255,.14) 0 7deg,transparent 7deg 18deg)}.cvrays.r-c{background:repeating-conic-gradient(rgba(220,150,90,.12) 0 7deg,transparent 7deg 18deg)}
+.cv-top{position:relative;margin:0;font-family:var(--display);font-size:clamp(1.1rem,4.4vw,1.6rem);color:#f6d27a;text-align:center}
+.cv-sub{position:relative;margin:0;color:#fbf5e6;text-align:center}
+.cardov .row,.chestov .row{position:relative}
+.flip{position:relative;width:min(300px,78vw,52vh);aspect-ratio:3/4.3;perspective:1200px}
+.flip>div{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .8s cubic-bezier(.3,1.3,.5,1)}
+.fback{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border-radius:14px;border:3px solid #e0ac45;background:radial-gradient(circle,#1b3c6e,#081a33);box-shadow:0 10px 30px rgba(0,0,0,.6)}
+.fb-emb{width:42%;color:#f6d27a}.fb-emb .pun{width:100%;height:auto}.fb-t{font-family:var(--display);letter-spacing:.2em;color:#e0ac45;font-size:.8rem}
+.ffront{transform:rotateY(180deg)}.ffront .gcard{height:100%}.ffront .gc-img .photo{aspect-ratio:16/10!important}
+.flip.flipped .fback{transform:rotateY(-180deg)}.flip.flipped .ffront{transform:rotateY(0)}
+.flip:not(.flipped){animation:cardwob 1s ease-in-out infinite alternate}@keyframes cardwob{from{transform:rotate(-2deg) scale(.98)}to{transform:rotate(2deg) scale(1.02)}}
+/* chest */
+.chbox{position:relative;width:min(240px,62vw);cursor:pointer;animation:chshake 1.1s ease-in-out infinite}
+.chestov.open .chbox{animation:none;cursor:default}
+@keyframes chshake{0%,60%,100%{transform:rotate(0)}68%{transform:rotate(-6deg)}76%{transform:rotate(6deg)}84%{transform:rotate(-4deg)}92%{transform:rotate(3deg)}}
+.chest{width:100%;height:auto;overflow:visible;filter:drop-shadow(0 12px 20px rgba(0,0,0,.6))}
+.chest .lid{transform-box:fill-box;transform-origin:50% 100%;transition:transform .6s cubic-bezier(.3,1.6,.5,1)}
+.chestov.open .chest .lid{transform:translateY(-26px) rotate(-14deg)}
+.chestov.open .chbox::before{content:"";position:absolute;left:50%;top:44%;width:150%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,240,180,.95),rgba(246,210,122,.3) 40%,transparent 68%);animation:ttpulse 1.2s ease-in-out infinite alternate}
+.chmsg{position:relative;margin:0;max-width:30ch;text-align:center;color:#fbf5e6;font-size:1.05rem}
+@media (prefers-reduced-motion:reduce){.chbox,.flip,.cardov *,.chestov *{animation:none!important}.flip>div{transition:none!important}}
 /* Arabic version: no English vocabulary/grammar boxes */
 body.only-ar .learn{display:none!important}
 /* navigation */
@@ -2706,10 +2771,10 @@ function startTeacher(id,n){const c=ALL.find(x=>x.id===id);const pool=c.id==="mi
 
 /* ================= state ================= */
 const TIME_MC=25,TIME_ORDER=50;
-let S={coins:0,shown:0,medals:{},stats:{right:0,played:0,best:0},lang:"en",bank:{},recentTips:[],ach:{},daily:{},vib:true,name:"",klass:"",cur:null,ch:0,list:[],qi:0,score:0,streak:0,earned:0};
+let S={coins:0,shown:0,medals:{},stats:{right:0,played:0,best:0},lang:"en",bank:{},recentTips:[],ach:{},daily:{},cards:{},stars:{},days:{},pages:{},vib:true,name:"",klass:"",cur:null,ch:0,list:[],qi:0,score:0,streak:0,earned:0};
 let timerRAF=null;
-function load(){try{const d=JSON.parse(localStorage.getItem("golden-dinar")||"{}");S.coins=d.coins||0;S.medals=d.medals||{};S.stats=Object.assign(S.stats,d.stats||{});S.lang=d.lang||"en";S.bank=d.bank||{};S.ach=d.ach||{};S.daily=d.daily||{};S.vib=d.vib!==false;S.name=d.name||"";S.klass=d.klass||"";SND.on=d.sound!==false;MUS.on=d.music!==false;S.seen=d.seen||{};S.bey=d.bey!==false}catch(e){}S.shown=S.coins}
-function save(){try{localStorage.setItem("golden-dinar",JSON.stringify({coins:S.coins,medals:S.medals,stats:S.stats,lang:S.lang,bank:S.bank,ach:S.ach,daily:S.daily,vib:S.vib,name:S.name,klass:S.klass,sound:SND.on,music:MUS.on,seen:S.seen,bey:S.bey}))}catch(e){}}
+function load(){try{const d=JSON.parse(localStorage.getItem("golden-dinar")||"{}");S.coins=d.coins||0;S.medals=d.medals||{};S.stats=Object.assign(S.stats,d.stats||{});S.lang=d.lang||"en";S.bank=d.bank||{};S.ach=d.ach||{};S.daily=d.daily||{};S.vib=d.vib!==false;S.name=d.name||"";S.klass=d.klass||"";SND.on=d.sound!==false;MUS.on=d.music!==false;S.seen=d.seen||{};S.bey=d.bey!==false;S.cards=d.cards||{};S.stars=d.stars||{};S.days=d.days||{};S.pages=d.pages||{}}catch(e){}S.shown=S.coins}
+function save(){try{localStorage.setItem("golden-dinar",JSON.stringify({coins:S.coins,medals:S.medals,stats:S.stats,lang:S.lang,bank:S.bank,ach:S.ach,daily:S.daily,vib:S.vib,name:S.name,klass:S.klass,sound:SND.on,music:MUS.on,seen:S.seen,bey:S.bey,cards:S.cards,stars:S.stars,days:S.days,pages:S.pages}))}catch(e){}}
 
 const app=document.getElementById("app");
 const medalOf=(s,n)=>s===n?"gold":s>=n-2?"silver":s>=Math.ceil(n/3)?"bronze":null;
@@ -2725,14 +2790,14 @@ const SPK_OFF=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 function applyLang(){document.body.classList.toggle("only-en",S.lang==="en");document.body.classList.toggle("only-ar",S.lang==="ar");app.dir=S.lang==="ar"?"rtl":"ltr";document.documentElement.lang=S.lang==="ar"?"ar":"en"}
 const GEAR=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg>`;
 function header(){return `<header class="top"><div class="brand" id="home" role="button" tabindex="0" aria-label="First page"><h1>The Golden Dinar</h1><span class="ruq">الدينار الذهبي</span></div>
- <div class="ctrl"><div class="purse" id="purse" aria-label="Gold dinars">${COIN}<span id="coins">${S.shown}</span></div>
+ <div class="ctrl">${dayChip()}<div class="purse" id="purse" aria-label="Gold dinars">${COIN}<span id="coins">${S.shown}</span></div>
  <button class="iconbtn" id="gear" aria-label="Settings" title="Settings">${GEAR}</button></div></header><div class="mosaic"></div>`}
 function wireHeader(){const h=document.getElementById("home");if(h){h.onclick=()=>leave(goHome,"home");h.onkeydown=e=>{if(e.key==="Enter")leave(goHome,"home")}}
- const g=document.getElementById("gear");if(g)g.onclick=()=>{sfx.click();openSettings()}}
+ const g=document.getElementById("gear");if(g)g.onclick=()=>{sfx.click();openSettings()};const dc=document.getElementById("daychip");if(dc)dc.onclick=()=>{sfx.click();dayInfo()}}
 function stopTimer(){if(timerRAF)cancelAnimationFrame(timerRAF);timerRAF=null}
 function nav(fn){if(reduce()){fn();window.scrollTo(0,0);return}app.classList.add("leaving");setTimeout(()=>{fn();app.classList.remove("leaving");window.scrollTo({top:0,behavior:"smooth"})},230)}
 function popQuestState(){try{if(history.state&&history.state.gd){S.skipPop=true;history.back()}}catch(e){}}
-function goMap(){stopTimer();beyAway();{const o=document.getElementById("welcomeOv");if(o&&!o.classList.contains("out"))o.remove()}closeHannibal(true);closeTanit(true);closeGrand(true);closeSheet();popQuestState();nav(renderMap)}
+function goMap(){stopTimer();beyAway();{const o=document.getElementById("welcomeOv");if(o&&!o.classList.contains("out"))o.remove()}closeHannibal(true);closeTanit(true);closeGrand(true);closeChest();closeCard();closeSheet();popQuestState();nav(renderMap)}
 function goHome(){stopTimer();closeSheet();popQuestState();nav(renderSplash)}
 function leave(target,kind){if(S.screen!=="quiz"){target();return}openSheet(target,kind)}
 function openSheet(target,kind){if(document.querySelector(".sheet"))return;
@@ -2777,7 +2842,7 @@ function renderSplash(){
 
 /* ================= map ================= */
 function tile(c,i){const m=S.medals[c.id];const n=c.id==="mix"?CH.reduce((a,x)=>a+x.qs.length,0):c.qs.length;
- return `<button class="tile" data-i="${i}" style="animation-delay:${i*70}ms">${photoHTML(CH_PH[c.id][0],c.id,{cap:false,lazy:true,label:c.name})}<span class="meta"><span class="span">${c.span}</span><span class="name en">${c.name}</span>${c.nameAr?`<span class="name-ar ar" lang="ar">${c.nameAr}</span>`:""}<span class="medal"><span class="dot ${m||""}"></span>${m?bi(ML[m][0],ML[m][1]):(c.kind==="lang"?`${n} questions · 15 per round`:bi(`${n} questions · 15 per round`,`${n} سؤالًا · 15 في كل جولة`))}</span></span></button>`}
+ return `<button class="tile" data-i="${i}" style="animation-delay:${i*70}ms">${photoHTML(CH_PH[c.id][0],c.id,{cap:false,lazy:true,label:c.name})}<span class="meta"><span class="span">${c.span}</span><span class="name en">${c.name}</span>${c.nameAr?`<span class="name-ar ar" lang="ar">${c.nameAr}</span>`:""}<span class="medal"><span class="dot ${m||""}"></span>${m?bi(ML[m][0],ML[m][1]):(c.kind==="lang"?`${n} questions · 15 per round`:bi(`${n} questions · 15 per round`,`${n} سؤالًا · 15 في كل جولة`))}</span>${S.stars&&S.stars[c.id]?`<span class="tstars">${starsHTML(S.stars[c.id])}</span>`:""}</span></button>`}
 function credits(){const used=Object.values(P);
  return `<details class="credits"><summary>${bi("Photo credits","مصادر الصور")}</summary><ul>${used.map(p=>`<li><a href="${PAGE(p[0])}" target="_blank" rel="noopener">${p[1]}</a></li>`).join("")}</ul>
  <p>${bi("All photographs and paintings come from Wikimedia Commons. The author and licence of each are on its linked page.","جميع الصور واللوحات من ويكيميديا كومنز، واسم المؤلف والترخيص في الصفحة المرتبطة بكل صورة.")}</p></details>`}
@@ -3486,6 +3551,146 @@ function grandTrophy(kind,bonus){closeGrand(true);const A=kind==="astro";
  if(!A)grFireworks(el.querySelector(".grfx"),7);
  el.onclick=()=>closeGrand();grT=setTimeout(()=>closeGrand(),A?7600:9200)}
 function closeGrand(now){clearTimeout(grT);const el=document.querySelector(".grover");if(!el)return;try{musicLevel(el._restore||.22)}catch(e){}if(now){el.remove();return}el.classList.add("out");setTimeout(()=>el.remove(),500)}
+/* ================= Engagement: day streak, stars, Museum cards, mystery chests, goals, sharing ================= */
+const CARDS=[
+ ["elissa","carthage","c","dido","Elissa (Dido)","عليسة","A Phoenician princess from Tyre, the legendary founder of Carthage in 814 BCE.","أميرة فينيقية من صور، المؤسِّسة الأسطورية لقرطاج سنة 814 ق.م."],
+ ["ports","carthage","c","punicport","The Punic ports","الموانئ البونية","Carthage's circular war harbour could shelter more than 200 warships.","كان الميناء الحربي الدائري لقرطاج يتّسع لأكثر من 200 سفينة حربية."],
+ ["eljem","carthage","r","eljem","Amphitheatre of El Jem","قصر الجم","Built around 238 CE, it could hold about 35,000 spectators.","بُني نحو سنة 238 م، وكان يتّسع لقرابة 35 ألف متفرّج."],
+ ["hannibal","carthage","g","hannibal","Hannibal Barca","حنبعل برقة","He crossed the Alps with war elephants in 218 BCE and crushed Rome at Cannae in 216 BCE.","عبر جبال الألب بفيلة الحرب سنة 218 ق.م وهزم روما في كاناي سنة 216 ق.م."],
+ ["uqba","kairouan","c","kairouan","Great Mosque of Kairouan","جامع عقبة بن نافع","Founded by Uqba ibn Nafi in 670; its minaret is among the oldest standing in the world.","أسّسه عقبة بن نافع سنة 670، وصومعته من أقدم الصوامع القائمة في العالم."],
+ ["basins","kairouan","c","basins","Aghlabid Basins","فسقية الأغالبة","Huge 9th-century reservoirs that stored water for the city of Kairouan.","خزّانات ضخمة من القرن التاسع كانت تجمع الماء لمدينة القيروان."],
+ ["ribat","kairouan","r","ribat","Ribat of Monastir","رباط المنستير","A fortress begun in 796 to watch over the coast.","حصن بُدئ بناؤه سنة 796 لحراسة السواحل."],
+ ["bluequran","kairouan","g","bluequran2","The Blue Quran","المصحف الأزرق","Gold letters on blue-dyed parchment; famous pages are kept in Kairouan and Tunis.","حروف من ذهب على رقّ مصبوغ بالأزرق؛ تُحفظ أوراق شهيرة منه في القيروان وتونس."],
+ ["zitouna","hafsid","c","zitouna","Zitouna Mosque","جامع الزيتونة","Rebuilt in 864, its school became one of the oldest centres of learning in the Islamic world.","أعيد بناؤه سنة 864، وصارت مدرسته من أقدم مراكز العلم في العالم الإسلامي."],
+ ["attarine","hafsid","c","souk","Souk El Attarine","سوق العطّارين","The perfume-makers' market beside the Zitouna, laid out under the Hafsids.","سوق صانعي العطور بجوار الزيتونة، أُنشئ في العهد الحفصي."],
+ ["mahdia","hafsid","r","mahdia","Mahdia","المهدية","Founded in 916 as the Fatimid capital, later a stronghold of the Zirids.","أُسّست سنة 916 عاصمةً للفاطميين، ثم صارت معقلًا للزيريين."],
+ ["khaldun","hafsid","g","khaldun","Ibn Khaldun","ابن خلدون","Born in Tunis in 1332, he wrote the Muqaddimah, a founding work of sociology.","وُلد بتونس سنة 1332، وألّف «المقدّمة»، وهي من أسس علم الاجتماع."],
+ ["bardo","beys","c","throne","The Bardo Palace","قصر باردو","Seat of the Husainid beys of Tunis.","مقرّ البايات الحسينيين بتونس."],
+ ["chechia","beys","c","chechia","The chechia makers","صنّاع الشاشية","The red felt chechia was one of Tunis's great export crafts under the beys.","كانت الشاشية الحمراء من أهمّ الصناعات التونسية المصدَّرة في عهد البايات."],
+ ["ahmadbey","beys","r","ahmadbey","Ahmad Bey","أحمد باي","In 1846 he abolished slavery in Tunisia, before France (1848) and the USA (1865).","ألغى الرقّ في تونس سنة 1846، قبل فرنسا (1848) والولايات المتحدة (1865)."],
+ ["khayr","beys","g","khayr","Khayr al-Din","خير الدين","The reforming minister who founded Sadiki College in 1875.","الوزير المصلح الذي أسّس المدرسة الصادقية سنة 1875."],
+ ["babbhar","protectorate","c","babbhar","Bab Bhar","باب البحر","The 'Sea Gate' between the old medina and the new European city.","«باب البحر» بين المدينة العتيقة والمدينة الأوروبية الجديدة."],
+ ["theatre","protectorate","c","theatre","Municipal Theatre of Tunis","المسرح البلدي بتونس","Opened in 1902 on the new avenue of Tunis.","افتُتح سنة 1902 في الشارع الجديد بتونس."],
+ ["haddad","protectorate","r","haddad","Tahar Haddad","الطاهر الحداد","His 1930 book 'Our Women in Sharia and Society' called for women's rights.","دعا كتابه «امرأتنا في الشريعة والمجتمع» (1930) إلى حقوق المرأة."],
+ ["hached","protectorate","g","hachedbust","Farhat Hached","فرحات حشاد","Founder of the UGTT union in 1946, assassinated in 1952.","مؤسّس الاتحاد العام التونسي للشغل سنة 1946، اغتيل سنة 1952."],
+ ["avenue","republic","c","avenue","Avenue Habib Bourguiba","شارع الحبيب بورقيبة","The main avenue of Tunis, scene of the great protest of 14 January 2011.","الشارع الرئيسي بتونس، ومسرح المظاهرة الكبرى يوم 14 جانفي 2011."],
+ ["flag","republic","c","pl:flag","The flag of Tunisia","علم تونس","Adopted under the beys in the 1830s, it became the flag of the Republic.","اعتُمد في عهد البايات في ثلاثينيات القرن التاسع عشر، ثم صار علم الجمهورية."],
+ ["csp","republic","r","bourgwomen","Code of Personal Status","مجلة الأحوال الشخصية","Issued in 1956, it abolished polygamy and gave women new rights.","صدرت سنة 1956، فألغت تعدّد الزوجات ومنحت المرأة حقوقًا جديدة."],
+ ["bourguiba","republic","g","bourguiba","Habib Bourguiba","الحبيب بورقيبة","Leader of the independence movement and first president of Tunisia (1957).","زعيم الحركة الوطنية وأوّل رئيس للجمهورية التونسية (1957)."],
+ ["munis","books","c","pl:scroll","Al-Mu'nis","المؤنس","Ibn Abi Dinar's 17th-century chronicle of Ifriqiya and Tunis.","حولية ابن أبي دينار في أخبار إفريقية وتونس (القرن السابع عشر)."],
+ ["library","books","r","fatbinding","The library of Kairouan","مكتبة القيروان","The Great Mosque kept rare Qurans and bindings from the 9th to 11th centuries.","حفظ الجامع الكبير مصاحف وتجليدات نادرة من القرن التاسع إلى الحادي عشر."],
+ ["chebbi","books","g","chebbi","Abou el-Kacem Chebbi","أبو القاسم الشابي","The poet of 'Songs of Life'; his verses live on in the national anthem.","شاعر «أغاني الحياة»، وأبياته حيّة في النشيد الوطني."],
+ ["tertullian","figures","c","pl:cross","Tertullian","ترتليانوس","Born in Carthage around 155 CE, one of the first Christian authors in Latin.","وُلد بقرطاج نحو سنة 155 م، وكان من أوائل الكتّاب المسيحيين باللاتينية."],
+ ["thaalbi","figures","r","thaalbi","Abdelaziz Thaalbi","عبد العزيز الثعالبي","He founded the Destour party in 1920.","أسّس الحزب الحرّ الدستوري سنة 1920."],
+ ["jazzar","figures","g","pl:science","Ibn al-Jazzar","ابن الجزّار","A 10th-century doctor of Kairouan whose medical book was translated into Latin.","طبيب قيرواني من القرن العاشر تُرجم كتابه الطبي إلى اللاتينية."],
+ ["moncef","leaders","c","moncef","Moncef Bey","المنصف باي","A bey loved by Tunisians, deposed by the French in 1943.","باي أحبّه التونسيون، خلعه الفرنسيون سنة 1943."],
+ ["hammouda","leaders","r","hammouda","Hammouda Pasha Mosque","جامع حمودة باشا","Built in Tunis in the 1650s by the Muradid ruler Hammouda Pasha.","بناه الحاكم المرادي حمودة باشا بتونس في خمسينيات القرن السابع عشر."],
+ ["massinissa","leaders","g","pl:horseman","Massinissa","ماسينيسا","The Numidian king (c. 238–148 BCE) who united Numidia and fought at Zama.","الملك النوميدي (نحو 238–148 ق.م) الذي وحّد نوميديا وقاتل في زاما."]
+];
+const RAR={c:["Common","عادية","#c98a4a"],r:["Rare","نادرة","#8fc3ff"],g:["Golden","ذهبية","#f6d27a"]};
+const cardsOf=ch=>CARDS.filter(k=>k[1]===ch);
+const chName=id=>{const c=ALL.find(x=>x.id===id);return c?[c.name,c.nameAr]:[id,id]};
+const STAR=`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.5 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6-4.9-4.5 6.6-.8z"/></svg>`;
+const starsOf=(s,n)=>s>=n-(n>=10?1:0)?3:s>=Math.ceil(n*.66)?2:s>=Math.ceil(n*.33)?1:0;
+const starsHTML=(k,cls)=>`<span class="stars ${cls||""}" aria-label="${k} of 3 stars">${[1,2,3].map(i=>`<i class="${i<=k?"on":""}">${STAR}</i>`).join("")}</span>`;
+/* ---- day streak with a weekly shield ---- */
+const dayDiff=(a,b)=>Math.round((new Date(b+"T12:00:00")-new Date(a+"T12:00:00"))/864e5);
+function weekKey(d){d=d||new Date();const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));const w=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-w);const y=new Date(Date.UTC(t.getUTCFullYear(),0,1));return t.getUTCFullYear()+"W"+Math.ceil(((t-y)/864e5+1)/7)}
+function refreshShield(){const D=S.days;const w=weekKey();if(D.shieldWeek!==w){D.shieldWeek=w;D.shields=1}}
+function dayAlive(){const D=S.days||{};if(!D.last)return 0;const g=dayDiff(D.last,today());if(g<=1)return D.streak||0;if(g===2&&(D.shields===undefined||D.shields>0||D.shieldWeek!==weekKey()))return D.streak||0;return 0}
+const DAY_MS={3:20,7:50,14:80,30:150,60:250,100:500};
+function markDay(){refreshShield();const D=S.days,t=today();
+ if(D.last===t){D.rounds=(D.rounds||0)+1;return {streak:D.streak,same:true,rounds:D.rounds}}
+ const g=D.last?dayDiff(D.last,t):99;let used=false;
+ if(g===1)D.streak=(D.streak||0)+1;else if(g===2&&D.shields>0){D.shields--;used=true;D.streak=(D.streak||0)+1}else D.streak=1;
+ D.last=t;D.rounds=1;D.best=Math.max(D.best||0,D.streak);
+ const bonus=DAY_MS[D.streak]||0;if(bonus){S.coins+=bonus;S.earned+=bonus}
+ return {streak:D.streak,used,bonus,rounds:1}}
+function dayChip(){const n=dayAlive(),done=S.days&&S.days.last===today();return `<button class="daychip ${done?"lit":n?"risk":""}" id="daychip" aria-label="${n} days in a row" title="Days in a row">${FLAME}<span>${n}</span></button>`}
+function dayInfo(){const n=dayAlive(),D=S.days||{},done=D.last===today();refreshShield();
+ toast(bi(`<b>${n} day${n===1?"":"s"} in a row.</b> ${done?"You have played today. See you tomorrow!":"Play one round today to keep your streak."} Shield: ${D.shields||0}/1 this week (it saves one missed day).`,`<b>${n} يوم متتالٍ.</b> ${done?"لعبت اليوم. نلتقي غدًا!":"العب جولة واحدة اليوم لتحافظ على سلسلتك."} الدرع: ${D.shields||0}/1 هذا الأسبوع (يحمي يومًا فائتًا واحدًا).`),FLAME)}
+/* ---- Museum cards ---- */
+function pageDone(ch){if(S.pages[ch])return false;if(cardsOf(ch).every(k=>S.cards[k[0]])){S.pages[ch]=Date.now();S.coins+=100;S.earned+=100;return true}return false}
+function awardCard(chId,score,n){if(score<Math.ceil(n*.33))return null;
+ const want=score>=n?(Math.random()<.5?"g":"r"):score>=Math.ceil(n*.66)?(Math.random()<.35?"r":"c"):"c";
+ const pool=CARDS.filter(k=>(!chId||k[1]===chId)&&!S.cards[k[0]]);
+ if(!pool.length)return null;
+ const order={g:["g","r","c"],r:["r","c"],c:["c","r"]}[want];
+ for(const rr of order){const p=pool.filter(k=>k[2]===rr);if(p.length){const k=p[Math.floor(Math.random()*p.length)];S.cards[k[0]]=Date.now();return {card:k,page:pageDone(k[1])}}}
+ return {need:"g"}}
+function cardFace(k,big){return `<div class="gcard r-${k[2]} ${big?"big":""}"><div class="gc-img">${photoHTML(k[3],"card",{cap:false,lazy:!big,label:k[4]})}</div><span class="gc-rar">${bi(RAR[k[2]][0],RAR[k[2]][1])}</span><div class="gc-body"><strong>${bi(k[4],k[5])}</strong>${big?`<span class="gc-era small">${bi(chName(k[1])[0],chName(k[1])[1])}</span><p class="gc-fact">${bi(k[6],k[7])}</p>`:""}</div></div>`}
+function cardSound(r){try{if(r==="g"){astroSound()}else if(r==="r"){medalSound()}else{sfx.coin();setTimeout(()=>sfx.coin(),120)}}catch(e){}}
+function cardReveal(res,opts){opts=opts||{};if(!res||!res.card)return;closeCard();const k=res.card;
+ const el=document.createElement("div");el.className="cardov";el.setAttribute("role","dialog");el.setAttribute("aria-label","New museum card");
+ const got=Object.keys(S.cards).length;
+ el.innerHTML=`<div class="cvrays r-${k[2]}"></div><p class="cv-top">${opts.view?bi("Museum card","بطاقة المتحف"):bi("New card for your Museum!","بطاقة جديدة لمتحفك!")}</p>
+  <div class="flip ${opts.view?"flipped":""}"><div class="fback"><span class="fb-emb">${PUN.tanit}</span><span class="fb-t">THE GOLDEN DINAR</span></div><div class="ffront">${cardFace(k,true)}</div></div>
+  <p class="cv-sub">${res.page?bi(`<b>Page complete!</b> ${chName(k[1])[0]} is finished: +100 dinars`,`<b>اكتملت الصفحة!</b> ${chName(k[1])[1]}: +100 دينار`):bi(`Museum: <b>${got}/${CARDS.length}</b> cards`,`المتحف: <b>${got}/${CARDS.length}</b> بطاقة`)}</p>
+  <div class="row"><button class="btn" id="cvAlbum">${bi("Open the Museum","افتح المتحف")}</button><button class="btn ghost" id="cvOk">${bi("Continue","متابعة")}</button></div>`;
+ document.body.appendChild(el);requestAnimationFrame(()=>el.classList.add("in"));
+ if(!opts.view){setTimeout(()=>{el.querySelector(".flip").classList.add("flipped");cardSound(k[2]);if(k[2]==="g"||res.page){try{confetti()}catch(e){}}},650)}
+ el.querySelector("#cvOk").onclick=()=>{sfx.click();closeCard()};
+ el.querySelector("#cvAlbum").onclick=()=>{sfx.click();closeCard();nav(renderAlbum)};
+ el.onclick=e=>{if(e.target===el)closeCard()}}
+function closeCard(){const el=document.querySelector(".cardov");if(el)el.remove()}
+function renderAlbum(){S.screen="album";musicLevel(.4);const got=Object.keys(S.cards).length;
+ const chs=[...new Set(CARDS.map(k=>k[1]))];
+ app.innerHTML=header()+`<div class="card frame"><div class="qbody">
+  <div class="sect"><h3 class="en">${sico("stela")}The Museum</h3><span class="ar">المتحف</span></div>
+  <p class="bankp">${bi(`You have collected <b>${got}</b> of <b>${CARDS.length}</b> cards. Win cards by finishing rounds (a perfect round can win a <b>Golden</b> card) and by opening mystery chests. Each full page gives <b>+100 dinars</b>.`,`جمعت <b>${got}</b> من <b>${CARDS.length}</b> بطاقة. تربح البطاقات بإنهاء الجولات (الجولة المثالية قد تمنحك بطاقة <b>ذهبية</b>) وبفتح الصناديق الغامضة. كل صفحة مكتملة تمنحك <b>+100 دينار</b>.`)}</p>
+  <div class="progress"><i style="width:${got/CARDS.length*100}%"></i></div>
+  ${chs.map(ch=>{const ks=cardsOf(ch),h=ks.filter(k=>S.cards[k[0]]).length;return `<div class="apage ${S.pages[ch]?"full":""}"><div class="aph"><strong>${bi(chName(ch)[0],chName(ch)[1])}</strong><span class="small">${h}/${ks.length}${S.pages[ch]?" ✓":""}</span></div>
+   <div class="agrid">${ks.map(k=>S.cards[k[0]]?`<button class="aslot have" data-k="${k[0]}">${cardFace(k)}</button>`:`<div class="aslot miss r-${k[2]}"><span class="q">?</span><span class="small">${bi(RAR[k[2]][0],RAR[k[2]][1])}</span></div>`).join("")}</div></div>`}).join("")}
+  <div class="row"><button class="btn" id="aMap">${bi("Back to the quests","العودة إلى التحديات")}</button></div></div></div>`;
+ wireHeader();
+ app.querySelectorAll(".aslot.have").forEach(b=>b.onclick=()=>{sfx.click();const k=CARDS.find(x=>x[0]===b.dataset.k);cardReveal({card:k},{view:true})});
+ document.getElementById("aMap").onclick=goMap}
+/* ---- mystery chest ---- */
+const CHEST_SVG=`<svg class="chest" viewBox="0 0 200 170" aria-hidden="true"><defs><linearGradient id="chw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a0602a"/><stop offset="1" stop-color="#5a2e10"/></linearGradient><linearGradient id="chg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff4c9"/><stop offset=".5" stop-color="#f2c75c"/><stop offset="1" stop-color="#9a6a1c"/></linearGradient></defs>
+ <g class="chglow"><circle cx="100" cy="78" r="70" fill="rgba(255,226,140,.0)"/></g>
+ <rect x="26" y="78" width="148" height="82" rx="8" fill="url(#chw)" stroke="#3a1a08" stroke-width="3"/><rect x="26" y="96" width="148" height="10" fill="url(#chg)"/><rect x="40" y="78" width="12" height="82" fill="url(#chg)"/><rect x="148" y="78" width="12" height="82" fill="url(#chg)"/>
+ <rect x="88" y="92" width="24" height="30" rx="4" fill="url(#chg)" stroke="#7a5214" stroke-width="2"/><circle cx="100" cy="104" r="4" fill="#3a1a08"/><path d="M98 104 h4 v9 h-4z" fill="#3a1a08"/>
+ <g class="lid"><path d="M26 80 V58 Q26 22 100 22 Q174 22 174 58 V80z" fill="url(#chw)" stroke="#3a1a08" stroke-width="3"/><path d="M40 80 V44 M160 80 V44" stroke="url(#chg)" stroke-width="12"/><path d="M26 66 H174" stroke="url(#chg)" stroke-width="8"/><g transform="translate(100 48)" style="color:#f6d27a"><circle r="13" fill="#5a2e10" stroke="#f2c75c" stroke-width="2"/>${star5(0,0,8,"#f6d27a")}</g></g></svg>`;
+function maybeChest(){if(S.chestUsed||S.qi<2||S.cur&&S.cur.kind==="lang")return false;if(Math.random()<.09){S.chestUsed=true;return true}return false}
+function openChest(){if(document.querySelector(".chestov"))return;const el=document.createElement("div");el.className="chestov";el.setAttribute("role","dialog");el.setAttribute("aria-label","Mystery chest");
+ el.innerHTML=`<div class="chrays"></div><p class="cv-top">${bi("A mystery chest!","صندوق غامض!")}</p><div class="chbox">${CHEST_SVG}</div><p class="chmsg">${bi("Tap the chest to open it","اضغط على الصندوق لفتحه")}</p><div class="row chrow" hidden><button class="btn" id="chOk">${bi("Continue","متابعة")}</button></div>`;
+ document.body.appendChild(el);requestAnimationFrame(()=>el.classList.add("in"));
+ try{sfx.coin();setTimeout(()=>sfx.coin(),180)}catch(e){}
+ const box=el.querySelector(".chbox");let opened=false;
+ box.onclick=()=>{if(opened)return;opened=true;el.classList.add("open");const roll=Math.random();let msg;
+  try{fwSound();setTimeout(()=>medalSound(),200)}catch(e){}
+  if(roll<.32){const pool=CARDS.filter(k=>k[2]!=="g"&&!S.cards[k[0]]);if(pool.length){const k=pool[Math.floor(Math.random()*pool.length)];S.cards[k[0]]=Date.now();const pg=pageDone(k[1]);save();closeChest();setTimeout(()=>cardReveal({card:k,page:pg}),120);return}}
+  if(roll<.58){S.dbl=3;msg=bi("<b>Double dinars!</b> Your next 3 right answers pay ×2.","<b>دنانير مضاعفة!</b> إجاباتك الثلاث الصحيحة القادمة ×2.")}
+  else{const v=[20,25,30,40,50,60][Math.floor(Math.random()*6)];S.coins+=v;S.earned+=v;setShown(S.coins);msg=bi(`<b>+${v} dinars</b> from the Bey's treasury!`,`<b>+${v} دينارًا</b> من خزينة الباي!`)}
+  save();try{confetti()}catch(e){}el.querySelector(".chmsg").innerHTML=msg;el.querySelector(".chrow").hidden=false;el.querySelector("#chOk").focus()};
+ el.querySelector("#chOk").onclick=()=>{sfx.click();closeChest()}}
+function closeChest(){const el=document.querySelector(".chestov");if(el)el.remove()}
+/* ---- result screen: stars, day streak, card, next goals, share ---- */
+const HIST_CH=()=>CH.map(c=>c.id);
+function engageResult(c,n){const out={html:"",after:()=>{}};if(c.kind==="teacher")return out;
+ const st=starsOf(S.score,n),prev=S.stars[c.id]||0;if(st>prev)S.stars[c.id]=st;
+ const day=markDay();
+ const chId=HIST_CH().includes(c.id)?c.id:(c.id==="mix"||c.kind==="daily")?null:"x";
+ const res=chId==="x"?null:awardCard(chId,S.score,n);
+ const goals=[];
+ if(st<3){const need=[Math.ceil(n*.33),Math.ceil(n*.66),n-(n>=10?1:0)][st]-S.score;goals.push([bi(`Only <b>${need}</b> more right answer${need>1?"s":""} for ${st+1} star${st?"s":""}.`,`ينقصك <b>${need}</b> إجابة صحيحة لتنال ${st+1} نجوم.`),(st)/3])}
+ if(chId&&chId!=="x"){const ks=cardsOf(chId),h=ks.filter(k=>S.cards[k[0]]).length;if(h<ks.length){const onlyG=ks.filter(k=>!S.cards[k[0]]).every(k=>k[2]==="g");goals.push([onlyG?bi(`Only the <b>Golden card</b> is missing on this page: win it with a perfect round!`,`لم يبقَ إلا <b>البطاقة الذهبية</b> في هذه الصفحة: اربحها بجولة مثالية!`):bi(`<b>${ks.length-h}</b> card${ks.length-h>1?"s":""} left to complete this Museum page (+100).`,`بقيت <b>${ks.length-h}</b> بطاقة لإكمال صفحة المتحف (+100).`),h/ks.length])}}
+ const nr=nextRank(S.coins);if(nr){const cur=rank(S.coins);goals.push([bi(`<b>${nr[0]-S.coins}</b> dinars to the title <b>${nr[1]}</b>.`,`<b>${nr[0]-S.coins}</b> دينارًا حتى لقب «${nr[2]}».`),(S.coins-cur[0])/(nr[0]-cur[0])])}
+ goals.push([day.same&&day.rounds>=3?bi("<b>Daily goal reached!</b> Great work today. Come back tomorrow to grow your streak.","<b>بلغت هدف اليوم!</b> عمل رائع. عد غدًا لتطيل سلسلتك."):bi(`Come back tomorrow for <b>day ${(day.streak||0)+1}</b> of your streak.`,`عد غدًا لتبلغ <b>اليوم ${(day.streak||0)+1}</b> من سلسلتك.`),Math.min(1,(day.rounds||1)/3)]);
+ out.html=`<div class="rstars">${starsHTML(st,"big")}</div>
+  <div class="goals"><h4>${bi("Next goals","الأهداف القادمة")}</h4>${goals.slice(0,4).map(([t,p])=>`<div class="goal"><span>${t}</span><div class="gbar"><i style="width:${Math.max(4,Math.round(p*100))}%"></i></div></div>`).join("")}</div>`;
+ out.after=()=>{
+  app.querySelectorAll(".rstars .stars i.on").forEach((s,i)=>{s.style.animationDelay=(0.5+i*.35)+"s";setTimeout(()=>{try{tone(660+i*220,ac().currentTime,.35,"triangle",.08)}catch(e){}},500+i*350)});
+  if(day&&!day.same)setTimeout(()=>toast(bi(`<b>Day ${day.streak} in a row!</b>${day.bonus?` +${day.bonus} bonus dinars`:""}${day.used?" (your weekly shield saved your streak)":""}`,`<b>اليوم ${day.streak} على التوالي!</b>${day.bonus?` +${day.bonus} دينارًا`:""}${day.used?" (درعك الأسبوعي حمى سلسلتك)":""}`),FLAME),1400);
+  if(day&&day.same&&day.rounds===3)setTimeout(()=>toast(bi("<b>Daily goal reached!</b> 3 rounds today. Well done, see you tomorrow!","<b>بلغت هدف اليوم!</b> 3 جولات اليوم. أحسنت، نلتقي غدًا!"),FLAME),1400);
+  if(res&&res.card)setTimeout(()=>cardReveal(res),2800);
+  const sb=document.getElementById("shareBtn");if(sb)sb.onclick=()=>{sfx.click();shareResult(c,n)}};
+ return out}
+function shareResult(c,n){const st=starsOf(S.score,n);
+ const txt=`🏺 The Golden Dinar · الدينار الذهبي\n${c.name}: ${S.score}/${n} ${"⭐".repeat(st)}${dayAlive()?`  🔥${dayAlive()}`:""}\n${(S.hist||[]).map(x=>x?"🟨":"🟥").join("")}\n${typeof SITE!=="undefined"?SITE:location.href}`;
+ if(navigator.share){navigator.share({text:txt}).catch(()=>{});return}
+ try{navigator.clipboard.writeText(txt).then(()=>toast(bi("Copied! Paste it in WhatsApp or Facebook.","نُسخ! الصقه في واتساب أو فيسبوك."),COIN))}catch(e){toast(txt.replace(/\n/g,"<br>"))}}
+
 function hannibalTriumph(bonus){closeHannibal(true);const el=document.createElement("div");el.className="hanover";el.setAttribute("role","dialog");el.setAttribute("aria-label","Hannibal's triumph");
  el.innerHTML=`<div class="hanstage">${HAN_SVG}
   ${Array.from({length:22},(_,k)=>`<i class="hpetal ${k%3?"":"gold"}" style="left:${(k*4.6+Math.random()*4)%100}%;animation-delay:${(Math.random()*2.4).toFixed(2)}s;animation-duration:${(2.6+Math.random()*1.8).toFixed(2)}s"></i>`).join("")}
@@ -3567,7 +3772,8 @@ function renderMap(){
   <div class="tiles">${ALL.map((c,i)=>c.kind==="era"?tile(c,i):"").join("")}</div>
   <div class="sect"><h3 class="en">${sico("tanit")}Special Quests</h3><span class="ar">تحديات خاصة</span></div>
   <div class="tiles">${ALL.map((c,i)=>c.kind==="special"?tile(c,i):"").join("")}${citiesTile()}</div>
-  <button class="daily ${dailyDone()?"done":""}" id="daily">${FLAME}<span class="dt"><strong>${bi("Daily Challenge","تحدي اليوم")}</strong><span class="small" style="color:inherit">${dailyDone()?bi("Done for today. Come back tomorrow!","أنجزته اليوم. عد غدًا!"):bi("5 questions · +30 bonus dinars","5 أسئلة · مكافأة 30 دينارًا")}</span></span><span class="dstreak">${FLAME}${S.daily.streak||0}</span></button>
+  <button class="daily ${dailyDone()?"done":""}" id="daily">${FLAME}<span class="dt"><strong>${bi("Daily Challenge","تحدي اليوم")}</strong><span class="small" style="color:inherit">${dailyDone()?bi("Done for today. Come back tomorrow!","أنجزته اليوم. عد غدًا!"):bi("5 questions · +30 bonus dinars","5 أسئلة · مكافأة 30 دينارًا")}</span></span><span class="dstreak">${FLAME}${S.daily.streak||0}</span></button>${dayAlive()&&S.days.last!==today()?`<div class="streakwarn">${FLAME}<span>${bi(`Play one round today to keep your <b>${dayAlive()}-day</b> streak!`,`العب جولة واحدة اليوم لتحافظ على سلسلة <b>${dayAlive()}</b> أيام!`)}</span></div>`:""}
+  <button class="museum" id="museumBtn"><span class="mfan"><i></i><i></i><i></i></span><span class="mt"><strong>${bi("The Museum","المتحف")} · ${Object.keys(S.cards).length}/${CARDS.length}</strong><span class="small">${bi("Collect cards of Tunisian history","اجمع بطاقات تاريخ تونس")}</span><span class="gbar"><i style="width:${Math.max(3,Object.keys(S.cards).length/CARDS.length*100)}%"></i></span></span><span class="mgo">${bi("Open","افتح")}</span></button>
   <button class="getapp" id="getApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M4 19h16"/></svg><span class="ga-t"><strong>${bi("Get the app","حمّل التطبيق")}</strong><span class="small">${bi("Phone & computer · free · share with friends","هاتف وحاسوب · مجانًا · شاركه مع أصدقائك")}</span></span><span class="ga-go">${bi("Install","تثبيت")}</span></button>
   <div class="quick two"><button class="qk" id="qAch">${SEAL("#e0ac45","#0b1f3a")}<span>${bi("Achievements","الإنجازات")}</span></button><button class="qk" id="bank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5c3-1.5 6-1.5 10 1 4-2.5 7-2.5 10-1v14c-3-1.5-6-1.5-10 1-4-2.5-7-2.5-10-1z"/><path d="M12 6v14"/></svg><span>Word Bank · ${Object.keys(S.bank).length}/${GLOSS.length}</span></button></div>
   <div class="sect"><h3>English Corner</h3><span class="small">English only</span></div>
@@ -3588,7 +3794,7 @@ function renderMap(){
   document.getElementById("citiesTile").onclick=()=>{sfx.click();nav(renderCities)};
   setTimeout(beyGreet,700);
   document.getElementById("getApp").onclick=()=>{sfx.click();openGetApp()};
-  document.getElementById("qAch").onclick=()=>{sfx.click();nav(renderAch)};
+  document.getElementById("qAch").onclick=()=>{sfx.click();nav(renderAch)};document.getElementById("museumBtn").onclick=()=>{sfx.click();nav(renderAlbum)};
 }
 
 /* ================= quiz ================= */
@@ -3598,7 +3804,7 @@ function startCh(i){
   const pool=c.id==="mix"?CH.flatMap(x=>x.qs):c.qs;
   startRun(c,freshRound(c.id,pool,Math.min(ROUND,pool.length)))}
 function startRun(c,list){S.cur=c;S.list=list;S.beyLevel=0;S.newDec=0;{const o=document.getElementById("welcomeOv");if(o)o.remove()}
-  S.qi=0;S.score=0;S.streak=0;S.earned=0;S.rankAtStart=rank(S.coins)[1];try{if(!(history.state&&history.state.gd))history.pushState({gd:1},"")}catch(e){}
+  S.qi=0;S.score=0;S.streak=0;S.earned=0;S.hist=[];S.chestUsed=false;S.rankAtStart=rank(S.coins)[1];try{if(!(history.state&&history.state.gd))history.pushState({gd:1},"")}catch(e){}
   nav(nextQ)}
 const chOf=q=>([...CH,...LANG].find(c=>c.qs.includes(q))||{id:"mix"}).id;
 const sortedIdx=q=>q.items.map((it,k)=>[it[4],k]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
@@ -3665,17 +3871,18 @@ function feedback(q){
 function useHint(){const q=S.list[S.qi];S.coins-=15;S.shown=S.coins;S.hinted=true;S.gone=shuffle(S.opts.filter(o=>o[0]!==q.a[0]).map(o=>o[0])).slice(0,2);save();sfx.click();renderQ()}
 
 function reward(ok,base,el){
-  S.answered=true;S.ok=ok;S.stats.played++;S.bonus=[];
+  S.answered=true;S.ok=ok;S.stats.played++;S.bonus=[];(S.hist=S.hist||[]).push(!!ok);
   const left=Math.max(0,S.deadline-performance.now());stopTimer();
   const from=el&&el.getBoundingClientRect?el.getBoundingClientRect():null;
   if(ok){S.streak++;S.score++;S.stats.right++;S.stats.best=Math.max(S.stats.best,S.streak);
     S.bonusEn=[];let g=base;if(S.streak>=3){g*=2;S.bonus.push(bi("streak ×2","سلسلة ×2"));S.bonusEn.push("streak ×2")}
     if(left>S.limit/2){g+=5;S.bonus.push(bi("speed +5","سرعة +5"));S.bonusEn.push("speed +5");S.stats.speed=(S.stats.speed||0)+1}
+    if(S.dbl>0){g*=2;S.dbl--;S.bonus.push(bi("chest ×2","الصندوق ×2"));S.bonusEn.push("chest ×2")}
     if(S.score%3===0&&S.score/3<=5){S.beyLevel=S.score/3;S.newDec=S.beyLevel}
     S.t15=S.streak%15===0;S.t10=!S.t15&&S.streak%10===0;S.trophy=!S.t15&&!S.t10&&S.streak%6===0;S.triumph=!S.t15&&!S.t10&&!S.trophy&&S.streak%4===0;if(S.t15){g+=100;S.bonus.push(bi("Dinar Crown +100","تاج الدينار +100"));S.bonusEn.push("Dinar Crown +100")}if(S.t10){g+=50;S.bonus.push(bi("Golden Astrolabe +50","الإسطرلاب الذهبي +50"));S.bonusEn.push("Golden Astrolabe +50")}if(S.trophy){g+=30;S.bonus.push(bi("Tanit Trophy +30","كأس تانيت +30"));S.bonusEn.push("Tanit Trophy +30")}if(S.triumph){g+=20;S.bonus.push(bi("Hannibal +20","حنبعل +20"));S.bonusEn.push("Hannibal +20")}
     const before=rank(S.coins)[1];S.gain=g;S.coins+=g;S.earned+=g;S.quip=pick(YES);sfx.cash();buzz(18);if(rank(S.coins)[1]!==before)S.pendingLevel=rank(S.coins)}
   else{S.streak=0;S.gain=0;S.quip=S.late?pick(LATE):pick(NO);sfx.wrong();buzz([40,50,40])}
-  save();renderQ();if(ok&&S.t15){S.t15=false;beyAway();setTimeout(()=>grandTrophy("crown",100),650)}else if(ok&&S.t10){S.t10=false;beyAway();setTimeout(()=>grandTrophy("astro",50),650)}else if(ok&&S.trophy){S.trophy=false;beyAway();setTimeout(()=>tanitTrophy(30),650)}else if(ok&&S.triumph&&S.bey!==false){S.triumph=false;beyAway();setTimeout(()=>hannibalTriumph(20),650)}else beyReact(ok);
+  save();renderQ();if(ok&&S.t15){S.t15=false;beyAway();setTimeout(()=>grandTrophy("crown",100),650)}else if(ok&&S.t10){S.t10=false;beyAway();setTimeout(()=>grandTrophy("astro",50),650)}else if(ok&&S.trophy){S.trophy=false;beyAway();setTimeout(()=>tanitTrophy(30),650)}else if(ok&&S.triumph&&S.bey!==false){S.triumph=false;beyAway();setTimeout(()=>hannibalTriumph(20),650)}else{beyReact(ok);if(ok&&maybeChest())setTimeout(openChest,1300)}
   if(ok)flyCoins(from,S.gain);checkAch();
 }
 function answer(o,btn){if(S.answered)return;const q=S.list[S.qi];S.last=o;reward(!!o&&o[0]===q.a[0],10,btn)}
@@ -3705,7 +3912,7 @@ function renderResult(){
   const prev=S.medals[c.id],order=["bronze","silver","gold"];
   let bonus=0;
   if(normal&&m&&(!prev||order.indexOf(m)>order.indexOf(prev))){S.medals[c.id]=m;if(m==="gold"){bonus=50;S.coins+=50;S.earned+=50}}
-  if(c.kind==="daily")finishDaily();
+  if(c.kind==="daily")finishDaily();const ENG=engageResult(c,n);
   save();checkAch();
   const col={gold:["#f6d27a","#e0ac45","#9c6c1d"],silver:["#ffffff","#c9cfd6","#7d8692"],bronze:["#f0b07a","#b0703a","#6f3f17"]}[m||"bronze"];
   const lines={gold:["A perfect quest. The treasury of the Bey is yours!","تحدٍّ كامل. خزينة الباي ملكك!"],silver:["Nearly flawless. The vizier is impressed, but the Bey wants perfection.","شبه كامل. الوزير معجب، لكن الباي يريد الكمال."],bronze:["A respectable start. The archives of Kairouan await your return.","بداية محترمة. خزائن القيروان تنتظر عودتك."],none:["Oh no... the chroniclers lost the scroll. Try again!","يا للخيبة... أضاع المؤرخون المخطوط. حاول من جديد!"]}[m||"none"];
@@ -3714,8 +3921,8 @@ function renderResult(){
    <div class="medalwrap">${PUNIC_RE.test(c.name)?`<span class="rstela l">${PUN.stela}</span><span class="rstela r">${PUN.stela}</span>`:""}${m?'<div class="rays"></div>':""}<svg class="bigmedal" viewBox="0 0 100 100" role="img" aria-label="${m?ML[m][0]:"No medal"}"><defs><radialGradient id="mg" cx="35%" cy="30%"><stop offset="0" stop-color="${col[0]}"/><stop offset=".55" stop-color="${col[1]}"/><stop offset="1" stop-color="${col[2]}"/></radialGradient></defs><circle cx="50" cy="50" r="46" fill="url(#mg)" stroke="${col[2]}" stroke-width="3" ${m?"":'opacity=".35"'}/><circle cx="50" cy="50" r="36" fill="none" stroke="${col[2]}" stroke-width="1.5" stroke-dasharray="3 3"/><text x="50" y="50" text-anchor="middle" font-family="Aref Ruqaa,serif" font-size="17" fill="${col[2]}">تونس</text><text x="50" y="67" text-anchor="middle" font-family="Marcellus,serif" font-size="9" fill="${col[2]}">TUNIS</text></svg></div>
    <h2 class="en">${m?ML[m][0]:"No medal yet"}</h2><div class="rank">${m?ML[m][1]:"لا وسام بعد"}</div>
    ${c.kind==="daily"?`<p class="dres">${FLAME} ${bi(`Daily streak: <b>${S.daily.streak||1}</b> · +30 bonus dinars`,`سلسلة الأيام: <b>${S.daily.streak||1}</b> · مكافأة 30 دينارًا`)}</p>`:""}<p>${bi(`${c.name}: <b>${S.score} / ${n}</b> correct, <b id="earnedEn">0</b> dinars earned${bonus?" (including a 50-dinar bonus)":""}.`,`${c.nameAr}: <b>${S.score} / ${n}</b> إجابات صحيحة، و<b id="earnedAr">0</b> دينارًا${bonus?" (منها مكافأة 50 دينارًا)":""}.`)}</p>
-   <p>${bi(lines[0],lines[1])}</p>
-   <div class="row">${nextI!==null?`<button class="btn" id="nx"><span class="en">Next: ${ALL[nextI].name}</span><span class="ar" lang="ar">التالي: ${ALL[nextI].nameAr}</span></button>`:""}<button class="btn ghost" id="again"><span class="en">Play again</span><span class="ar" lang="ar">العب مجددًا</span></button><button class="btn ghost" id="map"><span class="en">Map</span><span class="ar" lang="ar">الخريطة</span></button></div>
+   <p>${bi(lines[0],lines[1])}</p>${ENG.html}
+   <div class="row">${nextI!==null?`<button class="btn" id="nx"><span class="en">Next: ${ALL[nextI].name}</span><span class="ar" lang="ar">التالي: ${ALL[nextI].nameAr}</span></button>`:""}<button class="btn ghost" id="again"><span class="en">Play again</span><span class="ar" lang="ar">العب مجددًا</span></button><button class="btn ghost" id="shareBtn"><span class="en">Share</span><span class="ar" lang="ar">شارك</span></button><button class="btn ghost" id="map"><span class="en">Map</span><span class="ar" lang="ar">الخريطة</span></button></div>
   </div>`;
   setShown(S.coins);
   wireHeader();
@@ -3728,7 +3935,7 @@ function renderResult(){
   },350);
   const nx=document.getElementById("nx");if(nx)nx.onclick=()=>{sfx.click();startCh(nextI)};
   document.getElementById("again").onclick=()=>{sfx.click();if(c.kind==="daily")startRun(DAILY,dailyList());else if(c.kind==="teacher")startTeacher(c.base,n);else if(c.kind==="city")startCity(c.cid);else startCh(S.ch)};
-  document.getElementById("map").onclick=goMap;
+  document.getElementById("map").onclick=goMap;ENG.after();
 }
 
 /* ================= effects ================= */
