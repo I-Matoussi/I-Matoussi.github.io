@@ -698,6 +698,7 @@ html body.only-en:not(.peek) .beystage .beybub.big .ar,html body.only-ar:not(.pe
 .flip.flipped .fback{transform:rotateY(-180deg)}.flip.flipped .ffront{transform:rotateY(0)}
 .flip:not(.flipped){animation:cardwob 1s ease-in-out infinite alternate}@keyframes cardwob{from{transform:rotate(-2deg) scale(.98)}to{transform:rotate(2deg) scale(1.02)}}
 /* chest */
+.chbox.rolling{animation:hshake .08s linear infinite!important}
 .chbox{position:relative;width:min(240px,62vw);cursor:pointer;animation:chshake 1.1s ease-in-out infinite}
 .chestov.open .chbox{animation:none;cursor:default}
 @keyframes chshake{0%,60%,100%{transform:rotate(0)}68%{transform:rotate(-6deg)}76%{transform:rotate(6deg)}84%{transform:rotate(-4deg)}92%{transform:rotate(3deg)}}
@@ -769,6 +770,52 @@ body[data-heat="3"] .card.frame{box-shadow:0 0 0 3px rgba(255,214,90,.9),0 0 48p
 .cvrays.r-l{background:repeating-conic-gradient(rgba(255,122,217,.18) 0 7deg,transparent 7deg 18deg)}
 .aslot.miss.r-l{--rc:#ff7ad9}
 @media (prefers-reduced-motion:reduce){.ghband,.gfslot.now,body[data-heat] .card.frame,.gcard.r-l::after{animation:none!important}}
+/* Treasure hunt */
+.hunttile{display:flex;align-items:center;gap:12px;width:100%;margin:12px 0 0;padding:12px 14px;border-radius:14px;border:2px solid #e0ac45;background:linear-gradient(120deg,#5a3a10,#2a1a08 55%,#14325a);color:var(--sand,#fbf5e6);cursor:pointer;text-align:start;font:inherit;box-shadow:0 0 18px rgba(224,172,69,.3);animation:orpulse 2.6s ease-in-out infinite}
+.hunttile .htmap{width:62px;flex:none}.hunttile .htmap svg{width:100%;height:auto;display:block;border-radius:6px}
+.hunttile .mt{flex:1;display:flex;flex-direction:column;gap:4px}.hunttile .mgo{font-weight:800;color:#f6d27a}
+.hstat{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 0 10px;font-weight:700;color:#fbf5e6}
+.hlives i{font-style:normal;font-size:1.35rem;color:rgba(255,255,255,.2);margin-inline-end:2px}.hlives i.on{color:#ff4d5e;text-shadow:0 0 8px rgba(255,77,94,.6)}
+.hcl{color:#f6d27a}.hst{color:#c9a2ff}
+.hmapwrap{display:flex;justify-content:center}
+.hmap{width:min(420px,100%);border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.5),inset 0 0 0 3px #7a5214;background:#c9a466}
+.hsvg{display:block;width:100%;height:auto}
+.hpath{stroke:#7a5214;stroke-width:4;stroke-dasharray:2 9;stroke-linecap:round;opacity:.7}.hpath.done{stroke:#e0ac45;stroke-dasharray:none;opacity:1;stroke-width:5;filter:drop-shadow(0 0 3px rgba(246,210,122,.8))}
+.hlab{font:700 12px var(--display,Georgia,serif);fill:#4a2a10;letter-spacing:.04em}
+.hspot .hs-c{fill:#f3e3bd;stroke:#7a5214;stroke-width:2}
+.hspot.past .hs-c{fill:#e0ac45}.hspot.fut{opacity:.75}
+.hspot.next .hs-c{stroke:#d62a2a;stroke-width:3;animation:hnext 1.2s ease-in-out infinite}
+.hspot.next.aim .hs-c{animation-duration:.35s}
+@keyframes hnext{50%{stroke-width:6;stroke-opacity:.5}}
+.hspot.k-clue.got .hs-c{fill:#7be07b}
+.hspot.k-gate .hs-c{stroke-width:3}
+.hexp{transition:transform .9s cubic-bezier(.4,1.4,.5,1)}
+.htorch{animation:flk .5s ease-in-out infinite alternate}
+.hfogt{font:800 22px var(--display,serif);fill:#e8dcc0;opacity:.75;letter-spacing:.4em}
+.hvault.ready .hvglow{animation:ttpulse 1.2s ease-in-out infinite alternate}.hvault.locked .hvglow{opacity:.25}
+.hpanel{margin:14px 0 6px}
+.hmsg{text-align:center;margin:0 0 10px;font-size:1rem}
+.hq h3{font-size:clamp(1.05rem,4vw,1.3rem);margin:0 0 6px}
+.hopts{display:grid;gap:8px;margin-top:10px}
+.hopt{display:flex;flex-direction:column;align-items:flex-start;gap:2px}.hopt.picked{border-color:#f6d27a;box-shadow:0 0 14px rgba(246,210,122,.6)}
+.hres{margin-top:12px;padding:12px;border-radius:12px;background:rgba(7,21,42,.6);border:1px solid #e0ac45;text-align:center}.hres p{margin:0 0 10px}
+body.hsusp .hmap{animation:hshake .12s linear infinite}body.hsusp .hopt.picked{animation:hglow .3s ease-in-out infinite alternate}
+@keyframes hshake{25%{transform:translate(1px,-1px)}75%{transform:translate(-1px,1px)}}@keyframes hglow{to{box-shadow:0 0 26px rgba(246,210,122,1)}}
+body.hsusp::after{content:"";position:fixed;inset:0;z-index:50;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,transparent 40%,rgba(0,0,0,.45));animation:ttpulse .4s ease-in-out infinite alternate}
+.hparch{height:100%;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:18px;border-radius:14px;background:linear-gradient(160deg,#f6e8c6,#e2c78f);border:3px solid #7a5214;color:#3a2410;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.55)}
+.hparch .hfact{margin:0;font-size:.95rem;line-height:1.5}.hparch .hriddle{margin:0;font:italic 700 1.05rem var(--display,Georgia,serif);color:#6b1240}
+.hparch .en,.hparch .ar{display:block}
+.hclist{position:relative;display:grid;gap:10px;width:min(520px,94vw);max-height:62vh;overflow:auto}.hparch.sm{height:auto;padding:12px;gap:6px}.hparch.miss{opacity:.6;font-style:italic;background:rgba(226,199,143,.35)}
+.hvaultbig{position:relative;width:min(300px,74vw);aspect-ratio:1;border-radius:20px;background:radial-gradient(circle,#fff3c4,#f2c75c 35%,#9a6a1c 70%);overflow:hidden;box-shadow:0 0 50px rgba(246,210,122,.7)}
+.hdoor{position:absolute;top:0;bottom:0;width:50%;background:linear-gradient(90deg,#5a2e10,#8a4a1c 50%,#5a2e10);border:4px solid #3a1a08;transition:transform 1.4s cubic-bezier(.5,0,.3,1);z-index:2}
+.hdoor.l{left:0;transform-origin:left center}.hdoor.r{right:0;transform-origin:right center}
+.hdoor::after{content:"";position:absolute;top:44%;width:26px;height:26px;border-radius:50%;background:#e0ac45;border:3px solid #7a5214}.hdoor.l::after{right:8px}.hdoor.r::after{left:8px}
+.hfin.open .hdoor.l{transform:perspective(600px) rotateY(80deg)}.hfin.open .hdoor.r{transform:perspective(600px) rotateY(-80deg)}
+.hfin:not(.open) .hvaultbig{animation:hshake .1s linear infinite}
+.hgold{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}.hgold i{position:absolute;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff4c9,#f2c75c 45%,#8a5c12);border:1px solid #7a5214;opacity:0}
+.hfin.open .hgold i{animation:hcoin 1.6s cubic-bezier(.2,.8,.3,1) both;animation-delay:calc(.5s + var(--i)*.06s)}
+@keyframes hcoin{0%{opacity:0;transform:translate(0,0) scale(.4)}20%{opacity:1}100%{opacity:1;transform:translate(calc((var(--i) - 7)*17px),calc(-40px - (49 - (var(--i) - 7)*(var(--i) - 7))*1.6px)) scale(1.1)}}
+@media (prefers-reduced-motion:reduce){.hunttile,body.hsusp .hmap,body.hsusp::after,.hspot.next .hs-c,.hfin *{animation:none!important}.hexp,.hdoor{transition:none!important}}
 /* Arabic version: no English vocabulary/grammar boxes */
 body.only-ar .learn{display:none!important}
 /* navigation */
@@ -2835,8 +2882,8 @@ function startTeacher(id,n){const c=ALL.find(x=>x.id===id);const pool=c.id==="mi
 const TIME_MC=25,TIME_ORDER=50;
 let S={coins:0,shown:0,medals:{},stats:{right:0,played:0,best:0},lang:"en",bank:{},recentTips:[],ach:{},daily:{},cards:{},stars:{},days:{},pages:{},vib:true,name:"",klass:"",cur:null,ch:0,list:[],qi:0,score:0,streak:0,earned:0};
 let timerRAF=null;
-function load(){try{const d=JSON.parse(localStorage.getItem("golden-dinar")||"{}");S.coins=d.coins||0;S.medals=d.medals||{};S.stats=Object.assign(S.stats,d.stats||{});S.lang=d.lang||"en";S.bank=d.bank||{};S.ach=d.ach||{};S.daily=d.daily||{};S.vib=d.vib!==false;S.name=d.name||"";S.klass=d.klass||"";SND.on=d.sound!==false;MUS.on=d.music!==false;S.seen=d.seen||{};S.bey=d.bey!==false;S.cards=d.cards||{};S.stars=d.stars||{};S.days=d.days||{};S.pages=d.pages||{};S.oracle=d.oracle||null;S.xp=d.xp||0;S.gifts=d.gifts||{};S.dbl=d.dbl||0}catch(e){}S.shown=S.coins}
-function save(){try{localStorage.setItem("golden-dinar",JSON.stringify({coins:S.coins,medals:S.medals,stats:S.stats,lang:S.lang,bank:S.bank,ach:S.ach,daily:S.daily,vib:S.vib,name:S.name,klass:S.klass,sound:SND.on,music:MUS.on,seen:S.seen,bey:S.bey,cards:S.cards,stars:S.stars,days:S.days,pages:S.pages,oracle:S.oracle,xp:S.xp,gifts:S.gifts,dbl:S.dbl}))}catch(e){}}
+function load(){try{const d=JSON.parse(localStorage.getItem("golden-dinar")||"{}");S.coins=d.coins||0;S.medals=d.medals||{};S.stats=Object.assign(S.stats,d.stats||{});S.lang=d.lang||"en";S.bank=d.bank||{};S.ach=d.ach||{};S.daily=d.daily||{};S.vib=d.vib!==false;S.name=d.name||"";S.klass=d.klass||"";SND.on=d.sound!==false;MUS.on=d.music!==false;S.seen=d.seen||{};S.bey=d.bey!==false;S.cards=d.cards||{};S.stars=d.stars||{};S.days=d.days||{};S.pages=d.pages||{};S.oracle=d.oracle||null;S.xp=d.xp||0;S.gifts=d.gifts||{};S.dbl=d.dbl||0;S.hunt=d.hunt||null}catch(e){}S.shown=S.coins}
+function save(){try{localStorage.setItem("golden-dinar",JSON.stringify({coins:S.coins,medals:S.medals,stats:S.stats,lang:S.lang,bank:S.bank,ach:S.ach,daily:S.daily,vib:S.vib,name:S.name,klass:S.klass,sound:SND.on,music:MUS.on,seen:S.seen,bey:S.bey,cards:S.cards,stars:S.stars,days:S.days,pages:S.pages,oracle:S.oracle,xp:S.xp,gifts:S.gifts,dbl:S.dbl,hunt:S.hunt}))}catch(e){}}
 
 const app=document.getElementById("app");
 const medalOf=(s,n)=>s===n?"gold":s>=n-2?"silver":s>=Math.ceil(n/3)?"bronze":null;
@@ -3690,7 +3737,7 @@ function cardReveal(res,opts){opts=opts||{};if(!res||!res.card)return;closeCard(
   <p class="cv-sub">${res.page?bi(`<b>Page complete!</b> ${chName(k[1])[0]} is finished: +100 dinars`,`<b>اكتملت الصفحة!</b> ${chName(k[1])[1]}: +100 دينار`):bi(`Museum: <b>${got}/${CARDS.length}</b> cards`,`المتحف: <b>${got}/${CARDS.length}</b> بطاقة`)}</p>
   <div class="row"><button class="btn" id="cvAlbum">${bi("Open the Museum","افتح المتحف")}</button><button class="btn ghost" id="cvOk">${bi("Continue","متابعة")}</button></div>`;
  document.body.appendChild(el);requestAnimationFrame(()=>el.classList.add("in"));
- if(!opts.view){setTimeout(()=>{el.querySelector(".flip").classList.add("flipped");cardSound(k[2]);if(k[2]==="g"||res.page){try{confetti()}catch(e){}}},650)}
+ if(!opts.view){try{drumRoll(1.15)}catch(e){}setTimeout(()=>{el.querySelector(".flip").classList.add("flipped");try{drumHit(true)}catch(e){}cardSound(k[2]);if(k[2]==="g"||k[2]==="l"||res.page){try{confetti()}catch(e){}}},1200)}
  el.querySelector("#cvOk").onclick=()=>{sfx.click();closeCard()};
  el.querySelector("#cvAlbum").onclick=()=>{sfx.click();closeCard();nav(renderAlbum)};
  el.onclick=e=>{if(e.target===el)closeCard()}}
@@ -3719,13 +3766,13 @@ function openChest(){if(document.querySelector(".chestov"))return;const el=docum
  document.body.appendChild(el);requestAnimationFrame(()=>el.classList.add("in"));
  try{sfx.coin();setTimeout(()=>sfx.coin(),180)}catch(e){}
  const box=el.querySelector(".chbox");let opened=false;
- box.onclick=()=>{if(opened)return;opened=true;el.classList.add("open");const roll=Math.random();let msg;
+ box.onclick=()=>{if(opened)return;opened=true;box.classList.add("rolling");try{drumRoll(1.1)}catch(e){}setTimeout(()=>{box.classList.remove("rolling");el.classList.add("open");try{drumHit(true)}catch(e){}const roll=Math.random();let msg;
   try{fwSound();setTimeout(()=>medalSound(),200)}catch(e){}
   if(roll>.985){const lp=CARDS.filter(k=>k[2]==="l"&&!S.cards[k[0]]);if(lp.length){const k=lp[Math.floor(Math.random()*lp.length)];S.cards[k[0]]=Date.now();S.coins+=150;S.earned+=150;pageDone("legend");save();closeChest();setTimeout(()=>{cardReveal({card:k});try{orchFanfare(true)}catch(e){}},120);return}}
   if(roll<.32){const pool=CARDS.filter(k=>k[2]!=="g"&&k[2]!=="l"&&!S.cards[k[0]]);if(pool.length){const k=pool[Math.floor(Math.random()*pool.length)];S.cards[k[0]]=Date.now();const pg=pageDone(k[1]);save();closeChest();setTimeout(()=>cardReveal({card:k,page:pg}),120);return}}
   if(roll<.58){S.dbl=3;msg=bi("<b>Double dinars!</b> Your next 3 right answers pay ×2.","<b>دنانير مضاعفة!</b> إجاباتك الثلاث الصحيحة القادمة ×2.")}
   else{const v=[20,25,30,40,50,60][Math.floor(Math.random()*6)];S.coins+=v;S.earned+=v;setShown(S.coins);msg=bi(`<b>+${v} dinars</b> from the Bey's treasury!`,`<b>+${v} دينارًا</b> من خزينة الباي!`)}
-  save();try{confetti()}catch(e){}el.querySelector(".chmsg").innerHTML=msg;el.querySelector(".chrow").hidden=false;el.querySelector("#chOk").focus()};
+  save();try{confetti()}catch(e){}el.querySelector(".chmsg").innerHTML=msg;el.querySelector(".chrow").hidden=false;el.querySelector("#chOk").focus()},1100)};
  el.querySelector("#chOk").onclick=()=>{sfx.click();closeChest()}}
 function closeChest(){const el=document.querySelector(".chestov");if(el)el.remove()}
 /* ---- result screen: stars, day streak, card, next goals, share ---- */
@@ -3822,9 +3869,9 @@ function openOracle(){if(document.querySelector(".orov"))return;
   b.classList.add("chosen");el.querySelectorAll(".orc").forEach(x=>{if(x!==b)x.classList.add("gone")});
   setTimeout(()=>{el.querySelector(".orfan").hidden=true;const f=el.querySelector(".orflip");f.querySelector(".ffront").innerHTML=oracleFront(o);f.hidden=false;
    el.querySelector(".orsub").innerHTML=bi("The oracle has spoken…","لقد نطقت العرّافة…");
-   setTimeout(()=>{f.classList.add("flipped");try{musicLevel(.03)}catch(e){}
+   try{drumRoll(1.25)}catch(e){}setTimeout(()=>{f.classList.add("flipped");try{musicLevel(.03)}catch(e){}
     if(p.k==="none"){sadTrombone();el.classList.add("sad")}else{orchFanfare(p.k==="treasure"||p.k==="card");el.classList.add("rich");try{confetti()}catch(e){}if(p.k==="treasure"){try{grFireworks(el,4)}catch(e){}}}
-    setTimeout(()=>{el.querySelector(".orrow").hidden=false;try{musicLevel(.15)}catch(e){}},p.k==="none"?2600:3400)},450)},650)})}
+    setTimeout(()=>{el.querySelector(".orrow").hidden=false;try{musicLevel(.15)}catch(e){}},p.k==="none"?2600:3400)},1300)},650)})}
 function closeOracle(){const el=document.querySelector(".orov");if(el)el.remove();try{musicLevel(S.screen==="quiz"?.22:.5)}catch(e){}
  document.querySelectorAll("button[data-oracle]").forEach(b=>{b.outerHTML=oracleButton()})}
 document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("[data-oracle]");if(t){sfx.click();openOracle()}});
@@ -3876,6 +3923,162 @@ function openGift(){if(document.querySelector(".giftov"))return;const G=S.gifts|
 function maybeGift(){if(S.screen!=="map"||!giftDue())return;if(document.querySelector("#welcomeOv,.orov,.giftov,.sheet,.cardov,.chestov"))return;openGift()}
 /* ---- heat: the board glows as the streak grows ---- */
 function heatSet(){const s=S.streak||0;document.body.dataset.heat=s>=10?"3":s>=6?"2":s>=3?"1":"0"}
+
+/* ================= Drum rolls: rising suspense, then a hit ================= */
+function drumRoll(sec,big){const c=ac();if(!c)return;const t=c.currentTime+.02;let tt=0,gap=.12;
+ while(tt<sec){const k=tt/sec;noise(t+tt,.05,1500+k*1800,1.3,.04+k*.2,"bandpass");tone(105+k*70,t+tt,.07,"sine",.04+k*.13,72);tt+=gap;gap=Math.max(.032,gap*.93)}
+ tone(55,t,sec,"sine",big?.28:.14,85)}
+function drumHit(ok){const c=ac();if(!c)return;const t=c.currentTime;
+ if(ok){tone(72,t,.7,"sine",.42,40);noise(t,1.5,6500,.7,.24,"highpass");noise(t,.12,1100,1,.22,"bandpass");tone(523,t+.05,.5,"triangle",.07);tone(784,t+.12,.6,"triangle",.07)}
+ else{tone(62,t,.6,"sine",.38,40);tone(147,t+.05,.7,"sawtooth",.06,98);noise(t,.3,300,1,.18,"lowpass")}}
+function hSteps(n){const c=ac();if(!c)return;const t=c.currentTime;for(let i=0;i<n;i++){noise(t+i*.22,.07,420,1.5,.16,"bandpass");tone(90,t+i*.22,.08,"sine",.08,60)}}
+
+/* ================= Carthage's Lost Treasure: a labyrinth hunt ================= */
+const HUNT_STAGES=[
+ {n:["The Punic Harbour","الميناء البوني"],c:"#1f5a7a"},
+ {n:["The Tophet of Salammbô","توفة صلامبو"],c:"#6b3a2a"},
+ {n:["Byrsa Hill","تلّة بيرصا"],c:"#5a4a1a"},
+ {n:["The Great Cisterns","الصهاريج الكبرى"],c:"#2a3f5a"}];
+const HUNT_KIND=["start","path","clue","danger","clue","gate"];
+const HUNT_DANGER=[
+ [["a collapsing pier","رصيف يتهاوى"],["a Roman galley","سفينة رومانية"]],
+ [["a swarm of scorpions","سرب من العقارب"],["falling stones","حجارة متساقطة"]],
+ [["a Roman sentry","حارس روماني"],["a fire in the ruins","حريق بين الأطلال"]],
+ [["rising dark water","ماء مظلم يرتفع"],["the guardian of the vault","حارس الخزينة"]]];
+const HUNT_CLUES=[
+ ["The circular war harbour of Carthage, the Cothon, could shelter about 220 warships around an island.","كان الميناء الحربي الدائري لقرطاج (الكوثون) يتّسع لنحو 220 سفينة حربية حول جزيرة.","Follow the ships that never left the circle.","اتبع السفن التي لم تغادر الدائرة."],
+ ["Carthage grew rich on purple dye made from murex sea snails, worth more than gold.","اغتنت قرطاج بالصبغ الأرجواني المستخرج من حلزون الموريكس، وكان أثمن من الذهب.","Purple marks the road inland.","الأرجوان يدلّ على الطريق نحو الداخل."],
+ ["The Tophet holds thousands of stone stelae, many carved with the sign of Tanit.","تضمّ التوفة آلاف الأنصاب الحجرية، نُقشت على كثير منها علامة تانيت.","Count the arms of the goddess.","عُدّ ذراعَي الإلهة."],
+ ["Many stelae were dedicated to Baal Hammon and Tanit, the great gods of Carthage.","أُهديت أنصاب كثيرة إلى بعل حمون وتانيت، إلهَي قرطاج الكبيرين.","Where two gods share one stone, turn towards the hill.","حيث يتقاسم إلهان حجرًا واحدًا، اتّجه نحو التلّة."],
+ ["Legend says Elissa was offered as much land as an ox hide could cover, so she cut it into thin strips and circled Byrsa hill.","تقول الأسطورة إن عليسة مُنحت من الأرض قدر ما يغطّيه جلد ثور، فقطّعته شرائح رقيقة وأحاطت بها تلّة بيرصا.","Measure with a hide, not with a rope.","قِس بالجلد لا بالحبل."],
+ ["In 146 BCE Rome captured and burned Carthage; archaeologists still find the layer of ash.","سنة 146 ق.م استولت روما على قرطاج وأحرقتها، وما زال علماء الآثار يجدون طبقة الرماد.","Beneath the ash, the stairs go down.","تحت الرماد، يهبط الدرج."],
+ ["The great cisterns of La Malga stored water brought by the Zaghouan aqueduct, about 132 km long.","خزّنت صهاريج المعلقة الكبرى الماء الذي جلبته حنايا زغوان، بطول نحو 132 كيلومترًا.","Follow the water to the dark arches.","اتبع الماء إلى الأقواس المظلمة."],
+ ["As a boy, Hannibal swore to his father Hamilcar never to be a friend of Rome.","أقسم حنبعل وهو صبيّ لأبيه حملقار ألّا يكون صديقًا لروما أبدًا.","Speak the young general's oath and the door will listen.","انطق بقسم القائد الصغير وسيُصغي الباب."]];
+const VAULT_Q=[
+ {q:["First lock: about how many warships could the circular war harbour hold?","القفل الأول: كم سفينة حربية كان يتّسع لها الميناء الدائري تقريبًا؟"],a:["About 220","نحو 220"],o:[["About 20","نحو 20"],["About 2,000","نحو 2000"],["About 60","نحو 60"]]},
+ {q:["Second lock: what did Elissa cut into strips to claim Byrsa hill?","القفل الثاني: ماذا قطّعت عليسة شرائح لتأخذ تلّة بيرصا؟"],a:["An ox hide","جلد ثور"],o:[["A ship's sail","شراع سفينة"],["A royal carpet","سجّادة ملكية"],["A fishing net","شبكة صيد"]]},
+ {q:["Third lock: what did young Hannibal swear to his father?","القفل الثالث: بماذا أقسم حنبعل الصغير لأبيه؟"],a:["Never to be a friend of Rome","ألّا يكون صديقًا لروما أبدًا"],o:[["To rebuild the Cothon","أن يعيد بناء الكوثون"],["To marry a Roman princess","أن يتزوّج أميرة رومانية"],["To sail to Tyre","أن يبحر إلى صور"]]}];
+const H_SPOTS=24;
+function huntInit(){const H=S.hunt||(S.hunt={});if(H.pos==null){H.pos=0;H.clues=[];H.seen=[];H.lock=0;H.runs=H.runs||0;H.done=false}
+ if(H.livesDay!==today()){H.livesDay=today();H.lives=Math.max(H.lives||0,3)}return H}
+function hNode(n){if(n>=H_SPOTS)return [180,58];const s=Math.floor(n/6),i=n%6,y=598-s*134,x=s%2===0?42+i*55:317-i*55;return [x,y]}
+function hKind(n){return n>=H_SPOTS?"vault":HUNT_KIND[n%6]}
+function hDanger(n){const s=Math.floor(n/6);return HUNT_DANGER[s][n%6===5?1:0]}
+function hClueIdx(n){const s=Math.floor(n/6);return s*2+(n%6===4?1:0)}
+function hMaze(){let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;const W=12,Hh=22,cs=30,vis=new Set(),walls=[];
+ const st=[[0,0]];vis.add("0,0");const open=new Set();
+ while(st.length){const [x,y]=st[st.length-1];const nb=[[1,0],[-1,0],[0,1],[0,-1]].map(([dx,dy])=>[x+dx,y+dy]).filter(([a,b])=>a>=0&&b>=0&&a<W&&b<Hh&&!vis.has(a+","+b));
+  if(!nb.length){st.pop();continue}const [nx,ny]=nb[Math.floor(rnd()*nb.length)];open.add([x,y,nx,ny].join());open.add([nx,ny,x,y].join());vis.add(nx+","+ny);st.push([nx,ny])}
+ for(let x=0;x<W;x++)for(let y=0;y<Hh;y++){if(x<W-1&&!open.has([x,y,x+1,y].join()))walls.push(`M${(x+1)*cs} ${y*cs}v${cs}`);if(y<Hh-1&&!open.has([x,y,x,y+1].join()))walls.push(`M${x*cs} ${(y+1)*cs}h${cs}`)}
+ return walls.join("")}
+let H_MAZE=null;
+function huntSVG(){const H=S.hunt,cur=Math.floor(Math.min(H.pos,H_SPOTS-1)/6);H_MAZE=H_MAZE||hMaze();
+ const pts=[];for(let n=0;n<=H_SPOTS;n++)pts.push(hNode(n));
+ let d=`M${pts[0][0]} ${pts[0][1]}`;for(let n=1;n<pts.length;n++){const [x,y]=pts[n],[px,py]=pts[n-1];d+=(py!==y)?` C${px+(px>180?34:-34)} ${py} ${x+(x>180?34:-34)} ${y} ${x} ${y}`:` L${x} ${y}`}
+ const done=[];for(let n=1;n<=Math.min(H.pos,H_SPOTS);n++)done.push(pts[n]);
+ const marks=pts.slice(0,H_SPOTS).map(([x,y],n)=>{const k=hKind(n),st=n<H.pos?"past":n===H.pos?"here":n===H.pos+1?"next":"fut";
+  const ic=k==="clue"?`<rect x="-6" y="-5" width="12" height="10" rx="2" fill="#f4e6c4" stroke="#7a5214"/><path d="M-3 -2h6M-3 1h6" stroke="#7a5214" stroke-width="1"/>`:k==="danger"||k==="gate"?`<path d="M0 -7 7 6H-7z" fill="#d62a2a" stroke="#fff" stroke-width="1"/><path d="M0 -2v4M0 4v.5" stroke="#fff" stroke-width="1.6"/>`:k==="start"?`<path d="M-3 6V-7l8 3-8 3" fill="#e0ac45" stroke="#7a5214" stroke-width="1"/>`:`<circle r="3" fill="#7a5214"/>`;
+  const got=k==="clue"&&H.clues.includes(hClueIdx(n));
+  return `<g class="hspot ${st} k-${k} ${got?"got":""}" transform="translate(${x} ${y})"><circle r="${k==="gate"?14:12}" class="hs-c"/>${ic}</g>`}).join("");
+ const fog=HUNT_STAGES.map((s,i)=>i>cur?`<g class="hfog"><rect x="0" y="${598-i*134-62}" width="360" height="124" fill="url(#hfogg)"/><text x="180" y="${598-i*134+6}" text-anchor="middle" class="hfogt">? ? ?</text></g>`:"").join("");
+ const vaultFog=cur<3||H.pos<H_SPOTS;
+ const labels=HUNT_STAGES.map((s,i)=>`<text x="${i%2===0?12:348}" y="${598-i*134-40}" text-anchor="${i%2===0?"start":"end"}" class="hlab">${i+1}. ${S.lang==="ar"?s.n[1]:s.n[0]}</text>`).join("");
+ const [ex,ey]=hNode(Math.min(H.pos,H_SPOTS));
+ return `<svg class="hsvg" viewBox="0 0 360 660" aria-label="Treasure map"><defs><linearGradient id="hpar" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3e3bd"/><stop offset=".55" stop-color="#e2c78f"/><stop offset="1" stop-color="#c9a466"/></linearGradient>
+  <linearGradient id="hfogg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2232" stop-opacity="0"/><stop offset=".2" stop-color="#2a2232" stop-opacity=".82"/><stop offset=".8" stop-color="#2a2232" stop-opacity=".82"/><stop offset="1" stop-color="#2a2232" stop-opacity="0"/></linearGradient>
+  <radialGradient id="hvg"><stop offset="0" stop-color="#fff3c4"/><stop offset=".5" stop-color="#f6d27a" stop-opacity=".6"/><stop offset="1" stop-color="#f6d27a" stop-opacity="0"/></radialGradient></defs>
+  <rect width="360" height="660" rx="14" fill="url(#hpar)"/>
+  ${HUNT_STAGES.map((s,i)=>`<rect x="0" y="${598-i*134-64}" width="360" height="128" fill="${s.c}" opacity=".10"/>`).join("")}
+  <path d="${H_MAZE}" stroke="#6a4a22" stroke-width="2.2" stroke-linecap="round" opacity=".22" fill="none"/>
+  <g class="hland" opacity=".55"><path d="M290 640 q20 10 40 0 l-4 -8 h-32z M310 632 v-22 l14 20z" fill="#5a2a14"/><g transform="translate(14 452) scale(.55)" style="color:#6a3a1a">${PUN.stela.replace("<svg",'<svg width="60" height="60"')}</g><g transform="translate(296 318) scale(.55)" style="color:#6a4a10">${PUN.crescent.replace("<svg",'<svg width="60" height="60"')}</g><path d="M14 196 v-18 a8 8 0 0 1 16 0 v18 M32 196 v-18 a8 8 0 0 1 16 0 v18 M50 196 v-18 a8 8 0 0 1 16 0 v18" fill="none" stroke="#2a3f5a" stroke-width="3"/></g>
+  ${labels}
+  <path d="${d}" class="hpath" fill="none"/><path d="${(()=>{if(!done.length)return "";let dd=`M${pts[0][0]} ${pts[0][1]}`;for(let n=1;n<=Math.min(H.pos,H_SPOTS);n++){const [x,y]=pts[n],[px,py]=pts[n-1];dd+=(py!==y)?` C${px+(px>180?34:-34)} ${py} ${x+(x>180?34:-34)} ${y} ${x} ${y}`:` L${x} ${y}`}return dd})()}" class="hpath done" fill="none"/>
+  ${marks}
+  <g class="hvault ${vaultFog?"locked":"ready"}" transform="translate(180 58)"><circle r="44" fill="url(#hvg)" class="hvglow"/><rect x="-30" y="-24" width="60" height="44" rx="8" fill="#5a2e10" stroke="#3a1a08" stroke-width="2.5"/><rect x="-30" y="-6" width="60" height="7" fill="#e0ac45"/><circle r="8" fill="#e0ac45" stroke="#7a5214" stroke-width="2"/><path d="M-2 0h4v7h-4z" fill="#3a1a08"/><text y="38" text-anchor="middle" class="hlab">${S.lang==="ar"?"الكنز":"THE TREASURE"}</text></g>
+  ${fog}
+  <g class="hexp" style="transform:translate(${ex}px,${ey}px)"><circle r="15" fill="#0b1f3a" stroke="#f6d27a" stroke-width="2.5"/><g transform="translate(-9 -9) scale(.3)" style="color:#f6d27a">${PUN.tanit.replace("<svg",'<svg width="60" height="60"')}</g><path class="htorch" d="M10 -16 q4 -6 0 -12 q-4 6 0 12z" fill="#ff9d3a"/></g>
+ </svg>`}
+function huntPick(){const H=S.hunt,stg=Math.floor(Math.min(H.pos,H_SPOTS-1)/6);
+ const base=CH.find(c=>c.id==="carthage").qs.filter(q=>q.t==="mc"),others=CH.filter(c=>c.id!=="carthage").flatMap(c=>c.qs).filter(q=>q.t==="mc");
+ let pool=(stg<2?base:base.concat(others)).filter(q=>!H.seen.includes(qKey(q)));if(pool.length<5){H.seen=[];pool=base.slice()}
+ pool.sort((a,b)=>score(a)-score(b));const L=pool.length,i=Math.min(L-1,Math.floor(L*(.05+stg*.22)+Math.random()*L*.18));return pool[i]}
+function renderHunt(){S.screen="hunt";stopTimer();musicLevel(.35);const H=huntInit();save();
+ const stg=Math.min(3,Math.floor(Math.min(H.pos,H_SPOTS-1)/6));
+ app.innerHTML=header()+`<div class="card frame hunt"><div class="qbody">
+  <div class="sect"><h3 class="en">${sico("elephant")}Carthage's Lost Treasure</h3><span class="ar">كنز قرطاج المفقود</span></div>
+  <div class="hstat"><span class="hlives" aria-label="${H.lives} lives">${[0,1,2].map(i=>`<i class="${i<H.lives?"on":""}">♥</i>`).join("")}${H.lives>3?`<b>+${H.lives-3}</b>`:""}</span><span class="hcl">📜 ${H.clues.length}/8</span><span class="hst">${H.pos>=H_SPOTS?bi("The Vault","الخزينة"):bi(`Stage ${stg+1}/4`,`المرحلة ${stg+1}/4`)}</span></div>
+  <div class="hmapwrap"><div class="hmap" id="hmap">${huntSVG()}</div></div>
+  <div class="hpanel" id="hpanel"></div>
+  <div class="row"><button class="btn ghost" id="hClues">${bi("My clues","أدلّتي")}</button><button class="btn ghost" id="hMap">${bi("Back to the quests","العودة إلى التحديات")}</button></div>
+ </div></div>`;
+ wireHeader();document.getElementById("hMap").onclick=goMap;document.getElementById("hClues").onclick=()=>{sfx.click();huntCluesSheet()};
+ huntIdle();setTimeout(()=>{const e=document.querySelector(".hexp");if(e)e.scrollIntoView({block:"center",behavior:reduce()?"auto":"smooth"})},250)}
+function huntIdle(){const H=S.hunt,p=document.getElementById("hpanel");if(!p)return;
+ if(H.done){p.innerHTML=`<p class="hmsg">${bi("You found the Treasure of Carthage! A new hunt waits with fresh questions and a new prize.","وجدت كنز قرطاج! صيد جديد ينتظرك بأسئلة جديدة وجائزة جديدة.")}</p><button class="btn big" id="hAgain">${bi("Start a new hunt","ابدأ صيدًا جديدًا")}</button>`;
+  document.getElementById("hAgain").onclick=()=>{sfx.click();Object.assign(H,{pos:0,clues:[],lock:0,done:false});save();renderHunt()};return}
+ if(H.lives<=0){p.innerHTML=`<p class="hmsg">${bi("Your explorer is exhausted and rests at camp. Your 3 lives return tomorrow, or buy a torch to go on.","مستكشفك متعب ويستريح في المخيّم. تعود أرواحك الثلاث غدًا، أو اشترِ مشعلًا لتواصل.")}</p><button class="btn" id="hTorch" ${S.coins<40?"disabled":""}>${bi("Buy a torch: +1 life (40 dinars)","اشترِ مشعلًا: +1 روح (40 دينارًا)")}</button>`;
+  document.getElementById("hTorch").onclick=()=>{if(S.coins<40)return;S.coins-=40;setShown(S.coins);H.lives=1;save();sfx.cash();renderHunt()};return}
+ if(H.pos>=H_SPOTS){p.innerHTML=`<p class="hmsg">${bi(`<b>You stand before the vault!</b> Three locks guard the treasure. Your clues hold the answers. Locks open: <b>${H.lock}/3</b>`,`<b>أنت أمام الخزينة!</b> ثلاثة أقفال تحرس الكنز، وأدلّتك تحمل الأجوبة. الأقفال المفتوحة: <b>${H.lock}/3</b>`)}</p><button class="btn big" id="hGo">${bi("Try the next lock","جرّب القفل التالي")}</button>`;
+  document.getElementById("hGo").onclick=()=>{sfx.click();huntAsk(true)};return}
+ const nx=H.pos+1,k=hKind(nx);
+ const what=k==="clue"?bi("Next spot: <b>a hidden clue</b>. Answer right to find it!","المحطة التالية: <b>دليل مخفيّ</b>. أجب صوابًا لتجده!"):k==="danger"||k==="gate"?bi(`Danger ahead: <b>${hDanger(nx)[0]}</b>! A wrong answer costs a life and pushes you back.`,`خطر أمامك: <b>${hDanger(nx)[1]}</b>! الإجابة الخاطئة تكلّفك روحًا وتعيدك خطوة.`):nx>=H_SPOTS?bi("Next: <b>the vault of the treasure</b>!","التالي: <b>خزينة الكنز</b>!"):k==="start"?bi("Next: <b>a new stage and a safe camp</b> (checkpoint).","التالي: <b>مرحلة جديدة ومخيّم آمن</b> (نقطة حفظ)."):bi("Next: a quiet path through the labyrinth.","التالي: ممرّ هادئ في المتاهة.");
+ p.innerHTML=`<p class="hmsg">${what}</p><button class="btn big" id="hGo">${bi("Take the next step","خُطّ الخطوة التالية")}</button>`;
+ document.getElementById("hGo").onclick=()=>{sfx.click();huntAsk(false)}}
+function huntAsk(vault){const H=S.hunt,p=document.getElementById("hpanel");let q,opts,correct;
+ if(vault){const v=VAULT_Q[H.lock];q={q:v.q[0],qa:v.q[1]};opts=shuffle([v.a,...v.o]);correct=v.a[0]}
+ else{q=huntPick();opts=q.tf?[["True","صواب"],["False","خطأ"]]:shuffle([q.a,...q.o]);correct=q.a[0];H.cur=qKey(q)}
+ document.querySelectorAll(".hspot.next").forEach(e=>e.classList.add("aim"));
+ p.innerHTML=`<div class="hq"><h3 class="q en">${q.q}</h3>${q.qa?`<p class="q-ar ar" lang="ar">${q.qa}</p>`:""}<div class="hopts">${opts.map((o,i)=>`<button class="opt hopt" data-i="${i}"><span class="en">${o[0]}</span><span class="ar" lang="ar">${o[1]||o[0]}</span></button>`).join("")}</div></div>`;
+ p.scrollIntoView({block:"nearest",behavior:reduce()?"auto":"smooth"});
+ p.querySelectorAll(".hopt").forEach(b=>b.onclick=()=>{if(p.dataset.busy)return;p.dataset.busy="1";const o=opts[+b.dataset.i],ok=o[0]===correct;b.classList.add("picked");
+  if(!vault){if(!H.seen.includes(H.cur))H.seen.push(H.cur);if(H.seen.length>400)H.seen=H.seen.slice(-300)}
+  huntSuspense(ok,vault,b,correct,p)})}
+function huntSuspense(ok,vault,btn,correct,p){document.body.classList.add("hsusp");const dur=vault?1.9:1.35;try{drumRoll(dur,vault);musicLevel(.05)}catch(e){}
+ p.querySelectorAll(".hopt").forEach(b=>b.disabled=true);
+ setTimeout(()=>{document.body.classList.remove("hsusp");delete p.dataset.busy;p.querySelectorAll(".hopt").forEach(b=>{const o=b.querySelector(".en").textContent;if(o===correct)b.classList.add("right")});if(!ok)btn.classList.add("wrong");
+  try{drumHit(ok);musicLevel(.35)}catch(e){}huntResolve(ok,vault)},dur*1000)}
+function huntResolve(ok,vault){const H=S.hunt;let msg="",after=null;
+ if(vault){if(ok){H.lock++;S.coins+=20;msg=bi(`<b>Click!</b> Lock ${H.lock} opens.`,`<b>طق!</b> فُتح القفل ${H.lock}.`);if(H.lock>=3){save();setTimeout(huntFinale,900);return huntShow(msg,false)}}
+  else{H.lives--;msg=bi("<b>The lock jams!</b> You lose a life. Read your clues and try again.","<b>تعطّل القفل!</b> خسرت روحًا. اقرأ أدلّتك وحاول مجدّدًا.")}
+  save();setShown(S.coins);return huntShow(msg,true)}
+ const nx=H.pos+1,k=hKind(nx);
+ if(ok){H.pos=nx;S.coins+=5;S.earned+=5;addXP(10);hSteps(3);
+  if(k==="clue"){const ci=hClueIdx(nx);if(!H.clues.includes(ci))H.clues.push(ci);S.coins+=15;msg=bi("You found a clue! +15 dinars","وجدت دليلًا! +15 دينارًا");after=()=>huntClue(ci)}
+  else if(k==="danger"||k==="gate"){msg=bi(`You escaped <b>${hDanger(nx)[0]}</b>! +5 dinars`,`نجوت من <b>${hDanger(nx)[1]}</b>! +5 دنانير`)}
+  else msg=bi("A step closer to the treasure. +5 dinars","خطوة أقرب إلى الكنز. +5 دنانير");
+  if(nx%6===0&&nx<H_SPOTS){S.coins+=50;msg=bi(`<b>Stage complete!</b> You reach a safe camp in ${HUNT_STAGES[nx/6].n[0]}. +50 dinars`,`<b>اكتملت المرحلة!</b> وصلت إلى مخيّم آمن في ${HUNT_STAGES[nx/6].n[1]}. +50 دينارًا`);try{orchFanfare(false);confetti()}catch(e){}}
+  if(nx>=H_SPOTS){msg=bi("<b>You reached the vault!</b> Three locks remain.","<b>وصلت إلى الخزينة!</b> بقيت ثلاثة أقفال.");try{orchFanfare(true)}catch(e){}}}
+ else{H.lives--;
+  if(k==="danger"||k==="gate"){const back=H.pos%6!==0;if(back)H.pos--;msg=bi(`<b>${hDanger(nx)[0][0].toUpperCase()+hDanger(nx)[0].slice(1)}!</b> You lose a life${back?" and fall back one step":""}.`,`<b>${hDanger(nx)[1]}!</b> خسرت روحًا${back?" وتراجعت خطوة":""}.`)}
+  else msg=bi("Wrong path! The labyrinth closes; you lose a life.","طريق خاطئ! أُغلقت المتاهة وخسرت روحًا.")}
+ save();setShown(S.coins);huntShow(msg,true);if(after)setTimeout(after,1300)}
+function huntShow(msg,redraw){const p=document.getElementById("hpanel");
+ const mp=document.getElementById("hmap");if(redraw&&mp){const H=S.hunt;const [x,y]=hNode(Math.min(H.pos,H_SPOTS));const old=document.querySelector(".hexp");const svgNew=huntSVG();
+  if(old){old.style.transform=`translate(${x}px,${y}px)`;setTimeout(()=>{mp.innerHTML=svgNew;huntStat()},950)}else{mp.innerHTML=svgNew;huntStat()}}
+ if(p){const box=document.createElement("div");box.className="hres";box.innerHTML=`<p>${msg}</p><button class="btn" id="hCont">${bi("Continue","متابعة")}</button>`;p.querySelector(".hq")?.appendChild(box);
+  const c=document.getElementById("hCont");if(c){c.onclick=()=>{sfx.click();huntIdle()};setTimeout(()=>c.focus(),50)}}}
+function huntStat(){const H=S.hunt,el=document.querySelector(".hstat");if(!el)return;const stg=Math.min(3,Math.floor(Math.min(H.pos,H_SPOTS-1)/6));
+ el.innerHTML=`<span class="hlives">${[0,1,2].map(i=>`<i class="${i<H.lives?"on":""}">♥</i>`).join("")}</span><span class="hcl">📜 ${H.clues.length}/8</span><span class="hst">${H.pos>=H_SPOTS?bi("The Vault","الخزينة"):bi(`Stage ${stg+1}/4`,`المرحلة ${stg+1}/4`)}</span>`}
+function huntClue(ci){const c=HUNT_CLUES[ci];closeCard();const el=document.createElement("div");el.className="cardov hclueov";el.setAttribute("role","dialog");
+ el.innerHTML=`<div class="cvrays r-g"></div><p class="cv-top">${bi(`Clue ${ci+1} of 8`,`الدليل ${ci+1} من 8`)}</p><div class="flip"><div class="fback"><span class="fb-emb">${PUN.stela}</span><span class="fb-t">CLUE</span></div><div class="ffront"><div class="hparch"><p class="hfact">${bi(c[0],c[1])}</p><p class="hriddle">“${bi(c[2],c[3])}”</p></div></div></div><div class="row"><button class="btn" id="cvOk">${bi("Keep the clue","احتفظ بالدليل")}</button></div>`;
+ document.body.appendChild(el);requestAnimationFrame(()=>el.classList.add("in"));try{drumRoll(1.1)}catch(e){}
+ setTimeout(()=>{el.querySelector(".flip").classList.add("flipped");try{drumHit(true);medalSound()}catch(e){}},1150);
+ el.querySelector("#cvOk").onclick=()=>{sfx.click();el.remove()}}
+function huntCluesSheet(){const H=S.hunt;closeCard();const el=document.createElement("div");el.className="cardov";el.setAttribute("role","dialog");
+ el.innerHTML=`<p class="cv-top">${bi("Your clues","أدلّتك")} · ${H.clues.length}/8</p><div class="hclist">${HUNT_CLUES.map((c,i)=>H.clues.includes(i)?`<div class="hparch sm"><p class="hfact">${bi(c[0],c[1])}</p><p class="hriddle">“${bi(c[2],c[3])}”</p></div>`:`<div class="hparch sm miss">${bi(`Clue ${i+1}: not found yet`,`الدليل ${i+1}: لم يُعثر عليه بعد`)}</div>`).join("")}</div><div class="row"><button class="btn" id="cvOk">${bi("Close","إغلاق")}</button></div>`;
+ document.body.appendChild(el);requestAnimationFrame(()=>el.classList.add("in"));el.querySelector("#cvOk").onclick=()=>{sfx.click();el.remove()}}
+function huntFinale(){const H=S.hunt,first=!H.runs;const prize=first?500:250;H.done=true;H.runs=(H.runs||0)+1;S.coins+=prize;S.earned+=prize;addXP(200);
+ const lk=CARDS.find(k=>k[0]==="l_dinar");let card=null;if(lk&&!S.cards.l_dinar){S.cards.l_dinar=Date.now();pageDone("legend");card=lk}
+ save();setShown(S.coins);
+ const el=document.createElement("div");el.className="grover crown hfin";el.setAttribute("role","dialog");
+ el.innerHTML=`<div class="grrays"></div><div class="grfx"></div><div class="hvaultbig"><div class="hdoor l"></div><div class="hdoor r"></div><div class="hgold">${Array.from({length:14},(_,i)=>`<i style="--i:${i}"></i>`).join("")}</div></div>
+  <div class="grtitle"><span class="hsmall">${bi("The three locks are open…","فُتحت الأقفال الثلاثة…")}</span><strong>${bi("The Treasure of Carthage!","كنز قرطاج!")}</strong><span class="grsub">${bi("Your clues led you through the harbour, the Tophet, Byrsa and the cisterns. Elissa would be proud!","قادتك أدلّتك عبر الميناء والتوفة وبيرصا والصهاريج. لكانت عليسة فخورة بك!")}</span><span class="hbonus">+${prize} ${bi("dinars","دينارًا")}</span></div><span class="hantap">${bi("Tap to continue","اضغط للمتابعة")}</span>`;
+ document.body.appendChild(el);requestAnimationFrame(()=>el.classList.add("in"));
+ try{musicLevel(.03);drumRoll(2.2,true)}catch(e){}
+ setTimeout(()=>{el.classList.add("open");try{drumHit(true);crownSound();confetti();grFireworks(el.querySelector(".grfx"),6)}catch(e){}},2250);
+ el.onclick=()=>{if(!el.classList.contains("open"))return;el.remove();try{musicLevel(.35)}catch(e){}if(card)cardReveal({card,page:false});renderHunt()}}
+function huntTile(){const H=S.hunt||{};const pos=H.pos||0;const pct=H.done?100:Math.round(pos/H_SPOTS*100);
+ return `<button class="hunttile" id="huntBtn"><span class="htmap"><svg viewBox="0 0 60 48" aria-hidden="true"><rect width="60" height="48" rx="6" fill="#e2c78f"/><path d="M8 40 C20 30 14 24 26 22 S40 12 52 8" stroke="#7a5214" stroke-width="2.4" stroke-dasharray="4 3" fill="none"/><path d="M47 4 l10 8 M57 4 l-10 8" stroke="#d62a2a" stroke-width="3"/></svg></span><span class="mt"><strong>${bi("Carthage's Lost Treasure","كنز قرطاج المفقود")}</strong><span class="small">${H.done?bi("Treasure found! Start a new hunt.","وُجد الكنز! ابدأ صيدًا جديدًا."):bi(`Labyrinth hunt · clues ${(H.clues||[]).length}/8 · ${pct}% of the way`,`صيد في المتاهة · الأدلّة ${(H.clues||[]).length}/8 · ${pct}% من الطريق`)}</span><span class="gbar"><i style="width:${Math.max(3,pct)}%"></i></span></span><span class="mgo">${bi("Explore","استكشف")}</span></button>`}
 
 function hannibalTriumph(bonus){closeHannibal(true);const el=document.createElement("div");el.className="hanover";el.setAttribute("role","dialog");el.setAttribute("aria-label","Hannibal's triumph");
  el.innerHTML=`<div class="hanstage">${HAN_SVG}
@@ -3955,6 +4158,7 @@ function renderMap(){
   app.innerHTML=header()+`
   <div class="intro"><p class="en">Choose a quest. Answer fast for a <b>speed bonus</b>, keep a <b>streak</b> to double your gold, and finish without a mistake to win its <b>Golden Dinar</b>.</p>
   <p class="ar" lang="ar">اختر تحديًا. أجب بسرعة لتنال <b>مكافأة السرعة</b>، وحافظ على <b>السلسلة</b> لتضاعف ذهبك، وأنهِ التحدي دون خطأ لتفوز بـ<b>الدينار الذهبي</b>.</p></div>
+  ${huntTile()}
   <div class="sect"><h3 class="en">${sico("standard")}The Eras</h3><span class="ar">الحقب التاريخية</span></div>
   <div class="tiles">${ALL.map((c,i)=>c.kind==="era"?tile(c,i):"").join("")}</div>
   <div class="sect"><h3 class="en">${sico("tanit")}Special Quests</h3><span class="ar">تحديات خاصة</span></div>
@@ -3983,7 +4187,7 @@ function renderMap(){
   document.getElementById("citiesTile").onclick=()=>{sfx.click();nav(renderCities)};
   setTimeout(beyGreet,700);setTimeout(maybeGift,2600);document.body.dataset.heat="0";
   document.getElementById("getApp").onclick=()=>{sfx.click();openGetApp()};
-  document.getElementById("qAch").onclick=()=>{sfx.click();nav(renderAch)};document.getElementById("museumBtn").onclick=()=>{sfx.click();nav(renderAlbum)};
+  document.getElementById("qAch").onclick=()=>{sfx.click();nav(renderAch)};document.getElementById("museumBtn").onclick=()=>{sfx.click();nav(renderAlbum)};document.getElementById("huntBtn").onclick=()=>{sfx.click();nav(renderHunt)};
 }
 
 /* ================= quiz ================= */
