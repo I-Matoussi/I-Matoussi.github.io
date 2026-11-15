@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dr. Phil Better's Pharmacy Check-up</title>
+<meta name="description" content="A pharmacology and pharmacy quiz for medical and pharmacy students, hosted by Dr. Phil Better.">
+<meta name="theme-color" content="#1d4a42">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --porcelain:#f3f5f3;
+    --paper:#fbfcfb;
+    --glass:#1d4a42;      /* apothecary bottle green */
+    --glass-deep:#14352f;
+    --glass-soft:#e3ece8;
+    --amber:#b5762a;      /* amber pill-bottle glass */
+    --amber-soft:#f5ead9;
+    --ink:#1b2624;
+    --muted:#5f6f6b;
+    --line:#d3ddd9;
+    --right:#2f6b4f;  --right-soft:#e4efe8;
+    --wrong:#8f2f2a;  --wrong-soft:#f5e6e3;
+    --serif:"Spectral",Georgia,"Times New Roman",serif;
+    --sans:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:var(--sans);font-size:16px;background:var(--porcelain);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+  button{font:inherit;color:inherit}
+  :focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+  .wrap{max-width:1040px;margin:0 auto;padding:28px 24px 56px}
+
+  /* masthead */
+  .mast{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:22px;margin-bottom:34px;border-bottom:1px solid var(--line)}
+  .mark{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-size:19px;font-weight:500;letter-spacing:.1px}
+  .rx{font-family:var(--serif);font-style:italic;font-size:22px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--glass);color:var(--amber-soft)}
+  .best{font-size:13.5px;color:var(--muted)}
+
+  /* arch: the apothecary window that frames Dr. Phil */
+  .arch{background:var(--glass);border-radius:999px 999px 18px 18px;padding:34px 22px 0;display:flex;align-items:flex-end;justify-content:center;position:relative;overflow:hidden}
+  .arch:after{content:"";position:absolute;inset:10px 10px 0;border:1px solid rgba(245,234,217,.22);border-bottom:0;border-radius:999px 999px 12px 12px;pointer-events:none}
+  .doc{display:block;width:100%;height:auto}
+
+  /* screens */
+  .screen.hidden{display:none}
+
+  /* start */
+  .hero{display:grid;grid-template-columns:300px 1fr;gap:56px;align-items:end}
+  .hero .arch{height:380px}
+  .hero .arch .doc{max-width:236px}
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(38px,5.6vw,62px);line-height:1.02;letter-spacing:-.8px;margin:0 0 22px;max-width:12ch}
+  .speech{font-family:var(--serif);font-size:19px;line-height:1.6;color:var(--ink);max-width:46ch;margin:0;padding-left:20px;border-left:2px solid var(--amber)}
+  .speech .who{display:block;font-family:var(--sans);font-size:14px;font-weight:600;color:var(--glass);margin-bottom:4px}
+
+  .shelf{margin-top:52px}
+  .shelf h2{font-family:var(--serif);font-weight:500;font-size:24px;margin:0 0 14px}
+  .full{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px;background:var(--glass);color:var(--paper);border-radius:16px;padding:24px 28px;transition:background .2s}
+  .full:hover{background:var(--glass-deep)}
+  .full .t{font-family:var(--serif);font-size:26px;font-weight:500;line-height:1.2}
+  .full .d{font-size:14.5px;color:#c4d6d0;margin-top:4px}
+  .full .go{font-weight:600;font-size:15px;background:var(--amber);color:#fff;padding:12px 20px;border-radius:999px;white-space:nowrap}
+  .list{margin-top:14px;background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .row{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;padding:18px 26px;border-top:1px solid var(--line);transition:background .15s}
+  .row:first-child{border-top:0}
+  .row:hover{background:var(--glass-soft)}
+  .row .t{font-family:var(--serif);font-size:20px;font-weight:500}
+  .row .d{font-size:14px;color:var(--muted)}
+  .row .n{font-size:13.5px;color:var(--muted);white-space:nowrap}
+  .badge{display:inline-block;font-family:var(--sans);font-size:12px;font-weight:600;color:var(--amber);background:var(--amber-soft);border-radius:999px;padding:2px 10px;margin-left:10px;vertical-align:3px}
+
+  /* quiz */
+  .qgrid{display:grid;grid-template-columns:230px 1fr;gap:48px;align-items:start}
+  .side{position:sticky;top:24px}
+  .side .arch{height:280px;padding-top:26px}
+  .side .arch .doc{max-width:180px}
+  .say{font-family:var(--serif);font-style:italic;font-size:17px;line-height:1.5;color:var(--glass);margin:16px 4px 0;min-height:52px}
+  .qhead{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:14px;color:var(--muted);margin-bottom:12px}
+  .qhead .round{color:var(--glass);font-weight:600}
+  .track{display:flex;gap:3px;margin-bottom:30px}
+  .track i{flex:1;height:5px;border-radius:3px;background:#dbe3e0}
+  .track i.cur{background:var(--amber)}
+  .track i.r{background:var(--right)}
+  .track i.w{background:var(--wrong)}
+  .q{font-family:var(--serif);font-weight:500;font-size:clamp(23px,2.8vw,30px);line-height:1.28;letter-spacing:-.2px;margin:0 0 26px;max-width:32ch}
+  .opts{display:grid;gap:10px}
+  .opt{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:34px 1fr;gap:14px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 18px;font-size:16px;line-height:1.45;transition:border-color .15s,background .15s}
+  .opt:hover:not([disabled]){border-color:var(--glass);background:#fff}
+  .opt:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+  .opt .k{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-family:var(--serif);font-size:16px;color:var(--muted);background:#fff}
+  .opt[disabled]{cursor:default}
+  .opt.dim{opacity:.55}
+  .opt.ok{background:var(--right-soft);border-color:var(--right)}
+  .opt.ok .k{background:var(--right);border-color:var(--right);color:#fff}
+  .opt.bad{background:var(--wrong-soft);border-color:var(--wrong)}
+  .opt.bad .k{background:var(--wrong);border-color:var(--wrong);color:#fff}
+
+  /* the prescription slip */
+  .slip{display:none;margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:4px 4px 14px 14px;padding:20px 24px 22px 70px;position:relative;box-shadow:0 1px 0 var(--line),0 14px 30px -18px rgba(20,53,47,.35)}
+  .slip.show{display:block;animation:slip .35s ease-out}
+  .slip:before{content:"";position:absolute;left:0;right:0;top:-1px;height:6px;border-radius:4px 4px 0 0;background:repeating-linear-gradient(90deg,var(--glass) 0 14px,transparent 14px 20px)}
+  .slip .sym{position:absolute;left:22px;top:16px;font-family:var(--serif);font-style:italic;font-size:34px;line-height:1;color:var(--amber)}
+  .slip .verdict{font-weight:700;font-size:15px;margin:0 0 4px}
+  .slip .verdict.ok{color:var(--right)} .slip .verdict.bad{color:var(--wrong)}
+  .slip p{margin:0;font-family:var(--serif);font-size:17.5px;line-height:1.6;max-width:62ch}
+  .slip p.ref{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);font-family:var(--sans);font-size:13.5px;color:var(--muted)}
+  cite{font-style:italic;font-family:var(--serif);font-size:1.06em;color:var(--glass)}
+  .library{margin-top:56px}
+  .library h2{font-family:var(--serif);font-weight:500;font-size:24px;margin:0 0 6px}
+  .library .intro{color:var(--muted);margin:0 0 20px;max-width:64ch}
+  .shelves{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:34px 44px}
+  .shelves h3{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--amber);margin:0 0 6px}
+  .shelves ul{list-style:none;margin:0;padding:0}
+  .shelves li{padding:11px 0;border-top:1px solid var(--line)}
+  .shelves li cite{display:block;font-size:17.5px;color:var(--ink)}
+  .shelves li span{font-size:13.5px;color:var(--muted)}
+  @keyframes slip{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+  .actions{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-top:28px;padding-top:20px;border-top:1px solid var(--line)}
+  .stats{display:flex;gap:22px;font-size:14px;color:var(--muted)}
+  .stats b{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--ink);margin-left:6px}
+  .btns{display:flex;gap:10px}
+  .btn{all:unset;box-sizing:border-box;cursor:pointer;font-weight:600;font-size:15px;padding:12px 22px;border-radius:999px;background:var(--glass);color:#fff;transition:background .15s}
+  .btn:hover{background:var(--glass-deep)}
+  .btn.quiet{background:transparent;color:var(--glass);box-shadow:inset 0 0 0 1px var(--line)}
+  .btn.quiet:hover{background:var(--glass-soft)}
+  .btn:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+  .btn[hidden]{display:none}
+
+  /* results */
+  .rgrid{display:grid;grid-template-columns:300px 1fr;gap:56px;align-items:end}
+  .rgrid .arch{height:360px}
+  .rgrid .arch .doc{max-width:224px}
+  .total{font-family:var(--serif);font-weight:500;font-size:clamp(64px,9vw,104px);line-height:.95;letter-spacing:-2px;color:var(--glass);margin:0}
+  .total small{font-size:.36em;letter-spacing:0;color:var(--muted);margin-left:8px}
+  .sub{color:var(--muted);margin:10px 0 22px;font-size:15px}
+  .chart{margin-top:44px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:8px 26px}
+  .crow{display:grid;grid-template-columns:minmax(150px,1.1fr) 2fr 52px 96px;gap:18px;align-items:center;padding:15px 0;border-top:1px solid var(--line)}
+  .crow:first-child{border-top:0}
+  .crow .nm{font-family:var(--serif);font-size:18px}
+  .meter{height:8px;border-radius:4px;background:#e2e9e6;overflow:hidden}
+  .meter i{display:block;height:100%;border-radius:4px}
+  .crow .sc{font-size:14px;color:var(--muted);text-align:right}
+  .status{font-size:13px;font-weight:600;text-align:right}
+  .status.g{color:var(--right)} .status.a{color:var(--amber)} .status.r{color:var(--wrong)}
+  details.review{margin-top:16px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px 26px}
+  details.review summary{cursor:pointer;font-family:var(--serif);font-size:19px;font-weight:500}
+  .miss{border-top:1px solid var(--line);padding:16px 0}
+  .miss:first-of-type{margin-top:12px}
+  .miss .mq{font-family:var(--serif);font-size:17.5px;font-weight:500;margin-bottom:6px}
+  .miss .you{color:var(--wrong);font-size:14.5px}
+  .miss .ans{color:var(--right);font-size:14.5px;font-weight:600}
+  .miss .ex{color:var(--muted);font-size:14.5px;margin-top:6px;max-width:70ch}
+
+  footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+  footer a{color:var(--glass)}
+
+  /* responsive */
+  @media (max-width:820px){
+    .hero,.rgrid{grid-template-columns:1fr;gap:28px}
+    .hero .arch,.rgrid .arch{height:300px;max-width:280px}
+    .hero .arch .doc,.rgrid .arch .doc{max-width:190px}
+    .qgrid{grid-template-columns:1fr;gap:18px}
+    .side{position:static;display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center}
+    .side .arch{height:118px;padding:14px 8px 0}
+    .side .arch:after{inset:5px 5px 0}
+    .side .arch .doc{max-width:80px}
+    .say{margin:0;min-height:0;font-size:16px}
+    .crow{grid-template-columns:1fr 46px 84px;gap:10px}
+    .crow .meter{grid-column:1/-1;order:5}
+  }
+  @media (max-width:520px){
+    .wrap{padding:20px 16px 44px}
+    .mast{margin-bottom:26px}
+    .full{grid-template-columns:1fr;padding:22px}
+    .full .go{justify-self:start}
+    .row{padding:16px 18px}
+    .slip{padding:18px 18px 20px 56px}
+    .slip .sym{left:16px}
+    .chart,details.review{padding-left:18px;padding-right:18px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="mast">
+    <div class="mark"><span class="rx" aria-hidden="true">℞</span>Dr. Phil Better's Check-up</div>
+    <div class="best" id="best"></div>
+  </header>
+
+  <!-- START -->
+  <section id="start" class="screen">
+    <div class="hero">
+      <div class="arch" id="docBig"></div>
+      <div>
+        <h1>The pharmacology check-up</h1>
+        <p class="speech" id="welcome"></p>
+      </div>
+    </div>
+    <div class="shelf">
+      <h2>Choose your check-up</h2>
+      <div id="fullSlot"></div>
+      <div class="list" id="rounds"></div>
+    </div>
+
+    <div class="library">
+      <h2>The reference shelf</h2>
+      <p class="intro">Every explanation points to one of these books. They are the standard references behind the questions, from the classical heritage to today's textbooks.</p>
+      <div class="shelves">
+        <div><h3>The classical heritage</h3><ul>
+          <li><cite>De Materia Medica</cite><span>Dioscorides, 1st century AD</span></li>
+          <li><cite>al-Ḥāwī (Liber Continens)</cite><span>Al-Razi, 10th century</span></li>
+          <li><cite>Zād al-Musāfir (Viaticum)</cite><span>Ibn al-Jazzar of Kairouan, 10th century</span></li>
+          <li><cite>The Canon of Medicine</cite><span>Ibn Sina, early 11th century</span></li>
+          <li><cite>Compendium on Simple Medicaments and Foods</cite><span>Ibn al-Bayṭār, 13th century</span></li>
+          <li><cite>An Account of the Foxglove</cite><span>William Withering, 1785</span></li>
+        </ul></div>
+        <div><h3>Pharmacology</h3><ul>
+          <li><cite>The Pharmacological Basis of Therapeutics</cite><span>Goodman &amp; Gilman, first published 1941</span></li>
+          <li><cite>Rang &amp; Dale's Pharmacology</cite><span>Core text for medical and pharmacy students</span></li>
+          <li><cite>Basic &amp; Clinical Pharmacology</cite><span>Katzung</span></li>
+        </ul>
+        <h3 style="margin-top:22px">Medicine</h3><ul>
+          <li><cite>The Principles and Practice of Medicine</cite><span>William Osler, 1892</span></li>
+          <li><cite>Harrison's Principles of Internal Medicine</cite><span>First edited by Tinsley R. Harrison, 1950</span></li>
+          <li><cite>Davidson's Principles and Practice of Medicine</cite><span>Standard text in many medical schools</span></li>
+        </ul></div>
+        <div><h3>Pharmaceutics and practice</h3><ul>
+          <li><cite>Remington: The Science and Practice of Pharmacy</cite><span>Founded by Joseph P. Remington</span></li>
+          <li><cite>Martindale: The Complete Drug Reference</cite><span>Founded by William Martindale, 1883</span></li>
+          <li><cite>Aulton's Pharmaceutics</cite><span>The Design and Manufacture of Medicines</span></li>
+          <li><cite>Stockley's Drug Interactions</cite><span>The reference for interaction checks</span></li>
+          <li><cite>British National Formulary (BNF)</cite><span>Prescribing and counselling reference</span></li>
+        </ul>
+        <h3 style="margin-top:22px">Industry and clinical trials</h3><ul>
+          <li><cite>Fundamentals of Clinical Trials</cite><span>Friedman, Furberg &amp; DeMets</span></li>
+          <li><cite>The Theory and Practice of Industrial Pharmacy</cite><span>Lieberman &amp; Lachman</span></li>
+        </ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="screen hidden" aria-live="polite">
+    <div class="qgrid">
+      <aside class="side">
+        <div class="arch" id="docSmall"></div>
+        <p class="say" id="say"></p>
+      </aside>
+      <div>
+        <div class="qhead"><span class="round" id="roundChip"></span><span id="counter"></span></div>
+        <div class="track" id="track"></div>
+        <p class="q" id="question"></p>
+        <div class="opts" id="opts"></div>
+        <div class="slip" id="explain"></div>
+        <div class="actions">
+          <div class="stats"><span>Score<b id="score">0</b></span><span>Streak<b id="streak">0</b></span></div>
+          <div class="btns">
+            <button class="btn quiet" id="quit">Back to menu</button>
+            <button class="btn" id="next" hidden>Next question</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results" class="screen hidden">
+    <div class="rgrid">
+      <div class="arch" id="docEnd"></div>
+      <div>
+        <p class="total" id="finalScore"></p>
+        <p class="sub" id="finalPct"></p>
+        <p class="speech" id="verdict"></p>
+      </div>
+    </div>
+    <div class="chart" id="dx"></div>
+    <details class="review" id="reviewBox">
+      <summary id="reviewSum">Review your missed questions</summary>
+      <div id="review"></div>
+    </details>
+    <div class="actions" style="border-top:0">
+      <button class="btn quiet" id="menu">Back to menu</button>
+      <button class="btn" id="again">Take it again</button>
+    </div>
+  </section>
+
+  <footer>
+    For study and revision only, not for clinical decisions or dosing. Facts on Teriak come from public sources:
+    <a href="https://www.ebrd.com/news/2019/ebrd-and-eu-support-expansion-of-tunisian-pharmaceutical-company-teriak.html" target="_blank" rel="noopener">EBRD (2019)</a>,
+    <a href="https://www.ebrd.com/news/2022/ebrd-and-attijari-bank-tunisia-support-local-pharmaceutical-sector.html" target="_blank" rel="noopener">EBRD (2022)</a>,
+    <a href="https://oxfordbusinessgroup.com/reports/tunisia/2017-report/economy/export-platforms-local-pharmaceutical-companies-eye-new-markets" target="_blank" rel="noopener">Oxford Business Group</a>,
+    <a href="https://www.leconomistemaghrebin.com/2019/05/09/tunisie-berd-teriak-pret-117-millions-dinars/" target="_blank" rel="noopener">L'Économiste Maghrébin</a> and
+    <a href="https://www.teriak.com/En/export_11_8" target="_blank" rel="noopener">teriak.com</a>.
+  </footer>
+</div>
+
+<script>
+/* ---------- Dr. Phil Better (original SVG character) ---------- */
+function doctorSVG(mood){
+  const mouths = {
+    neutral:'<path d="M84 112 q16 10 32 0" stroke="#5a2d1e" stroke-width="4" fill="none" stroke-linecap="round"/>',
+    happy:'<path d="M80 108 q20 22 40 0 z" fill="#5a2d1e"/><path d="M86 112 q14 8 28 0" fill="#fff"/>',
+    sad:'<path d="M84 118 q16 -10 32 0" stroke="#5a2d1e" stroke-width="4" fill="none" stroke-linecap="round"/>',
+    talk:'<ellipse cx="100" cy="113" rx="11" ry="8" fill="#5a2d1e"/><ellipse cx="100" cy="117" rx="6" ry="3" fill="#e0726b"/>'
+  };
+  const brows = mood==='sad'
+    ? '<path d="M70 70 l18 5" stroke="#3b2a20" stroke-width="4" stroke-linecap="round"/><path d="M130 70 l-18 5" stroke="#3b2a20" stroke-width="4" stroke-linecap="round"/>'
+    : '<path d="M70 72 q9 -7 18 0" stroke="#3b2a20" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M112 72 q9 -7 18 0" stroke="#3b2a20" stroke-width="4" fill="none" stroke-linecap="round"/>';
+  return `<svg class="doc" viewBox="0 0 200 240" role="img" aria-label="Dr. Phil Better, a cartoon doctor">
+    <!-- coat -->
+    <path d="M30 240 q4 -62 70 -72 q66 10 70 72 z" fill="#ffffff" stroke="#c9d7d4" stroke-width="2"/>
+    <path d="M100 168 l-16 72 h32 z" fill="#2a5d53"/>
+    <path d="M100 168 l-8 14 l8 8 l8 -8 z" fill="#b5762a"/>
+    <path d="M70 176 l30 -8 l-12 30 z" fill="#eef4f3" stroke="#c9d7d4" stroke-width="2"/>
+    <path d="M130 176 l-30 -8 l12 30 z" fill="#eef4f3" stroke="#c9d7d4" stroke-width="2"/>
+    <!-- stethoscope -->
+    <path d="M74 178 q-8 30 14 40 q20 6 24 -10" stroke="#2d3b3a" stroke-width="4" fill="none"/>
+    <circle cx="113" cy="206" r="7" fill="#9aa7a5" stroke="#2d3b3a" stroke-width="3"/>
+    <!-- pocket + pill bottle -->
+    <rect x="128" y="196" width="26" height="22" rx="3" fill="#f2f6f5" stroke="#c9d7d4" stroke-width="2"/>
+    <rect x="133" y="182" width="16" height="20" rx="3" fill="#c4842f"/>
+    <rect x="131" y="178" width="20" height="7" rx="2" fill="#ffffff" stroke="#c9d7d4"/>
+    <rect x="135" y="190" width="12" height="6" fill="#fff" opacity=".85"/>
+    <!-- neck + head -->
+    <rect x="88" y="146" width="24" height="24" fill="#d9a27c"/>
+    <ellipse cx="100" cy="92" rx="52" ry="58" fill="#e8b48f"/>
+    <ellipse cx="48" cy="96" rx="9" ry="13" fill="#e0a882"/>
+    <ellipse cx="152" cy="96" rx="9" ry="13" fill="#e0a882"/>
+    <!-- hair -->
+    <path d="M50 76 q4 -50 52 -48 q46 0 50 46 q-10 -18 -24 -22 q-22 12 -54 4 q-16 4 -24 20z" fill="#3b2a20"/>
+    <!-- head mirror -->
+    <path d="M56 50 q44 -26 90 0" stroke="#7b8a88" stroke-width="5" fill="none"/>
+    <circle cx="100" cy="36" r="13" fill="#dfe9e7" stroke="#7b8a88" stroke-width="4"/>
+    <circle cx="100" cy="36" r="4" fill="#7b8a88"/>
+    ${brows}
+    <!-- glasses + eyes -->
+    <circle cx="79" cy="90" r="15" fill="#fff" stroke="#2d3b3a" stroke-width="4"/>
+    <circle cx="121" cy="90" r="15" fill="#fff" stroke="#2d3b3a" stroke-width="4"/>
+    <path d="M94 90 h12" stroke="#2d3b3a" stroke-width="4"/>
+    <circle cx="80" cy="92" r="5" fill="#2d3b3a"/><circle cx="122" cy="92" r="5" fill="#2d3b3a"/>
+    <!-- nose, moustache, cheeks -->
+    <path d="M100 96 q6 8 0 11" stroke="#c98a65" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M78 104 q11 -6 22 0 q11 -6 22 0 q-11 6 -22 2 q-11 4 -22 -2z" fill="#3b2a20"/>
+    <circle cx="66" cy="110" r="7" fill="#f2a0a0" opacity=".5"/><circle cx="134" cy="110" r="7" fill="#f2a0a0" opacity=".5"/>
+    ${mouths[mood]||mouths.neutral}
+  </svg>`;
+}
+
+/* ---------- Question bank ---------- */
+/* [question, [options...], correctIndex, explanation] */
+const ROUNDS = [
+ { id:'classes', ref:"Rang & Dale's Pharmacology", name:'Drug classes & mechanisms', desc:'Suffixes, targets and how drugs work', qs:[
+  ["Drugs ending in “-pril” (enalapril, ramipril) belong to which class?",["ACE inhibitors","Angiotensin II receptor blockers","Beta-blockers","Calcium channel blockers"],0,"The “-pril” suffix marks ACE inhibitors. Their classic side effect is a dry cough, caused by bradykinin building up because ACE also breaks it down. ARBs end in “-sartan” and rarely cause cough.","Rang & Dale's Pharmacology"],
+  ["Statins lower LDL cholesterol mainly by inhibiting which enzyme?",["HMG-CoA reductase","Lipoprotein lipase","Cholesterol esterase","Acetyl-CoA carboxylase"],0,"HMG-CoA reductase is the rate-limiting step of cholesterol synthesis. Less liver cholesterol means more LDL receptors on hepatocytes, which clear LDL from the blood.","Goodman & Gilman's The Pharmacological Basis of Therapeutics"],
+  ["Omeprazole reduces gastric acid by:",["Irreversibly blocking the H⁺/K⁺-ATPase of parietal cells","Blocking H2 histamine receptors","Neutralising acid already in the stomach","Coating the ulcer base"],0,"Omeprazole is a proton pump inhibitor (PPI). It is activated in the acidic canaliculi of parietal cells and binds the proton pump irreversibly. H2 blockers (e.g. famotidine) are a different class.","Rang & Dale's Pharmacology"],
+  ["Penicillins and cephalosporins kill bacteria by:",["Inhibiting cell wall synthesis","Inhibiting the 30S ribosomal subunit","Inhibiting DNA gyrase","Blocking folate synthesis"],0,"Beta-lactams bind penicillin-binding proteins (transpeptidases) and stop peptidoglycan cross-linking, so the cell wall fails. The 30S target fits tetracyclines and aminoglycosides; DNA gyrase fits fluoroquinolones.","Goodman & Gilman's The Pharmacological Basis of Therapeutics"],
+  ["The main glucose-lowering action of metformin is to:",["Decrease hepatic glucose production","Stimulate insulin release from beta cells","Block glucose reabsorption in the kidney","Slow carbohydrate digestion in the gut"],0,"Metformin, a biguanide, mainly reduces hepatic gluconeogenesis and improves insulin sensitivity. It does not stimulate insulin secretion, so on its own it rarely causes hypoglycaemia. Sulfonylureas stimulate insulin release; SGLT2 inhibitors act on the kidney.","Katzung's Basic & Clinical Pharmacology"],
+  ["Naloxone is best described as:",["An opioid receptor antagonist","A partial opioid agonist","A benzodiazepine antagonist","A central stimulant"],0,"Naloxone competitively blocks opioid receptors and reverses opioid-induced respiratory depression. Flumazenil is the benzodiazepine antagonist.","Rang & Dale's Pharmacology"],
+  ["Warfarin's anticoagulant effect comes from:",["Inhibiting vitamin K epoxide reductase","Directly inhibiting thrombin","Activating antithrombin","Blocking platelet P2Y12 receptors"],0,"Warfarin blocks the recycling of vitamin K, so the liver makes less functional factors II, VII, IX and X. Dabigatran inhibits thrombin directly, heparin works through antithrombin, and clopidogrel blocks P2Y12.","Goodman & Gilman's The Pharmacological Basis of Therapeutics"],
+  ["Fluoxetine and sertraline act primarily by:",["Blocking the serotonin reuptake transporter","Inhibiting monoamine oxidase","Blocking dopamine D2 receptors","Enhancing GABA-A receptor activity"],0,"They are selective serotonin reuptake inhibitors (SSRIs): they block SERT and raise synaptic serotonin. MAO inhibitors, antipsychotics and benzodiazepines use the other mechanisms listed.","Rang & Dale's Pharmacology"],
+  ["Amlodipine lowers blood pressure mainly by:", ["Blocking L-type calcium channels in arterial smooth muscle", "Blocking beta-1 receptors in the heart", "Inhibiting the angiotensin-converting enzyme", "Increasing sodium excretion in the kidney"], 0, "Amlodipine is a dihydropyridine calcium channel blocker. Less calcium entry relaxes arterial smooth muscle, causing vasodilation. Ankle oedema is a classic side effect."],
+  ["Low-dose aspirin prevents clots because it:", ["Irreversibly acetylates platelet COX-1, cutting thromboxane A2", "Reversibly blocks platelet ADP receptors for a few hours", "Directly inhibits thrombin and fibrin formation", "Lowers vitamin K-dependent clotting factors"], 0, "Platelets have no nucleus and cannot make new COX-1, so a single dose affects them for their whole lifespan, about 7 to 10 days."],
+  ["Furosemide acts on which part of the nephron?", ["The thick ascending limb of the loop of Henle (Na⁺-K⁺-2Cl⁻ cotransporter)", "The distal convoluted tubule (Na⁺-Cl⁻ cotransporter)", "The collecting duct (aldosterone receptor)", "The proximal tubule (carbonic anhydrase)"], 0, "Loop diuretics block NKCC2 in the thick ascending limb, where about a quarter of filtered sodium is reabsorbed, which makes them very potent. Thiazides act on the distal tubule."],
+  ["Clopidogrel is a prodrug. Its active metabolite:", ["Irreversibly blocks the platelet P2Y12 ADP receptor", "Reversibly inhibits COX-1 and COX-2", "Blocks the glycoprotein IIb/IIIa receptor directly", "Activates antithrombin in the plasma"], 0, "Clopidogrel needs activation by liver enzymes, mainly CYP2C19. Poor metabolisers, and some interacting drugs, can reduce its effect."],
+  ["Drugs ending in “-olol” (atenolol, propranolol) are:", ["Beta-adrenoceptor blockers", "Alpha-adrenoceptor agonists", "Muscarinic receptor antagonists", "Potassium channel openers"], 0, "Beta-blockers slow the heart and reduce contractility. Propranolol is non-selective, so it can trigger bronchospasm in asthma; atenolol is relatively β1-selective."],
+  ["Benzodiazepines such as diazepam work by:", ["Increasing GABA's effect at the GABA-A chloride channel", "Blocking glutamate NMDA receptors in the cortex", "Inhibiting the reuptake of noradrenaline", "Directly opening potassium channels in neurons"], 0, "Benzodiazepines are positive allosteric modulators: they increase how often the GABA-A chloride channel opens when GABA binds. This explains their sedative, anxiolytic and anticonvulsant effects."],
+  ["Which effects would you expect from atropine?", ["Fast heart rate, dry mouth and dilated pupils", "Slow heart rate, sweating and small pupils", "Bronchospasm, salivation and diarrhoea", "Low blood sugar and tremor"], 0, "Atropine is a muscarinic antagonist, so it blocks parasympathetic effects. The other options describe cholinergic excess, as seen in organophosphate poisoning, which atropine is used to treat."]
+ ]},
+ { id:'uses', ref:"Harrison's Principles of Internal Medicine", name:'Indications & uses', desc:'Match the drug to the condition, plus short cases', qs:[
+  ["First-line drug treatment for anaphylaxis is:",["Intramuscular adrenaline (epinephrine)","Oral antihistamine","Intravenous hydrocortisone alone","Nebulised salbutamol alone"],0,"Intramuscular adrenaline treats the airway, breathing and circulation problems of anaphylaxis. Antihistamines and steroids are only adjuncts and must never delay adrenaline.","Davidson's Principles and Practice of Medicine"],
+  ["Salbutamol is mainly used to:",["Relieve acute bronchospasm in asthma","Prevent asthma attacks as a daily controller","Treat bacterial chest infections","Suppress a dry cough"],0,"Salbutamol is a short-acting β2 agonist: the “reliever” inhaler. Daily control relies on inhaled corticosteroids, often combined with a long-acting β2 agonist.","Katzung's Basic & Clinical Pharmacology"],
+  ["Levothyroxine is prescribed for:",["Hypothyroidism","Hyperthyroidism","Thyroid storm","Goitre caused by excess iodine"],0,"Levothyroxine is synthetic T4, used as replacement therapy when the thyroid makes too little hormone. Hyperthyroidism is treated with drugs such as carbimazole or propylthiouracil.","Harrison's Principles of Internal Medicine"],
+  ["Allopurinol is used to:",["Prevent recurrent gout by lowering uric acid","Relieve the pain of an acute gout attack","Treat rheumatoid arthritis","Dissolve kidney stones made of calcium oxalate"],0,"Allopurinol inhibits xanthine oxidase and lowers urate production. It is long-term prevention; acute attacks are treated with NSAIDs, colchicine or corticosteroids.","Harrison's Principles of Internal Medicine"],
+  ["Case: a 58-year-old with type 2 diabetes has new hypertension and albumin in the urine. Which class is usually preferred?",["ACE inhibitor or ARB","Loop diuretic","Alpha-blocker","Short-acting nifedipine"],0,"ACE inhibitors and ARBs lower blood pressure and reduce proteinuria, slowing diabetic kidney disease. Monitor potassium and renal function after starting.","Harrison's Principles of Internal Medicine"],
+  ["Ondansetron is used mainly to:",["Prevent chemotherapy- and surgery-related nausea and vomiting","Treat motion sickness","Speed up gastric emptying in gastroparesis","Treat diarrhoea"],0,"Ondansetron is a 5-HT3 receptor antagonist, very effective for chemotherapy-induced and postoperative nausea. It works poorly for motion sickness, where antihistamines or hyoscine are used.","Katzung's Basic & Clinical Pharmacology"],
+  ["A standard first-line regimen to eradicate Helicobacter pylori combines:",["A PPI plus two antibiotics (e.g. amoxicillin and clarithromycin)","A PPI alone for eight weeks","An H2 blocker plus an antacid","A single antibiotic for three days"],0,"Triple therapy pairs a PPI with two antibiotics, typically amoxicillin plus clarithromycin or metronidazole. Local resistance patterns guide the exact choice, and bismuth quadruple therapy is used where clarithromycin resistance is high.","Harrison's Principles of Internal Medicine"],
+  ["Isoniazid is a first-line drug for:",["Tuberculosis","Malaria","Urinary tract infection","Toxoplasmosis"],0,"Isoniazid is part of standard TB therapy with rifampicin, pyrazinamide and ethambutol. Pyridoxine (vitamin B6) is often co-prescribed to prevent isoniazid-related peripheral neuropathy.","Goodman & Gilman's The Pharmacological Basis of Therapeutics"],
+  ["Spironolactone is used mainly in:", ["Heart failure and primary hyperaldosteronism", "Acute asthma and anaphylaxis", "Hypothyroidism and goitre", "Migraine prevention and vertigo"], 0, "Spironolactone blocks aldosterone receptors. It improves survival in heart failure with reduced ejection fraction. Monitor potassium, especially with ACE inhibitors."],
+  ["Low-dose methotrexate for rheumatoid arthritis is usually taken:", ["Once a week, never daily", "Three times a day with meals", "Only during acute flares", "Daily, at bedtime"], 0, "Methotrexate is a disease-modifying drug for rheumatoid arthritis. Taking the weekly dose every day by mistake has caused fatal toxicity, which is why pharmacists check this carefully. Folic acid is usually co-prescribed."],
+  ["Acetylcysteine is the antidote for overdose of:", ["Paracetamol (acetaminophen)", "Opioids such as morphine", "Benzodiazepines such as diazepam", "Digoxin"], 0, "Acetylcysteine replenishes glutathione, which detoxifies NAPQI, paracetamol's toxic metabolite. Early treatment prevents liver failure."],
+  ["Oseltamivir is used to treat:", ["Influenza", "Herpes zoster", "HIV infection", "Hepatitis C"], 0, "Oseltamivir is a neuraminidase inhibitor that stops new influenza virions from being released. It works best when started early."],
+  ["Tamsulosin is prescribed for:", ["Urinary symptoms of benign prostatic hyperplasia", "Erectile dysfunction", "Overactive bladder in women", "Kidney stones caused by uric acid"], 0, "Tamsulosin is a selective α1A blocker. It relaxes smooth muscle in the prostate and bladder neck, improving urine flow. Postural hypotension is a possible side effect."],
+  ["An unconscious patient with severe hypoglycaemia cannot swallow. Outside hospital, a suitable treatment is:", ["Glucagon by injection", "Oral glucose gel", "A sugary drink", "Extra long-acting insulin"], 0, "Glucagon releases glucose from liver glycogen. Nothing should be given by mouth to someone who cannot swallow safely. In hospital, intravenous glucose is used."],
+  ["For stroke prevention in non-valvular atrial fibrillation, current guidelines favour:", ["Oral anticoagulation, often a direct oral anticoagulant", "Aspirin alone", "No treatment unless symptoms appear", "A statin alone"], 0, "Risk scores such as CHA₂DS₂-VASc guide the decision. Aspirin alone is no longer recommended for stroke prevention in atrial fibrillation."]
+ ]},
+ { id:'practice', name:'Pharmacy practice', desc:'Interactions, dosage forms, storage, safety', qs:[
+  ["Grapefruit juice can raise blood levels of simvastatin because it inhibits:",["Intestinal CYP3A4","Renal tubular secretion","P-glycoprotein in the brain","Hepatic glucuronidation"],0,"Grapefruit compounds inhibit CYP3A4 in the gut wall, so more simvastatin escapes first-pass metabolism. Higher levels raise the risk of myopathy.","Stockley's Drug Interactions"],
+  ["Ciprofloxacin or doxycycline should not be taken at the same time as milk or antacids because:",["Calcium, magnesium and aluminium chelate the antibiotic and reduce absorption","Milk destroys the antibiotic","Antacids make the antibiotic toxic","They cause serotonin syndrome"],0,"Divalent and trivalent cations form insoluble complexes with fluoroquinolones and tetracyclines. Advise patients to separate them by a few hours.","Stockley's Drug Interactions"],
+  ["Why should an enteric-coated tablet not be crushed?",["The coating protects the drug from stomach acid, or the stomach from the drug","It will taste too sweet","Crushing turns it into a controlled substance","It becomes a sustained-release form"],0,"Enteric coatings dissolve only in the higher pH of the small intestine. Crushing can inactivate acid-labile drugs or irritate the stomach. Modified-release tablets also should not be crushed, but for a different reason: dose dumping.","Aulton's Pharmaceutics: The Design and Manufacture of Medicines"],
+  ["Most vaccines must be stored at:",["2–8 °C in a refrigerator","Room temperature, away from light","−20 °C in a freezer","Any temperature as long as they are sealed"],0,"Most vaccines require the cold chain at 2–8 °C. Freezing can destroy many of them, especially adsorbed (aluminium-adjuvanted) vaccines.","Remington: The Science and Practice of Pharmacy"],
+  ["Glyceryl trinitrate is given sublingually for angina because this route:",["Gives rapid absorption and avoids first-pass liver metabolism","Gives a slower, longer effect","Protects the drug from stomach acid only","Reduces the chance of headache"],0,"The sublingual mucosa drains into the systemic circulation directly, bypassing the liver, which would otherwise metabolise most of the nitrate. Onset takes only a few minutes.","Aulton's Pharmaceutics: The Design and Manufacture of Medicines"],
+  ["Which drug is a well-known teratogen requiring a strict pregnancy prevention programme?",["Isotretinoin","Paracetamol","Amoxicillin","Insulin"],0,"Oral isotretinoin, used for severe acne, causes serious birth defects, so effective contraception and pregnancy testing are mandatory. Valproate is another drug with a formal pregnancy prevention programme.","British National Formulary (BNF)"],
+  ["A patient on an SSRI is prescribed tramadol. Which risk should the pharmacist flag?",["Serotonin syndrome","Hypoglycaemia","Hyperkalaemia","Ototoxicity"],0,"Tramadol has serotonergic activity. Combined with an SSRI it can cause serotonin syndrome (agitation, tremor, hyperthermia, clonus) and also lowers the seizure threshold.","Stockley's Drug Interactions"],
+  ["Which combination most clearly raises bleeding risk?",["Warfarin plus an NSAID such as ibuprofen","Warfarin plus paracetamol taken occasionally","Metformin plus a statin","Levothyroxine plus vitamin D"],0,"NSAIDs impair platelet function and irritate the gastric mucosa, adding to warfarin's anticoagulation. Some NSAIDs can also displace warfarin from protein binding.","Stockley's Drug Interactions"],
+  ["Which drug class can raise lithium levels to toxic concentrations?", ["Thiazide diuretics", "Proton pump inhibitors", "Antihistamines", "Penicillins"], 0, "Thiazides reduce lithium clearance by the kidney. NSAIDs and ACE inhibitors do the same, so lithium levels must be monitored when these drugs are added.", "Stockley's Drug Interactions"],
+  ["Rifampicin can make a combined oral contraceptive less effective because it:", ["Strongly induces liver enzymes such as CYP3A4", "Blocks absorption of hormones in the gut", "Binds oestrogen receptors", "Increases kidney excretion of hormones"], 0, "Rifampicin is one of the strongest enzyme inducers. It speeds up metabolism of many drugs, including hormonal contraceptives, warfarin and some antiretrovirals.", "Stockley's Drug Interactions"],
+  ["Which drug has a narrow therapeutic index and usually needs blood-level monitoring?", ["Digoxin", "Amoxicillin", "Cetirizine", "Omeprazole"], 0, "With narrow-therapeutic-index drugs, the gap between an effective and a toxic level is small. Other examples include lithium, phenytoin, theophylline and aminoglycosides.", "Goodman & Gilman's The Pharmacological Basis of Therapeutics"],
+  ["Unopened insulin vials and pens should be stored:", ["In a refrigerator at 2–8 °C, never frozen", "In a freezer to keep them longer", "On a sunny windowsill", "Anywhere, because insulin is very stable"], 0, "Insulin is a protein that heat and freezing can damage. Once in use, many products can be kept at room temperature for a limited time stated in the product information.", "Remington: The Science and Practice of Pharmacy"],
+  ["How should a patient take oral alendronate?", ["On an empty stomach, with a full glass of water, staying upright for 30 minutes", "With breakfast and a glass of milk", "At bedtime, lying down, with a small sip of water", "Crushed and mixed with food"], 0, "Alendronate is poorly absorbed, and food or calcium blocks absorption further. Staying upright reduces the risk of oesophageal irritation and ulcers.", "British National Formulary (BNF)"],
+  ["Patients on metronidazole are classically warned to avoid:", ["Alcohol, because of a disulfiram-like reaction", "Dairy products, because of chelation", "Grapefruit juice, because of CYP3A4 inhibition", "Sunlight, because of photosensitivity"], 0, "The reaction (flushing, nausea, palpitations) is a standard counselling point. Recent evidence questions how often it happens, but advice to avoid alcohol remains common.", "Stockley's Drug Interactions"],
+  ["The Beers Criteria are used to:", ["Identify potentially inappropriate medicines in older adults", "Rank the bioequivalence of generic medicines", "Classify drugs by abuse potential", "Set storage temperatures for vaccines"], 0, "The American Geriatrics Society publishes and updates the Beers Criteria. Pharmacists use them to review medicines such as long-acting benzodiazepines and strongly anticholinergic drugs in older people.", "American Geriatrics Society Beers Criteria"]
+ ]},
+ { id:'industry', name:'Pharmaceutical industry', desc:'Trials, generics, regulation, safety monitoring', qs:[
+  ["The main goal of a Phase I clinical trial is to:",["Assess safety, tolerability and pharmacokinetics, usually in a small group","Prove efficacy against standard treatment in thousands of patients","Monitor rare adverse effects after marketing","Compare prices with competitors"],0,"Phase I is first-in-human testing, often in healthy volunteers (or patients, in oncology). It looks at safety, dose range and how the body handles the drug.","Friedman, Furberg & DeMets, Fundamentals of Clinical Trials"],
+  ["Which phase provides the large-scale confirmation of efficacy and safety that usually supports marketing authorisation?",["Phase III","Phase I","Phase II","Phase IV"],0,"Phase III trials are large, often multicentre and randomised, comparing the new drug with placebo or standard care. Phase II explores efficacy and dosing in smaller groups.","Friedman, Furberg & DeMets, Fundamentals of Clinical Trials"],
+  ["Phase IV refers to:",["Post-marketing surveillance after approval","The final pre-clinical animal tests","Bioequivalence testing of generics","The patent application stage"],0,"Phase IV studies and pharmacovigilance continue after launch to detect rare or long-term adverse effects and to study real-world use.","Friedman, Furberg & DeMets, Fundamentals of Clinical Trials"],
+  ["To be approved, a generic medicine must mainly show:",["Bioequivalence to the reference (brand) product","A completely new mechanism of action","Superiority over the brand product","A different active ingredient"],0,"Generics contain the same active substance and must show bioequivalence. Typically the 90% confidence intervals for the AUC and Cmax ratios must fall within 80–125%.","Aulton's Pharmaceutics: The Design and Manufacture of Medicines"],
+  ["In pharmaceutical manufacturing, GMP stands for:",["Good Manufacturing Practice","General Medicine Protocol","Global Marketing Permit","Generic Medicine Production"],0,"GMP rules ensure medicines are consistently produced and controlled to quality standards appropriate to their intended use.","Lieberman & Lachman, The Theory and Practice of Industrial Pharmacy"],
+  ["Pharmacovigilance is best defined as:",["Detecting, assessing, understanding and preventing adverse effects of medicines","Guarding pharmacies against theft","Checking drug prices","Testing raw materials before production"],0,"This is the WHO definition. Spontaneous adverse drug reaction reports from health professionals and patients are a core part of it.","Goodman & Gilman's The Pharmacological Basis of Therapeutics"],
+  ["A pharmaceutical patent normally lasts how long from the filing date?",["20 years","5 years","50 years","10 years"],0,"The standard term is 20 years from filing. Because development takes years, the effective market protection is often much shorter, although some regions offer extensions.","WTO TRIPS Agreement"],
+  ["“Manufacturing under licence” means a company:",["Produces another firm's branded medicine with its authorisation and know-how","Copies a medicine after the patent expires","Imports finished medicines without changes","Sells only herbal products"],0,"The brand owner licenses its product, formula and quality standards to a local manufacturer. Many Tunisian laboratories, including Teriak, combine licensed production with their own generics.","Lieberman & Lachman, The Theory and Practice of Industrial Pharmacy"],
+  ["In drug regulation, ICH stands for:", ["International Council for Harmonisation", "International Committee for Health", "Institute of Clinical Hygiene", "Integrated Clinical Handbook"], 0, "The ICH brings regulators and industry together to write shared guidelines on quality, safety and efficacy, such as ICH E6 on Good Clinical Practice.", "ICH guidelines (ich.org)"],
+  ["The thalidomide disaster of the early 1960s led most directly to:", ["Stricter laws requiring proof of safety and efficacy before approval", "The invention of the randomised controlled trial", "The first patents on medicines", "The end of animal testing"], 0, "Thalidomide caused severe limb defects in thousands of babies. In the USA, the 1962 Kefauver–Harris Amendments required proof of efficacy, and many countries created formal adverse-reaction reporting.", "Goodman & Gilman's The Pharmacological Basis of Therapeutics"],
+  ["In a double-blind trial:", ["Neither participants nor investigators know who receives which treatment", "Only the participants are unaware of their treatment", "Two separate placebo groups are used", "The results are reviewed by two independent journals"], 0, "Blinding prevents expectations from biasing how outcomes are reported or assessed. Randomisation and blinding together are the core of a strong clinical trial.", "Friedman, Furberg & DeMets, Fundamentals of Clinical Trials"],
+  ["In pharmaceutical manufacturing, API means:", ["Active pharmaceutical ingredient", "Approved product information", "Applied pharmacy inspection", "Annual production index"], 0, "The API is the substance that produces the therapeutic effect. Excipients make up the rest of the dosage form.", "Lieberman & Lachman, The Theory and Practice of Industrial Pharmacy"],
+  ["A biosimilar is:", ["A biological medicine highly similar to an approved reference biologic", "An exact chemical copy of a small-molecule drug", "A herbal product with a similar effect", "A new biological with a new mechanism"], 0, "Biologics are large and made in living cells, so copies cannot be identical. Biosimilars must show no clinically meaningful differences in quality, safety and efficacy.", "Rang & Dale's Pharmacology"],
+  ["An excipient is:", ["An inactive ingredient that helps form, protect or deliver the dose", "The main active substance in the tablet", "A contaminant found during quality control", "A drug used to treat side effects"], 0, "Fillers, binders, disintegrants, lubricants and coatings are all excipients. They affect stability, absorption and patient acceptability.", "Aulton's Pharmaceutics: The Design and Manufacture of Medicines"],
+  ["The Declaration of Helsinki (1964) sets out:", ["Ethical principles for medical research involving human participants", "International prices for essential medicines", "Rules for patenting new molecules", "Standards for hospital pharmacy design"], 0, "The World Medical Association adopted it in 1964 and has revised it several times. Informed consent and independent ethics review are central principles.", "World Medical Association, Declaration of Helsinki"]
+ ]},
+ { id:'teriak', name:'Teriak & theriac', desc:'Tunisian pharma: Teriak, its activities and history', bonus:true, qs:[
+  ["In what year was Laboratoires Teriak founded?",["1996","1986","2003","2011"],0,"Teriak was founded in 1996 by the Kilani family and is headquartered in Tunis.","EBRD press release, 2019"],
+  ["Teriak is a subsidiary of which Tunisian group?",["The Kilani group","The Poulina group","The Mabrouk group","The Elloumi group"],0,"Teriak belongs to the family-owned Kilani group, which is active in several health-related businesses.","EBRD press release, 2019"],
+  ["Who has led Teriak since 2003?",["Sara Masmoudi","Mohamed Chiheb Ben Rayana","Celestin Tawamba","Sir Suma Chakrabarti"],0,"Sara Masmoudi took over the company's direction in 2003, at age 32. Ben Rayana headed Tunisia's National Centre for Drug Control, Tawamba is a Cameroonian businessman, and Chakrabarti was EBRD president.","PharmaBoardroom interview with Sara Masmoudi"],
+  ["What are Teriak's two main business models?",["Manufacturing under licence for multinationals and producing its own branded generics","Importing medicines and running retail pharmacies","Making medical devices and hospital beds","Herbal remedies and cosmetics"],0,"Teriak manufactures under licence for major multinational companies and also develops its own branded generic products, sold in Tunisia and abroad.","EBRD press release, 2019"],
+  ["According to the company, how many of Teriak's licensors rank among the world's top eight pharmaceutical companies?",["Five","Two","Eight","None"],0,"Teriak states that five of its licensors rank among the top eight pharmaceutical companies worldwide. Partners shown on its website include Abbott, Novartis and Grünenthal.","teriak.com"],
+  ["Which Cameroonian manufacturer did Teriak acquire to serve Central Africa?",["Cinpharm, in Douala","Sanofi Cameroon, in Yaoundé","Pharmacam, in Garoua","Medis Cameroon, in Kribi"],0,"Teriak bought the Cinpharm plant in Douala in late 2015 to produce locally and export across Central Africa. Masmoudi described it as a launch pad for that regional market.","Oxford Business Group, The Report: Tunisia 2017"],
+  ["In 2019, the reported production sites of Teriak were:",["Jebel Ouest and El Fejja in Tunisia, plus Cinpharm in Douala, Cameroon","Sfax and Sousse only","Bizerte and Gabès, plus a plant in Algeria","A single plant in Tunis Carthage"],0,"In 2019 Teriak was reported to have three production sites: Jebel Ouest and El Fejja in Tunisia, and Cinpharm in Douala. A later 2023 report mentioned four production sites.","L'Économiste Maghrébin, 9 May 2019"],
+  ["In 2017 Teriak became the first Tunisian company to join which programme?",["The EBRD's Blue Ribbon programme for high-potential SMEs","The WHO prequalification programme","The EU Horizon research programme","The World Bank's IFC Start-up track"],0,"Teriak was the first Tunisian company in the European Bank for Reconstruction and Development's Blue Ribbon programme, which supports high-potential SMEs.","EBRD press release, 2019"],
+  ["The 2019 EBRD loan of 11.7 million dinars helped Teriak expand production of:",["Dry powder inhalers and other innovative medicines","Vaccines","Veterinary products","Infant formula"],0,"The EBRD, together with an EU grant, financed new equipment to expand dry powder for inhalation and other innovative medicines. It was the EBRD's first financing in the Tunisian pharmaceutical sector.","EBRD press release, 2019"],
+  ["Teriak lists its main export regions as:",["North Africa, Sub-Saharan Africa and the Middle East","North America and Japan","Western Europe only","South America and Oceania"],0,"Teriak works in these regions through distributors, representative agencies and manufacturing plants, and offers partnerships in manufacturing, distribution and promotion.","teriak.com"],
+  ["In the mid-2010s, roughly what share of Tunisia's local pharmaceutical production was generics?",["About two-thirds","About one-tenth","Almost none","All of it"],0,"Oxford Business Group reported that generics made up about two-thirds of local production, with licensed medicines making up the rest. Tunisia encouraged generics to lower health costs.","Oxford Business Group, The Report: Tunisia 2017"],
+  ["Teriak's name echoes “theriac” (Arabic tiryāq). What was theriac historically?",["A famous compound antidote and cure-all","A Roman surgical instrument","An Ottoman hospital","A mineral spring water"],0,"Theriac was a many-ingredient compound medicine, first an antidote to poisons and bites. Galen promoted it, and physicians such as al-Razi and Ibn Sina discussed tiryāq.","Ibn Sina, The Canon of Medicine; Galen's writings on theriac"],
+  ["Which ingredient explains most of theriac's real pharmacological effect?",["Opium","Viper flesh","Honey","Cinnamon"],0,"Opium gave pain relief, sedation and an anti-diarrhoeal effect, which made theriac seem like a miracle drug. In Persian and Ottoman Turkish, tiryāq even came to mean opium.","Goodman & Gilman's The Pharmacological Basis of Therapeutics"],
+  ["Which English word comes from “theriac”?",["Treacle","Triage","Tincture","Therapy"],0,"Theriac was often prepared with honey or syrup, and through Old French “triacle” the name became English “treacle”.","Oxford English Dictionary, “treacle”"],
+  ["Besides manufacturing, which activities do Teriak and the Kilani group cover?", ["Distribution and medical promotion", "Hospital management and insurance", "Agriculture and food processing", "Cosmetics retail only"], 0, "Teriak describes itself as active across health-related activities, including manufacturing, distribution and medical promotion, alongside partnerships with multinational groups.", "PharmaCompass company profile"],
+  ["In 2022, an EBRD risk-sharing deal with Attijari bank Tunisia financed Teriak to:", ["Buy new machinery and maintain its Jebel Ouest plant", "Build a new plant in Morocco", "Open retail pharmacies in Tunis", "Launch a vaccine research centre"], 0, "Attijari bank lent up to TND 5 million under the EBRD's Risk Sharing Framework to improve productivity and energy efficiency. Teriak also joined the EBRD's Skills in Business programme.", "EBRD press release, 2022"],
+  ["The EBRD's 2019 technical assistance aimed to help Teriak qualify for which standard?", ["ISO 45001 on occupational health and safety", "ISO 9001 on quality management only", "ISO 14001 on environmental management only", "ISO 22000 on food safety"], 0, "Alongside the loan, the package supported a move to International Financial Reporting Standards, better cost accounting and stronger health and safety standards for ISO 45001.", "EBRD press release, 2019"]
+ ]},
+ { id:'books', name:"Classic books", desc:"The seminal texts of medicine and pharmacy", qs:[
+  ["Who wrote The Canon of Medicine (al-Qānūn fī al-Ṭibb), a standard textbook in Europe and the Islamic world for centuries?", ["Ibn Sina (Avicenna)", "Al-Razi (Rhazes)", "Ibn Rushd (Averroes)", "Ibn al-Nafis"], 0, "Ibn Sina completed the Canon in the early 11th century. Its Latin translation was taught in European universities into the 17th century.", "Ibn Sina, The Canon of Medicine"],
+  ["Ibn al-Jazzar, a 10th-century physician of Kairouan, wrote Zād al-Musāfir. Its Latin translation was known as:", ["The Viaticum", "The Canon", "The Liber Continens", "The Colliget"], 0, "Constantine the African translated it in the 11th century, and it became a key text of the medical school of Salerno. It is one of Tunisia's great contributions to medical history.", "Ibn al-Jazzar, Zād al-Musāfir (Viaticum)"],
+  ["Dioscorides' De Materia Medica (1st century AD) is:", ["A catalogue of medicinal substances, mostly plants, used for some 1,500 years", "The first textbook of human anatomy", "A collection of Hippocratic case reports", "A Roman manual of surgical instruments"], 0, "Dioscorides, a Greek physician, described about 600 plants and their uses. The work was copied, translated into Arabic and expanded, and remained the basis of materia medica until the Renaissance.", "Dioscorides, De Materia Medica"],
+  ["Al-Razi's vast medical encyclopaedia al-Ḥāwī was known in Latin as:", ["Liber Continens", "Liber Regius", "Theatrum Botanicum", "De Fabrica"], 0, "Al-Razi's students compiled it from his notes after his death. It gathers Greek, Indian and Arabic knowledge with his own clinical observations.", "Al-Razi, al-Ḥāwī (Liber Continens)"],
+  ["Ibn al-Bayṭār, a 13th-century botanist born near Málaga, is famous for:", ["A great compendium of simple medicines and foods", "The first description of the pulmonary circulation", "A treatise on smallpox and measles", "Founding the hospital of Kairouan"], 0, "His Compendium described about 1,400 medicinal substances, many tested in his own travels. Ibn al-Nafis described the pulmonary circulation, and al-Razi wrote on smallpox and measles.", "Ibn al-Bayṭār, Compendium on Simple Medicaments and Foods"],
+  ["William Withering's An Account of the Foxglove (1785) introduced which medicine?", ["Digitalis", "Quinine", "Morphine", "Aspirin"], 0, "Withering observed foxglove's effect on “dropsy”, the swelling of heart failure. His careful dosing records are an early model of clinical pharmacology.", "William Withering, An Account of the Foxglove (1785)"],
+  ["The first official London Pharmacopoeia, a standard list of medicines and their preparation, appeared in:", ["1618", "1498", "1785", "1864"], 0, "The Pharmacopoeia Londinensis was issued by the College of Physicians in 1618. The first British Pharmacopoeia followed in 1864.", "Pharmacopoeia Londinensis (1618)"],
+  ["Louis Goodman and Alfred Gilman first published The Pharmacological Basis of Therapeutics in:", ["1941", "1901", "1965", "1985"], 0, "Goodman & Gilman's linked pharmacology to clinical practice and became known as the “blue bible” of pharmacology. It is still revised regularly.", "Goodman & Gilman's The Pharmacological Basis of Therapeutics"],
+  ["Which reference, founded by William Martindale in 1883, describes medicines used worldwide?", ["Martindale: The Complete Drug Reference", "Stockley's Drug Interactions", "The British National Formulary", "Remington: The Science and Practice of Pharmacy"], 0, "It began as The Extra Pharmacopoeia. Pharmacists use it to identify foreign medicines and find information on drugs from many countries.", "Martindale: The Complete Drug Reference"],
+  ["Joseph P. Remington's classic textbook, first published in the 1880s, covers:", ["Pharmaceutical science and the practice of pharmacy", "Internal medicine and diagnosis", "Human anatomy and dissection", "Medical statistics"], 0, "Now titled Remington: The Science and Practice of Pharmacy, it covers pharmaceutics, dosage forms, compounding and pharmacy practice.", "Remington: The Science and Practice of Pharmacy"],
+  ["William Osler's The Principles and Practice of Medicine (1892) is important because it:", ["Became the leading English-language textbook of scientific medicine", "Was the first pharmacopoeia in North America", "Introduced the stethoscope", "Described the discovery of insulin"], 0, "Osler, a founding professor at Johns Hopkins, also pioneered bedside teaching for students. The textbook ran through many editions.", "William Osler, The Principles and Practice of Medicine"],
+  ["Tinsley R. Harrison first edited which classic internal medicine textbook in 1950?", ["Harrison's Principles of Internal Medicine", "Davidson's Principles and Practice of Medicine", "Gray's Anatomy", "Robbins Pathologic Basis of Disease"], 0, "Harrison's built its chapters around how patients present, linking symptoms to disease mechanisms. It remains a standard reference for medical students and clinicians.", "Harrison's Principles of Internal Medicine"],
+  ["Aulton's Pharmaceutics is subtitled:", ["The Design and Manufacture of Medicines", "The Pharmacological Basis of Therapeutics", "The Complete Drug Reference", "Principles of Internal Medicine"], 0, "It is a core pharmaceutics textbook for pharmacy students, covering physical pharmacy, biopharmaceutics, dosage form design and manufacture.", "Aulton's Pharmaceutics: The Design and Manufacture of Medicines"],
+  ["Which reference is consulted specifically to check whether two medicines interact?", ["Stockley's Drug Interactions", "Gray's Anatomy", "De Materia Medica", "Osler's Principles and Practice of Medicine"], 0, "Stockley's summarises the evidence for each interaction, how it happens, how important it is clinically and how to manage it.", "Stockley's Drug Interactions"]
+ ]}
+];
+
+/* ---------- Dr. Phil's lines ---------- */
+const LINES = {
+  welcome:`<span class="who">Dr. Phil Better</span>Hello, future colleagues. My prescription for today: one question at a time, each followed by a short explanation. Side effects may include confidence.`,
+  right:["Textbook! You're making me Phil Better already.","Correct. Your pharmacology is in excellent health.","Spot on. I'd trust you with my prescription pad.","Right answer, zero side effects.","Exactly. Write that one in your notes, colleague."],
+  wrong:["Not quite. Let's review the chart.","Close, but the lab results disagree. Read on.","Hmm, that one needs a follow-up appointment.","Wrong dose of luck there. Here's why.","No harm done. That's what revision is for."],
+  streak:[ "Three in a row! Your streak is stable.", "Five in a row! Should I call you Doctor already?", "Eight in a row! You're the one prescribing now."],
+  thinking:["Take your time. No rush in my clinic.","Read every option, like a good pharmacist.","Think mechanism first, then the answer.","Trust your notes, colleague."]
+};
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const $ = id => document.getElementById(id);
+
+/* ---------- storage (safe) ---------- */
+function getBest(){ try{ return JSON.parse(localStorage.getItem('drPhilBest')||'{}'); }catch(e){ return {}; } }
+function setBest(key,pct){ try{ const b=getBest(); if(!(key in b) || pct>b[key]){ b[key]=pct; localStorage.setItem('drPhilBest',JSON.stringify(b)); } }catch(e){} }
+function showBest(){ const b=getBest(); $('best').textContent = ('full' in b) ? `Best full check-up: ${b.full}%` : ''; }
+
+/* ---------- state ---------- */
+let S = null;
+
+function buildMenu(){
+  $('docBig').innerHTML = doctorSVG('talk');
+  $('welcome').innerHTML = LINES.welcome;
+  const f = $('fullSlot'); f.innerHTML='';
+  const full = document.createElement('button');
+  full.className='full';
+  full.innerHTML = `<div><div class="t">Full check-up</div><div class="d">24 questions, four from each of the six rounds, shuffled, with a diagnosis by round at the end.</div></div><span class="go">Start the check-up</span>`;
+  full.onclick = () => start('full');
+  f.appendChild(full);
+  const r = $('rounds'); r.innerHTML='';
+  ROUNDS.forEach(rd=>{
+    const b=document.createElement('button'); b.className='row';
+    b.innerHTML = `<div><div class="t">${rd.name}${rd.bonus?'<span class="badge">Tunisian bonus</span>':''}</div><div class="d">${rd.desc}</div></div><span class="n">${rd.qs.length} questions</span>`;
+    b.onclick = () => start(rd.id);
+    r.appendChild(b);
+  });
+  showBest();
+}
+
+function start(mode){
+  let list=[];
+  if(mode==='full'){
+    ROUNDS.forEach(rd=> shuffle(rd.qs).slice(0,4).forEach(q=>list.push({rd,q})));
+    list = shuffle(list);
+  } else {
+    const rd = ROUNDS.find(x=>x.id===mode);
+    list = shuffle(rd.qs).map(q=>({rd,q}));
+  }
+  list = list.map(({rd,q})=>{
+    const order = shuffle(q[1].map((_,i)=>i));
+    return { rd, text:q[0], opts:order.map(i=>q[1][i]), correct:order.indexOf(q[2]), explain:q[3], ref:q[4]||rd.ref||'' };
+  });
+  S = { mode, list, i:0, score:0, streak:0, best:0, answers:[] };
+  show('quiz'); render();
+}
+
+function show(id){ ['start','quiz','results'].forEach(s=>$(s).classList.toggle('hidden',s!==id)); window.scrollTo({top:0,behavior:'smooth'}); }
+
+function drawTrack(){
+  $('track').innerHTML = S.list.map((_,i)=>{
+    const a=S.answers[i];
+    const c = a ? (a.ok?'r':'w') : (i===S.i?'cur':'');
+    return `<i class="${c}"></i>`;
+  }).join('');
+}
+
+function render(){
+  const it = S.list[S.i];
+  $('roundChip').textContent = it.rd.name;
+  $('counter').textContent = `Question ${S.i+1} of ${S.list.length}`;
+  drawTrack();
+  $('question').textContent = it.text;
+  $('say').textContent = pick(LINES.thinking);
+  $('docSmall').innerHTML = doctorSVG('neutral');
+  $('explain').className='slip'; $('explain').innerHTML='';
+  $('next').hidden = true;
+  const o = $('opts'); o.innerHTML='';
+  it.opts.forEach((t,k)=>{
+    const b=document.createElement('button'); b.className='opt';
+    b.innerHTML = `<span class="k">${'ABCD'[k]}</span><span></span>`;
+    b.lastChild.textContent = t;
+    b.onclick = ()=>answer(k);
+    o.appendChild(b);
+  });
+  $('score').textContent=S.score; $('streak').textContent=S.streak;
+  o.firstChild.focus({preventScroll:true});
+}
+
+function answer(k){
+  const it = S.list[S.i];
+  if(S.answers[S.i]!==undefined) return;
+  const ok = k===it.correct;
+  S.answers[S.i] = {ok, chosen:k};
+  [...$('opts').children].forEach((b,j)=>{ b.disabled=true;
+    if(j===it.correct) b.classList.add('ok'); else if(j===k) b.classList.add('bad'); else b.classList.add('dim'); });
+  let line;
+  if(ok){
+    S.score++; S.streak++; S.best=Math.max(S.best,S.streak);
+    line = S.streak===3?LINES.streak[0]:S.streak===5?LINES.streak[1]:S.streak===8?LINES.streak[2]:pick(LINES.right);
+  } else { S.streak=0; line=pick(LINES.wrong); }
+  $('docSmall').innerHTML = doctorSVG(ok?'happy':'sad');
+  $('say').textContent = line;
+  drawTrack();
+  $('explain').innerHTML = `<span class="sym" aria-hidden="true">℞</span>
+    <p class="verdict ${ok?'ok':'bad'}">${ok?'Correct':'The answer is: '+escapeHTML(it.opts[it.correct])}</p>
+    <p>${escapeHTML(it.explain)}</p>${it.ref?`<p class="ref">Further reading: <cite>${escapeHTML(it.ref)}</cite></p>`:''}`;
+  $('explain').classList.add('show');
+  $('score').textContent=S.score; $('streak').textContent=S.streak;
+  $('next').textContent = S.i===S.list.length-1 ? 'See my diagnosis' : 'Next question';
+  $('next').hidden=false; $('next').focus({preventScroll:true});
+}
+
+function escapeHTML(s){ return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function next(){
+  if(S.answers[S.i]===undefined) return;
+  if(S.i < S.list.length-1){ S.i++; render(); } else finish();
+}
+
+function finish(){
+  const n=S.list.length, pct=Math.round(S.score/n*100);
+  setBest(S.mode,pct); showBest();
+  $('finalScore').innerHTML = `${S.score}<small>of ${n}</small>`;
+  $('finalPct').textContent = `${pct}% correct, best streak of ${S.best}`;
+  let mood='happy', verdict;
+  if(pct>=85) verdict=`Excellent health. At ${pct}%, you're ready for the ward, and I'm feeling better already.`;
+  else if(pct>=65) verdict=`Stable condition. A solid ${pct}%, with a couple of areas that need a follow-up. The chart below shows where.`;
+  else if(pct>=40){ verdict=`Needs treatment. My prescription: revise the rounds marked “Revise”, then come back for another check-up.`; mood='neutral'; }
+  else { verdict=`Critical but recoverable. Take one round at a time, read every explanation, and we'll get you Phil-ing better.`; mood='sad'; }
+  $('docEnd').innerHTML = doctorSVG(mood);
+  $('verdict').innerHTML = `<span class="who">Dr. Phil Better</span>${verdict}`;
+
+  const by={};
+  S.list.forEach((it,i)=>{ const k=it.rd.id; by[k]=by[k]||{name:it.rd.name,c:0,t:0}; by[k].t++; if(S.answers[i]&&S.answers[i].ok) by[k].c++; });
+  let rows='';
+  ROUNDS.forEach(rd=>{ const b=by[rd.id]; if(!b) return; const p=b.c/b.t;
+    const [cls,lab,col]= p>=.8?['g','Healthy','var(--right)']:p>=.5?['a','Follow-up','var(--amber)']:['r','Revise','var(--wrong)'];
+    rows+=`<div class="crow"><div class="nm">${b.name}</div><div class="meter"><i style="width:${Math.max(p*100,2)}%;background:${col}"></i></div><div class="sc">${b.c}/${b.t}</div><div class="status ${cls}">${lab}</div></div>`; });
+  $('dx').innerHTML=rows;
+
+  const missed=S.list.map((it,i)=>({it,a:S.answers[i]})).filter(x=>!x.a.ok);
+  $('reviewBox').style.display = missed.length?'block':'none';
+  $('reviewBox').open = false;
+  $('reviewSum').textContent = `Review your missed questions (${missed.length})`;
+  $('review').innerHTML = missed.map(({it,a})=>`<div class="miss"><div class="mq">${escapeHTML(it.text)}</div>
+    <div class="you">Your answer: ${escapeHTML(it.opts[a.chosen])}</div>
+    <div class="ans">Correct: ${escapeHTML(it.opts[it.correct])}</div>
+    <div class="ex">${escapeHTML(it.explain)}</div>${it.ref?`<div class="ex">Further reading: <cite>${escapeHTML(it.ref)}</cite></div>`:''}</div>`).join('');
+  show('results');
+}
+
+/* ---------- events ---------- */
+$('next').onclick = next;
+$('quit').onclick = ()=>{ show('start'); buildMenu(); };
+$('menu').onclick = ()=>{ show('start'); buildMenu(); };
+$('again').onclick = ()=> start(S.mode);
+document.addEventListener('keydown',e=>{
+  if($('quiz').classList.contains('hidden')) return;
+  const map={'1':0,'2':1,'3':2,'4':3,'a':0,'b':1,'c':2,'d':3};
+  const k=map[e.key.toLowerCase()];
+  if(k!==undefined && S.answers[S.i]===undefined){ answer(k); e.preventDefault(); }
+  else if(e.key==='Enter' && S.answers[S.i]!==undefined && document.activeElement!==$('next')){ next(); e.preventDefault(); }
+});
+
+buildMenu();
+</script>
+</body>
+</html>
