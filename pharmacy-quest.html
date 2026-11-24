@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Labyrinth of Remedies · Dr. Phil Better's Pharmacy Quest</title>
+<meta name="description" content="A pharmacology, pharmacy and medical English quest: walk the labyrinth from easy to legendary, earn a badge for every chamber and a final diploma.">
+<meta name="theme-color" content="#0a171b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#0a171b; --deep:#10262b; --teal:#1b4a4e;
+  --moss:#7fb497; --gold:#e6bd62; --gold-deep:#b98a2e;
+  --parch:#f5ecd7; --ink:#1c2929;
+  --good:#2f7d5b; --good-soft:#dcefe3; --bad:#b4513a; --bad-soft:#f6e1d9;
+  --acc:#e6bd62;
+  --serif:"Cormorant Garamond","Palatino Linotype",Georgia,serif;
+  --sans:"Karla",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+html{background:#0a171b}
+body{
+  font-family:var(--sans);font-size:17px;line-height:1.55;color:#e9efe9;min-height:100vh;
+  background:
+    radial-gradient(1000px 600px at 78% -10%, rgba(230,189,98,.13), transparent 60%),
+    radial-gradient(1000px 600px at 78% -10%, color-mix(in srgb, var(--acc) 16%, transparent), transparent 60%),
+    radial-gradient(900px 700px at -10% 110%, rgba(35,91,95,.55), transparent 60%),
+    linear-gradient(180deg,#0b1b1f,#0a171b 60%,#081316);
+  background-attachment:fixed;-webkit-font-smoothing:antialiased;transition:background 1s;
+}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 22px 60px}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:6px 0 20px}
+.brand{display:flex;align-items:center;gap:12px}
+.sigil{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(230,189,98,.5);background:radial-gradient(circle at 35% 30%,#1f5357,#0f2a2e);color:var(--gold);font-family:var(--serif);font-style:italic;font-size:24px}
+.brand b{display:block;font-family:var(--serif);font-size:22px;font-weight:600;letter-spacing:.2px;line-height:1.1}
+.brand span{font-size:12.5px;color:#9fb5ae;letter-spacing:.14em;text-transform:uppercase}
+.hud{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+.pill{border:1px solid rgba(230,189,98,.35);border-radius:999px;padding:4px 12px;font-size:13px;color:#cfdcd5;white-space:nowrap}
+.pill b{color:var(--gold);font-weight:700}
+.lanterns{display:flex;gap:6px;align-items:center}
+.lanterns small{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#9fb5ae;margin-right:4px}
+.lan{width:22px;height:30px}
+.lan .glass{fill:rgba(230,189,98,0);stroke:rgba(230,189,98,.35);stroke-width:1.4}
+.lan .flame{fill:#2a3a3a;transition:fill .5s}
+.lan.on .flame{fill:var(--gold);filter:drop-shadow(0 0 5px rgba(230,189,98,.9))}
+.lan.on .glass{stroke:var(--gold);fill:rgba(230,189,98,.18)}
+.round{width:38px;height:38px;border-radius:50%;border:1px solid rgba(230,189,98,.45);background:transparent;color:var(--gold);display:grid;place-items:center;font-size:17px}
+.round[aria-pressed="false"]{opacity:.55}
+.mapbtn{display:none;border:1px solid rgba(230,189,98,.45);background:transparent;border-radius:999px;padding:6px 14px;font-size:14px;color:var(--gold)}
+
+/* layout */
+.grid{display:grid;grid-template-columns:372px 1fr;gap:34px;align-items:start}
+.mappane{position:sticky;top:18px}
+.maphead{display:flex;justify-content:space-between;align-items:baseline;margin:0 4px 8px}
+.maphead h2{margin:0;font-family:var(--serif);font-size:22px;font-weight:600;color:var(--gold)}
+.maphead span{font-size:13px;color:#9fb5ae}
+.mapbox{border:1px solid rgba(230,189,98,.25);border-radius:22px;padding:6px;background:linear-gradient(180deg,rgba(16,38,43,.9),rgba(10,23,27,.9));box-shadow:0 30px 60px -30px rgba(0,0,0,.8), inset 0 0 70px rgba(35,91,95,.28)}
+#map{display:block;width:100%;height:auto}
+.stoneline{stroke:rgba(255,255,255,.035);stroke-width:1}
+.wall{fill:none;stroke:#0a171b;stroke-width:6;stroke-linecap:round}
+.wall2{fill:none;stroke:rgba(127,180,151,.38);stroke-width:1.6;stroke-linecap:round}
+.corr{fill:none;stroke:rgba(27,74,78,.62);stroke-width:36;stroke-linejoin:round;stroke-linecap:round}
+.rowtint{fill:none;stroke-width:34;stroke-linecap:round;opacity:.14}
+.track{fill:none;stroke:rgba(230,189,98,.3);stroke-width:2.5;stroke-dasharray:2 7;stroke-linecap:round}
+.thread{fill:none;stroke:var(--gold);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 4px rgba(230,189,98,.7));transition:stroke-dasharray .9s ease}
+.rlabel{font-family:var(--serif);font-size:13px;font-weight:600;letter-spacing:.04em}
+.row-g{transition:opacity .8s}
+.row-g.lock{opacity:.3}
+.node{fill:#0b1d20;stroke:rgba(230,189,98,.55);stroke-width:1.6;transition:fill .4s,stroke .4s}
+.node.ok{fill:var(--gold);stroke:#fff3cf}
+.node.no{fill:var(--bad);stroke:#f1b9a8}
+.node.cur{stroke:#fff3cf;stroke-width:2.4}
+.pulse{fill:none;stroke:var(--gold);stroke-width:1.5;opacity:0;transform-box:fill-box;transform-origin:center}
+.pulse.on{animation:pulse 2s ease-out infinite}
+@keyframes pulse{0%{opacity:.8;transform:scale(.6)}100%{opacity:0;transform:scale(2.4)}}
+#tok{transition:transform .9s cubic-bezier(.5,.1,.2,1)}
+.glow{fill:url(#tg)}
+.torch{animation:flick 1.6s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes flick{0%,100%{opacity:.9;transform:scale(1)}40%{opacity:.6;transform:scale(.88,1.1)}70%{opacity:1;transform:scale(1.06,.94)}}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin:10px 6px 0;font-size:12.5px;color:#9fb5ae}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+
+/* stage */
+#stage{min-height:560px}
+#stage>section{animation:fade .5s ease}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.panel{background:linear-gradient(180deg,rgba(16,38,43,.74),rgba(10,23,27,.74));border:1px solid rgba(230,189,98,.18);border-radius:24px;padding:34px 36px;box-shadow:0 40px 80px -40px rgba(0,0,0,.85)}
+.eyebrow{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc)}
+h1,h2.big{font-family:var(--serif);font-weight:600;line-height:1.02;margin:10px 0 14px}
+h1{font-size:clamp(40px,6vw,66px)}
+h1 em{font-style:italic;color:var(--gold);font-weight:500}
+h2.big{font-size:clamp(34px,5vw,54px)}
+.lede{font-size:19px;color:#cfdcd5;max-width:58ch}
+.btn{display:inline-flex;align-items:center;gap:10px;border:0;border-radius:999px;padding:14px 26px;font-weight:700;letter-spacing:.02em;background:linear-gradient(180deg,#f0c96f,#d9a63f);color:#2a1e06;box-shadow:0 10px 30px -10px rgba(230,189,98,.65);transition:transform .15s, box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 14px 34px -10px rgba(230,189,98,.8)}
+.btn.ghost{background:transparent;color:var(--gold);border:1px solid rgba(230,189,98,.55);box-shadow:none}
+.row{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.field{display:grid;gap:6px;margin-top:22px;max-width:380px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:#9fb5ae}
+.field input{padding:12px 16px;border-radius:12px;border:1px solid rgba(230,189,98,.4);background:rgba(255,255,255,.05);color:#fff;font-size:17px;letter-spacing:0;text-transform:none}
+.field input::placeholder{color:#6f8680}
+
+.ladder{list-style:none;margin:26px 0 8px;padding:0;display:grid;gap:8px}
+.ladder li{display:flex;align-items:center;gap:14px;padding:10px 14px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06)}
+.ladder .no{font-family:var(--serif);font-size:20px;color:var(--gold);width:30px;text-align:center}
+.ladder .nm{flex:1;font-weight:600}
+.ladder .nm small{display:block;font-weight:400;color:#9fb5ae;font-size:13px}
+.chip{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;padding:3px 10px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.d1{color:#8fd0a8}.d2{color:#b7d98a}.d3{color:#e6d067}.d4{color:#eaa35e}.d5{color:#e57d66}.d6{color:#d9a0f0}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0 4px}
+.rules div{padding:14px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07);font-size:14.5px;color:#cfdcd5}
+.rules b{display:block;font-family:var(--serif);font-size:19px;color:var(--gold);margin-bottom:2px}
+
+/* guide */
+.guide{display:flex;gap:16px;align-items:flex-end;margin-bottom:18px}
+.doc{width:96px;flex:none}
+.bubble{position:relative;background:var(--parch);color:var(--ink);border-radius:18px 18px 18px 4px;padding:12px 16px;font-size:16px;line-height:1.4;max-width:48ch;box-shadow:0 12px 30px -16px rgba(0,0,0,.7)}
+.bubble b{font-family:var(--serif);font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-deep);display:block;margin-bottom:2px}
+
+/* question card */
+.card{background:linear-gradient(180deg,#f8f0dc,#f1e6cb);color:var(--ink);border-radius:22px;padding:30px 30px 26px;position:relative;box-shadow:0 30px 60px -30px rgba(0,0,0,.8);border-top:6px solid var(--acc)}
+.card:before{content:"";position:absolute;inset:10px;border:1px solid rgba(185,138,46,.35);border-radius:15px;pointer-events:none}
+.card.lockcard{background:linear-gradient(180deg,#eef3ee,#e1eae3)}
+.qmeta{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:#7b5c19;font-weight:700}
+.qmeta .chip{font-size:11px;color:#6a5120}
+.qtext{font-family:var(--serif);font-size:clamp(25px,3.2vw,33px);line-height:1.18;font-weight:600;margin:14px 0 20px}
+.opts{display:grid;gap:10px;position:relative}
+.opt{display:flex;gap:14px;align-items:center;text-align:left;width:100%;padding:13px 16px;border-radius:14px;border:1.5px solid rgba(28,41,41,.18);background:rgba(255,255,255,.55);color:var(--ink);font-size:17px;transition:transform .12s, border-color .15s, background .15s}
+.opt:hover:not(:disabled){border-color:var(--gold-deep);background:#fff;transform:translateX(3px)}
+.opt .k{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-weight:700;font-size:16px;background:var(--teal);color:var(--gold)}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--good-soft);border-color:var(--good)}
+.opt.right .k{background:var(--good);color:#fff}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.opt.wrong .k{background:var(--bad);color:#fff}
+.opt.fade{opacity:.55}
+.fb{margin-top:18px;border-radius:14px;padding:14px 16px;background:#fff9e8;border:1px solid rgba(185,138,46,.35);animation:rise .35s ease}
+.fb.good{background:var(--good-soft);border-color:rgba(47,125,91,.4)}
+.fb.bad{background:var(--bad-soft);border-color:rgba(180,81,58,.4)}
+.fb strong{font-family:var(--serif);font-size:20px;display:block;margin-bottom:2px}
+.fb p{margin:0;font-size:16px}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.word{margin-top:12px;border-radius:14px;padding:12px 14px;background:rgba(28,41,41,.06);border:1px dashed rgba(28,41,41,.32);display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:center;animation:rise .45s ease}
+.word .wl{grid-column:1/-1;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#7b5c19;font-weight:700}
+.word b{font-family:var(--serif);font-size:23px;line-height:1.1}
+.word i{grid-column:1;font-style:normal;color:#38504c;font-size:15.5px}
+.listen{grid-row:2/4;grid-column:2;border:1px solid rgba(28,41,41,.3);background:#fff;border-radius:999px;padding:7px 13px;font-size:14px;color:var(--ink)}
+.card .row{margin-top:18px}
+
+/* interludes */
+.roman{font-family:var(--serif);font-size:92px;line-height:1;color:var(--acc);font-weight:600}
+.focus{display:inline-block;margin:4px 0 6px;padding:8px 14px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);font-size:14.5px;color:#cfdcd5}
+.focus b{color:var(--acc)}
+.stars{display:flex;gap:8px;margin:6px 0 0}
+.award{display:flex;gap:26px;align-items:center;flex-wrap:wrap;margin:16px 0 4px}
+.award svg.big{width:150px;height:180px;flex:none;filter:drop-shadow(0 14px 22px rgba(0,0,0,.55));animation:pop .8s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{opacity:0;transform:scale(.4) rotate(-10deg)}to{opacity:1;transform:none}}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 6px}
+.badges svg{width:84px;height:101px}
+.bars{display:grid;gap:12px;margin:22px 0}
+.bar{display:grid;grid-template-columns:200px 1fr 56px;gap:12px;align-items:center;font-size:15px}
+.bar .tr{height:10px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.bar .fl{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold-deep),var(--gold))}
+.bar span:last-child{text-align:right;color:#cfdcd5}
+.rank{font-family:var(--serif);font-size:clamp(34px,5vw,52px);color:var(--gold);font-weight:600;line-height:1.05;margin:6px 0 4px}
+.review{display:grid;gap:10px;margin-top:16px}
+.review details,.lex{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px 16px}
+.review summary,.lex summary{cursor:pointer;font-weight:600}
+.review p{margin:8px 0 0;color:#cfdcd5;font-size:15.5px}
+.review .ans{color:var(--moss)}
+.lex{margin-top:14px}
+.lex ul{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+.lex li{font-size:15px;color:#cfdcd5}
+.lex li b{color:var(--gold);font-family:var(--serif);font-size:18px;margin-right:6px}
+.note{font-size:13.5px;color:#8ea39b;margin-top:26px}
+footer{margin-top:40px;padding-top:18px;border-top:1px solid rgba(255,255,255,.08);font-size:13px;color:#8ea39b}
+
+@media (max-width:960px){
+  .grid{grid-template-columns:1fr}
+  .mappane{position:static;display:none}
+  .mappane.open{display:block}
+  .mapbtn{display:inline-block}
+  .panel{padding:26px 22px}
+  .card{padding:24px 20px 22px}
+  .bar{grid-template-columns:120px 1fr 44px;font-size:14px}
+  .doc{width:74px}
+  .rules{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+  body{font-size:16px}
+  .wrap{padding:14px 14px 50px}
+  .top{flex-wrap:wrap}
+  .brand b{font-size:19px}
+  .roman{font-size:70px}
+  .award svg.big{width:120px;height:144px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <div class="sigil" aria-hidden="true">℞</div>
+      <div><b>The Labyrinth of Remedies</b><span>Dr. Phil Better's Pharmacy Quest</span></div>
+    </div>
+    <div class="hud">
+      <div class="pill" id="words" hidden>Words <b id="wn">0</b></div>
+      <div class="lanterns" id="lanterns" aria-label="Lanterns left"></div>
+      <button class="round" id="snd" aria-pressed="true" title="Music on/off" aria-label="Music on or off">♪</button>
+      <button class="mapbtn" id="mapbtn" aria-expanded="false">Map</button>
+    </div>
+  </header>
+
+  <div class="grid">
+    <aside class="mappane" id="mappane" aria-label="Labyrinth map">
+      <div class="maphead"><h2>The Labyrinth</h2><span id="mapnote">Six chambers, rising</span></div>
+      <div class="mapbox">
+        <svg id="map" viewBox="0 0 360 540" role="img" aria-label="A winding labyrinth with six chambers. A golden thread marks your progress and a gate at the end of each chamber holds your badge."></svg>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--gold)"></i>Solved</span>
+        <span><i style="background:var(--bad)"></i>Missed</span>
+        <span><i style="background:#0b1d20;border:1px solid var(--gold)"></i>Ahead</span>
+      </div>
+    </aside>
+    <main id="stage" aria-live="polite"></main>
+  </div>
+
+  <footer>Educational quiz for students of pharmacy and medicine. It does not replace a textbook, a formulary or professional judgement.</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* =====================================================================
+   CONTENT. In every question o[0] is the correct answer (options are shuffled when shown).
+   q.w = the medical English "word of the step". R.lock = the three-item English Gate Lock.
+   ===================================================================== */
+const REALMS=[
+ {no:"I",name:"The Apothecary Gate",level:"Apprentice",tone:"Easy",d:1,acc:"#8fd0a8",theme:"gate",
+  focus:"Everyday pharmacy English and prescription abbreviations",
+  blurb:"Torches are lit and the floor is smooth. Everything a first-day pharmacy student should know.",
+  intro:"Welcome to the Gate, colleague. Nothing here bites. Walk steadily, and collect the English words as you go.",
+  q:[
+   {q:"Which route of administration gives a drug 100% bioavailability by definition?",o:["Intravenous","Oral","Rectal","Topical"],e:"An intravenous dose goes straight into the bloodstream, so nothing is lost to absorption or to first-pass metabolism.",w:["bioavailability","the fraction of an administered dose that reaches the systemic circulation unchanged"]},
+   {q:"On a prescription, “PRN” means…",o:["Take as needed","Take every night","Take before meals","Take with plenty of water"],e:"From the Latin pro re nata, “as the situation arises”: the patient takes it only when needed.",w:["PRN (pro re nata)","a Latin abbreviation meaning “as needed”"]},
+   {q:"Paracetamol (acetaminophen) is mainly used to…",o:["Relieve pain and reduce fever","Kill bacteria","Thin the blood","Lower blood sugar"],e:"It is an analgesic and antipyretic with very little anti-inflammatory effect.",w:["antipyretic","a drug that reduces fever"]},
+   {q:"Antibiotics such as amoxicillin are effective against…",o:["Bacteria","Viruses","Allergies","Every infection"],e:"They act on bacteria. Colds and influenza are viral, so an antibiotic will not help them.",w:["pathogen","a microorganism that causes disease"]},
+   {q:"A generic medicine contains…",o:["The same active substance as the original brand","A cheaper, different active substance","Only herbal ingredients","A weaker dose of the brand's active substance"],e:"A generic has the same active substance, strength and dosage form as the reference product, and must be shown to be bioequivalent.",w:["bioequivalent","having the same rate and extent of absorption as the reference product"]}
+  ],
+  lock:[
+   {q:"A label says “Take one tablet twice daily after meals.” What should the patient do?",o:["Take a tablet morning and evening, after eating","Take two tablets at once, before eating","Take a tablet once a day at bedtime","Take a tablet only when in pain"],e:"“Twice daily” means two times a day. “After meals” means after eating."},
+   {q:"What does “OTC” mean on a medicine?",o:["Over the counter (sold without a prescription)","Once the course ends","Out of the clinic","Oral treatment capsule"],e:"OTC medicines can be bought without a prescription, usually for minor and short-term problems."},
+   {q:"Which abbreviation means “four times a day”?",o:["q.i.d.","b.i.d.","t.i.d.","q.d."],e:"q.i.d. = four times daily, t.i.d. = three times, b.i.d. = twice, q.d. = once daily."}
+  ]},
+ {no:"II",name:"The Garden of Simples",level:"Herbalist",tone:"Easy +",d:2,acc:"#b7d98a",theme:"garden",
+  focus:"Word roots and drug-class suffixes",
+  blurb:"Familiar drugs, but the paths begin to fork. Know your classes, and read the words inside the names.",
+  intro:"The Garden of Simples! Every shelf in a pharmacy grows from here. Name the class, and the path opens.",
+  q:[
+   {q:"Metformin is the usual first-line drug for…",o:["Type 2 diabetes","Hypertension","Asthma","Epilepsy"],e:"Metformin lowers glucose production in the liver and improves insulin sensitivity.",w:["first-line treatment","the treatment recommended to be tried first"]},
+   {q:"Salbutamol (albuterol) is a…",o:["β2-agonist bronchodilator","Proton pump inhibitor","Loop diuretic","Opioid analgesic"],e:"It relaxes bronchial smooth muscle through β2 receptors: the classic reliever in asthma.",w:["bronchodilator","a drug that widens the airways"]},
+   {q:"Omeprazole reduces gastric acid by…",o:["Blocking the H⁺/K⁺-ATPase of parietal cells","Neutralising acid chemically, like an antacid","Blocking histamine H1 receptors","Speeding up gastric emptying"],e:"Proton pump inhibitors irreversibly block the final step of acid secretion, the gastric proton pump.",w:["proton pump inhibitor (PPI)","a drug that lowers stomach acid by blocking the proton pump"]},
+   {q:"Atorvastatin lowers LDL cholesterol by inhibiting…",o:["HMG-CoA reductase","Angiotensin-converting enzyme","Cyclooxygenase","Vitamin K epoxide reductase"],e:"HMG-CoA reductase is the rate-limiting enzyme of cholesterol synthesis in the liver.",w:["lipid-lowering","describes a drug that lowers blood fats such as cholesterol"]},
+   {q:"Which of these is an opioid analgesic?",o:["Morphine","Ibuprofen","Loratadine","Furosemide"],e:"Morphine acts on μ-opioid receptors. Ibuprofen is an NSAID, loratadine an antihistamine, furosemide a loop diuretic.",w:["analgesic","a drug that relieves pain"]}
+  ],
+  lock:[
+   {q:"The suffix “-pril” (ramipril, enalapril) marks which class?",o:["ACE inhibitors","Statins","Beta-blockers","Proton pump inhibitors"],e:"-pril = ACE inhibitor, -statin = statin, -olol = beta-blocker, -prazole = proton pump inhibitor."},
+   {q:"The suffix “-olol” (metoprolol, atenolol) marks which class?",o:["Beta-blockers","Calcium channel blockers","Loop diuretics","Antihistamines"],e:"-olol drugs block β-adrenergic receptors."},
+   {q:"In English medical terms, the prefix “hypo-” (as in hypotension) means…",o:["Below normal","Above normal","Double","Around"],e:"Hypo- = below or under (hypotension, hypoglycaemia). Hyper- = above or excessive."}
+  ]},
+ {no:"III",name:"The Hall of Mechanisms",level:"Pharmacist",tone:"Medium",d:3,acc:"#e6d067",theme:"hall",
+  focus:"Mechanism verbs: inhibit, block, activate, potentiate",
+  blurb:"Echoing corridors where it is no longer enough to know what a drug does. You must know how.",
+  intro:"The Hall of Mechanisms. Here the walls ask “how?” rather than “what?”. The echo is loud, so listen for the verbs.",
+  q:[
+   {q:"Which side effect is characteristic of ACE inhibitors such as ramipril?",o:["Persistent dry cough","Ankle swelling","Slow heart rate","Excessive hair growth"],e:"ACE also breaks down bradykinin. When ACE is blocked, bradykinin builds up and can trigger a dry cough; ARBs usually avoid this.",w:["adverse effect","an unwanted and harmful reaction to a medicine"]},
+   {q:"Penicillins kill bacteria mainly by…",o:["Blocking cell-wall synthesis through penicillin-binding proteins","Blocking the 30S ribosomal subunit","Inhibiting DNA gyrase","Disrupting folate synthesis"],e:"They block the cross-linking of peptidoglycan, so the bacterial wall weakens and the cell bursts.",w:["bactericidal","able to kill bacteria (bacteriostatic drugs only stop their growth)"]},
+   {q:"Low-dose aspirin prevents clots by…",o:["Irreversibly inhibiting COX-1 and so lowering thromboxane A₂","Blocking the P2Y12 receptor","Inhibiting thrombin directly","Activating antithrombin III"],e:"Platelets cannot make new COX, so one dose affects them for their whole lifespan (about 7–10 days).",w:["antiplatelet","a drug that stops platelets sticking together to form clots"]},
+   {q:"Warfarin acts by…",o:["Inhibiting vitamin K epoxide reductase, lowering factors II, VII, IX and X","Directly inhibiting factor Xa","Activating plasminogen","Blocking the platelet ADP receptor"],e:"It reduces the recycling of vitamin K, so clotting factors are made in an inactive form. The effect is monitored with the INR.",w:["anticoagulant","a drug that slows blood clotting"]},
+   {q:"Metoprolol is selective for which receptor?",o:["β1","β2","α2","M3"],e:"β1 receptors dominate in the heart, so metoprolol lowers heart rate and contractility. Selectivity fades at high doses.",w:["selective","acting mainly on one type of receptor"]}
+  ],
+  lock:[
+   {q:"Which verb means “to slow down or block an enzyme”?",o:["To inhibit","To induce","To absorb","To excrete"],e:"Inhibit = reduce or block activity. Induce = increase it. Absorb and excrete describe movement of drugs."},
+   {q:"An agonist is a drug that…",o:["Activates a receptor","Blocks a receptor","Destroys a receptor","Stores a receptor"],e:"Agonists activate receptors; antagonists block them."},
+   {q:"If drug A “potentiates” drug B, drug A…",o:["Increases the effect of drug B","Cancels the effect of drug B","Removes drug B from the body","Changes the colour of drug B"],e:"To potentiate means to make an effect stronger."}
+  ]},
+ {no:"IV",name:"The Crossroads of Interactions",level:"Clinician",tone:"Hard",d:4,acc:"#eaa35e",theme:"crossroads",
+  focus:"Precision vocabulary for interactions and kinetics",
+  blurb:"Corridors cross, drugs collide, and kinetics decide who reaches the exit.",
+  intro:"The Crossroads. Drugs meet here and not all of them are polite. Think in half-lives, enzymes and volumes.",
+  q:[
+   {q:"Grapefruit juice can raise levels of drugs such as simvastatin by…",o:["Inhibiting intestinal CYP3A4","Inducing CYP2D6","Binding the drug in the gut","Acidifying the urine"],e:"Less drug is broken down in the gut wall, so more reaches the blood and the risk of side effects rises.",w:["metabolism","the chemical breakdown of a drug in the body, mostly in the liver"]},
+   {q:"Rifampicin is a strong enzyme inducer. For a patient on warfarin or a hormonal contraceptive, this means…",o:["Their effect can be reduced","Their effect becomes dangerously strong","Nothing changes","Only renal elimination changes"],e:"Induced liver enzymes clear these drugs faster, so doses may need adjusting and contraception may fail.",w:["enzyme inducer","a substance that increases the activity of a drug-metabolising enzyme"]},
+   {q:"Which drug classically shows saturable, zero-order kinetics at therapeutic doses?",o:["Phenytoin","Amoxicillin","Paracetamol at normal doses","Atenolol"],e:"Phenytoin's metabolism saturates, so a small dose increase can cause a large rise in plasma level and toxicity.",w:["narrow therapeutic index","a small difference between a safe dose and a toxic dose"]},
+   {q:"After about how many half-lives is a drug roughly 97% eliminated?",o:["5","1","2","12"],e:"Each half-life removes half of what remains: after five, about 3% is left (≈ 96.9% eliminated).",w:["half-life","the time needed for the plasma concentration of a drug to fall by half"]},
+   {q:"Which combination carries the highest risk of serotonin syndrome?",o:["An SSRI with an MAO inhibitor","An SSRI with paracetamol","Amoxicillin with an SSRI","Metformin with an MAO inhibitor"],e:"Both raise serotonin in the synapse. The combination can cause agitation, fever, tremor and hyperreflexia, and can be fatal.",w:["contraindicated","not to be used, because it may cause harm"]},
+   {q:"A loading dose depends mainly on the…",o:["Volume of distribution","Clearance","Dosing interval","Patient's age alone"],e:"Loading dose ≈ target concentration × volume of distribution (÷ bioavailability). Clearance sets the maintenance dose.",w:["loading dose","a larger first dose given to reach the target concentration quickly"]}
+  ],
+  lock:[
+   {q:"A leaflet says a drug is “contraindicated” in pregnancy. This means it…",o:["Should not be used in pregnancy","Is the first choice in pregnancy","Must be taken with food","Is sold without prescription"],e:"Contraindicated = must not be used because the risk outweighs the benefit."},
+   {q:"An “additive effect” occurs when…",o:["Two drugs' effects add together","One drug cancels the other","A drug loses strength in storage","A drug is taken only once"],e:"Additive = the combined effect equals the sum of the separate effects. Synergistic effects are greater than the sum."},
+   {q:"Which term describes an unwanted effect of a medicine at normal doses?",o:["Adverse effect","Placebo effect","Therapeutic effect","Loading effect"],e:"An adverse effect is harmful and unintended. A therapeutic effect is the desired one."}
+  ]},
+ {no:"V",name:"The Heart of the Labyrinth",level:"Master",tone:"Hardest",d:5,acc:"#e57d66",theme:"heart",
+  focus:"Clinical safety language",
+  blurb:"The deepest chamber. Antidotes, toxicity and pharmacogenetics: the questions that decide a patient's night.",
+  intro:"You have come far, colleague. This is the Heart. No tricks, only clinical judgement. Breathe, then answer.",
+  q:[
+   {q:"Which agent partly reverses the effect of heparin?",o:["Protamine sulfate","Vitamin K","Naloxone","Flumazenil"],e:"Protamine is positively charged and binds the negatively charged heparin. Vitamin K is the antidote for warfarin.",w:["antidote","a substance that counteracts a poison or an overdose"]},
+   {q:"Toxicity of high-dose methotrexate is rescued with…",o:["Folinic acid (leucovorin)","Pyridoxine","Cyanocobalamin","Acetylcysteine"],e:"Methotrexate blocks dihydrofolate reductase. Leucovorin supplies the reduced folate downstream of the block.",w:["rescue therapy","treatment given to reduce the toxic effects of another drug"]},
+   {q:"Which electrolyte disturbance most increases the risk of digoxin toxicity?",o:["Hypokalaemia","Hypernatraemia","Hyperphosphataemia","Hypermagnesaemia"],e:"Digoxin and potassium compete at the Na⁺/K⁺-ATPase: with less potassium, digoxin binds more. Diuretics are a common trigger.",w:["toxicity","the degree to which a substance can harm the body"]},
+   {q:"Before starting abacavir, which test is recommended?",o:["HLA-B*57:01","HLA-B*15:02","CYP2C19 genotype","Serum lithium"],e:"HLA-B*57:01 carriers are at high risk of a severe hypersensitivity reaction to abacavir. HLA-B*15:02 relates to carbamazepine.",w:["hypersensitivity reaction","an exaggerated immune response to a drug"]},
+   {q:"Which drugs can raise lithium levels by reducing its renal clearance?",o:["Thiazide diuretics and NSAIDs","Paracetamol","Oral iron","Calcium carbonate"],e:"Lithium is handled by the kidney much like sodium. With a narrow therapeutic index, even a modest rise can cause toxicity.",w:["renal clearance","the rate at which the kidneys remove a substance from the blood"]},
+   {q:"Malignant hyperthermia triggered by volatile anaesthetics or succinylcholine is treated with…",o:["Dantrolene","Atropine","Neostigmine","Naloxone"],e:"Dantrolene blocks calcium release from the sarcoplasmic reticulum, stopping the runaway muscle hypermetabolism.",w:["malignant hyperthermia","a rare, life-threatening rise in body temperature triggered by certain anaesthetics"]}
+  ],
+  lock:[
+   {q:"To “titrate” a dose means to…",o:["Adjust it step by step to reach the desired effect","Stop it suddenly","Crush the tablet","Give it by injection"],e:"Titration = careful stepwise adjustment, usually guided by response or blood levels."},
+   {q:"A patient has “overdosed”. This means they…",o:["Took more than the recommended dose","Missed a dose","Took the drug with water","Stored it incorrectly"],e:"An overdose is an excessive dose that can cause toxicity."},
+   {q:"“Onset of action” refers to…",o:["How quickly a drug begins to work","How long a drug lasts","How a drug tastes","Where a drug is made"],e:"Onset = time to first effect. Duration = how long the effect lasts."}
+  ]},
+ {no:"✦",name:"The Industry Vault",level:"Vault Keeper",tone:"Bonus",d:6,acc:"#d9a0f0",theme:"vault",bonus:true,
+  focus:"Industry and regulatory English",
+  blurb:"A hidden door beneath the Heart: how medicines are made, tested and monitored, and how a Tunisian manufacturer works.",
+  intro:"You found the Vault! Quality, trials and pharmacovigilance live here, along with some Tunisian industry. Mind the dust.",
+  q:[
+   {q:"In pharmaceutical manufacturing, GMP stands for…",o:["Good Manufacturing Practice","General Medicines Protocol","Global Market Permit","Graded Medicine Purity"],e:"GMP is the quality system that ensures medicines are consistently produced and controlled to the standards required for their intended use.",w:["batch","a defined quantity of a medicine made in one production cycle"]},
+   {q:"A bioequivalence study for a generic compares which parameters with the reference product?",o:["Rate and extent of absorption (Cmax and AUC)","Tablet colour and taste","Price and packaging","Shelf life of the tablets"],e:"Two products are bioequivalent when the rate (Cmax) and extent (AUC) of absorption of the active substance fall within accepted limits of each other.",w:["Cmax","the maximum concentration of a drug reached in the blood"]},
+   {q:"Pharmacovigilance is the science and activity of…",o:["Detecting, assessing and preventing adverse effects and other drug-related problems","Setting the price of medicines","Synthesising new active substances","Training pharmacy technicians"],e:"It follows the safety of medicines after authorisation, collecting reports of adverse reactions to detect new risks.",w:["post-marketing surveillance","monitoring the safety of a medicine after it has been authorised"]},
+   {q:"Which phase of clinical development typically first tests a new drug in a small group of people, often healthy volunteers, to study safety and kinetics?",o:["Phase I","Phase II","Phase III","Phase IV"],e:"Phase I explores safety, tolerability and pharmacokinetics. Phase II tests efficacy and dose in patients, Phase III confirms efficacy in large trials, Phase IV follows after marketing.",w:["clinical trial","a research study that tests a medicine in people"]},
+   {q:"Phase III clinical trials are mainly designed to…",o:["Confirm efficacy and safety in large groups of patients","Find the first safe dose in volunteers","Monitor rare side effects after marketing","Synthesise the active substance"],e:"They are large, usually randomised and controlled, and provide the main evidence for marketing authorisation.",w:["randomised controlled trial","a study in which participants are randomly assigned to a treatment or a comparison group"]},
+   {q:"Teriak, a major Tunisian pharmaceutical company, is a subsidiary of which group?",o:["The Kilani group","The Hikma group","The Pfizer group","The Poulina group"],e:"Teriak Laboratories belong to the Kilani group, which is also active in distribution and medical promotion.",w:["subsidiary","a company owned or controlled by a larger parent company"]},
+   {q:"Teriak built its activity first through…",o:["Manufacturing under licence for multinational companies","Exporting raw medicinal herbs","Running retail pharmacies","Producing veterinary vaccines"],e:"It started with licensed manufacturing for multinational partners, then developed its own generic products.",w:["licensor","a company that grants another the right to make or sell its product"]},
+   {q:"Five of Teriak's licensors rank among the top how many pharmaceutical companies in the world?",o:["Top eight","Top three","Top twenty","Top hundred"],e:"Teriak says that five of the multinational companies it manufactures for are among the world's top eight.",w:["marketing authorisation","official approval to sell a medicine in a country"]}
+  ],
+  lock:[
+   {q:"A “recall” of a medicine batch means…",o:["It is withdrawn from the market because of a quality or safety problem","It is given a new price","It is approved for children","It is moved to another shelf"],e:"A recall removes affected batches from distribution and from patients."},
+   {q:"A “package leaflet” is…",o:["The printed information for patients inside the medicine box","A sales brochure for doctors","A manufacturing record","An invoice"],e:"The package leaflet (patient information leaflet) explains how to use the medicine and its possible side effects."},
+   {q:"The “shelf life” of a medicine is…",o:["The period during which it stays within quality specifications","The size of the pharmacy shelf","The time needed to make a batch","The duration of a treatment"],e:"After the expiry date, the manufacturer no longer guarantees the quality of the product."}
+  ]}
+];
+const LANTERNS=3, MAIN=5, LOCK_PASS=2, MASTER=0.8;
+
+const SAY={
+ right:["Textbook! You are making me Phil Better already.","Precisely, colleague. The thread glows brighter.","Correct. The walls approve.","That is the answer I would have prescribed.","Splendid diagnosis!"],
+ wrong:["Not quite. Let's read the chart together.","A wrong turn, but every explorer takes one. Look closely.","Ah. One lantern dims. Learn from it and walk on.","The labyrinth is teaching you. Read the note."],
+ streak:{3:"Three in a row! Your confidence is a known side effect.",5:"Five clean steps! Even the minotaur is impressed.",8:"Eight! I am considering a medal."}
+};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const stage=$("#stage");
+const store={get(k){try{return localStorage.getItem(k)||""}catch(e){return ""}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* =====================================================================
+   MUSIC: a small generative engine (Web Audio). Every chamber has its own mode, tempo and timbre,
+   and the music gains layers as you go deeper into the chamber.
+   ===================================================================== */
+const AU=(function(){
+  let ctx=null,master=null,rev=null,tg=null,timer=null,cur=null,step=0,next=0,walk=3,intensity=.4;
+  let on=store.get("labyrinth-music")!=="off";
+  const TH={
+    start:{root:57,scale:[0,2,3,5,7,9,10],tempo:72,prog:[[0,2,4],[5,0,2],[3,5,7],[4,6,8]],pad:"sine",lead:"triangle",bass:1},
+    gate:{root:62,scale:[0,2,4,7,9],tempo:84,prog:[[0,2,4],[1,3,5],[0,2,4],[3,5,7]],pad:"sine",lead:"triangle",bass:1},
+    garden:{root:55,scale:[0,2,4,6,7,9,11],tempo:96,prog:[[0,2,4],[3,5,7],[1,3,5],[4,6,8]],pad:"sine",lead:"sine",bass:1,bell:1},
+    hall:{root:60,scale:[0,2,3,5,7,9,10],tempo:100,prog:[[0,2,4],[3,5,7],[4,6,8],[0,2,4]],pad:"triangle",lead:"square",leadlp:1500,bass:1},
+    crossroads:{root:57,scale:[0,2,3,5,7,8,11],tempo:112,prog:[[0,2,4],[3,5,7],[4,6,8],[0,2,4]],pad:"sawtooth",padlp:900,lead:"triangle",bass:1,drum:1},
+    heart:{root:50,scale:[0,1,4,5,7,8,10],tempo:120,prog:[[0,2,4],[0,2,4],[3,5,7],[4,6,8]],pad:"sawtooth",padlp:1100,lead:"square",leadlp:1800,bass:1,drum:1},
+    vault:{root:64,scale:[0,2,4,6,8,10],tempo:70,prog:[[0,2,4],[1,3,5],[2,4,6],[1,3,5]],pad:"sine",lead:"sine",bass:0,bell:1},
+    dark:{root:45,scale:[0,2,3,5,7,8,10],tempo:54,prog:[[0,2,4],[5,7,9]],pad:"sawtooth",padlp:500,lead:"sine",bass:1,quiet:1},
+    victory:{root:60,scale:[0,2,4,5,7,9,11],tempo:108,prog:[[0,2,4],[4,6,8],[5,7,9],[3,5,7]],pad:"triangle",lead:"triangle",bass:1,bell:1}
+  };
+  function impulse(sec,decay){const len=Math.floor(ctx.sampleRate*sec),b=ctx.createBuffer(2,len,ctx.sampleRate);for(let c=0;c<2;c++){const d=b.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,decay)}return b}
+  function init(){
+    if(ctx){if(ctx.state==="suspended"&&on)ctx.resume();return}
+    const C=window.AudioContext||window.webkitAudioContext; if(!C)return;
+    try{
+      ctx=new C(); master=ctx.createGain(); master.gain.value=on?.55:0;
+      const comp=ctx.createDynamicsCompressor(); master.connect(comp); comp.connect(ctx.destination);
+      rev=ctx.createConvolver(); rev.buffer=impulse(2.6,2.4);
+      const wet=ctx.createGain(); wet.gain.value=.38; rev.connect(wet); wet.connect(master);
+      if(ctx.state==="suspended")ctx.resume();
+    }catch(e){ctx=null}
+  }
+  const mtof=m=>440*Math.pow(2,(m-69)/12);
+  function deg(th,d){const L=th.scale.length;return th.root+th.scale[((d%L)+L)%L]+12*Math.floor(d/L)}
+  function tone(dest,f,t,dur,o){
+    o=o||{}; const osc=ctx.createOscillator(); osc.type=o.type||"sine"; osc.frequency.setValueAtTime(f,t);
+    const g=ctx.createGain(), a=Math.min(o.a||.01,dur*.6), v=o.v||.1;
+    g.gain.setValueAtTime(0.0001,t); g.gain.linearRampToValueAtTime(v,t+a); g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+    let n=osc; if(o.lp){const fl=ctx.createBiquadFilter();fl.type="lowpass";fl.frequency.value=o.lp;osc.connect(fl);n=fl}
+    n.connect(g); g.connect(dest);
+    if(o.send){const s=ctx.createGain();s.gain.value=o.send;g.connect(s);s.connect(rev)}
+    osc.start(t); osc.stop(t+dur+.05);
+    if(o.bell){const b=ctx.createOscillator();b.type="sine";b.frequency.setValueAtTime(f*2.76,t);const bg=ctx.createGain();bg.gain.setValueAtTime(.0001,t);bg.gain.linearRampToValueAtTime(v*.35,t+.005);bg.gain.exponentialRampToValueAtTime(.0001,t+dur*.6);b.connect(bg);bg.connect(dest);if(o.send){bg.connect(rev)}b.start(t);b.stop(t+dur)}
+  }
+  function thump(dest,t,v){const o=ctx.createOscillator(),g=ctx.createGain();o.frequency.setValueAtTime(110,t);o.frequency.exponentialRampToValueAtTime(42,t+.16);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0001,t+.22);o.connect(g);g.connect(dest);o.start(t);o.stop(t+.25)}
+  function playStep(th,s,t,sd){
+    const bar=Math.floor(s/8), chord=th.prog[bar%th.prog.length], pos=s%8, L=th.scale.length, q=th.quiet?.6:1;
+    if(pos===0) chord.forEach(d=>tone(tg,mtof(deg(th,d)),t,sd*8.2,{type:th.pad,v:.04*q,a:sd*3,lp:th.padlp||2200,send:.5}));
+    if(th.bass&&pos%4===0&&intensity>.15) tone(tg,mtof(deg(th,chord[0])-12),t,sd*3.6,{type:"sine",v:.13*q,a:.02});
+    if(th.drum&&intensity>.4&&pos%2===0) thump(tg,t,pos%4===0?.16:.07);
+    const p=(.3+.55*intensity)*(th.quiet?.4:1);
+    if(Math.random()<p){
+      let d;
+      if(Math.random()<.55){d=chord[(s>>0)%chord.length]+L}
+      else{walk+=pick([-2,-1,-1,1,1,2]);walk=Math.max(0,Math.min(L+3,walk));d=walk+L}
+      tone(tg,mtof(deg(th,d)),t,sd*(th.bell?3.2:1.8),{type:th.lead,v:.07*q,a:.006,lp:th.leadlp,send:.55,bell:th.bell});
+    }
+  }
+  function tick(){
+    if(!ctx||!cur||!on)return; const th=TH[cur], sd=60/th.tempo/2;
+    if(next<ctx.currentTime)next=ctx.currentTime+.05;
+    while(next<ctx.currentTime+.6){playStep(th,step,next,sd);next+=sd;step++}
+  }
+  function play(name,int){
+    if(!ctx)return; intensity=int==null?.4:int; if(cur===name)return;
+    if(tg){const old=tg;try{old.gain.cancelScheduledValues(ctx.currentTime);old.gain.setValueAtTime(old.gain.value,ctx.currentTime);old.gain.linearRampToValueAtTime(0,ctx.currentTime+1.4)}catch(e){}setTimeout(()=>{try{old.disconnect()}catch(e){}},1700)}
+    cur=name; tg=ctx.createGain(); tg.gain.setValueAtTime(0,ctx.currentTime); tg.gain.linearRampToValueAtTime(1,ctx.currentTime+1.2); tg.connect(master);
+    next=ctx.currentTime+.1; step=0; walk=3; if(!timer)timer=setInterval(tick,120);
+  }
+  function level(int){intensity=int}
+  function sfx(kind){
+    if(!ctx||!on)return; const t=ctx.currentTime+.02, d=master;
+    const n=(m,dt,dur,v,o)=>tone(d,mtof(m),t+dt,dur,Object.assign({v:v||.12,a:.005,send:.5},o||{}));
+    if(kind==="good"){n(79,0,.5,.12,{type:"triangle"});n(86,.09,.7,.1,{type:"triangle",bell:1})}
+    else if(kind==="bad"){n(55,0,.55,.16,{type:"sine"});n(52,.12,.7,.12,{type:"sine"})}
+    else if(kind==="unlock"){thump(d,t,.12);[60,64,67,72].forEach((m,i)=>n(m,.1+i*.08,1.2,.1,{type:"triangle",bell:1}))}
+    else if(kind==="clear"){[60,64,67,72,76,79].forEach((m,i)=>n(m,i*.1,1.1,.1,{type:"triangle",bell:1}))}
+    else if(kind==="badge"){[72,76,79,84,88].forEach((m,i)=>n(m,.05+i*.12,1.8,.1,{type:"sine",bell:1}));n(48,.05,2,.14,{type:"sine"})}
+    else if(kind==="lockfail"){n(50,0,.5,.14,{type:"square",lp:600});n(47,.15,.7,.12,{type:"square",lp:500})}
+    else if(kind==="click"){n(84,0,.2,.05,{type:"sine"})}
+  }
+  function setOn(v){on=v;store.set("labyrinth-music",v?"on":"off");if(master)master.gain.setTargetAtTime(v?.55:0,ctx.currentTime,.1);if(ctx){if(v&&ctx.state==="suspended")ctx.resume()}}
+  document.addEventListener("visibilitychange",()=>{if(!ctx)return;if(document.hidden)ctx.suspend();else if(on)ctx.resume()});
+  return {init,play,level,sfx,setOn,isOn:()=>on};
+})();
+
+/* pronunciation of the word of the step (browser voice, if available) */
+function speak(text){
+  try{
+    if(!("speechSynthesis" in window))return;
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text.replace(/\(.*?\)/g,"").replace(/[“”]/g,""));
+    u.lang="en-GB"; u.rate=.9; speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+/* =====================================================================
+   BADGES AND DIPLOMA (SVG, also exported as PNG)
+   ===================================================================== */
+const ICONS={
+ "I":'<path d="M-12 12 V-3 Q-12 -14 0 -14 Q12 -14 12 -3 V12 M-6 12 V-2 Q-6 -8 0 -8 Q6 -8 6 -2 V12" fill="none" stroke-width="3" stroke-linecap="round"/>',
+ "II":'<path d="M-9 8 Q-12 -9 8 -11 Q10 5 -9 8Z M-9 8 L5 -6" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>',
+ "III":'<circle r="6" fill="none" stroke-width="3"/><circle r="11" fill="none" stroke-width="5" stroke-dasharray="4.3 4.3"/>',
+ "IV":'<path d="M0 -12 V12 M-12 0 H12 M-8 -8 L8 8 M8 -8 L-8 8" fill="none" stroke-width="3" stroke-linecap="round"/>',
+ "V":'<path d="M0 10 C-16 -2 -9 -13 0 -5 C9 -13 16 -2 0 10Z" fill="none" stroke-width="3" stroke-linejoin="round"/>',
+ "✦":'<path d="M-4 -12 H4 V-4 L11 9 Q12 12 9 12 H-9 Q-12 12 -11 9 L-4 -4Z M-6 2 H6" fill="none" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>'
+};
+let uid=0;
+function badgeG(i,earned){
+  const R=REALMS[i], c=earned?R.acc:"#56686a", k="b"+(++uid);
+  let burst=""; const pts=[]; for(let a=0;a<24;a++){const r=a%2?78:88, ang=a*Math.PI/12; pts.push((100+r*Math.sin(ang)).toFixed(1)+","+(100-r*Math.cos(ang)).toFixed(1))}
+  burst=`<polygon points="${pts.join(" ")}" fill="url(#${k}g)" stroke="${c}" stroke-width="1.5"/>`;
+  return `<defs>
+   <radialGradient id="${k}g" cx="35%" cy="30%"><stop offset="0" stop-color="${earned?"#fff2c4":"#8a9a99"}"/><stop offset=".55" stop-color="${c}"/><stop offset="1" stop-color="${earned?"#7c5a14":"#3b4a4b"}"/></radialGradient>
+   <radialGradient id="${k}d" cx="40%" cy="30%"><stop offset="0" stop-color="#1f5357"/><stop offset="1" stop-color="#0b1d20"/></radialGradient></defs>
+   <polygon points="62,150 38,222 66,208 82,236 100,170" fill="${earned?"#9b2f2f":"#3b4a4b"}"/>
+   <polygon points="138,150 162,222 134,208 118,236 100,170" fill="${earned?"#b84040":"#46585a"}"/>
+   ${burst}
+   <circle cx="100" cy="100" r="68" fill="url(#${k}d)" stroke="${c}" stroke-width="3"/>
+   <circle cx="100" cy="100" r="60" fill="none" stroke="${c}" stroke-width=".8" opacity=".6"/>
+   <g transform="translate(100 82) scale(1.9)" stroke="${c}" fill="${c}">${ICONS[R.no]}</g>
+   <text x="100" y="140" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="25" font-weight="700" fill="${c}">${R.no==="✦"?"★":R.no}</text>
+   <rect x="34" y="150" width="132" height="26" rx="4" fill="#0b1d20" stroke="${c}" stroke-width="1.5"/>
+   <text x="100" y="168" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="13" font-weight="700" fill="${earned?"#f5ecd7":"#8a9a99"}" letter-spacing="1">${esc(R.level.toUpperCase())}</text>`;
+}
+function badgeSVG(i,earned,cls){return `<svg class="${cls||""}" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${esc(REALMS[i].level)} badge${earned?"":" (locked)"}">${badgeG(i,earned)}</svg>`}
+function download(svg,w,h,name){
+  const blob=new Blob([svg],{type:"image/svg+xml;charset=utf-8"}), url=URL.createObjectURL(blob), img=new Image();
+  img.onload=()=>{const c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d");x.drawImage(img,0,0,w,h);URL.revokeObjectURL(url);
+    c.toBlob(b=>{const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();a.remove()})};
+  img.onerror=()=>{const a=document.createElement("a");a.href=url;a.download=name.replace(".png",".svg");document.body.appendChild(a);a.click();a.remove()};
+  img.src=url;
+}
+function diplomaSVG(name,rank,score,words){
+  const date=new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
+  const F="font-family=\"Georgia,'Times New Roman',serif\"";
+  let b=""; const earnedList=REALMS.map((R,i)=>i).filter(i=>S.gate[i]==="badge");
+  const n=earnedList.length, sc=.62, bw=200*sc, gap=18, total=n*bw+(n-1)*gap;
+  earnedList.forEach((i,k)=>{b+=`<g transform="translate(${600-total/2+k*(bw+gap)} 575) scale(${sc})">${badgeG(i,true)}</g>`});
+  if(!n)b=`<text x="600" y="640" text-anchor="middle" ${F} font-size="22" font-style="italic" fill="#6b5a2a">The first badge is waiting in the next walk.</text>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850" width="1200" height="850">
+   <defs><linearGradient id="pg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbf3df"/><stop offset="1" stop-color="#eadbb7"/></linearGradient></defs>
+   <rect width="1200" height="850" fill="url(#pg)"/>
+   <rect x="28" y="28" width="1144" height="794" fill="none" stroke="#b98a2e" stroke-width="6"/>
+   <rect x="46" y="46" width="1108" height="758" fill="none" stroke="#1b4a4e" stroke-width="2"/>
+   <text x="600" y="120" text-anchor="middle" ${F} font-size="22" letter-spacing="8" fill="#7b5c19">℞ · THE LABYRINTH OF REMEDIES</text>
+   <text x="600" y="200" text-anchor="middle" ${F} font-size="68" font-weight="700" fill="#14352f">Diploma of Merit</text>
+   <text x="600" y="250" text-anchor="middle" ${F} font-size="22" font-style="italic" fill="#4a5a56">in Pharmacology, Pharmacy Practice and Medical English</text>
+   <text x="600" y="320" text-anchor="middle" ${F} font-size="20" fill="#4a5a56">This is to certify that</text>
+   <text x="600" y="395" text-anchor="middle" ${F} font-size="60" font-style="italic" font-weight="700" fill="#b98a2e">${esc(name||"A Brave Walker")}</text>
+   <line x1="300" y1="415" x2="900" y2="415" stroke="#b98a2e" stroke-width="1.5"/>
+   <text x="600" y="460" text-anchor="middle" ${F} font-size="21" fill="#3a4a46">has walked the Labyrinth and earned the rank of</text>
+   <text x="600" y="505" text-anchor="middle" ${F} font-size="36" font-weight="700" fill="#14352f">${esc(rank)}</text>
+   <text x="600" y="545" text-anchor="middle" ${F} font-size="19" fill="#4a5a56">${esc(score)} · ${words} medical English words collected</text>
+   ${b}
+   <text x="230" y="775" text-anchor="middle" ${F} font-size="20" fill="#4a5a56">${date}</text>
+   <line x1="130" y1="755" x2="330" y2="755" stroke="#4a5a56" stroke-width="1"/>
+   <text x="970" y="742" text-anchor="middle" ${F} font-size="34" font-style="italic" fill="#14352f">Dr. Phil Better</text>
+   <line x1="870" y1="755" x2="1070" y2="755" stroke="#4a5a56" stroke-width="1"/><text x="970" y="780" text-anchor="middle" ${F} font-size="15" fill="#6b7a76" letter-spacing="2">PHARMACOLOGY GUIDE</text>
+  </svg>`;
+}
+
+/* =====================================================================
+   STATE
+   ===================================================================== */
+const S={screen:"start",r:0,i:0,lan:LANTERNS,res:null,gate:[],cur:null,done:false,streak:0,mood:"smile",maxR:0,lex:new Map(),lock:null,name:store.get("labyrinth-name")};
+function resetRun(){S.r=0;S.i=0;S.lan=LANTERNS;S.streak=0;S.res=REALMS.map(r=>r.q.map(()=>null));S.gate=REALMS.map(()=>null);S.cur=null;S.maxR=0;S.lex=new Map();S.lock=null}
+resetRun();
+
+/* Dr. Phil (original cartoon doctor) */
+function drPhil(mood){
+  const mouth={smile:"M50 70 Q60 79 70 70",grin:"M48 69 Q60 84 72 69 Z",oops:"M52 75 Q60 69 68 75",neutral:"M53 73 L67 73"}[mood]||"M50 70 Q60 79 70 70";
+  const fill=mood==="grin"?'fill="#7a2a2a"':'fill="none"';
+  return `<svg class="doc" viewBox="0 0 120 138" aria-hidden="true">
+   <path d="M14 138 Q16 96 40 90 L80 90 Q104 96 106 138Z" fill="#f6f2e6"/>
+   <path d="M52 90 L60 108 L68 90Z" fill="#e0d8c2"/>
+   <path d="M40 90 Q44 112 60 114 Q76 112 80 90" fill="none" stroke="#1b4a4e" stroke-width="3.2" stroke-linecap="round"/>
+   <circle cx="60" cy="116" r="5" fill="#1b4a4e"/><circle cx="60" cy="116" r="2" fill="#e6bd62"/>
+   <rect x="82" y="108" width="13" height="19" rx="3" fill="#c98a2a"/><rect x="82" y="105" width="13" height="5" rx="2" fill="#f1e2bd"/>
+   <rect x="52" y="82" width="16" height="12" fill="#e2b995"/>
+   <circle cx="60" cy="52" r="26" fill="#ebc7a5"/>
+   <path d="M34 50 Q32 28 52 25 Q60 23 68 25 Q88 28 86 50 Q84 38 74 34 Q60 30 46 34 Q36 38 34 50Z" fill="#c9cfcf"/>
+   <circle cx="60" cy="31" r="9.5" fill="#d8dedf" stroke="#53686a" stroke-width="2"/><circle cx="60" cy="31" r="3" fill="#53686a"/>
+   <path d="M34 40 Q60 32 86 40" fill="none" stroke="#53686a" stroke-width="2.4"/>
+   <circle cx="49" cy="53" r="7.5" fill="#fff" fill-opacity=".55" stroke="#2a3a3a" stroke-width="1.8"/><circle cx="71" cy="53" r="7.5" fill="#fff" fill-opacity=".55" stroke="#2a3a3a" stroke-width="1.8"/>
+   <path d="M56.5 53 H63.5" stroke="#2a3a3a" stroke-width="1.8"/>
+   <circle cx="49" cy="53.5" r="2.2" fill="#1c2929"/><circle cx="71" cy="53.5" r="2.2" fill="#1c2929"/>
+   ${mood==="oops"?'<path d="M42 44 L55 47 M78 44 L65 47" stroke="#6a5a4a" stroke-width="2" stroke-linecap="round"/>':'<path d="M42 45 Q49 41 56 45 M64 45 Q71 41 78 45" stroke="#6a5a4a" stroke-width="2" fill="none" stroke-linecap="round"/>'}
+   <path d="${mouth}" ${fill} stroke="#7a3f33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+}
+function guide(name,text,mood){return `<div class="guide">${drPhil(mood||S.mood)}<div class="bubble"><b>${name||"Dr. Phil Better"}</b>${text}</div></div>`}
+
+/* header widgets */
+function drawHud(){
+  const box=$("#lanterns"), show=(S.screen==="question"||S.screen==="out");
+  if(!show){box.innerHTML=""}
+  else{
+    let h="<small>Lanterns</small>";
+    for(let k=0;k<LANTERNS;k++) h+=`<svg class="lan ${k<S.lan?"on":""}" viewBox="0 0 22 30" aria-hidden="true"><path class="glass" d="M6 8 Q5 7 6 5 H16 Q17 7 16 8 L18 22 Q18 24 16 24 H6 Q4 24 4 22Z"/><path d="M8 2 H14" stroke="#e6bd62" stroke-width="1.6" stroke-linecap="round"/><path class="flame" d="M11 10 Q15 15 13 19 Q11 22 9 19 Q7 15 11 10Z"/></svg>`;
+    box.innerHTML=h; box.setAttribute("aria-label",S.lan+" of "+LANTERNS+" lanterns left");
+  }
+  const w=$("#words"); w.hidden=S.screen==="start"; $("#wn").textContent=S.lex.size;
+}
+
+/* =====================================================================
+   MAP
+   ===================================================================== */
+const X0=54,X1=306,Y0=84,DY=80;
+const NODES=[],NODELEN=[],RSTART=[],GATEPOS=[],GATELEN=[]; let PATH,THREAD,TOK,TOTAL=0;
+const rowDir=i=>i%2===0?1:-1;
+function roundPath(p,r){
+  let d=`M ${p[0][0]} ${p[0][1]}`;
+  for(let k=1;k<p.length-1;k++){
+    const a=p[k-1],b=p[k],c=p[k+1],l1=Math.hypot(b[0]-a[0],b[1]-a[1]),l2=Math.hypot(c[0]-b[0],c[1]-b[1]),rr=Math.min(r,l1/2,l2/2);
+    const p1=[b[0]-(b[0]-a[0])/l1*rr,b[1]-(b[1]-a[1])/l1*rr],p2=[b[0]+(c[0]-b[0])/l2*rr,b[1]+(c[1]-b[1])/l2*rr];
+    d+=` L ${p1[0]} ${p1[1]} Q ${b[0]} ${b[1]} ${p2[0]} ${p2[1]}`;
+  }
+  const z=p[p.length-1]; return d+` L ${z[0]} ${z[1]}`;
+}
+function buildMap(){
+  const svg=$("#map"), pts=[];
+  REALMS.forEach((R,i)=>{const y=Y0+i*DY;pts.push([rowDir(i)>0?X0:X1,y],[rowDir(i)>0?X1:X0,y])});
+  const d=roundPath(pts,22), H=Y0+(REALMS.length-1)*DY+46;
+  let h=`<defs>
+    <radialGradient id="tg"><stop offset="0" stop-color="#ffe9a8" stop-opacity=".95"/><stop offset="1" stop-color="#e6bd62" stop-opacity="0"/></radialGradient>
+    <radialGradient id="tch"><stop offset="0" stop-color="#ffd27a" stop-opacity=".9"/><stop offset="1" stop-color="#ff9a3c" stop-opacity="0"/></radialGradient></defs>`;
+  // stone texture
+  for(let y=34;y<H;y+=14) h+=`<path class="stoneline" d="M20 ${y} H340"/>`;
+  for(let y=34,r=0;y<H;y+=14,r++) for(let x=20+(r%2?18:0);x<340;x+=36) h+=`<path class="stoneline" d="M${x} ${y} v14"/>`;
+  // walls (dark body + light edge)
+  h+=`<rect class="wall" x="18" y="28" width="324" height="${H-28}" rx="22"/><rect class="wall2" x="18" y="28" width="324" height="${H-28}" rx="22"/>`;
+  for(let i=0;i<REALMS.length-1;i++){const y=Y0+i*DY+DY/2,dd=rowDir(i)>0?`M18 ${y} H268`:`M92 ${y} H342`;h+=`<path class="wall" d="${dd}"/><path class="wall2" d="${dd}"/>`;
+    h+=`<g transform="translate(${rowDir(i)>0?150:210} ${y-2})"><g class="torch" style="animation-delay:${i*.37}s"><circle r="13" fill="url(#tch)"/><path d="M0 -9 Q5 -2 3 3 Q0 6 -3 3 Q-5 -2 0 -9Z" fill="#ffb84a"/><path d="M0 -4 Q2 0 1 2 Q0 3 -1 2 Q-2 0 0 -4Z" fill="#fff0b8"/><rect x="-1.5" y="3" width="3" height="6" fill="#6b4a2a"/></g></g>`}
+  h+=`<path class="corr" d="${d}"/>`;
+  REALMS.forEach((R,i)=>{const y=Y0+i*DY;h+=`<path class="rowtint" d="M ${X0} ${y} H ${X1}" style="stroke:${R.acc}"/>`});
+  h+=`<path id="pth" class="track" d="${d}"/><path id="thr" class="thread" d="${d}"/>`;
+  svg.innerHTML=h; PATH=$("#pth"); THREAD=$("#thr"); TOTAL=PATH.getTotalLength(); THREAD.style.strokeDasharray="0 "+TOTAL;
+  const samples=[]; for(let s=0;s<=TOTAL;s+=2){const p=PATH.getPointAtLength(s);samples.push([s,p.x,p.y])}
+  const lenAt=(x,y)=>{let best=0,bd=1e9;for(const q of samples){const dd=(q[1]-x)**2+(q[2]-y)**2;if(dd<bd){bd=dd;best=q[0]}}return best};
+  let g="";
+  REALMS.forEach((R,i)=>{
+    const y=Y0+i*DY,k=R.q.length,xs=rowDir(i)>0?X0:X1,xe=rowDir(i)>0?X1:X0;
+    RSTART[i]=lenAt(xs,y); GATEPOS[i]={x:xe,y}; GATELEN[i]=lenAt(xe,y);
+    g+=`<g class="row-g lock" id="row${i}"><text class="rlabel" x="${rowDir(i)>0?78:284}" y="${y-22}" text-anchor="${rowDir(i)>0?"start":"end"}" fill="${R.acc}">${R.no} · ${R.name}</text>`;
+    NODES[i]=[];NODELEN[i]=[];
+    for(let j=0;j<k;j++){
+      const x=xs+(xe-xs)*(j+1)/(k+1);NODES[i][j]={x,y};NODELEN[i][j]=lenAt(x,y);
+      g+=`<circle class="pulse" id="pu${i}_${j}" cx="${x}" cy="${y}" r="9"/><circle class="node" id="nd${i}_${j}" cx="${x}" cy="${y}" r="7.5"/>`;
+    }
+    g+=`</g>`;
+  });
+  REALMS.forEach((R,i)=>{g+=`<g id="gate${i}" transform="translate(${GATEPOS[i].x} ${GATEPOS[i].y})"></g>`});
+  g+=`<g id="tok" style="transform:translate(${X0}px,${Y0}px)"><circle class="glow" r="26"/><circle r="9.5" fill="#fff3cf" stroke="#b98a2e" stroke-width="2"/><path d="M-3 -2 Q0 -8 3 -2 Q4 3 0 5 Q-4 3 -3 -2Z" fill="#c98a2a"/></g>`;
+  svg.insertAdjacentHTML("beforeend",g); TOK=$("#tok");
+}
+function gateHTML(i){
+  const R=REALMS[i], st=S.gate[i];
+  if(st==="badge") return `<circle r="14" fill="${R.acc}" stroke="#fff3cf" stroke-width="2"/><circle r="10" fill="none" stroke="#0b1d20" stroke-width="1" opacity=".5"/><text y="5" text-anchor="middle" font-family="Georgia,serif" font-size="${R.no.length>2?9:12}" font-weight="700" fill="#0b1d20">${R.no==="✦"?"★":R.no}</text>`;
+  if(st==="open") return `<circle r="13" fill="#0b1d20" stroke="${R.acc}" stroke-width="2"/><path d="M-4 3 V-2 Q-4 -7 0 -7 Q4 -7 4 -4" fill="none" stroke="${R.acc}" stroke-width="1.8" stroke-linecap="round"/><rect x="-5" y="2" width="10" height="7" rx="1.5" fill="${R.acc}"/>`;
+  return `<circle r="13" fill="#0b1d20" stroke="rgba(230,189,98,.55)" stroke-width="1.8" stroke-dasharray="3 2.5"/><path d="M-3.5 1 V-3 Q-3.5 -7 0 -7 Q3.5 -7 3.5 -3 V1" fill="none" stroke="rgba(230,189,98,.8)" stroke-width="1.8" stroke-linecap="round"/><rect x="-5" y="0" width="10" height="8" rx="1.5" fill="rgba(230,189,98,.8)"/>`;
+}
+function updateMap(){
+  REALMS.forEach((R,i)=>{
+    const row=$("#row"+i); if(row)row.classList.toggle("lock",!(i<=S.maxR));
+    $("#gate"+i).innerHTML=gateHTML(i);
+    R.q.forEach((q,j)=>{
+      const n=$("#nd"+i+"_"+j),p=$("#pu"+i+"_"+j); if(!n)return;
+      const v=S.res[i][j], isCur=(S.screen==="question"&&S.r===i&&S.i===j);
+      n.setAttribute("class","node"+(v==="ok"?" ok":v==="no"?" no":"")+(isCur?" cur":""));
+      p.setAttribute("class","pulse"+(isCur?" on":""));
+    });
+  });
+  let pos={x:X0,y:Y0},len=0;
+  if(S.screen==="question"||S.screen==="out"){pos=NODES[S.r][S.i];len=NODELEN[S.r][S.i]}
+  else if(S.screen==="lock"||S.screen==="lockres"||S.screen==="cleared"){pos=GATEPOS[S.r];len=GATELEN[S.r]}
+  else if(S.screen==="realm"){const R=S.r;pos={x:NODES[R][0].x-(rowDir(R)>0?34:-34),y:NODES[R][0].y};len=RSTART[R]}
+  else if(S.screen==="final"){for(let i=REALMS.length-1;i>=0;i--){if(S.gate[i]){pos=GATEPOS[i];len=GATELEN[i];break}}}
+  TOK.style.transform=`translate(${pos.x}px,${pos.y}px)`;
+  THREAD.style.strokeDasharray=Math.max(0,len)+" "+TOTAL;
+  $("#mapnote").textContent=S.screen==="start"?"Six chambers, rising":(S.screen==="final"?"Your walk":"Chamber "+REALMS[Math.min(S.r,REALMS.length-1)].no+" of "+REALMS.length);
+}
+
+/* =====================================================================
+   SCREENS
+   ===================================================================== */
+function setScreen(n){S.screen=n;render()}
+function music(){
+  const R=REALMS[Math.min(S.r,REALMS.length-1)];
+  switch(S.screen){
+    case "start":AU.play("start",.3);break;
+    case "realm":AU.play(R.theme,.2);break;
+    case "question":AU.play(R.theme,.25+.7*S.i/Math.max(1,R.q.length-1));break;
+    case "lock":case "lockres":AU.play(R.theme,.9);break;
+    case "cleared":AU.play(R.theme,.55);break;
+    case "out":AU.play("dark",.2);break;
+    case "final":AU.play("victory",.6);break;
+  }
+}
+function render(){
+  const R=REALMS[Math.min(S.r,REALMS.length-1)];
+  document.documentElement.style.setProperty("--acc",(S.screen==="start"||S.screen==="final")?"#e6bd62":R.acc);
+  drawHud();
+  ({start,realm,question,lock,lockres,cleared,out,final})[S.screen]();
+  updateMap(); music();
+}
+
+function start(){
+  S.mood="grin"; const best=store.get("labyrinth-best");
+  stage.innerHTML=`<section class="panel">
+    <div class="eyebrow">A pharmacology and medical English quest</div>
+    <h1>The Labyrinth <em>of Remedies</em></h1>
+    <p class="lede">Follow the golden thread through six chambers that rise from easy to legendary. Answer the questions, open each gate with a medical English lock, and earn a badge for every chamber you master.</p>
+    ${guide("Dr. Phil Better","Hello, future colleagues. My prescription for today: one question at a time, each followed by a short explanation. Side effects may include confidence. Put your headphones on, the labyrinth has its own music.","grin")}
+    <div class="rules">
+      <div><b>Lanterns</b>Each wrong answer dims one of your three lanterns. If they all go out, you retrace the chamber.</div>
+      <div><b>Medical English</b>Every step teaches a word. At the end of each chamber a Gate Lock tests your English: open it to move on.</div>
+      <div><b>Badges</b>Score 80% or more in a chamber to master it and win its badge. Collect them for your diploma.</div>
+    </div>
+    <ol class="ladder" aria-label="The six chambers">
+      ${REALMS.map(R=>`<li><span class="no">${R.no}</span><span class="nm">${R.name}<small>English: ${R.focus}</small></span><span class="chip d${R.d}">${R.tone}</span></li>`).join("")}
+    </ol>
+    <label class="field">Your name, for the diploma (optional)<input id="nm" maxlength="40" autocomplete="name" placeholder="Type your name" value="${esc(S.name)}"></label>
+    <div class="row"><button class="btn" id="go">Enter the labyrinth ➜</button></div>
+    ${best?`<p class="note">Your best walk so far: ${esc(best)}</p>`:""}
+  </section>`;
+  $("#go").onclick=()=>{
+    S.name=$("#nm").value.trim(); store.set("labyrinth-name",S.name);
+    AU.init(); resetRun(); AU.sfx("click"); setScreen("realm");
+  };
+}
+
+function realm(){
+  const R=REALMS[S.r]; S.mood="smile"; S.maxR=Math.max(S.maxR,S.r);
+  stage.innerHTML=`<section class="panel">
+    <div class="eyebrow">${R.bonus?"Bonus chamber":"Chamber "+(S.r+1)+" of "+MAIN} · <span class="chip d${R.d}" style="margin-left:4px">${R.tone}</span></div>
+    <div class="roman">${R.no}</div>
+    <h2 class="big">${R.name}</h2>
+    <p class="lede">${R.blurb}</p>
+    <div class="focus"><b>Medical English focus</b> · ${R.focus}</div>
+    ${guide("Dr. Phil Better",R.intro,"smile")}
+    <p class="note" style="margin-top:0">${R.q.length} questions · ${LANTERNS} lanterns · English Gate Lock · badge: ${R.level}</p>
+    <div class="row"><button class="btn" id="enter">Step through the gate ➜</button></div>
+  </section>`;
+  $("#enter").onclick=()=>{AU.sfx("click");S.i=0;S.lan=LANTERNS;S.res[S.r]=R.q.map(()=>null);S.cur=null;S.streak=0;setScreen("question")};
+  $("#enter").focus({preventScroll:true});
+}
+
+function wordBlock(w){
+  return `<div class="word"><span class="wl">Word of the step · medical English</span><b>${esc(w[0])}</b><i>${esc(w[1])}</i><button class="listen" data-say="${esc(w[0])}" aria-label="Listen to the word">🔊 Listen</button></div>`;
+}
+
+function question(){
+  const R=REALMS[S.r], Q=R.q[S.i];
+  if(!S.cur||S.cur.r!==S.r||S.cur.i!==S.i){S.cur={r:S.r,i:S.i,opts:shuffle(Q.o.map((t,k)=>({t,ok:k===0}))),pick:null};S.done=false}
+  const said=S.done?S.cur.said:(S.i===0?"Here we go. Read slowly, then answer.":"Next corridor. Mind the walls.");
+  stage.innerHTML=`<section>
+    ${guide("Dr. Phil Better",said,S.mood)}
+    <div class="card">
+      <div class="qmeta"><span>${R.no} · ${R.name} · ${S.i+1}/${R.q.length}</span><span class="chip d${R.d}">${R.tone}</span></div>
+      <div class="qtext">${Q.q}</div>
+      <div class="opts" id="opts">${S.cur.opts.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${"ABCD"[k]}</span><span>${o.t}</span></button>`).join("")}</div>
+      <div id="fb"></div>
+    </div>
+  </section>`;
+  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(+b.dataset.k));
+  if(S.done)showFeedback(true);
+}
+function answer(k){
+  if(S.done)return;
+  const R=REALMS[S.r],Q=R.q[S.i],o=S.cur.opts[k];
+  S.done=true;S.cur.pick=k;S.lex.set(S.r+"-"+S.i,Q.w);
+  if(o.ok){S.res[S.r][S.i]="ok";S.streak++;S.mood="grin";S.cur.said=SAY.streak[S.streak]||pick(SAY.right);AU.sfx("good")}
+  else{S.res[S.r][S.i]="no";S.streak=0;S.lan=Math.max(0,S.lan-1);S.mood="oops";S.cur.said=pick(SAY.wrong);AU.sfx("bad")}
+  drawHud();updateMap();showFeedback(false);
+}
+function bindListen(){document.querySelectorAll(".listen").forEach(b=>b.onclick=()=>speak(b.dataset.say))}
+function showFeedback(restore){
+  const R=REALMS[S.r],Q=R.q[S.i],pk=S.cur.pick,ok=S.cur.opts[pk].ok;
+  document.querySelectorAll(".opt").forEach((b,k)=>{b.disabled=true;if(S.cur.opts[k].ok)b.classList.add("right");else if(k===pk)b.classList.add("wrong");else b.classList.add("fade")});
+  const lastQ=S.i===R.q.length-1,dead=S.lan===0&&!ok;
+  const label=dead?"The last lantern fades…":(lastQ?"To the Gate Lock ➜":"Next corridor ➜");
+  $("#fb").innerHTML=`<div class="fb ${ok?"good":"bad"}"><strong>${ok?"Correct.":"Not quite."}</strong><p>${Q.e}</p></div>${wordBlock(Q.w)}<div class="row"><button class="btn" id="nx">${label}</button></div>`;
+  const g=document.querySelector(".guide .bubble");if(g)g.innerHTML=`<b>Dr. Phil Better</b>${S.cur.said}`;
+  const d=document.querySelector(".guide .doc");if(d)d.outerHTML=drPhil(S.mood);
+  bindListen();
+  $("#nx").onclick=()=>{
+    if(dead){setScreen("out");return}
+    if(lastQ){lockStart();return}
+    S.i++;S.cur=null;S.mood="smile";setScreen("question");
+  };
+  if(!restore)$("#nx").focus({preventScroll:true});
+}
+
+/* ---- the English Gate Lock ---- */
+function lockStart(){const R=REALMS[S.r];S.lock={items:shuffle(R.lock),idx:0,ok:0,cur:null,done:false,pick:null};S.cur=null;S.mood="smile";setScreen("lock")}
+function lock(){
+  const R=REALMS[S.r],L=S.lock,it=L.items[L.idx];
+  if(!L.cur){L.cur=shuffle(it.o.map((t,k)=>({t,ok:k===0})));L.done=false;L.pick=null}
+  stage.innerHTML=`<section>
+    ${guide("Dr. Phil Better",L.idx===0?"The gate has a lock, and it speaks medical English. Answer at least "+LOCK_PASS+" of the 3 riddles to open it. No lantern is at risk here.":"Next riddle.",S.mood)}
+    <div class="card lockcard">
+      <div class="qmeta"><span>Gate Lock · medical English · ${L.idx+1}/3</span><span class="chip d${R.d}">${R.no}</span></div>
+      <div class="qtext">${it.q}</div>
+      <div class="opts">${L.cur.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${"ABCD"[k]}</span><span>${o.t}</span></button>`).join("")}</div>
+      <div id="fb"></div>
+    </div>
+  </section>`;
+  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>lockAnswer(+b.dataset.k));
+}
+function lockAnswer(k){
+  const L=S.lock; if(L.done)return; const it=L.items[L.idx],ok=L.cur[k].ok;
+  L.done=true; if(ok){L.ok++;AU.sfx("good");S.mood="grin"}else{AU.sfx("bad");S.mood="oops"}
+  document.querySelectorAll(".opt").forEach((b,i)=>{b.disabled=true;if(L.cur[i].ok)b.classList.add("right");else if(i===k)b.classList.add("wrong");else b.classList.add("fade")});
+  const last=L.idx===2;
+  $("#fb").innerHTML=`<div class="fb ${ok?"good":"bad"}"><strong>${ok?"The tumbler turns.":"The tumbler sticks."}</strong><p>${it.e}</p></div><div class="row"><button class="btn" id="nx">${last?"Try the lock ➜":"Next riddle ➜"}</button></div>`;
+  const d=document.querySelector(".guide .doc");if(d)d.outerHTML=drPhil(S.mood);
+  $("#nx").onclick=()=>{if(last){setScreen("lockres")}else{L.idx++;L.cur=null;S.mood="smile";setScreen("lock")}};
+  $("#nx").focus({preventScroll:true});
+}
+function lockres(){
+  const R=REALMS[S.r],L=S.lock,opened=L.ok>=LOCK_PASS;
+  if(opened){AU.sfx("unlock");S.gate[S.r]=S.gate[S.r]||"open"}else AU.sfx("lockfail");
+  S.mood=opened?"grin":"oops";
+  stage.innerHTML=`<section class="panel">
+    <div class="eyebrow">Gate Lock · ${L.ok} of 3 correct</div>
+    <h2 class="big">${opened?"The gate swings open":"The lock holds"}</h2>
+    <p class="lede">${opened?"Your medical English opened the way. Cross the threshold to see what the chamber has awarded you.":"You need "+LOCK_PASS+" of 3 to open it. Read the explanations once more and try the lock again. Nothing is lost by trying."}</p>
+    ${guide("Dr. Phil Better",opened?"Precisely the right words, colleague. A pharmacist who speaks precisely prevents errors.":"Even native speakers confuse these. Try again, slowly.",S.mood)}
+    <div class="row"><button class="btn" id="nx">${opened?"Cross the threshold ➜":"Try the lock again ➜"}</button></div>
+  </section>`;
+  $("#nx").onclick=()=>{if(opened)setScreen("cleared");else lockStart()};
+  $("#nx").focus({preventScroll:true});
+}
+
+/* ---- chamber cleared: badge ---- */
+function score(i){const att=S.res[i].filter(Boolean).length,ok=S.res[i].filter(v=>v==="ok").length;return{ok,all:REALMS[i].q.length,att}}
+function cleared(){
+  const R=REALMS[S.r],sc=score(S.r),pct=sc.ok/sc.all,mastered=pct>=MASTER,perfect=sc.ok===sc.all;
+  const isBonus=!!R.bonus,lastMain=S.r===MAIN-1;
+  const firstTime=mastered&&S.gate[S.r]!=="badge";
+  if(mastered){S.gate[S.r]="badge"}
+  if(firstTime)AU.sfx("badge");else AU.sfx("clear");
+  S.mood=mastered?"grin":"smile";
+  const stars=n=>Array.from({length:3},(_,k)=>`<svg width="30" height="30" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.8L5.7 21l1.7-7L2 9.2l7.1-.6z" fill="${k<n?"#e6bd62":"rgba(255,255,255,.12)"}"/></svg>`).join("");
+  let btns="";
+  if(isBonus)btns+=`<button class="btn" id="nx">See my results ➜</button>`;
+  else if(lastMain)btns+=`<button class="btn" id="vault">Open the secret Industry Vault ✦</button><button class="btn ghost" id="fin">See my results</button>`;
+  else btns+=`<button class="btn" id="nx">On to chamber ${REALMS[S.r+1].no} ➜</button>`;
+  if(mastered)btns+=`<button class="btn ghost" id="dlb">Download badge</button>`;
+  else btns+=`<button class="btn ghost" id="again">Retrace for the badge</button>`;
+  const say=lastMain?"You reached the Heart of the Labyrinth! There is a hidden door under the floor: clinical trials, quality and a little Tunisian industry. Care to look?":(mastered?"A badge for your collection, and well earned. The next corridor is steeper, so keep your lantern high.":"You are through, but the badge asks for "+Math.round(MASTER*100)+"%. Retrace the chamber whenever you wish.");
+  stage.innerHTML=`<section class="panel">
+    <div class="eyebrow">${lastMain?"The heart is reached":isBonus?"The vault is open":"Chamber cleared"} · Gate opened</div>
+    <h2 class="big">${R.name}</h2>
+    <div class="award">
+      ${badgeSVG(S.r,mastered,"big")}
+      <div>
+        <div class="stars" aria-label="Score">${stars(Math.round(3*pct))}</div>
+        <p class="lede" style="margin:12px 0 4px">${sc.ok} of ${sc.all} solved · English lock ${S.lock?S.lock.ok:0}/3</p>
+        <p style="margin:0;color:#cfdcd5">${mastered?(perfect?"A flawless chamber. You are now a <b style='color:var(--gold)'>"+R.level+"</b>.":"Chamber mastered. You are now a <b style='color:var(--gold)'>"+R.level+"</b>."):"Not yet mastered: <b>"+R.level+"</b> badge locked."}</p>
+      </div>
+    </div>
+    ${guide("Dr. Phil Better",say,S.mood)}
+    <div class="row">${btns}</div>
+  </section>`;
+  const nx=$("#nx");if(nx)nx.onclick=()=>{if(isBonus)setScreen("final");else{S.r++;S.cur=null;S.lan=LANTERNS;setScreen("realm")}};
+  const v=$("#vault");if(v)v.onclick=()=>{S.r=MAIN;S.cur=null;S.lan=LANTERNS;setScreen("realm")};
+  const fi=$("#fin");if(fi)fi.onclick=()=>setScreen("final");
+  const dl=$("#dlb");if(dl)dl.onclick=()=>download(badgeSVG(S.r,true).replace("<svg ",'<svg width="600" height="720" '),600,720,"badge-"+R.level.toLowerCase().replace(/\s+/g,"-")+".png");
+  const ag=$("#again");if(ag)ag.onclick=()=>{S.gate[S.r]=null;S.res[S.r]=R.q.map(()=>null);S.cur=null;S.lan=LANTERNS;setScreen("realm")};
+  updateMap();
+}
+
+function out(){
+  const R=REALMS[S.r];S.mood="oops";
+  stage.innerHTML=`<section class="panel">
+    <div class="eyebrow">Darkness</div>
+    <h2 class="big">The lanterns have gone out</h2>
+    <p class="lede">You are lost in <i>${R.name}</i>. The thread is still in your hand: retrace this chamber with fresh lanterns and the questions will come again in a new order.</p>
+    ${guide("Dr. Phil Better","Do not lose heart. Every pharmacist I know got lost here once. Walk it again, and read the explanations closely this time.","oops")}
+    <div class="row"><button class="btn" id="retry">Retrace the chamber ➜</button><button class="btn ghost" id="leave">${R.bonus?"Leave the vault":"End my walk here"}</button></div>
+  </section>`;
+  $("#retry").onclick=()=>{S.cur=null;S.i=0;S.lan=LANTERNS;S.streak=0;S.res[S.r]=R.q.map(()=>null);R.q=shuffle(R.q);setScreen("question")};
+  $("#leave").onclick=()=>{S.cur=null;setScreen("final")};
+}
+
+function rankFor(p){
+  if(p>=.9)return["Grand Master of the Labyrinth","Dr. Phil would trust you with his own prescription pad."];
+  if(p>=.75)return["Master Pharmacist","A confident walk with a few scuffs. Review the notes below and you will shine."];
+  if(p>=.6)return["Seasoned Explorer","You know the corridors. A second walk will tighten the weak spots."];
+  return["Apprentice of the Labyrinth","Every master was lost here once. Read the notes below and walk again."];
+}
+function final(){
+  let ok=0,att=0,tot=0;
+  for(let i=0;i<MAIN;i++){const s=score(i);ok+=s.ok;att+=s.att;tot+=s.all}
+  const p=att?ok/att:0,[title,sub]=rankFor(p),bonus=score(MAIN),bonusTried=bonus.att>0;
+  S.mood=p>=.75?"grin":"smile";
+  const scoreTxt=`${ok}/${att} in the main labyrinth`;
+  const bestP=+store.get("labyrinth-best-pct")||0; if(p>=bestP&&att){store.set("labyrinth-best",scoreTxt+" ("+title+")");store.set("labyrinth-best-pct",p)}
+  const missed=[];REALMS.forEach((R,i)=>R.q.forEach((q,j)=>{if(S.res[i][j]==="no")missed.push({R,q})}));
+  const nb=S.gate.filter(g=>g==="badge").length;
+  const lex=[...S.lex.values()];
+  stage.innerHTML=`<section class="panel">
+    <div class="eyebrow">Your diagnosis</div>
+    <div class="rank">${title}</div>
+    <p class="lede">${ok} of ${att} answered correctly in the main labyrinth${att<tot?" (the walk ended early)":""}. ${sub}</p>
+    ${guide("Dr. Phil Better",p>=.75?"Excellent check-up, colleague. Side effects: confidence, and a lasting urge to read the formulary.":"A useful check-up. The notes below are your prescription: read them, then walk again.",S.mood)}
+    <div class="eyebrow">Badges · ${nb} of ${REALMS.length}</div>
+    <div class="badges">${REALMS.map((R,i)=>badgeSVG(i,S.gate[i]==="badge")).join("")}</div>
+    <div class="bars">
+      ${REALMS.map((R,i)=>{const s=score(i);if(R.bonus&&!bonusTried)return"";const w=s.att?Math.round(100*s.ok/s.all):0;return`<div class="bar"><span>${R.no} ${R.name.replace(/^The /,"")}</span><div class="tr"><div class="fl" style="width:${w}%"></div></div><span>${s.att?s.ok+"/"+s.all:"–"}</span></div>`}).join("")}
+    </div>
+    <details class="lex"><summary>Your medical English lexicon · ${lex.length} words</summary><ul>${lex.map(w=>`<li><b>${esc(w[0])}</b>${esc(w[1])}</li>`).join("")||"<li>No words collected yet.</li>"}</ul></details>
+    ${missed.length?`<div class="eyebrow" style="margin-top:22px">Review the chart · ${missed.length} to revisit</div><div class="review">${missed.map(m=>`<details><summary>${m.R.no} · ${m.q.q}</summary><p><span class="ans">Answer: ${m.q.o[0]}</span></p><p>${m.q.e}</p></details>`).join("")}</div>`:`<p class="lede" style="margin-top:18px">No question missed. A clean sweep.</p>`}
+    <div class="row"><button class="btn" id="dip">Download my diploma</button><button class="btn ghost" id="again">Walk the labyrinth again</button>${bonusTried?"":`<button class="btn ghost" id="vault">Try the Industry Vault ✦</button>`}</div>
+  </section>`;
+  AU.sfx("clear");
+  $("#dip").onclick=()=>download(diplomaSVG(S.name,title,scoreTxt,lex.length),2400,1700,"labyrinth-diploma.png");
+  $("#again").onclick=()=>{REALMS.forEach(R=>{R.q=shuffle(R.q)});resetRun();setScreen("start")};
+  const v=$("#vault");if(v)v.onclick=()=>{S.r=MAIN;S.cur=null;S.lan=LANTERNS;setScreen("realm")};
+}
+
+/* keyboard: 1-4 or A-D answer */
+document.addEventListener("keydown",e=>{
+  if(e.metaKey||e.ctrlKey||e.altKey||(e.target&&e.target.tagName==="INPUT"))return;
+  const m={"1":0,"2":1,"3":2,"4":3,"a":0,"b":1,"c":2,"d":3}[e.key.toLowerCase()]; if(m===undefined)return;
+  if(S.screen==="question"&&!S.done&&S.cur&&S.cur.opts[m])answer(m);
+  else if(S.screen==="lock"&&S.lock&&!S.lock.done&&S.lock.cur&&S.lock.cur[m])lockAnswer(m);
+});
+
+/* header buttons */
+const sb=$("#snd");
+function paintSnd(){sb.setAttribute("aria-pressed",AU.isOn());sb.textContent=AU.isOn()?"♪":"♪̸";sb.title=AU.isOn()?"Music on":"Music off"}
+sb.onclick=()=>{AU.init();AU.setOn(!AU.isOn());paintSnd();if(AU.isOn())music()};
+paintSnd();
+$("#mapbtn").onclick=()=>{const p=$("#mappane"),o=p.classList.toggle("open");$("#mapbtn").setAttribute("aria-expanded",o);$("#mapbtn").textContent=o?"Hide map":"Map"};
+
+if(location.hash==="#debug")window.__lab={S,REALMS};
+buildMap();render();
+})();
+</script>
+</body>
+</html>
