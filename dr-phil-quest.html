@@ -1531,13 +1531,11 @@ function showInstall(){
   if(deferredInstall){deferredInstall.prompt();deferredInstall.userChoice.finally(()=>{deferredInstall=null;const p=document.getElementById("ipill");if(p)p.remove()});return}
   if(document.getElementById("imodal"))return;
   const [h,t]=instText(),m=document.createElement("div");m.id="imodal";
-  m.innerHTML=`<div class="imbox"><b>Install the app: one step</b><p><strong>${h}:</strong> ${t}</p>
-   <div class="row"><button class="btn small" id="imok">Got it</button><button class="btn ghost small" id="dl">⬇ Download the game file instead</button></div></div>`;
+  m.innerHTML=`<div class="imbox"><b>Install the app</b><p><strong>${h}:</strong> ${t}</p><p style="font-size:14px">⬆ Look at the top of your browser window: the install button is in the address bar, not on this page.</p>
+   <div class="row"><button class="btn small" id="imok">Got it</button></div>`;
   document.body.appendChild(m);
   $("#imok").onclick=()=>m.remove();
   m.onclick=e=>{if(e.target===m)m.remove()};
-  $("#dl").onclick=async()=>{let t;try{t=await (await fetch(location.href.split("#")[0])).text()}catch(e){t="<!DOCTYPE html>\n"+document.documentElement.outerHTML}
-    const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/html"}));a.download="dr-phil-quest.html";document.body.appendChild(a);a.click();a.remove()};
 }
 function pill(){
   if(STANDALONE||document.getElementById("ipill")||store.get("pq-nopill")==="1")return;
