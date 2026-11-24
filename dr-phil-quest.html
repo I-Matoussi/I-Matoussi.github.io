@@ -276,15 +276,15 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.06;z-
 @media (max-width:960px){.top{margin:0 -22px;position:static;backdrop-filter:none;background:transparent;border-bottom:0}.match{grid-template-columns:1fr}.mappane{top:0}}
 @media (max-width:520px){.top{margin:0 -14px;padding:10px 14px}}
 
-/* ===== v4: hologram ===== */
-canvas.holo{display:block;width:150px;height:190px;flex:none;animation:none;cursor:pointer;filter:drop-shadow(0 0 16px rgba(111,227,224,.28))}
+/* ===== v4: character canvas ===== */
+canvas.holo{display:block;width:150px;height:190px;flex:none;animation:none;cursor:pointer;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35))}
 .guide{align-items:center}
 .bubble{transition:background .3s,border-color .3s}
 .bubble.pos{background:#e4f5ea;border-left:5px solid var(--good)}
 .bubble.neg{background:#f8e0d9;border-left:5px solid var(--bad)}
 .bubble.pos b{color:var(--good)}.bubble.neg b{color:var(--bad)}
 .introgrid{display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:center;margin-top:6px}
-canvas.holo.hero{width:300px;height:380px;filter:drop-shadow(0 0 34px rgba(111,227,224,.38))}
+canvas.holo.hero{width:300px;height:380px;filter:drop-shadow(0 10px 22px rgba(0,0,0,.4))}
 .sub{min-height:6.4em;font-family:var(--serif);font-size:clamp(25px,3vw,33px);line-height:1.2;color:#f5ecd7;margin:16px 0 4px;max-width:30ch}
 .chk{display:flex;gap:10px;align-items:center;cursor:pointer}
 .chk input{accent-color:var(--gold);width:18px;height:18px}
@@ -730,7 +730,7 @@ function resetRun(){S.r=0;S.i=0;S.lan=LANTERNS;S.streak=0;S.res=REALMS.map(r=>r.
 resetRun();
 
 /* =====================================================================
-   DR. PHIL BETTER: a 3D wireframe hologram (own tiny 3D renderer, no libraries)
+   DR. PHIL BETTER: a solid 3D cartoon doctor (own tiny 3D renderer, no libraries)
    ===================================================================== */
 let introSeen=false,introTok=0;
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
@@ -766,7 +766,7 @@ const Holo=(function(){
       },80);
     });
   }
-  function quip(){const q=["Please do not poke the hologram, colleague.","I am only light, but I do notice.","Eyes on the question, not on me.","Careful. Photons are sensitive."];react("good");say(q[Math.floor(Math.random()*q.length)])}
+  function quip(){const q=["Please do not poke the doctor, colleague.","Yes, yes, I am real enough. Now, the question.","Eyes on the question, not on my moustache.","Careful. This coat has been freshly pressed."];react("good");say(q[Math.floor(Math.random()*q.length)])}
   addEventListener("pointermove",e=>{st.mxT=(e.clientX/innerWidth-.5)*2},{passive:true});
   const arm=()=>{armed=true};addEventListener("pointerdown",arm,{once:true});addEventListener("keydown",arm,{once:true});
   document.addEventListener("click",e=>{if(e.target.closest&&e.target.closest("canvas.holo")){arm();quip()}});
@@ -796,13 +796,13 @@ const Holo=(function(){
     const t=a[0]===b[0]?0:(a[0]-y)/(a[0]-b[0]),rx=a[1]+(b[1]-a[1])*t,rz=a[2]+(b[2]-a[2])*t,q=Math.min(1,Math.abs(x)/rx);return rz*Math.pow(Math.max(0,1-Math.pow(q,NEXP)),1/NEXP)};
   const sp=(c,e)=>Math.sign(c)*Math.pow(Math.abs(c),e);
   /* static meshes */
-  ellipsoid(BODY,0,HC,0,HRX,HRY,HRZ,18,24,SKIN);
-  ellipsoid(BODY,0,HC,-.02,HRX*1.045,HRY*1.045,HRZ*1.05,16,24,HAIR,d=>d[1]>.64||(d[2]<.28&&d[1]>-.18)||(d[2]<-.2&&d[1]>-.5));
-  ellipsoid(BODY,0,HC+HRY*.78,HRZ*.34,.42,.17,.3,8,16,HAIR);
+  ellipsoid(BODY,0,HC,0,HRX,HRY,HRZ,28,40,SKIN);
+  ellipsoid(BODY,0,HC,-.02,HRX*1.045,HRY*1.045,HRZ*1.05,26,40,HAIR,d=>d[1]>.64||(d[2]<.28&&d[1]>-.18)||(d[2]<-.2&&d[1]>-.5));
+  ellipsoid(BODY,0,HC+HRY*.78,HRZ*.34,.42,.17,.3,12,24,HAIR);
   [-1,1].forEach(s=>{ellipsoid(BODY,s*.56,1.5,.02,.075,.13,.07,8,12,SKIN_D)});
   ellipsoid(NOSE,0,1.45,.6,.07,.11,.09,8,12,SKIN_D); ellipsoid(NOSE,0,1.37,.665,.045,.04,.04,6,10,SKIN_D);
-  (function(){const ring=[];RINGS.forEach(r=>{const p=[];for(let i=0;i<28;i++){const a=Math.PI*2*i/28;p.push([r[1]*sp(Math.cos(a),2/NEXP),r[0],r[2]*sp(Math.sin(a),2/NEXP)])}ring.push(p)});
-    for(let i=0;i<ring.length-1;i++)for(let j=0;j<28;j++){const k=(j+1)%28;quad(BODY,[ring[i][j],ring[i][k],ring[i+1][k],ring[i+1][j]],COAT,[0,(RINGS[i][0]+RINGS[i+1][0])/2,0])}
+  (function(){const ring=[];RINGS.forEach(r=>{const p=[];for(let i=0;i<40;i++){const a=Math.PI*2*i/40;p.push([r[1]*sp(Math.cos(a),2/NEXP),r[0],r[2]*sp(Math.sin(a),2/NEXP)])}ring.push(p)});
+    for(let i=0;i<ring.length-1;i++)for(let j=0;j<40;j++){const k=(j+1)%40;quad(BODY,[ring[i][j],ring[i][k],ring[i+1][k],ring[i+1][j]],COAT,[0,(RINGS[i][0]+RINGS[i+1][0])/2,0])}
     const nk=[];[1.02,.55].forEach(y=>{const p=[];for(let i=0;i<16;i++){const a=Math.PI*2*i/16;p.push([.2*Math.cos(a),y,.2*Math.sin(a)])}nk.push(p)});
     for(let j=0;j<16;j++){const k=(j+1)%16;quad(BODY,[nk[0][j],nk[0][k],nk[1][k],nk[1][j]],SKIN,[0,.8,0])}})();
   /* overlays on the coat: shirt, lapels, tie, pocket */
@@ -849,9 +849,10 @@ const Holo=(function(){
     const mood=st.c,rev=-1.1+st.reveal*3.7;
     g.clearRect(0,0,W,H);g.globalCompositeOperation="source-over";g.lineJoin="round";g.lineCap="round";
     const bc=tr([0,-1.0,0]),s0=F/D,topY=tr([0,2.4,0])[1],c0=mood.map(v=>v|0).join(","),a0=st.a.map(v=>v|0).join(",");
-    /* hologram projector: light cone + base rings behind the figure */
-    const cg=g.createLinearGradient(0,topY,0,bc[1]);cg.addColorStop(0,`rgba(${c0},0)`);cg.addColorStop(1,`rgba(${c0},.2)`);
-    g.fillStyle=cg;g.beginPath();g.moveTo(bc[0]-1.15*s0,bc[1]);g.lineTo(bc[0]-.62*s0,topY);g.lineTo(bc[0]+.62*s0,topY);g.lineTo(bc[0]+1.15*s0,bc[1]);g.closePath();g.fill();
+    /* portrait backdrop: soft studio glow and floor shadow */
+    st.reveal=1;st.glitch=0;
+    {const cx=W/2,cyb=H*.5,rr=Math.min(W,H)*.46,bg=g.createRadialGradient(cx,cyb,rr*.1,cx,cyb,rr);bg.addColorStop(0,`rgba(${c0},.30)`);bg.addColorStop(.7,`rgba(${c0},.10)`);bg.addColorStop(1,`rgba(${c0},0)`);g.fillStyle=bg;g.beginPath();g.arc(cx,cyb,rr,0,6.3);g.fill();
+     const sh=g.createRadialGradient(bc[0],bc[1],0,bc[0],bc[1],s0*1.1);sh.addColorStop(0,"rgba(0,0,0,.45)");sh.addColorStop(1,"rgba(0,0,0,0)");g.save();g.translate(0,bc[1]);g.scale(1,.22);g.translate(0,-bc[1]);g.fillStyle=sh;g.beginPath();g.arc(bc[0],bc[1],s0*1.1,0,6.3);g.fill();g.restore()}
     /* draw polygon list (painter's algorithm) */
     const Lx=-.45,Ly=.55,Lz=.7,Ln=Math.hypot(Lx,Ly,Lz),lx=Lx/Ln,ly=Ly/Ln,lz=Lz/Ln;
     function render(list,extra){
@@ -863,16 +864,11 @@ const Holo=(function(){
       }
       items.sort((a,b)=>a.z-b.z);
       for(const it of items){
-        const sh=.4+.6*Math.max(0,it.n[0]*lx+it.n[1]*ly+it.n[2]*lz),rim=Math.pow(1-Math.max(0,it.n[2]),2.4)*.55,glow=st.reveal<1&&Math.abs(it.ym-rev)<.12?1:0;
+        const sh=.5+.5*Math.max(0,it.n[0]*lx+it.n[1]*ly+it.n[2]*lz),rim=Math.pow(1-Math.max(0,it.n[2]),2.4)*.22,glow=st.reveal<1&&Math.abs(it.ym-rev)<.12?1:0;
         const R=Math.min(255,it.c[0]*sh+mood[0]*rim+glow*120),G=Math.min(255,it.c[1]*sh+mood[1]*rim+glow*200),B=Math.min(255,it.c[2]*sh+mood[2]*rim+glow*200),col=`rgb(${R|0},${G|0},${B|0})`;
         g.beginPath();g.moveTo(it.pr[0][0],it.pr[0][1]);for(let i=1;i<it.pr.length;i++)g.lineTo(it.pr[i][0],it.pr[i][1]);g.closePath();g.fillStyle=col;g.strokeStyle=col;g.lineWidth=.8*sc;g.fill();g.stroke();
       }
     }
-    /* base rings */
-    g.lineWidth=1.6*sc;for(let i=0;i<3;i++){const ph=(st.t*.45+i/3)%1,rx=(.9+ph*1.1)*s0;g.strokeStyle=`rgba(${a0},${(1-ph)*.5})`;g.beginPath();g.ellipse(bc[0],bc[1],rx,rx*.26,0,0,6.3);g.stroke()}
-    if(st.mood!=="idle"&&st.ev<1.6){const ph=st.ev/1.6,rx=(.9+ph*2.2)*s0;g.strokeStyle=`rgba(${c0},${(1-ph)*.8})`;g.lineWidth=2.4*sc;g.beginPath();g.ellipse(bc[0],bc[1],rx,rx*.26,0,0,6.3);g.stroke()}
-    g.strokeStyle=`rgba(${c0},.75)`;g.lineWidth=2*sc;g.beginPath();g.ellipse(bc[0],bc[1],.9*s0,.9*s0*.26,0,0,6.3);g.stroke();
-    g.globalAlpha=.96;
     /* pass 1: head, hair, coat */
     render(BODY.concat(NOSE,OV));
     /* head-surface helper for face features */
@@ -926,18 +922,12 @@ const Holo=(function(){
     ellipsoid(AR,pts[3][0],pts[3][1],pts[3][2],.11,.13,.08,8,12,SKIN);ellipsoid(AR,LARM[3][0],LARM[3][1],LARM[3][2],.11,.13,.08,8,12,SKIN);
     render(AR);
     g.globalAlpha=1;
-    /* hologram: tint, scanlines, label */
-    g.globalCompositeOperation="source-atop";g.fillStyle=`rgba(${c0},${.07+(speaking?.04:0)})`;g.fillRect(0,0,W,H);
-    g.globalCompositeOperation="destination-out";g.fillStyle="rgba(0,0,0,.18)";const sl=3.2*sc,off=(st.t*12*sc)%sl;for(let y=off;y<H;y+=sl)g.fillRect(0,y,W,1.1*sc);
-    if(st.glitch>.05){g.globalCompositeOperation="source-over";g.fillStyle=`rgba(${c0},${.25*st.glitch})`;g.fillRect(0,(st.gy+1)/4.2*H,W,3*sc)}
-    g.globalCompositeOperation="source-over";g.font=`${11*sc}px ui-monospace,Menlo,Consolas,monospace`;g.textAlign="center";g.fillStyle=`rgba(${c0},.9)`;
-    g.fillText("DR. PHIL BETTER · "+(speaking?"TRANSMITTING":P.txt),W/2,H-6*sc);
   }
 
   requestAnimationFrame(frame);
   return {setMood,react,boot,say,stop,talkFor,quip,arm,setVoice:v=>{voiceOn=v;store.set("labyrinth-voice",v?"on":"off");if(!v)stop()}};
 })();
-function drPhil(kind){return `<canvas class="doc holo" width="300" height="380" role="img" aria-label="Dr. Phil Better, a three-dimensional hologram"></canvas>`}
+function drPhil(kind){return `<canvas class="doc holo" width="300" height="380" role="img" aria-label="Dr. Phil Better, a three-dimensional cartoon doctor"></canvas>`}
 function guide(name,text,mood){const mm=mood||S.mood;return `<div class="guide">${drPhil(mm)}<div class="bubble${mm==="grin"?" pos":mm==="oops"?" neg":""}"><b>${name||"Dr. Phil Better"}</b><span class="tw">${text}</span></div></div>`}
 
 /* header widgets */
@@ -1510,14 +1500,14 @@ function intro(){
     "Answer well, and I shall cheer you on, loudly. Answer badly, and I shall tease you, mercilessly. Shall we begin?"
   ];
   stage.innerHTML=`<section class="panel">
-    <div class="eyebrow">Incoming transmission · hologram link established</div>
-    <div class="introgrid"><canvas class="holo hero" width="600" height="760" role="img" aria-label="Dr. Phil Better, a three-dimensional hologram"></canvas>
+    <div class="eyebrow">A word from your guide</div>
+    <div class="introgrid"><canvas class="holo hero" width="600" height="760" role="img" aria-label="Dr. Phil Better, a three-dimensional cartoon doctor"></canvas>
     <div><h1>Doctor <em>Phil Better</em></h1><div class="sub" id="sub" aria-live="polite"></div>
     <div class="row"><button class="btn" id="begin" disabled>Begin the quest ➜</button><button class="btn ghost" id="skip">Skip the briefing</button></div></div></div>
   </section>`;
   const tok=++introTok, go=()=>{introTok++;Holo.stop();AU.sfx("click");setScreen("realm")};
   $("#begin").onclick=go; $("#skip").onclick=go;
-  Holo.boot(); AU.sfx("boot");
+  Holo.boot(); AU.sfx("unlock");
   (async()=>{
     await wait(1800);
     for(let i=0;i<lines.length;i++){

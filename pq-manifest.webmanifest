@@ -2,7 +2,7 @@
   "id": "./dr-phil-quest.html",
   "name": "The Labyrinth of Remedies · Dr. Phil Better's Pharmacy Quest",
   "short_name": "Dr. Phil Quest",
-  "description": "A pharmacology, pharmacy and medical English quest with a 3D hologram doctor.",
+  "description": "A pharmacology, pharmacy and medical English quest.",
   "start_url": "./dr-phil-quest.html",
   "scope": "./",
   "display": "standalone",
