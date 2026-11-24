@@ -269,6 +269,20 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.06;z-
 .mbtn.bad{animation:shake .4s;border-color:var(--bad);background:rgba(180,81,58,.25)}
 @media (max-width:960px){.top{margin:0 -22px;position:static;backdrop-filter:none;background:transparent;border-bottom:0}.match{grid-template-columns:1fr}.mappane{top:0}}
 @media (max-width:520px){.top{margin:0 -14px;padding:10px 14px}}
+
+/* ===== v4: hologram ===== */
+canvas.holo{display:block;width:150px;height:190px;flex:none;animation:none;cursor:pointer;filter:drop-shadow(0 0 16px rgba(111,227,224,.28))}
+.guide{align-items:center}
+.bubble{transition:background .3s,border-color .3s}
+.bubble.pos{background:#e4f5ea;border-left:5px solid var(--good)}
+.bubble.neg{background:#f8e0d9;border-left:5px solid var(--bad)}
+.bubble.pos b{color:var(--good)}.bubble.neg b{color:var(--bad)}
+.introgrid{display:grid;grid-template-columns:auto 1fr;gap:36px;align-items:center;margin-top:6px}
+canvas.holo.hero{width:300px;height:380px;filter:drop-shadow(0 0 34px rgba(111,227,224,.38))}
+.sub{min-height:6.4em;font-family:var(--serif);font-size:clamp(25px,3vw,33px);line-height:1.2;color:#f5ecd7;margin:16px 0 4px;max-width:30ch}
+.chk{display:flex;gap:10px;align-items:center;cursor:pointer}
+.chk input{accent-color:var(--gold);width:18px;height:18px}
+@media (max-width:960px){canvas.holo{width:112px;height:142px}.introgrid{grid-template-columns:1fr;justify-items:center;text-align:center}canvas.holo.hero{width:250px;height:316px}.sub{min-height:8em}}
 </style>
 </head>
 <body>
@@ -288,6 +302,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.06;z-
       <button class="mapbtn" id="mapbtn" aria-expanded="false">Map</button>
       <div class="pop" id="pop" hidden>
         <label>Music volume<input type="range" id="vol" min="0" max="100" value="100"></label>
+        <label class="chk"><input type="checkbox" id="voice" checked> Dr. Phil speaks aloud (English)</label>
         <div class="fsrow"><span>Text size</span><button id="fsm" aria-label="Smaller text">A−</button><button id="fsp" aria-label="Larger text">A+</button></div>
       </div>
     </div>
@@ -435,10 +450,11 @@ const REALMS=[
 const LANTERNS=3, MAIN=5, LOCK_PASS=2, MASTER=0.8;
 
 const SAY={
- right:["Textbook! You are making me Phil Better already.","Precisely, colleague. The thread glows brighter.","Correct. The walls approve.","That is the answer I would have prescribed.","Splendid diagnosis!"],
- wrong:["Not quite. Let's read the chart together.","A wrong turn, but every explorer takes one. Look closely.","Ah. One lantern dims. Learn from it and walk on.","The labyrinth is teaching you. Read the note."],
- streak:{3:"Three in a row! Your confidence is a known side effect.",5:"Five clean steps! Even the minotaur is impressed.",8:"Eight! I am considering a medal."}
+ right:["Bravo, {n}! Magnificent! Even my photons are applauding.","Yes! Yes! Exactly right, {n}. I could kiss your diploma.","Splendid! That is a diagnosis worthy of a professor.","Brilliant, {n}! You make teaching look effortless.","Outstanding! My light shines brighter for you.","Marvellous! The labyrinth bows to you, {n}.","Textbook! You are making me Phil Better already.","Correct, and elegantly reasoned. Take a bow, {n}!"],
+ wrong:["Oh dear, {n}. Did you read the question, or merely admire it?","Wrong. Gloriously, spectacularly wrong.","Tut, tut. Even my stethoscope is embarrassed.","Incorrect. I would not let you dispense a sweet, never mind a drug.","Ah, a bold guess. Bold, and wrong, {n}.","No, no, no. Back to the textbook with you!","Remarkable. You chose the one answer I was hoping you would avoid.","Careful, {n}. That answer would keep the pharmacovigilance team busy."],
+ streak:{3:"Three in a row! Superb, {n}. Confidence is a known side effect.",5:"Five clean steps! Even the minotaur is impressed.",8:"Eight! I am seriously considering a medal for you, {n}."}
 };
+const fill=t=>String(t).replace(/\{n\}/g,(typeof S!=="undefined"&&S.name)?S.name:"colleague");
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const $=s=>document.querySelector(s);
@@ -525,20 +541,31 @@ const AU=(function(){
     else if(kind==="badge"){[72,76,79,84,88].forEach((m,i)=>n(m,.05+i*.12,1.8,.1,{type:"sine",bell:1}));n(48,.05,2,.14,{type:"sine"})}
     else if(kind==="lockfail"){n(50,0,.5,.14,{type:"square",lp:600});n(47,.15,.7,.12,{type:"square",lp:500})}
     else if(kind==="click"){n(84,0,.2,.05,{type:"sine"})}
+    else if(kind==="boot"){const o=ctx.createOscillator(),g=ctx.createGain(),fl=ctx.createBiquadFilter();o.type="sawtooth";o.frequency.setValueAtTime(90,t);o.frequency.exponentialRampToValueAtTime(1100,t+1.4);fl.type="lowpass";fl.frequency.setValueAtTime(300,t);fl.frequency.exponentialRampToValueAtTime(4200,t+1.4);g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(.07,t+.7);g.gain.exponentialRampToValueAtTime(.0001,t+1.7);o.connect(fl);fl.connect(g);g.connect(d);g.connect(rev);o.start(t);o.stop(t+1.8);[72,79,84].forEach((m,i)=>n(m,1.0+i*.15,1.6,.08,{type:"sine",bell:1}))}
   }
   function setOn(v){on=v;store.set("labyrinth-music",v?"on":"off");if(master)master.gain.setTargetAtTime(v?.55*vol:0,ctx.currentTime,.1);if(ctx){if(v&&ctx.state==="suspended")ctx.resume()}}
   document.addEventListener("visibilitychange",()=>{if(!ctx)return;if(document.hidden)ctx.suspend();else if(on)ctx.resume()});
+  function duck(d){if(master&&on)master.gain.setTargetAtTime(.55*vol*(d?.35:1),ctx.currentTime,.12)}
   function setVol(v){vol=Math.max(0,Math.min(1,v));store.set("labyrinth-vol",vol);if(master&&on)master.gain.setTargetAtTime(.55*vol,ctx.currentTime,.05)}
-  return {init,play,level,sfx,setOn,isOn:()=>on,setVol,getVol:()=>vol};
+  return {init,play,level,sfx,setOn,isOn:()=>on,setVol,getVol:()=>vol,duck};
 })();
 
-/* pronunciation of the word of the step (browser voice, if available) */
+/* English voice selection and word pronunciation */
+function pickVoice(){
+  try{
+    const vs=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang)); if(!vs.length)return null;
+    const pref=[/Google UK English Male/i,/Daniel/i,/Ryan/i,/George/i,/Microsoft (David|Mark|Guy)/i,/Alex/i,/Fred/i,/Google US English/i,/Male/i];
+    for(const p of pref){const v=vs.find(v=>p.test(v.name));if(v)return v}
+    return vs.find(v=>/en-GB/i.test(v.lang))||vs[0];
+  }catch(e){return null}
+}
 function speak(text){
   try{
     if(!("speechSynthesis" in window))return;
     speechSynthesis.cancel();
     const u=new SpeechSynthesisUtterance(text.replace(/\(.*?\)/g,"").replace(/[“”]/g,""));
-    u.lang="en-GB"; u.rate=.9; speechSynthesis.speak(u);
+    const v=pickVoice(); if(v){u.voice=v;u.lang=v.lang}else u.lang="en-GB";
+    u.rate=.9; speechSynthesis.speak(u);
   }catch(e){}
 }
 
@@ -615,29 +642,186 @@ const S={screen:"start",r:0,i:0,lan:LANTERNS,res:null,gate:[],cur:null,done:fals
 function resetRun(){S.r=0;S.i=0;S.lan=LANTERNS;S.streak=0;S.res=REALMS.map(r=>r.q.map(()=>null));S.gate=REALMS.map(()=>null);S.cur=null;S.maxR=0;S.lex=new Map();S.lock=null;S.hint=1;S.ling=REALMS.map(()=>false);S.match=null}
 resetRun();
 
-/* Dr. Phil (original cartoon doctor) */
-function drPhil(mood){
-  const mouth={smile:"M50 70 Q60 79 70 70",grin:"M48 69 Q60 84 72 69 Z",oops:"M52 75 Q60 69 68 75",neutral:"M53 73 L67 73"}[mood]||"M50 70 Q60 79 70 70";
-  const fill=mood==="grin"?'fill="#7a2a2a"':'fill="none"';
-  return `<svg class="doc" viewBox="0 0 120 138" aria-hidden="true">
-   <path d="M14 138 Q16 96 40 90 L80 90 Q104 96 106 138Z" fill="#f6f2e6"/>
-   <path d="M52 90 L60 108 L68 90Z" fill="#e0d8c2"/>
-   <path d="M40 90 Q44 112 60 114 Q76 112 80 90" fill="none" stroke="#1b4a4e" stroke-width="3.2" stroke-linecap="round"/>
-   <circle cx="60" cy="116" r="5" fill="#1b4a4e"/><circle cx="60" cy="116" r="2" fill="#e6bd62"/>
-   <rect x="82" y="108" width="13" height="19" rx="3" fill="#c98a2a"/><rect x="82" y="105" width="13" height="5" rx="2" fill="#f1e2bd"/>
-   <rect x="52" y="82" width="16" height="12" fill="#e2b995"/>
-   <circle cx="60" cy="52" r="26" fill="#ebc7a5"/>
-   <path d="M34 50 Q32 28 52 25 Q60 23 68 25 Q88 28 86 50 Q84 38 74 34 Q60 30 46 34 Q36 38 34 50Z" fill="#c9cfcf"/>
-   <circle cx="60" cy="31" r="9.5" fill="#d8dedf" stroke="#53686a" stroke-width="2"/><circle cx="60" cy="31" r="3" fill="#53686a"/>
-   <path d="M34 40 Q60 32 86 40" fill="none" stroke="#53686a" stroke-width="2.4"/>
-   <circle cx="49" cy="53" r="7.5" fill="#fff" fill-opacity=".55" stroke="#2a3a3a" stroke-width="1.8"/><circle cx="71" cy="53" r="7.5" fill="#fff" fill-opacity=".55" stroke="#2a3a3a" stroke-width="1.8"/>
-   <path d="M56.5 53 H63.5" stroke="#2a3a3a" stroke-width="1.8"/>
-   <circle cx="49" cy="53.5" r="2.2" fill="#1c2929"/><circle cx="71" cy="53.5" r="2.2" fill="#1c2929"/>
-   ${mood==="oops"?'<path d="M42 44 L55 47 M78 44 L65 47" stroke="#6a5a4a" stroke-width="2" stroke-linecap="round"/>':'<path d="M42 45 Q49 41 56 45 M64 45 Q71 41 78 45" stroke="#6a5a4a" stroke-width="2" fill="none" stroke-linecap="round"/>'}
-   <path class="mouth" d="${mouth}" ${fill} stroke="#7a3f33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>`;
-}
-function guide(name,text,mood){return `<div class="guide">${drPhil(mood||S.mood)}<div class="bubble"><b>${name||"Dr. Phil Better"}</b><span class="tw">${text}</span></div></div>`}
+/* =====================================================================
+   DR. PHIL BETTER: a 3D wireframe hologram (own tiny 3D renderer, no libraries)
+   ===================================================================== */
+let introSeen=false,introTok=0;
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+const Holo=(function(){
+  const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const POLY=[]; const add=(p,k)=>POLY.push({p,k:k||0});
+  function ring(cx,cy,cz,rx,ry,rz,n,plane){const p=[];for(let i=0;i<=n;i++){const a=Math.PI*2*i/n,c=Math.cos(a),s=Math.sin(a);
+    if(plane==="xz")p.push([cx+rx*c,cy,cz+rz*s]);else p.push([cx+rx*c,cy+ry*s,cz])}return p}
+  const HC=[0,1.55,0],HR=[.62,.78,.66];
+  const faceZ=(x,y)=>{const u=x/HR[0],v=(y-HC[1])/HR[1],w=1-u*u-v*v;return w>0?HR[2]*Math.sqrt(w):0};
+  function ell(cx,cy,cz,rx,ry,rz,lat,lon,k){
+    for(let i=1;i<lat;i++){const t=Math.PI*i/lat,y=cy+ry*Math.cos(t),r=Math.sin(t),p=[];for(let j=0;j<=36;j++){const a=Math.PI*2*j/36;p.push([cx+rx*r*Math.cos(a),y,cz+rz*r*Math.sin(a)])}add(p,k)}
+    for(let j=0;j<lon;j++){const a=Math.PI*2*j/lon,p=[];for(let i=0;i<=22;i++){const t=Math.PI*i/22;p.push([cx+rx*Math.sin(t)*Math.cos(a),cy+ry*Math.cos(t),cz+rz*Math.sin(t)*Math.sin(a)])}add(p,k)}
+  }
+  /* head */
+  ell(0,1.55,0,.62,.78,.66,11,14,0);
+  [-1,1].forEach(sx=>{const x=sx*.27,y=1.62;add(ring(x,y,faceZ(x,y)+.05,.17,.15,0,28),1);add([[sx*.44,1.64,faceZ(sx*.44,1.64)+.02],[sx*.6,1.66,faceZ(sx*.6,1.66)-.05]],1)});
+  add([[-.1,1.63,faceZ(-.1,1.63)+.07],[.1,1.63,faceZ(.1,1.63)+.07]],1);
+  add([[0,1.58,faceZ(0,1.58)+.04],[0,1.38,faceZ(0,1.38)+.1],[.07,1.34,faceZ(.07,1.34)+.08]],0);
+  add([[0,1.38,faceZ(0,1.38)+.1],[-.07,1.34,faceZ(-.07,1.34)+.08]],0);
+  add(ring(0,2.08,.5,.2,.2,0,24),1);add(ring(0,2.08,.52,.07,.07,0,12),1);add(ring(0,2.0,0,.52,0,.55,36,"xz"),1);
+
+  /* v5: character details */
+  // hair: swept waves over the crown and silver sides
+  for(let r=0;r<7;r++){const p=[];const y0=2.0+r*.0;for(let i=0;i<=26;i++){const t=-1+2*i/26,x=t*.6,yy=1.9+.34*Math.sqrt(Math.max(0,1-t*t))+(r-3)*.035+.05*Math.sin(t*4+r),zz=.26*(1-Math.abs(t)*.3)+(r-3)*.04;p.push([x,Math.min(yy,2.22),Math.max(-.2,zz+.2)])}add(p,2)}
+  [-1,1].forEach(sx=>{for(let r=0;r<4;r++){add([[sx*.6,1.95-r*.1,.05],[sx*.64,1.78-r*.12,-.1],[sx*.6,1.6-r*.1,-.28]],2)}});
+  for(let r=0;r<5;r++)add([[-.52+r*.05,2.1,-.1],[-.4+r*.1,1.9,-.55],[-.3+r*.1,1.5,-.6]],2);
+  // moustache + chin
+  [-1,1].forEach(sx=>{add([[0,1.30,faceZ(0,1.30)+.1],[sx*.1,1.33,faceZ(sx*.1,1.33)+.1],[sx*.21,1.3,faceZ(sx*.21,1.3)+.07],[sx*.28,1.26,faceZ(sx*.28,1.26)+.04]],2)});
+  add([[-.12,.88,faceZ(-.12,.88)+.04],[0,.82,faceZ(0,.82)+.1],[.12,.88,faceZ(.12,.88)+.04]],2);
+  // glasses: bridge + temple arms
+  add([[-.1,1.63,faceZ(-.1,1.63)+.08],[0,1.66,faceZ(0,1.66)+.1],[.1,1.63,faceZ(.1,1.63)+.08]],1);
+  // bow tie and collar
+  [-1,1].forEach(sx=>{add([[0,.4,.42],[sx*.2,.5,.43],[sx*.2,.3,.43],[0,.4,.42]],2);add([[sx*.05,.38,.4],[sx*.3,.62,.34],[sx*.34,.5,.3]],1)});
+  add(ring(0,.4,.43,.05,.05,0,10),2);
+  // stethoscope draped round the neck and hanging
+  add([[-.32,.6,.12],[-.4,.3,.36],[-.3,-.2,.62],[-.1,-.6,.72],[.1,-.62,.72],[.3,-.2,.62],[.4,.3,.36],[.32,.6,.12]],2);
+  add(ring(0,-.72,.74,.09,.09,0,14),2);
+  // shoulders / left arm resting
+  add([[-.62,.3,.1],[-.95,.1,.0],[-1.0,-.4,.1],[-.95,-.9,.25]],0);
+  add([[-.55,.2,.3],[-.88,.0,.25],[-.93,-.5,.3],[-.9,-.9,.4]],0);
+  add(ring(-.92,-.95,.3,.12,.1,0,12),1);
+  /* neck */
+  [.72,.6,.48].forEach(y=>add(ring(0,y,0,.27,0,.25,24,"xz")));
+  for(let a=0;a<8;a++){const c=Math.cos(a*Math.PI/4),s=Math.sin(a*Math.PI/4);add([[c*.27,.76,s*.25],[c*.27,.44,s*.25]])}
+  /* torso: superellipse loft */
+  const lev=[[.46,.42,.36],[.34,1.08,.5],[.1,1.28,.56],[-.3,1.22,.54],[-.8,1.08,.5]];
+  const se=(rx,rz,a)=>{const c=Math.cos(a),s=Math.sin(a),e=2/2.7;return[rx*Math.sign(c)*Math.pow(Math.abs(c),e),rz*Math.sign(s)*Math.pow(Math.abs(s),e)]};
+  lev.forEach(l=>{const p=[];for(let i=0;i<=40;i++){const q=se(l[1],l[2],Math.PI*2*i/40);p.push([q[0],l[0],q[1]])}add(p)});
+  for(let k=0;k<24;k++){const a=Math.PI*2*k/24,p=lev.map(l=>{const q=se(l[1],l[2],a);return[q[0],l[0],q[1]]});add(p)}
+  /* coat details: lapels, stethoscope, pocket with pill bottle */
+  [-1,1].forEach(sx=>{add([[sx*.3,.5,.3],[sx*.2,.44,.4],[sx*.06,-.1,.58],[0,-.75,.52]],1)});
+  add([[-.32,.48,.3],[-.6,.1,.48],[-.5,-.3,.64],[-.15,-.5,.7],[.2,-.5,.72]],1);
+  add([[.32,.48,.3],[.58,.08,.5],[.52,-.25,.64],[.3,-.45,.72],[.22,-.5,.72]],1);
+  add(ring(.22,-.5,.74,.1,.1,0,16),1);
+  add([[.6,.0,.53],[.9,.0,.5],[.9,-.34,.5],[.6,-.34,.53],[.6,0,.53]],0);
+  add([[.7,-.08,.55],[.8,-.08,.54],[.8,-.3,.54],[.7,-.3,.55],[.7,-.08,.55]],1);
+  const ARM={rest:[[.62,.28,.1],[.95,-.1,.15],[.98,-.7,.35],[.9,-.95,.5]],good:[[.62,.28,.1],[1.05,.5,.1],[1.12,1.2,.2],[1.0,1.75,.3]],bad:[[.62,.28,.1],[.95,.35,.3],[.65,1.05,.6],[.2,1.5,.78]]};
+  const PAL={idle:{c:[120,226,226],a:[230,189,98],sm:.4,br:0,tilt:0,txt:"ONLINE"},good:{c:[130,255,185],a:[255,226,138],sm:1,br:.07,tilt:0,txt:"CORRECT"},bad:{c:[255,106,84],a:[255,176,130],sm:-.9,br:-.04,tilt:.9,txt:"INCORRECT"}};
+  const st={arm:[0,0,0],mood:"idle",t:0,ev:9,yaw:0,pitch:0,reveal:1,rev:2.2,glitch:0,gy:0,gdx:0,gh:.2,talkUntil:0,speaking:false,pulse:0,mx:0,mxT:0,
+    c:[120,226,226],a:[230,189,98],sm:.4,br:0,tilt:0,blink:0,nb:2,last:performance.now()};
+  let armed=false,voiceOn=store.get("labyrinth-voice")!=="off",tokS=0,pending=null;
+  function setMood(m){if(st.mood!==m){st.mood=m;st.ev=0}}
+  function react(m){st.mood=m;st.ev=0;st.glitch=m==="bad"?1:.25;st.pulse=1}
+  function boot(){st.reveal=0;st.ev=0;st.glitch=.7}
+  function talkFor(ms){st.talkUntil=performance.now()+ms}
+  function stop(){tokS++;clearTimeout(pending);try{if("speechSynthesis" in window)speechSynthesis.cancel()}catch(e){}st.speaking=false;st.talkUntil=0;AU.duck(false)}
+  function say(text){
+    return new Promise(res=>{
+      const clean=String(text).replace(/\s+/g," ").trim(), my=++tokS; clearTimeout(pending);
+      try{if("speechSynthesis" in window)speechSynthesis.cancel()}catch(e){}
+      st.speaking=false; AU.duck(false);
+      const est=Math.max(1400,clean.length*62);
+      if(!armed||!voiceOn||!("speechSynthesis" in window)){talkFor(Math.min(est,5500));setTimeout(res,est*.85);return}
+      pending=setTimeout(()=>{
+        if(my!==tokS){res();return}
+        try{
+          const u=new SpeechSynthesisUtterance(clean),v=pickVoice(); if(v){u.voice=v;u.lang=v.lang}else u.lang="en-GB";
+          u.pitch=st.mood==="good"?.98:st.mood==="bad"?.62:.82;u.rate=st.mood==="good"?1.04:st.mood==="bad"?.84:.94;u.volume=1; let done=false;
+          const fin=()=>{if(done)return;done=true;if(my===tokS){st.speaking=false;AU.duck(false)}res()};
+          u.onstart=()=>{if(my===tokS){st.speaking=true;AU.duck(true)}};
+          u.onend=fin;u.onerror=fin;u.onboundary=()=>{st.pulse=Math.max(st.pulse,.6)};
+          speechSynthesis.speak(u); setTimeout(fin,est*2.5+4000);
+        }catch(e){res()}
+      },80);
+    });
+  }
+  function quip(){const q=["Please do not poke the hologram, colleague.","I am only light, but I do notice.","Eyes on the question, not on me.","Careful. Photons are sensitive."];react("good");say(q[Math.floor(Math.random()*q.length)])}
+  addEventListener("pointermove",e=>{st.mxT=(e.clientX/innerWidth-.5)*2},{passive:true});
+  const arm=()=>{armed=true};addEventListener("pointerdown",arm,{once:true});addEventListener("keydown",arm,{once:true});
+  document.addEventListener("click",e=>{if(e.target.closest&&e.target.closest("canvas.holo")){arm();quip()}});
+  const lerp=(a,b,k)=>a+(b-a)*k;
+
+  function frame(now){
+    requestAnimationFrame(frame);
+    const cv=document.querySelector("canvas.holo"); if(!cv)return;
+    const dt=Math.min(.05,(now-st.last)/1000);st.last=now;st.t+=dt;st.ev+=dt;
+    const W=cv.width,H=cv.height,sc=W/300,g=cv.getContext("2d"),P=PAL[st.mood]||PAL.idle;
+    const k=Math.min(1,dt*6);for(let i=0;i<3;i++){st.c[i]=lerp(st.c[i],P.c[i],k);st.a[i]=lerp(st.a[i],P.a[i],k)}
+    st.sm=lerp(st.sm,P.sm,k);st.br=lerp(st.br,P.br,k);st.tilt=lerp(st.tilt,P.tilt,k);
+    st.mx=lerp(st.mx,st.mxT,Math.min(1,dt*3));
+    {const tg=st.mood==="good"?"good":st.mood==="bad"?"bad":"rest";st.armK=st.armK||{rest:1,good:0,bad:0};for(const q of["rest","good","bad"])st.armK[q]=lerp(st.armK[q],q===tg?1:0,Math.min(1,dt*5))}
+    st.glitch*=Math.exp(-dt*2.4);if(st.reveal<1)st.reveal=Math.min(1,st.reveal+dt/st.rev);
+    if(now%97<20||Math.random()<.06){st.gy=-.8+Math.random()*3.2;st.gdx=(Math.random()-.5)*26*sc;st.gh=.05+Math.random()*.2}
+    const speaking=st.speaking||now<st.talkUntil, dec=Math.exp(-st.ev*1.15);
+    let yaw=RM?0:Math.sin(st.t*.55)*.32+st.mx*.5, pitch=RM?0:Math.sin(st.t*.8)*.03;
+    if(!RM){
+      if(st.mood==="good")pitch+=Math.sin(st.ev*9)*.17*dec;
+      if(st.mood==="bad"){yaw+=Math.sin(st.ev*15)*.6*dec;pitch+=.07*dec}
+      if(speaking)pitch+=Math.sin(st.t*7)*.025;
+    }
+    st.yaw=lerp(st.yaw,yaw,Math.min(1,dt*9));st.pitch=lerp(st.pitch,pitch,Math.min(1,dt*9));
+    if(st.t>st.nb&&st.blink<=0){st.blink=.001;st.nb=st.t+2+Math.random()*3}
+    if(st.blink>0){st.blink+=dt;if(st.blink>.2)st.blink=0}
+    const blink=st.blink>0?1-Math.abs(st.blink-.1)/.1:0;
+    const open=speaking?Math.min(1,.2+.4*Math.abs(Math.sin(st.t*17))+.35*Math.abs(Math.sin(st.t*7.3))+st.pulse*.2):0;
+    st.pulse*=Math.exp(-dt*5);
+    /* projection */
+    const D=6,F=500*H/380,cy=Math.cos(st.yaw),sy=Math.sin(st.yaw),cp=Math.cos(st.pitch),sp=Math.sin(st.pitch);
+    const rl=RM?0:(st.mood==="bad"?.1*Math.sin(Math.min(st.ev*3,3.2))*Math.exp(-st.ev*.35):st.mood==="good"?Math.sin(st.t*3)*.015*Math.exp(-st.ev*.5):0),cr=Math.cos(rl),sr=Math.sin(rl);
+    const proj=p=>{const xr=p[0]*cr-(p[1]-1)*sr,yr=p[0]*sr+(p[1]-1)*cr+1;const x=xr,y=yr-1,z=p[2],x1=x*cy+z*sy,z1=-x*sy+z*cy,y2=y*cp-z1*sp,z2=y*sp+z1*cp,s=F/(D-z2);
+      let X=W/2+x1*s;if(st.glitch>.03&&Math.abs(p[1]-st.gy)<st.gh)X+=st.gdx*st.glitch;return[X,H*.46-y2*s,z2]};
+    const revY=-1.1+st.reveal*3.7, bandY=((st.t*.38)%1)*3.7-1.2;
+    const B=[[[],[],[],[]],[[],[],[],[]]];
+    function emit(a,b,y0,y1,kind){
+      const ym=(y0+y1)/2; if(st.reveal<1&&ym>revY)return;
+      const zm=(a[2]+b[2])/2, t=Math.max(0,Math.min(1,(zm+1.4)/2.8)); let lv=Math.min(3,Math.floor((.25+.75*t)*4));
+      if(Math.abs(ym-bandY)<.13)lv=3; else if(st.reveal<1&&Math.abs(ym-revY)<.1)lv=3;
+      B[kind>0?1:0][lv].push(a[0],a[1],b[0],b[1]);
+    }
+    function poly(pts,kind){let pa=null;for(let i=0;i<pts.length;i++){const q=proj(pts[i]);if(pa)emit(pa,q,pts[i-1][1],pts[i][1],kind);pa=q}}
+    for(const l of POLY)poly(l.p,l.k);
+    /* dynamic face: pupils, brows, mouth, orbit */
+    const gx=st.mx;
+    const bad=st.mood==="bad",good=st.mood==="good",roll=bad&&st.ev>.35&&st.ev<1.6?Math.sin((st.ev-.35)*Math.PI/1.25):0;
+    [-1,1].forEach(sx=>{const x=sx*.27,y=1.62;poly(ring(x+gx*.04,y+roll*.07,faceZ(x,y)+.06,.045,.045*(1-blink*.95),0,10),1);
+      const raise=bad?(sx>0?.13:-.04):good?.06:0;
+      const pts=[];for(let i=0;i<=5;i++){const u=i/5,xx=sx*(.1+.34*u),yy=1.86+st.br+raise-st.tilt*.09*(1-u)*(sx>0?-.4:1)+st.tilt*.03*u+.03*Math.sin(u*Math.PI);pts.push([xx,yy,faceZ(xx,yy)+.05])}poly(pts,1)});
+    const up=[],lo=[];for(let i=0;i<=12;i++){const u=-1+i/6,x=u*.27,skew=bad?(u>0?.07*u:.03*u):0,yu=1.22-st.sm*.065*(1-u*u)+skew+(good?.03*Math.abs(u):0),yl=yu-open*.13*(1-u*u)-(good&&!open?.03*(1-u*u):0);up.push([x,yu,faceZ(x,yu)+.05]);lo.unshift([x,yl,faceZ(x,yl)+.05])}
+    poly(up.concat(lo,[up[0]]),open>.05?1:0);
+    // arm: blend rest/good/bad poses
+    {const K=st.armK||{rest:1,good:0,bad:0},wave=good?Math.sin(st.t*9)*.13:0,pts=[];for(let j=0;j<4;j++){const p=[0,1,2].map(c=>ARM.rest[j][c]*K.rest+ARM.good[j][c]*K.good+ARM.bad[j][c]*K.bad);if(j===3)p[0]+=wave*K.good;pts.push(p)}
+      poly(pts,0);const h=pts[3];poly(ring(h[0],h[1],h[2],.12,.12,0,12),1);for(let f=0;f<4;f++){const ang=(f-1.5)*.45;poly([[h[0],h[1]+.1,h[2]],[h[0]+Math.sin(ang)*.12,h[1]+.1+Math.cos(ang)*.14*(bad?.5:1),h[2]]],1)}}
+    const orb=[];for(let i=0;i<=48;i++){const a=Math.PI*2*i/48;orb.push([2.0*Math.cos(a),.6+.22*Math.sin(a*2+st.t),1.7*Math.sin(a)])}poly(orb,1);
+    const oa=st.t*1.1;poly(ring(2.0*Math.cos(oa),.6+.22*Math.sin(oa*2+st.t),1.7*Math.sin(oa),.05,.05,0,8),0);
+    /* draw */
+    g.clearRect(0,0,W,H);g.globalCompositeOperation="lighter";g.lineCap="round";g.lineJoin="round";
+    const bc=proj([0,-1.0,0]),s0=F/D,topY=proj([0,2.4,0])[1],fl=1-(Math.random()<.04?.35:0)-.06*Math.random();
+    // light cone
+    const cg=g.createLinearGradient(0,topY,0,bc[1]);
+    const c0=st.c.map(v=>v|0).join(",");cg.addColorStop(0,`rgba(${c0},0)`);cg.addColorStop(1,`rgba(${c0},.16)`);
+    g.fillStyle=cg;g.beginPath();g.moveTo(bc[0]-1.0*s0,bc[1]);g.lineTo(bc[0]-.5*s0,topY);g.lineTo(bc[0]+.5*s0,topY);g.lineTo(bc[0]+1.0*s0,bc[1]);g.closePath();g.fill();
+    // base rings
+    const a0=st.a.map(v=>v|0).join(",");g.lineWidth=1.6*sc;
+    for(let i=0;i<3;i++){const ph=(st.t*.45+i/3)%1,rx=(.9+ph*1.1+(st.mood==="good"?(1-Math.exp(-st.ev*2))*0:0))*s0;g.strokeStyle=`rgba(${a0},${(1-ph)*.55*fl})`;g.beginPath();g.ellipse(bc[0],bc[1],rx,rx*.26,0,0,6.3);g.stroke()}
+    if(st.mood!=="idle"&&st.ev<1.6){const ph=st.ev/1.6,rx=(.9+ph*2.2)*s0;g.strokeStyle=`rgba(${c0},${(1-ph)*.8})`;g.lineWidth=2.4*sc;g.beginPath();g.ellipse(bc[0],bc[1],rx,rx*.26,0,0,6.3);g.stroke()}
+    g.strokeStyle=`rgba(${c0},.7)`;g.lineWidth=2*sc;g.beginPath();g.ellipse(bc[0],bc[1],.9*s0,.9*s0*.26,0,0,6.3);g.stroke();
+    // wireframe, glow pass then core pass, per depth bucket
+    const AL=[.1,.22,.42,.8];
+    for(let kd=0;kd<2;kd++){const col=(kd?a0:c0);
+      for(let lv=0;lv<4;lv++){const arr=B[kd][lv];if(!arr.length)continue;
+        g.beginPath();for(let i=0;i<arr.length;i+=4){g.moveTo(arr[i],arr[i+1]);g.lineTo(arr[i+2],arr[i+3])}
+        g.lineWidth=4.2*sc;g.strokeStyle=`rgba(${col},${AL[lv]*.25*fl})`;g.stroke();
+        g.lineWidth=1.25*sc;g.strokeStyle=`rgba(${col},${AL[lv]*fl})`;g.stroke()}}
+    // scanlines punched out of the image
+    g.globalCompositeOperation="destination-out";g.fillStyle="rgba(0,0,0,.30)";
+    const sl=4*sc,off=(st.t*14*sc)%sl;for(let y=off;y<H;y+=sl)g.fillRect(0,y,W,1.5*sc);
+    g.globalCompositeOperation="lighter";
+    // label
+    g.font=`${11*sc}px ui-monospace,Menlo,Consolas,monospace`;g.textAlign="center";g.fillStyle=`rgba(${c0},.85)`;
+    g.fillText("DR. PHIL BETTER · "+(speaking?"TRANSMITTING":P.txt),W/2,H-6*sc);
+    g.globalCompositeOperation="source-over";
+  }
+  requestAnimationFrame(frame);
+  return {setMood,react,boot,say,stop,talkFor,quip,arm,setVoice:v=>{voiceOn=v;store.set("labyrinth-voice",v?"on":"off");if(!v)stop()}};
+})();
+function drPhil(kind){return `<canvas class="doc holo" width="300" height="380" role="img" aria-label="Dr. Phil Better, a three-dimensional hologram"></canvas>`}
+function guide(name,text,mood){const mm=mood||S.mood;return `<div class="guide">${drPhil(mm)}<div class="bubble${mm==="grin"?" pos":mm==="oops"?" neg":""}"><b>${name||"Dr. Phil Better"}</b><span class="tw">${text}</span></div></div>`}
 
 /* header widgets */
 function drawHud(){
@@ -648,7 +832,7 @@ function drawHud(){
     for(let k=0;k<LANTERNS;k++) h+=`<svg class="lan ${k<S.lan?"on":""}" viewBox="0 0 22 30" aria-hidden="true"><path class="glass" d="M6 8 Q5 7 6 5 H16 Q17 7 16 8 L18 22 Q18 24 16 24 H6 Q4 24 4 22Z"/><path d="M8 2 H14" stroke="#e6bd62" stroke-width="1.6" stroke-linecap="round"/><path class="flame" d="M11 10 Q15 15 13 19 Q11 22 9 19 Q7 15 11 10Z"/></svg>`;
     box.innerHTML=h; box.setAttribute("aria-label",S.lan+" of "+LANTERNS+" lanterns left");
   }
-  const w=$("#words"); w.hidden=S.screen==="start"; $("#wn").textContent=S.lex.size;
+  const w=$("#words"); w.hidden=(S.screen==="start"||S.screen==="intro"); $("#wn").textContent=S.lex.size;
   const stk=$("#streak"); stk.hidden=!(S.screen==="question"&&S.streak>=2); $("#sk").textContent=S.streak;
   const tot=REALMS.reduce((a,r)=>a+r.q.length,0), dn=S.res.reduce((a,r)=>a+r.filter(Boolean).length,0);
   $("#prog").style.width=(S.screen==="start"?0:Math.round(100*dn/tot))+"%";
@@ -740,6 +924,7 @@ function music(){
   const R=REALMS[Math.min(S.r,REALMS.length-1)];
   switch(S.screen){
     case "start":AU.play("start",.3);break;
+    case "intro":AU.play("start",.55);break;
     case "realm":AU.play(R.theme,.2);break;
     case "question":AU.play(R.theme,.25+.7*S.i/Math.max(1,R.q.length-1));break;
     case "lock":case "lockres":case "match":AU.play(R.theme,.9);break;
@@ -752,8 +937,9 @@ function render(){
   const R=REALMS[Math.min(S.r,REALMS.length-1)];
   document.documentElement.style.setProperty("--acc",(S.screen==="start"||S.screen==="final")?"#e6bd62":R.acc);
   drawHud();
-  ({start,realm,question,lock,lockres,match,cleared,out,final})[S.screen]();
-  updateMap(); music(); typeAll();
+  if(S.screen!=="intro")introTok++;
+  ({start,intro,realm,question,lock,lockres,match,cleared,out,final})[S.screen]();
+  updateMap(); music(); Holo.setMood(S.mood==="grin"?"good":S.mood==="oops"?"bad":"idle"); typeAll();
 }
 
 function start(){
@@ -777,7 +963,7 @@ function start(){
   </section>`;
   $("#go").onclick=()=>{
     S.name=$("#nm").value.trim(); store.set("labyrinth-name",S.name);
-    AU.init(); resetRun(); AU.sfx("click"); setScreen("realm");
+    AU.init(); Holo.arm(); resetRun(); AU.sfx("click"); if(introSeen){setScreen("realm")}else{introSeen=true;setScreen("intro")}
   };
 }
 
@@ -822,8 +1008,8 @@ function answer(k){
   if(S.done)return;
   const R=REALMS[S.r],Q=R.q[S.i],o=S.cur.opts[k];
   S.done=true;S.cur.pick=k;S.lex.set(S.r+"-"+Q.w[0],Q.w);
-  if(o.ok){S.res[S.r][S.i]="ok";S.streak++;S.mood="grin";S.cur.said=SAY.streak[S.streak]||pick(SAY.right);AU.sfx("good")}
-  else{S.res[S.r][S.i]="no";S.streak=0;S.lan=Math.max(0,S.lan-1);S.mood="oops";S.cur.said=pick(SAY.wrong);AU.sfx("bad")}
+  if(o.ok){S.res[S.r][S.i]="ok";S.streak++;S.mood="grin";S.cur.said=fill(SAY.streak[S.streak]||pick(SAY.right));AU.sfx("good")}
+  else{S.res[S.r][S.i]="no";S.streak=0;S.lan=Math.max(0,S.lan-1);S.mood="oops";S.cur.said=fill(pick(SAY.wrong));AU.sfx("bad")}
   drawHud();updateMap();showFeedback(false);
   if(o.ok){const ob=document.querySelectorAll(".opt")[k];if(ob){const rr=ob.getBoundingClientRect();burst(rr.left+50,rr.top+rr.height/2,["#e6bd62","#fff3cf","#8fd0a8"],30,"spark")}}
 }
@@ -834,8 +1020,8 @@ function showFeedback(restore){
   const lastQ=S.i===R.q.length-1,dead=S.lan===0&&!ok;
   const label=dead?"The last lantern fades…":(lastQ?"To the Gate Lock ➜":"Next corridor ➜");
   $("#fb").innerHTML=`<div class="fb ${ok?"good":"bad"}"><strong>${ok?"Correct.":"Not quite."}</strong><p>${Q.e}</p></div>${wordBlock(Q.w)}<div class="row"><button class="btn" id="nx">${label}</button></div>`;
-  const g=document.querySelector(".guide .bubble");if(g)g.innerHTML=`<b>Dr. Phil Better</b><span class="tw">${S.cur.said}</span>`;
-  const d=document.querySelector(".guide .doc");if(d)d.outerHTML=drPhil(S.mood);
+  const g=document.querySelector(".guide .bubble");if(g){g.className="bubble "+(ok?"pos":"neg");g.innerHTML=`<b>Dr. Phil Better</b><span class="tw">${S.cur.said}</span>`}
+  Holo.react(ok?"good":"bad");
   typeAll();bindListen();
   $("#nx").onclick=()=>{
     if(dead){setScreen("out");return}
@@ -867,7 +1053,8 @@ function lockAnswer(k){
   document.querySelectorAll(".opt").forEach((b,i)=>{b.disabled=true;if(L.cur[i].ok)b.classList.add("right");else if(i===k)b.classList.add("wrong");else b.classList.add("fade")});
   const last=L.idx===2;
   $("#fb").innerHTML=`<div class="fb ${ok?"good":"bad"}"><strong>${ok?"The tumbler turns.":"The tumbler sticks."}</strong><p>${it.e}</p></div><div class="row"><button class="btn" id="nx">${last?"Try the lock ➜":"Next riddle ➜"}</button></div>`;
-  const d=document.querySelector(".guide .doc");if(d)d.outerHTML=drPhil(S.mood);
+  Holo.react(ok?"good":"bad");
+  const gb=document.querySelector(".guide .bubble");if(gb){const line=fill(ok?pick(SAY.right):pick(SAY.wrong));gb.className="bubble "+(ok?"pos":"neg");gb.innerHTML='<b>Dr. Phil Better</b><span class="tw">'+line+'</span>';typeAll()}
   $("#nx").onclick=()=>{if(last){setScreen("lockres")}else{L.idx++;L.cur=null;S.mood="smile";setScreen("lock")}};
   $("#nx").focus({preventScroll:true});
 }
@@ -981,11 +1168,13 @@ const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
 let twTimer=null;
 function typeAll(){
   clearInterval(twTimer);
-  const el=document.querySelector(".tw"); if(!el||REDUCED)return;
-  const full=el.textContent, doc=el.closest(".guide")&&el.closest(".guide").querySelector(".doc");
-  el.textContent=""; el.classList.add("caret"); if(doc)doc.classList.add("talking");
-  let i=0; twTimer=setInterval(()=>{i++;el.textContent=full.slice(0,i);if(i>=full.length){clearInterval(twTimer);el.classList.remove("caret");if(doc)doc.classList.remove("talking")}},15);
-  const bub=el.closest(".bubble"); if(bub)bub.onclick=()=>{clearInterval(twTimer);el.textContent=full;el.classList.remove("caret");if(doc)doc.classList.remove("talking")};
+  const el=document.querySelector(".tw"); if(!el)return;
+  const full=el.textContent;
+  Holo.say(full);
+  if(REDUCED)return;
+  el.textContent=""; el.classList.add("caret");
+  let i=0; twTimer=setInterval(()=>{i++;el.textContent=full.slice(0,i);if(i>=full.length){clearInterval(twTimer);el.classList.remove("caret")}},22);
+  const bub=el.closest(".bubble"); if(bub)bub.onclick=()=>{clearInterval(twTimer);el.textContent=full;el.classList.remove("caret")};
 }
 function ticks(){const R=REALMS[S.r];return `<div class="ticks" aria-hidden="true">${R.q.map((q,j)=>{const v=S.res[S.r][j];return `<i class="${v==="ok"?"ok":v==="no"?"no":j===S.i?"cur":""}"></i>`}).join("")}</div>`}
 function useHint(){
@@ -1016,6 +1205,7 @@ function closePop(){pop.hidden=true;$("#setbtn").setAttribute("aria-expanded","f
 $("#setbtn").onclick=e=>{e.stopPropagation();const open=pop.hidden;pop.hidden=!open;$("#setbtn").setAttribute("aria-expanded",open)};
 document.addEventListener("click",e=>{if(!pop.hidden&&!pop.contains(e.target))closePop()});
 $("#vol").value=Math.round(AU.getVol()*100);
+$("#voice").checked=store.get("labyrinth-voice")!=="off"; $("#voice").onchange=e=>Holo.setVoice(e.target.checked);
 $("#vol").oninput=e=>{AU.init();AU.setVol(e.target.value/100)};
 const FS=[15,16,17,19,21]; let fi=FS.indexOf(+store.get("labyrinth-fs")); if(fi<0)fi=2;
 function applyFs(){document.body.style.fontSize=FS[fi]+"px";store.set("labyrinth-fs",FS[fi])}
@@ -1096,6 +1286,34 @@ function pickMatch(b){
   }else{M.miss++;AU.sfx("bad");[b,other].forEach(x=>{if(!x)return;x.classList.add("bad");setTimeout(()=>x.classList.remove("bad"),450)})}
 }
 
+/* ---- cinematic opening ---- */
+function intro(){
+  S.mood="smile"; const nm=S.name;
+  const lines=[
+    (nm?"Ah, "+nm+"! Welcome, welcome, come in.":"Ah, welcome, welcome, come in.")+" I am Doctor Phil Better, and I have been expecting you.",
+    "Before you lies the Labyrinth of Remedies: six chambers, rising from simple to formidable.",
+    "In each chamber I shall test your pharmacology. At each gate, your medical English. Both are the languages of medicine.",
+    "Answer well, and I shall cheer you on, loudly. Answer badly, and I shall tease you, mercilessly. Shall we begin?"
+  ];
+  stage.innerHTML=`<section class="panel">
+    <div class="eyebrow">Incoming transmission · hologram link established</div>
+    <div class="introgrid"><canvas class="holo hero" width="600" height="760" role="img" aria-label="Dr. Phil Better, a three-dimensional hologram"></canvas>
+    <div><h1>Doctor <em>Phil Better</em></h1><div class="sub" id="sub" aria-live="polite"></div>
+    <div class="row"><button class="btn" id="begin" disabled>Begin the quest ➜</button><button class="btn ghost" id="skip">Skip the briefing</button></div></div></div>
+  </section>`;
+  const tok=++introTok, go=()=>{introTok++;Holo.stop();AU.sfx("click");setScreen("realm")};
+  $("#begin").onclick=go; $("#skip").onclick=go;
+  Holo.boot(); AU.sfx("boot");
+  (async()=>{
+    await wait(1800);
+    for(let i=0;i<lines.length;i++){
+      if(tok!==introTok)return; const sub=$("#sub"); if(!sub)return; sub.textContent=lines[i];
+      Holo.setMood(i===0||i===3?"good":"idle"); await Holo.say(lines[i]); if(tok!==introTok)return; await wait(380);
+    }
+    if(tok===introTok){const b=$("#begin");if(b){b.disabled=false;b.focus({preventScroll:true})}}
+  })();
+}
+
 /* keyboard: 1-4 or A-D answer */
 document.addEventListener("keydown",e=>{
   if(e.key==="Escape"){closeDrawer();closePop();return}
@@ -1113,7 +1331,7 @@ sb.onclick=()=>{AU.init();AU.setOn(!AU.isOn());paintSnd();if(AU.isOn())music()};
 paintSnd();
 $("#mapbtn").onclick=()=>{const p=$("#mappane"),o=p.classList.toggle("open");$("#mapbtn").setAttribute("aria-expanded",o);$("#mapbtn").textContent=o?"Hide map":"Map"};
 
-if(location.hash==="#debug")window.__lab={S,REALMS,go:n=>setScreen(n),burst};
+if(location.hash==="#debug")window.__lab={S,REALMS,go:n=>setScreen(n),burst,Holo};
 buildMap();render();
 })();
 </script>
