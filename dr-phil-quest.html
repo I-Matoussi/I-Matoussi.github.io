@@ -831,8 +831,8 @@ const Holo=(function(){
   onT([[.5,.0],[.84,.0],[.84,-.36],[.5,-.36]],COAT2,.02);onT([[.55,.06],[.6,.06],[.6,-.14],[.55,-.14]],[40,90,170],.03);
   const MS=[[-.3,.78,.18],[-.38,.5,.34],[-.32,0,.44],[-.18,-.4,.47],[0,-.58,.47]];
   /* arm poses: shoulder, elbow, wrist, hand-tip */
-  const ARM2={rest:[[1.0,.45,0],[1.12,-.08,.08],[1.06,-.58,.28],[.96,-.84,.42]],good:[[1.0,.45,0],[1.36,.55,.12],[1.52,1.1,.22],[1.42,1.62,.3]],bad:[[1.0,.45,0],[1.12,.52,.36],[.78,1.1,.66],[.16,1.78,.7]]};
-  const LARM=[[-1.0,.45,0],[-1.12,-.08,.08],[-1.06,-.58,.28],[-.96,-.84,.42]];
+  const ARM2={rest:[[1.0,.45,0],[.9,-.02,.44],[.4,-.1,.63],[-.08,-.1,.66]],good:[[1.0,.45,0],[1.36,.55,.12],[1.52,1.1,.22],[1.42,1.62,.3]],bad:[[1.0,.45,0],[1.12,.52,.36],[.78,1.1,.66],[.16,1.78,.7]]};
+  const LARM_R=[[-1.0,.45,0],[-1.12,-.08,.08],[-1.06,-.58,.28],[-.96,-.84,.42]],LARM_X=[[-1.0,.45,0],[-.9,-.12,.46],[-.38,-.26,.76],[.1,-.28,.8]];
   function tube(out,P,R,c){
     const rings=[];for(let i=0;i<P.length;i++){const a=P[Math.max(0,i-1)],b=P[Math.min(P.length-1,i+1)],d=nz(sub(b,a)),up=Math.abs(d[2])<.9?[0,0,1]:[1,0,0],u=nz(cross(d,up)),v=cross(d,u),r=[];
       for(let k=0;k<10;k++){const an=Math.PI*2*k/10,cs=Math.cos(an)*R[i],sn=Math.sin(an)*R[i];r.push([P[i][0]+u[0]*cs+v[0]*sn,P[i][1]+u[1]*cs+v[1]*sn,P[i][2]+u[2]*cs+v[2]*sn])}rings.push(r)}
@@ -935,8 +935,9 @@ const Holo=(function(){
     /* pass 3: arms and hands */
     const K=st.armK,wave=good?Math.sin(st.t*9)*.14:0,AR=[];
     const pts=[0,1,2,3].map(j=>{const p=[0,1,2].map(c=>ARM2.rest[j][c]*K.rest+ARM2.good[j][c]*K.good+ARM2.bad[j][c]*K.bad);if(j>=2)p[0]+=wave*K.good*(j===3?1:.4);return p});
-    tube(AR,pts,[.2,.17,.15,.13],COAT);tube(AR,LARM,[.2,.17,.15,.13],COAT);
-    ellipsoid(AR,pts[3][0],pts[3][1],pts[3][2],.11,.13,.08,8,12,SKIN);ellipsoid(AR,LARM[3][0],LARM[3][1],LARM[3][2],.11,.13,.08,8,12,SKIN);
+    const lp=[0,1,2,3].map(j=>[0,1,2].map(c=>LARM_X[j][c]*K.rest+LARM_R[j][c]*(1-K.rest)));
+    tube(AR,pts,[.2,.17,.15,.13],COAT);tube(AR,lp,[.2,.17,.15,.13],COAT);
+    ellipsoid(AR,pts[3][0],pts[3][1],pts[3][2],.11,.13,.08,8,12,SKIN);ellipsoid(AR,lp[3][0],lp[3][1],lp[3][2],.11,.13,.08,8,12,SKIN);
     render(AR);
     g.globalAlpha=1;
   }
