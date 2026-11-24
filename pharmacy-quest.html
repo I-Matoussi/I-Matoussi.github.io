@@ -204,6 +204,71 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid rgba(255,255,255,.0
 @media (prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
 }
+
+/* ===== v3: refinement and interaction ===== */
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.06;z-index:0;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.wrap{position:relative;z-index:1}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+#prog{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--gold-deep),var(--acc));box-shadow:0 0 12px var(--acc);z-index:60;transition:width .9s ease}
+.top{position:sticky;top:0;z-index:30;margin:0 -22px;padding:12px 22px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:linear-gradient(180deg,rgba(10,23,27,.94),rgba(10,23,27,.66));border-bottom:1px solid rgba(230,189,98,.12)}
+.hud{position:relative}
+.mappane{top:92px}
+.pill.fire b{color:#ffb15a}
+.round{transition:transform .15s,background .2s,border-color .2s}
+.round:hover{transform:translateY(-1px);background:rgba(230,189,98,.12);border-color:var(--gold)}
+.pop{position:absolute;top:50px;right:0;width:260px;padding:16px;border-radius:16px;background:linear-gradient(180deg,#12302f,#0c1d21);border:1px solid rgba(230,189,98,.35);box-shadow:0 24px 50px -16px rgba(0,0,0,.8);z-index:40;display:grid;gap:14px;font-size:14px;color:#cfdcd5}
+.pop[hidden]{display:none}
+.pop label{display:grid;gap:8px}
+.pop input[type=range]{width:100%;accent-color:var(--gold)}
+.fsrow{display:flex;align-items:center;gap:8px}
+.fsrow span{flex:1}
+.fsrow button{border:1px solid rgba(230,189,98,.45);background:transparent;color:var(--gold);border-radius:10px;padding:5px 12px;font-weight:700}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .3s;z-index:70}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(430px,92vw);z-index:80;display:flex;flex-direction:column;background:linear-gradient(180deg,#10262b,#0a171b);border-left:1px solid rgba(230,189,98,.3);box-shadow:-30px 0 60px -20px rgba(0,0,0,.75);transform:translateX(105%);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.drawer.open{transform:none}
+.drawer header{display:flex;justify-content:space-between;align-items:center;padding:20px 22px 12px}
+.drawer header b{display:block;font-family:var(--serif);font-size:26px;color:var(--gold);line-height:1}
+.drawer header small{color:#9fb5ae;font-size:13px}
+.drawer input[type=search]{margin:0 22px 8px;padding:11px 16px;border-radius:12px;border:1px solid rgba(230,189,98,.35);background:rgba(255,255,255,.05);color:#fff;font-size:16px}
+.drawer .list{overflow:auto;padding:8px 22px 34px;display:grid;gap:10px;align-content:start}
+.drawer .item{border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,.04)}
+.drawer .ih{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.drawer .ih b{font-family:var(--serif);font-size:21px;color:#f5ecd7}
+.drawer .item p{margin:4px 0 8px;font-size:15px;color:#cfdcd5}
+.drawer .empty{color:#9fb5ae;padding:10px 2px}
+.drawer .listen{grid-row:auto;grid-column:auto;background:transparent;color:var(--gold);border-color:rgba(230,189,98,.45);padding:4px 12px;font-size:13px}
+.tip{position:fixed;z-index:90;pointer-events:none;max-width:230px;padding:7px 11px;border-radius:10px;background:#f5ecd7;color:#1c2929;font-size:13px;line-height:1.35;box-shadow:0 12px 28px -10px rgba(0,0,0,.7);opacity:0;transform:translateY(4px);transition:opacity .15s,transform .15s}
+.tip.on{opacity:1;transform:none}
+.node,.gate-hit{cursor:help}
+.doc{animation:bob 4.5s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-3px)}}
+.talking .mouth{animation:talk .2s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+@keyframes talk{to{transform:scaleY(1.8)}}
+.caret:after{content:"▍";opacity:.45;margin-left:1px;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.opt{position:relative;overflow:hidden}
+.opt:active:not(:disabled){transform:scale(.99)}
+.opt.gone{opacity:.22;text-decoration:line-through;pointer-events:none}
+.shake{animation:shake .45s}
+@keyframes shake{0%,100%{transform:none}20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+.ticks{display:flex;gap:6px;margin:12px 0 0}
+.ticks i{width:24px;height:5px;border-radius:9px;background:rgba(28,41,41,.15);transition:background .3s}
+.ticks i.ok{background:var(--good)}.ticks i.no{background:var(--bad)}
+.ticks i.cur{background:var(--acc);box-shadow:0 0 0 1px rgba(28,41,41,.25)}
+.btn.small{padding:9px 18px;font-size:14px}
+.hintrow{margin-top:14px!important}
+.hintrow .btn.ghost{color:#7b5c19;border-color:rgba(123,92,25,.5)}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+.mcol{display:grid;gap:10px;align-content:start}
+.mbtn{text-align:left;padding:13px 15px;border-radius:14px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#e9efe9;font-size:15px;line-height:1.35;transition:transform .12s,border-color .15s,background .15s}
+.mbtn:hover{border-color:var(--acc);background:rgba(255,255,255,.09)}
+.mbtn.term{font-family:var(--serif);font-size:21px;font-weight:600}
+.mbtn.sel{border-color:var(--acc);background:rgba(255,255,255,.15);transform:translateX(3px)}
+.mbtn.done{border-color:var(--good);background:rgba(47,125,91,.28);pointer-events:none}
+.mbtn.bad{animation:shake .4s;border-color:var(--bad);background:rgba(180,81,58,.25)}
+@media (max-width:960px){.top{margin:0 -22px;position:static;backdrop-filter:none;background:transparent;border-bottom:0}.match{grid-template-columns:1fr}.mappane{top:0}}
+@media (max-width:520px){.top{margin:0 -14px;padding:10px 14px}}
 </style>
 </head>
 <body>
@@ -214,10 +279,17 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid rgba(255,255,255,.0
       <div><b>The Labyrinth of Remedies</b><span>Dr. Phil Better's Pharmacy Quest</span></div>
     </div>
     <div class="hud">
+      <div class="pill fire" id="streak" hidden>🔥 Streak <b id="sk">0</b></div>
       <div class="pill" id="words" hidden>Words <b id="wn">0</b></div>
       <div class="lanterns" id="lanterns" aria-label="Lanterns left"></div>
       <button class="round" id="snd" aria-pressed="true" title="Music on/off" aria-label="Music on or off">♪</button>
+      <button class="round" id="satbtn" title="Word satchel" aria-label="Open your word satchel">📖</button>
+      <button class="round" id="setbtn" title="Settings" aria-label="Settings" aria-expanded="false">⚙</button>
       <button class="mapbtn" id="mapbtn" aria-expanded="false">Map</button>
+      <div class="pop" id="pop" hidden>
+        <label>Music volume<input type="range" id="vol" min="0" max="100" value="100"></label>
+        <div class="fsrow"><span>Text size</span><button id="fsm" aria-label="Smaller text">A−</button><button id="fsp" aria-label="Larger text">A+</button></div>
+      </div>
     </div>
   </header>
 
@@ -233,11 +305,21 @@ footer{margin-top:40px;padding-top:18px;border-top:1px solid rgba(255,255,255,.0
         <span><i style="background:#0b1d20;border:1px solid var(--gold)"></i>Ahead</span>
       </div>
     </aside>
-    <main id="stage" aria-live="polite"></main>
+    <main id="stage"></main>
   </div>
 
   <footer>Educational quiz for students of pharmacy and medicine. It does not replace a textbook, a formulary or professional judgement.</footer>
 </div>
+
+<div id="prog"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="tip" id="tip" role="tooltip"></div>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Word satchel">
+  <header><div><b>Word satchel</b><small id="dcount">0 words</small></div><button class="round" id="dclose" aria-label="Close the satchel">✕</button></header>
+  <input id="dq" type="search" placeholder="Search your words" aria-label="Search your words">
+  <div class="list" id="dlist"></div>
+</aside>
 
 <script>
 (function(){
@@ -371,6 +453,7 @@ const store={get(k){try{return localStorage.getItem(k)||""}catch(e){return ""}},
 const AU=(function(){
   let ctx=null,master=null,rev=null,tg=null,timer=null,cur=null,step=0,next=0,walk=3,intensity=.4;
   let on=store.get("labyrinth-music")!=="off";
+  const sv=store.get("labyrinth-vol"); let vol=sv===""?1:Math.max(0,Math.min(1,+sv));
   const TH={
     start:{root:57,scale:[0,2,3,5,7,9,10],tempo:72,prog:[[0,2,4],[5,0,2],[3,5,7],[4,6,8]],pad:"sine",lead:"triangle",bass:1},
     gate:{root:62,scale:[0,2,4,7,9],tempo:84,prog:[[0,2,4],[1,3,5],[0,2,4],[3,5,7]],pad:"sine",lead:"triangle",bass:1},
@@ -387,7 +470,7 @@ const AU=(function(){
     if(ctx){if(ctx.state==="suspended"&&on)ctx.resume();return}
     const C=window.AudioContext||window.webkitAudioContext; if(!C)return;
     try{
-      ctx=new C(); master=ctx.createGain(); master.gain.value=on?.55:0;
+      ctx=new C(); master=ctx.createGain(); master.gain.value=on?.55*vol:0;
       const comp=ctx.createDynamicsCompressor(); master.connect(comp); comp.connect(ctx.destination);
       rev=ctx.createConvolver(); rev.buffer=impulse(2.6,2.4);
       const wet=ctx.createGain(); wet.gain.value=.38; rev.connect(wet); wet.connect(master);
@@ -443,9 +526,10 @@ const AU=(function(){
     else if(kind==="lockfail"){n(50,0,.5,.14,{type:"square",lp:600});n(47,.15,.7,.12,{type:"square",lp:500})}
     else if(kind==="click"){n(84,0,.2,.05,{type:"sine"})}
   }
-  function setOn(v){on=v;store.set("labyrinth-music",v?"on":"off");if(master)master.gain.setTargetAtTime(v?.55:0,ctx.currentTime,.1);if(ctx){if(v&&ctx.state==="suspended")ctx.resume()}}
+  function setOn(v){on=v;store.set("labyrinth-music",v?"on":"off");if(master)master.gain.setTargetAtTime(v?.55*vol:0,ctx.currentTime,.1);if(ctx){if(v&&ctx.state==="suspended")ctx.resume()}}
   document.addEventListener("visibilitychange",()=>{if(!ctx)return;if(document.hidden)ctx.suspend();else if(on)ctx.resume()});
-  return {init,play,level,sfx,setOn,isOn:()=>on};
+  function setVol(v){vol=Math.max(0,Math.min(1,v));store.set("labyrinth-vol",vol);if(master&&on)master.gain.setTargetAtTime(.55*vol,ctx.currentTime,.05)}
+  return {init,play,level,sfx,setOn,isOn:()=>on,setVol,getVol:()=>vol};
 })();
 
 /* pronunciation of the word of the step (browser voice, if available) */
@@ -495,7 +579,7 @@ function download(svg,w,h,name){
   img.onerror=()=>{const a=document.createElement("a");a.href=url;a.download=name.replace(".png",".svg");document.body.appendChild(a);a.click();a.remove()};
   img.src=url;
 }
-function diplomaSVG(name,rank,score,words){
+function diplomaSVG(name,rank,score,words,ling){
   const date=new Date().toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"});
   const F="font-family=\"Georgia,'Times New Roman',serif\"";
   let b=""; const earnedList=REALMS.map((R,i)=>i).filter(i=>S.gate[i]==="badge");
@@ -515,7 +599,7 @@ function diplomaSVG(name,rank,score,words){
    <line x1="300" y1="415" x2="900" y2="415" stroke="#b98a2e" stroke-width="1.5"/>
    <text x="600" y="460" text-anchor="middle" ${F} font-size="21" fill="#3a4a46">has walked the Labyrinth and earned the rank of</text>
    <text x="600" y="505" text-anchor="middle" ${F} font-size="36" font-weight="700" fill="#14352f">${esc(rank)}</text>
-   <text x="600" y="545" text-anchor="middle" ${F} font-size="19" fill="#4a5a56">${esc(score)} · ${words} medical English words collected</text>
+   <text x="600" y="545" text-anchor="middle" ${F} font-size="19" fill="#4a5a56">${esc(score)} · ${words} medical English words · ${ling||0} Linguist stars</text>
    ${b}
    <text x="230" y="775" text-anchor="middle" ${F} font-size="20" fill="#4a5a56">${date}</text>
    <line x1="130" y1="755" x2="330" y2="755" stroke="#4a5a56" stroke-width="1"/>
@@ -528,7 +612,7 @@ function diplomaSVG(name,rank,score,words){
    STATE
    ===================================================================== */
 const S={screen:"start",r:0,i:0,lan:LANTERNS,res:null,gate:[],cur:null,done:false,streak:0,mood:"smile",maxR:0,lex:new Map(),lock:null,name:store.get("labyrinth-name")};
-function resetRun(){S.r=0;S.i=0;S.lan=LANTERNS;S.streak=0;S.res=REALMS.map(r=>r.q.map(()=>null));S.gate=REALMS.map(()=>null);S.cur=null;S.maxR=0;S.lex=new Map();S.lock=null}
+function resetRun(){S.r=0;S.i=0;S.lan=LANTERNS;S.streak=0;S.res=REALMS.map(r=>r.q.map(()=>null));S.gate=REALMS.map(()=>null);S.cur=null;S.maxR=0;S.lex=new Map();S.lock=null;S.hint=1;S.ling=REALMS.map(()=>false);S.match=null}
 resetRun();
 
 /* Dr. Phil (original cartoon doctor) */
@@ -550,10 +634,10 @@ function drPhil(mood){
    <path d="M56.5 53 H63.5" stroke="#2a3a3a" stroke-width="1.8"/>
    <circle cx="49" cy="53.5" r="2.2" fill="#1c2929"/><circle cx="71" cy="53.5" r="2.2" fill="#1c2929"/>
    ${mood==="oops"?'<path d="M42 44 L55 47 M78 44 L65 47" stroke="#6a5a4a" stroke-width="2" stroke-linecap="round"/>':'<path d="M42 45 Q49 41 56 45 M64 45 Q71 41 78 45" stroke="#6a5a4a" stroke-width="2" fill="none" stroke-linecap="round"/>'}
-   <path d="${mouth}" ${fill} stroke="#7a3f33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+   <path class="mouth" d="${mouth}" ${fill} stroke="#7a3f33" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>`;
 }
-function guide(name,text,mood){return `<div class="guide">${drPhil(mood||S.mood)}<div class="bubble"><b>${name||"Dr. Phil Better"}</b>${text}</div></div>`}
+function guide(name,text,mood){return `<div class="guide">${drPhil(mood||S.mood)}<div class="bubble"><b>${name||"Dr. Phil Better"}</b><span class="tw">${text}</span></div></div>`}
 
 /* header widgets */
 function drawHud(){
@@ -565,6 +649,9 @@ function drawHud(){
     box.innerHTML=h; box.setAttribute("aria-label",S.lan+" of "+LANTERNS+" lanterns left");
   }
   const w=$("#words"); w.hidden=S.screen==="start"; $("#wn").textContent=S.lex.size;
+  const stk=$("#streak"); stk.hidden=!(S.screen==="question"&&S.streak>=2); $("#sk").textContent=S.streak;
+  const tot=REALMS.reduce((a,r)=>a+r.q.length,0), dn=S.res.reduce((a,r)=>a+r.filter(Boolean).length,0);
+  $("#prog").style.width=(S.screen==="start"?0:Math.round(100*dn/tot))+"%";
 }
 
 /* =====================================================================
@@ -637,7 +724,7 @@ function updateMap(){
   });
   let pos={x:X0,y:Y0},len=0;
   if(S.screen==="question"||S.screen==="out"){pos=NODES[S.r][S.i];len=NODELEN[S.r][S.i]}
-  else if(S.screen==="lock"||S.screen==="lockres"||S.screen==="cleared"){pos=GATEPOS[S.r];len=GATELEN[S.r]}
+  else if(S.screen==="lock"||S.screen==="lockres"||S.screen==="match"||S.screen==="cleared"){pos=GATEPOS[S.r];len=GATELEN[S.r]}
   else if(S.screen==="realm"){const R=S.r;pos={x:NODES[R][0].x-(rowDir(R)>0?34:-34),y:NODES[R][0].y};len=RSTART[R]}
   else if(S.screen==="final"){for(let i=REALMS.length-1;i>=0;i--){if(S.gate[i]){pos=GATEPOS[i];len=GATELEN[i];break}}}
   TOK.style.transform=`translate(${pos.x}px,${pos.y}px)`;
@@ -655,7 +742,7 @@ function music(){
     case "start":AU.play("start",.3);break;
     case "realm":AU.play(R.theme,.2);break;
     case "question":AU.play(R.theme,.25+.7*S.i/Math.max(1,R.q.length-1));break;
-    case "lock":case "lockres":AU.play(R.theme,.9);break;
+    case "lock":case "lockres":case "match":AU.play(R.theme,.9);break;
     case "cleared":AU.play(R.theme,.55);break;
     case "out":AU.play("dark",.2);break;
     case "final":AU.play("victory",.6);break;
@@ -665,8 +752,8 @@ function render(){
   const R=REALMS[Math.min(S.r,REALMS.length-1)];
   document.documentElement.style.setProperty("--acc",(S.screen==="start"||S.screen==="final")?"#e6bd62":R.acc);
   drawHud();
-  ({start,realm,question,lock,lockres,cleared,out,final})[S.screen]();
-  updateMap(); music();
+  ({start,realm,question,lock,lockres,match,cleared,out,final})[S.screen]();
+  updateMap(); music(); typeAll();
 }
 
 function start(){
@@ -706,7 +793,7 @@ function realm(){
     <p class="note" style="margin-top:0">${R.q.length} questions · ${LANTERNS} lanterns · English Gate Lock · badge: ${R.level}</p>
     <div class="row"><button class="btn" id="enter">Step through the gate ➜</button></div>
   </section>`;
-  $("#enter").onclick=()=>{AU.sfx("click");S.i=0;S.lan=LANTERNS;S.res[S.r]=R.q.map(()=>null);S.cur=null;S.streak=0;setScreen("question")};
+  $("#enter").onclick=()=>{AU.sfx("click");S.i=0;S.lan=LANTERNS;S.res[S.r]=R.q.map(()=>null);S.cur=null;S.streak=0;S.hint=1;setScreen("question")};
   $("#enter").focus({preventScroll:true});
 }
 
@@ -722,32 +809,34 @@ function question(){
     ${guide("Dr. Phil Better",said,S.mood)}
     <div class="card">
       <div class="qmeta"><span>${R.no} · ${R.name} · ${S.i+1}/${R.q.length}</span><span class="chip d${R.d}">${R.tone}</span></div>
-      <div class="qtext">${Q.q}</div>
-      <div class="opts" id="opts">${S.cur.opts.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${"ABCD"[k]}</span><span>${o.t}</span></button>`).join("")}</div>
+      ${ticks()}<div class="qtext">${Q.q}</div>
+      <div class="opts" id="opts">${S.cur.opts.map((o,k)=>`<button class="opt${S.cur.gone&&S.cur.gone.includes(k)?" gone":""}"${S.cur.gone&&S.cur.gone.includes(k)?" disabled":""} data-k="${k}"><span class="k">${"ABCD"[k]}</span><span>${o.t}</span></button>`).join("")}</div>
       <div id="fb"></div>
     </div>
   </section>`;
   document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(+b.dataset.k));
+  if(!S.done&&S.hint>0&&!S.cur.gone){const row=document.createElement("div");row.className="row hintrow";row.innerHTML=`<button class="btn ghost small" id="hint">💡 Ask for a hint · ${S.hint} left (H)</button>`;$("#opts").after(row);$("#hint").onclick=useHint}
   if(S.done)showFeedback(true);
 }
 function answer(k){
   if(S.done)return;
   const R=REALMS[S.r],Q=R.q[S.i],o=S.cur.opts[k];
-  S.done=true;S.cur.pick=k;S.lex.set(S.r+"-"+S.i,Q.w);
+  S.done=true;S.cur.pick=k;S.lex.set(S.r+"-"+Q.w[0],Q.w);
   if(o.ok){S.res[S.r][S.i]="ok";S.streak++;S.mood="grin";S.cur.said=SAY.streak[S.streak]||pick(SAY.right);AU.sfx("good")}
   else{S.res[S.r][S.i]="no";S.streak=0;S.lan=Math.max(0,S.lan-1);S.mood="oops";S.cur.said=pick(SAY.wrong);AU.sfx("bad")}
   drawHud();updateMap();showFeedback(false);
+  if(o.ok){const ob=document.querySelectorAll(".opt")[k];if(ob){const rr=ob.getBoundingClientRect();burst(rr.left+50,rr.top+rr.height/2,["#e6bd62","#fff3cf","#8fd0a8"],30,"spark")}}
 }
 function bindListen(){document.querySelectorAll(".listen").forEach(b=>b.onclick=()=>speak(b.dataset.say))}
 function showFeedback(restore){
   const R=REALMS[S.r],Q=R.q[S.i],pk=S.cur.pick,ok=S.cur.opts[pk].ok;
-  document.querySelectorAll(".opt").forEach((b,k)=>{b.disabled=true;if(S.cur.opts[k].ok)b.classList.add("right");else if(k===pk)b.classList.add("wrong");else b.classList.add("fade")});
+  document.querySelectorAll(".opt").forEach((b,k)=>{b.disabled=true;if(S.cur.opts[k].ok)b.classList.add("right");else if(k===pk){b.classList.add("wrong");b.classList.add("shake")}else b.classList.add("fade")});const hr=document.querySelector(".hintrow");if(hr)hr.remove();
   const lastQ=S.i===R.q.length-1,dead=S.lan===0&&!ok;
   const label=dead?"The last lantern fades…":(lastQ?"To the Gate Lock ➜":"Next corridor ➜");
   $("#fb").innerHTML=`<div class="fb ${ok?"good":"bad"}"><strong>${ok?"Correct.":"Not quite."}</strong><p>${Q.e}</p></div>${wordBlock(Q.w)}<div class="row"><button class="btn" id="nx">${label}</button></div>`;
-  const g=document.querySelector(".guide .bubble");if(g)g.innerHTML=`<b>Dr. Phil Better</b>${S.cur.said}`;
+  const g=document.querySelector(".guide .bubble");if(g)g.innerHTML=`<b>Dr. Phil Better</b><span class="tw">${S.cur.said}</span>`;
   const d=document.querySelector(".guide .doc");if(d)d.outerHTML=drPhil(S.mood);
-  bindListen();
+  typeAll();bindListen();
   $("#nx").onclick=()=>{
     if(dead){setScreen("out");return}
     if(lastQ){lockStart();return}
@@ -789,11 +878,11 @@ function lockres(){
   stage.innerHTML=`<section class="panel">
     <div class="eyebrow">Gate Lock · ${L.ok} of 3 correct</div>
     <h2 class="big">${opened?"The gate swings open":"The lock holds"}</h2>
-    <p class="lede">${opened?"Your medical English opened the way. Cross the threshold to see what the chamber has awarded you.":"You need "+LOCK_PASS+" of 3 to open it. Read the explanations once more and try the lock again. Nothing is lost by trying."}</p>
+    <p class="lede">${opened?"Your medical English opened the way. One last challenge before the threshold: a quick Word Match for a Linguist star (optional).":"You need "+LOCK_PASS+" of 3 to open it. Read the explanations once more and try the lock again. Nothing is lost by trying."}</p>
     ${guide("Dr. Phil Better",opened?"Precisely the right words, colleague. A pharmacist who speaks precisely prevents errors.":"Even native speakers confuse these. Try again, slowly.",S.mood)}
-    <div class="row"><button class="btn" id="nx">${opened?"Cross the threshold ➜":"Try the lock again ➜"}</button></div>
+    <div class="row"><button class="btn" id="nx">${opened?"On to the Word Match ➜":"Try the lock again ➜"}</button></div>
   </section>`;
-  $("#nx").onclick=()=>{if(opened)setScreen("cleared");else lockStart()};
+  $("#nx").onclick=()=>{if(opened)startMatch();else lockStart()};
   $("#nx").focus({preventScroll:true});
 }
 
@@ -804,7 +893,7 @@ function cleared(){
   const isBonus=!!R.bonus,lastMain=S.r===MAIN-1;
   const firstTime=mastered&&S.gate[S.r]!=="badge";
   if(mastered){S.gate[S.r]="badge"}
-  if(firstTime)AU.sfx("badge");else AU.sfx("clear");
+  if(firstTime){AU.sfx("badge");setTimeout(()=>burst(innerWidth/2,innerHeight*.3,[R.acc,"#e6bd62","#fff3cf","#ffffff"],120,"confetti"),250)}else AU.sfx("clear");
   S.mood=mastered?"grin":"smile";
   const stars=n=>Array.from({length:3},(_,k)=>`<svg width="30" height="30" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.8L5.7 21l1.7-7L2 9.2l7.1-.6z" fill="${k<n?"#e6bd62":"rgba(255,255,255,.12)"}"/></svg>`).join("");
   let btns="";
@@ -821,7 +910,7 @@ function cleared(){
       ${badgeSVG(S.r,mastered,"big")}
       <div>
         <div class="stars" aria-label="Score">${stars(Math.round(3*pct))}</div>
-        <p class="lede" style="margin:12px 0 4px">${sc.ok} of ${sc.all} solved · English lock ${S.lock?S.lock.ok:0}/3</p>
+        <p class="lede" style="margin:12px 0 4px">${sc.ok} of ${sc.all} solved · English lock ${S.lock?S.lock.ok:0}/3${S.ling[S.r]?" · ★ Linguist star":""}</p>
         <p style="margin:0;color:#cfdcd5">${mastered?(perfect?"A flawless chamber. You are now a <b style='color:var(--gold)'>"+R.level+"</b>.":"Chamber mastered. You are now a <b style='color:var(--gold)'>"+R.level+"</b>."):"Not yet mastered: <b>"+R.level+"</b> badge locked."}</p>
       </div>
     </div>
@@ -845,7 +934,7 @@ function out(){
     ${guide("Dr. Phil Better","Do not lose heart. Every pharmacist I know got lost here once. Walk it again, and read the explanations closely this time.","oops")}
     <div class="row"><button class="btn" id="retry">Retrace the chamber ➜</button><button class="btn ghost" id="leave">${R.bonus?"Leave the vault":"End my walk here"}</button></div>
   </section>`;
-  $("#retry").onclick=()=>{S.cur=null;S.i=0;S.lan=LANTERNS;S.streak=0;S.res[S.r]=R.q.map(()=>null);R.q=shuffle(R.q);setScreen("question")};
+  $("#retry").onclick=()=>{S.cur=null;S.i=0;S.lan=LANTERNS;S.streak=0;S.res[S.r]=R.q.map(()=>null);R.q=shuffle(R.q);S.hint=1;setScreen("question")};
   $("#leave").onclick=()=>{S.cur=null;setScreen("final")};
 }
 
@@ -870,7 +959,7 @@ function final(){
     <div class="rank">${title}</div>
     <p class="lede">${ok} of ${att} answered correctly in the main labyrinth${att<tot?" (the walk ended early)":""}. ${sub}</p>
     ${guide("Dr. Phil Better",p>=.75?"Excellent check-up, colleague. Side effects: confidence, and a lasting urge to read the formulary.":"A useful check-up. The notes below are your prescription: read them, then walk again.",S.mood)}
-    <div class="eyebrow">Badges · ${nb} of ${REALMS.length}</div>
+    <div class="eyebrow">Badges · ${nb} of ${REALMS.length} · Linguist stars · ${S.ling.filter(Boolean).length}</div>
     <div class="badges">${REALMS.map((R,i)=>badgeSVG(i,S.gate[i]==="badge")).join("")}</div>
     <div class="bars">
       ${REALMS.map((R,i)=>{const s=score(i);if(R.bonus&&!bonusTried)return"";const w=s.att?Math.round(100*s.ok/s.all):0;return`<div class="bar"><span>${R.no} ${R.name.replace(/^The /,"")}</span><div class="tr"><div class="fl" style="width:${w}%"></div></div><span>${s.att?s.ok+"/"+s.all:"–"}</span></div>`}).join("")}
@@ -879,15 +968,139 @@ function final(){
     ${missed.length?`<div class="eyebrow" style="margin-top:22px">Review the chart · ${missed.length} to revisit</div><div class="review">${missed.map(m=>`<details><summary>${m.R.no} · ${m.q.q}</summary><p><span class="ans">Answer: ${m.q.o[0]}</span></p><p>${m.q.e}</p></details>`).join("")}</div>`:`<p class="lede" style="margin-top:18px">No question missed. A clean sweep.</p>`}
     <div class="row"><button class="btn" id="dip">Download my diploma</button><button class="btn ghost" id="again">Walk the labyrinth again</button>${bonusTried?"":`<button class="btn ghost" id="vault">Try the Industry Vault ✦</button>`}</div>
   </section>`;
-  AU.sfx("clear");
-  $("#dip").onclick=()=>download(diplomaSVG(S.name,title,scoreTxt,lex.length),2400,1700,"labyrinth-diploma.png");
+  AU.sfx("clear");if(p>=.75)setTimeout(()=>burst(innerWidth/2,innerHeight*.28,["#e6bd62","#fff3cf","#8fd0a8","#e57d66"],130,"confetti"),300);
+  $("#dip").onclick=()=>download(diplomaSVG(S.name,title,scoreTxt,lex.length,S.ling.filter(Boolean).length),2400,1700,"labyrinth-diploma.png");
   $("#again").onclick=()=>{REALMS.forEach(R=>{R.q=shuffle(R.q)});resetRun();setScreen("start")};
   const v=$("#vault");if(v)v.onclick=()=>{S.r=MAIN;S.cur=null;S.lan=LANTERNS;setScreen("realm")};
 }
 
+/* =====================================================================
+   v3: INTERACTION LAYER
+   ===================================================================== */
+const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
+let twTimer=null;
+function typeAll(){
+  clearInterval(twTimer);
+  const el=document.querySelector(".tw"); if(!el||REDUCED)return;
+  const full=el.textContent, doc=el.closest(".guide")&&el.closest(".guide").querySelector(".doc");
+  el.textContent=""; el.classList.add("caret"); if(doc)doc.classList.add("talking");
+  let i=0; twTimer=setInterval(()=>{i++;el.textContent=full.slice(0,i);if(i>=full.length){clearInterval(twTimer);el.classList.remove("caret");if(doc)doc.classList.remove("talking")}},15);
+  const bub=el.closest(".bubble"); if(bub)bub.onclick=()=>{clearInterval(twTimer);el.textContent=full;el.classList.remove("caret");if(doc)doc.classList.remove("talking")};
+}
+function ticks(){const R=REALMS[S.r];return `<div class="ticks" aria-hidden="true">${R.q.map((q,j)=>{const v=S.res[S.r][j];return `<i class="${v==="ok"?"ok":v==="no"?"no":j===S.i?"cur":""}"></i>`}).join("")}</div>`}
+function useHint(){
+  if(S.screen!=="question"||S.done||S.hint<1||!S.cur||S.cur.gone)return;
+  const wrong=S.cur.opts.map((o,k)=>k).filter(k=>!S.cur.opts[k].ok);
+  S.cur.gone=shuffle(wrong).slice(0,2); S.hint--; AU.sfx("click");
+  const btns=document.querySelectorAll(".opt"); S.cur.gone.forEach(k=>{btns[k].classList.add("gone");btns[k].disabled=true});
+  const hr=document.querySelector(".hintrow"); if(hr)hr.remove();
+  const b=document.querySelector(".guide .bubble"); if(b){b.innerHTML='<b>Dr. Phil Better</b><span class="tw">Two doors are sealed. The answer lies behind one of the others. One hint per chamber, colleague.</span>';typeAll()}
+}
+
+/* word satchel (drawer) */
+const drawer=$("#drawer"),scrim=$("#scrim");
+function renderDrawer(){
+  const q=($("#dq").value||"").toLowerCase(), list=$("#dlist");
+  const items=[...S.lex.entries()].filter(([k,w])=>!q||(w[0]+" "+w[1]).toLowerCase().includes(q));
+  $("#dcount").textContent=S.lex.size+" word"+(S.lex.size===1?"":"s")+" collected";
+  list.innerHTML=items.length?items.map(([k,w])=>{const R=REALMS[+k.split("-")[0]];return `<div class="item"><div class="ih"><b>${esc(w[0])}</b><span class="chip d${R.d}">${R.no}</span></div><p>${esc(w[1])}</p><button class="listen" data-say="${esc(w[0])}">🔊 Listen</button></div>`}).join(""):`<p class="empty">${S.lex.size?"No word matches your search.":"Your satchel is empty. Answer a question to collect your first word."}</p>`;
+  list.querySelectorAll(".listen").forEach(b=>b.onclick=()=>speak(b.dataset.say));
+}
+function openDrawer(){closePop();renderDrawer();drawer.classList.add("open");drawer.setAttribute("aria-hidden","false");scrim.classList.add("on");setTimeout(()=>$("#dq").focus({preventScroll:true}),320)}
+function closeDrawer(){drawer.classList.remove("open");drawer.setAttribute("aria-hidden","true");scrim.classList.remove("on")}
+$("#satbtn").onclick=openDrawer; scrim.onclick=closeDrawer; $("#dclose").onclick=closeDrawer; $("#dq").oninput=renderDrawer;
+
+/* settings popover */
+const pop=$("#pop");
+function closePop(){pop.hidden=true;$("#setbtn").setAttribute("aria-expanded","false")}
+$("#setbtn").onclick=e=>{e.stopPropagation();const open=pop.hidden;pop.hidden=!open;$("#setbtn").setAttribute("aria-expanded",open)};
+document.addEventListener("click",e=>{if(!pop.hidden&&!pop.contains(e.target))closePop()});
+$("#vol").value=Math.round(AU.getVol()*100);
+$("#vol").oninput=e=>{AU.init();AU.setVol(e.target.value/100)};
+const FS=[15,16,17,19,21]; let fi=FS.indexOf(+store.get("labyrinth-fs")); if(fi<0)fi=2;
+function applyFs(){document.body.style.fontSize=FS[fi]+"px";store.set("labyrinth-fs",FS[fi])}
+$("#fsm").onclick=()=>{fi=Math.max(0,fi-1);applyFs()}; $("#fsp").onclick=()=>{fi=Math.min(FS.length-1,fi+1);applyFs()}; applyFs();
+
+/* map tooltips */
+const tip=$("#tip");
+function showTip(el,txt){const r=el.getBoundingClientRect();tip.textContent=txt;tip.style.left=Math.max(8,Math.min(innerWidth-240,r.left+r.width/2-110))+"px";tip.style.top=Math.max(8,r.top-46)+"px";tip.classList.add("on")}
+function hideTip(){tip.classList.remove("on")}
+function tipFor(t){
+  if(t.classList&&t.classList.contains("node")){
+    const m=/^nd(\d+)_(\d+)$/.exec(t.id); if(!m)return null; const i=+m[1],j=+m[2],R=REALMS[i],v=S.res[i][j];
+    const w=[...S.lex.entries()].find(([k])=>false);
+    return R.no+" · Question "+(j+1)+" of "+R.q.length+(v==="ok"?" · solved":v==="no"?" · missed":" · ahead");
+  }
+  const g=t.closest&&t.closest('g[id^="gate"]'); if(g){const i=+g.id.slice(4),R=REALMS[i],st=S.gate[i];
+    return st==="badge"?R.level+" badge earned":st==="open"?"Gate open. Score "+Math.round(MASTER*100)+"% to win the "+R.level+" badge":"Gate "+R.no+": open it with the English Gate Lock"}
+  return null;
+}
+const mapEl=$("#map");
+mapEl.addEventListener("mouseover",e=>{const t=e.target.closest(".node,g[id^=gate]");if(!t)return;const txt=tipFor(t);if(txt)showTip(t,txt)});
+mapEl.addEventListener("mouseout",hideTip);
+mapEl.addEventListener("touchstart",e=>{const t=e.target.closest&&e.target.closest(".node,g[id^=gate]");if(!t)return;const txt=tipFor(t);if(txt){showTip(t,txt);setTimeout(hideTip,1800)}},{passive:true});
+
+/* particles: drifting dust, sparks, confetti */
+const fx=$("#fx"),fc=fx.getContext("2d"); let PART=[],DUST=[];
+function sizeFx(){fx.width=innerWidth;fx.height=innerHeight}
+addEventListener("resize",sizeFx); sizeFx();
+if(!REDUCED)for(let i=0;i<44;i++)DUST.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.6+.4,vx:(Math.random()-.5)*.16,vy:-Math.random()*.26-.04,a:Math.random()*.45+.12});
+function burst(x,y,cols,n,kind){
+  if(REDUCED)return;
+  for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,conf=kind==="confetti",sp=conf?3+Math.random()*6:1.5+Math.random()*3.6;
+    PART.push({x,y,vx:Math.cos(a)*sp*(conf?1.3:1),vy:Math.sin(a)*sp-(conf?5:1),g:conf?.2:.06,l:1,d:conf?.007:.022,c:cols[i%cols.length],w:conf?5+Math.random()*6:2+Math.random()*2.4,rot:Math.random()*6,vr:(Math.random()-.5)*.3,k:kind})}
+}
+function loop(){
+  fc.clearRect(0,0,fx.width,fx.height);
+  for(const d of DUST){d.x+=d.vx;d.y+=d.vy;if(d.y<-5){d.y=fx.height+5;d.x=Math.random()*fx.width}if(d.x<-5)d.x=fx.width+5;if(d.x>fx.width+5)d.x=-5;fc.fillStyle="rgba(230,189,98,"+d.a+")";fc.beginPath();fc.arc(d.x,d.y,d.r,0,6.3);fc.fill()}
+  PART=PART.filter(p=>p.l>0);
+  for(const p of PART){p.x+=p.vx;p.y+=p.vy;p.vy+=p.g;p.vx*=.992;p.l-=p.d;p.rot+=p.vr;fc.globalAlpha=Math.max(0,Math.min(1,p.l*1.4));fc.fillStyle=p.c;
+    if(p.k==="confetti"){fc.save();fc.translate(p.x,p.y);fc.rotate(p.rot);fc.fillRect(-p.w/2,-p.w/4,p.w,p.w/2);fc.restore()}
+    else{fc.beginPath();fc.arc(p.x,p.y,p.w,0,6.3);fc.fill()}}
+  fc.globalAlpha=1; requestAnimationFrame(loop);
+}
+if(!REDUCED)loop();
+
+/* Word Match mini-game (optional, after the Gate Lock) */
+function startMatch(){
+  const mine=[...S.lex.entries()].filter(([k])=>k.startsWith(S.r+"-")).map(([k,w])=>w);
+  const pairs=shuffle(mine).slice(0,4).map((w,id)=>({id,t:w[0],d:w[1]}));
+  if(pairs.length<2){setScreen("cleared");return}
+  S.match={pairs,terms:shuffle(pairs),defs:shuffle(pairs),first:null,done:new Set(),miss:0};
+  setScreen("match");
+}
+function match(){
+  const R=REALMS[S.r],M=S.match,all=M.done.size===M.pairs.length;
+  const btn=(p,side)=>`<button class="mbtn${side==="t"?" term":""}${M.done.has(p.id)?" done":""}" data-side="${side}" data-id="${p.id}">${esc(side==="t"?p.t:p.d)}</button>`;
+  stage.innerHTML=`<section class="panel">
+    <div class="eyebrow">Word Match · optional · ${R.no}</div>
+    <h2 class="big">Match the words</h2>
+    <p class="lede">Tap a word, then tap its meaning. Two mistakes or fewer earns the <b style="color:var(--gold)">★ Linguist star</b> of this chamber.</p>
+    <div class="match"><div class="mcol">${M.terms.map(p=>btn(p,"t")).join("")}</div><div class="mcol">${M.defs.map(p=>btn(p,"d")).join("")}</div></div>
+    ${all?guide("Dr. Phil Better",M.miss<=2?"Every word in its place. That is a Linguist star, colleague.":"All matched, with a few slips. Open your word satchel to review, and try again on the next walk.",M.miss<=2?"grin":"smile"):""}
+    <div class="row">${all?'<button class="btn" id="nx">Cross the threshold ➜</button>':'<button class="btn ghost" id="skip">Skip the Word Match</button>'}</div>
+  </section>`;
+  stage.querySelectorAll(".mbtn").forEach(b=>b.onclick=()=>pickMatch(b));
+  const nx=$("#nx"),sk=$("#skip"); if(nx){nx.onclick=()=>setScreen("cleared");nx.focus({preventScroll:true})} if(sk)sk.onclick=()=>setScreen("cleared");
+  if(all)typeAll();
+}
+function pickMatch(b){
+  const M=S.match,side=b.dataset.side,id=+b.dataset.id; if(b.classList.contains("done"))return;
+  if(!M.first||M.first.side===side){stage.querySelectorAll(".mbtn.sel").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");M.first={side,id};AU.sfx("click");return}
+  const other=stage.querySelector('.mbtn[data-side="'+M.first.side+'"][data-id="'+M.first.id+'"]'), ok=M.first.id===id;
+  stage.querySelectorAll(".mbtn.sel").forEach(x=>x.classList.remove("sel")); M.first=null;
+  if(ok){
+    M.done.add(id);b.classList.add("done");if(other)other.classList.add("done");AU.sfx("good");
+    const r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,["#e6bd62","#8fd0a8","#fff3cf"],24,"spark");
+    if(M.done.size===M.pairs.length){if(M.miss<=2)S.ling[S.r]=true;S.mood=M.miss<=2?"grin":"smile";if(M.miss<=2)AU.sfx("badge");match()}
+  }else{M.miss++;AU.sfx("bad");[b,other].forEach(x=>{if(!x)return;x.classList.add("bad");setTimeout(()=>x.classList.remove("bad"),450)})}
+}
+
 /* keyboard: 1-4 or A-D answer */
 document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"){closeDrawer();closePop();return}
   if(e.metaKey||e.ctrlKey||e.altKey||(e.target&&e.target.tagName==="INPUT"))return;
+  if(e.key.toLowerCase()==="h"&&S.screen==="question"&&!S.done){useHint();return}
   const m={"1":0,"2":1,"3":2,"4":3,"a":0,"b":1,"c":2,"d":3}[e.key.toLowerCase()]; if(m===undefined)return;
   if(S.screen==="question"&&!S.done&&S.cur&&S.cur.opts[m])answer(m);
   else if(S.screen==="lock"&&S.lock&&!S.lock.done&&S.lock.cur&&S.lock.cur[m])lockAnswer(m);
@@ -900,7 +1113,7 @@ sb.onclick=()=>{AU.init();AU.setOn(!AU.isOn());paintSnd();if(AU.isOn())music()};
 paintSnd();
 $("#mapbtn").onclick=()=>{const p=$("#mappane"),o=p.classList.toggle("open");$("#mapbtn").setAttribute("aria-expanded",o);$("#mapbtn").textContent=o?"Hide map":"Map"};
 
-if(location.hash==="#debug")window.__lab={S,REALMS};
+if(location.hash==="#debug")window.__lab={S,REALMS,go:n=>setScreen(n),burst};
 buildMap();render();
 })();
 </script>
