@@ -320,6 +320,13 @@ canvas.holo{width:178px;height:226px}
 .gz p{margin:3px 0 0;color:#c8d6cf;font-size:15.5px}
 .install{margin-top:14px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(230,189,98,.3);font-size:15px}
 .install ul{margin:6px 0 10px 18px;padding:0}
+#ipill{position:fixed;right:14px;bottom:14px;z-index:70;display:flex;gap:6px;align-items:center;padding:6px;border-radius:999px;background:#0b1d20;border:1px solid var(--gold);box-shadow:0 8px 24px rgba(0,0,0,.5)}
+#ipb{border:0;border-radius:999px;padding:11px 18px;font-weight:700;font-size:15px;background:linear-gradient(180deg,var(--gold),var(--gold-deep));color:#10211f;cursor:pointer}
+#ipx{border:0;background:transparent;color:#9fb5ae;font-size:15px;width:30px;height:30px;cursor:pointer}
+#imodal{position:fixed;inset:0;z-index:95;display:grid;place-items:center;background:rgba(0,0,0,.6);padding:18px}
+.imbox{max-width:440px;background:#f5ecd7;color:#1c2929;border-radius:18px;padding:22px 24px;box-shadow:0 20px 50px rgba(0,0,0,.6)}
+.imbox b{font-family:var(--serif);font-size:24px;display:block;margin-bottom:8px}.imbox p{margin:0 0 16px;line-height:1.45}
+.imbox .row{display:flex;gap:10px;flex-wrap:wrap}.imbox .btn.ghost{color:#14352f;border-color:#14352f}
 </style>
 </head>
 <body>
@@ -1101,8 +1108,7 @@ function start(){
       ${REALMS.map(R=>`<li><span class="no">${R.no}</span><span class="nm">${R.name}<small>English: ${R.focus}</small></span><span class="chip d${R.d}">${R.tone}</span></li>`).join("")}
     </ol>
     <label class="field">Your name, for the diploma (optional)<input id="nm" maxlength="40" autocomplete="name" placeholder="Type your name" value="${esc(S.name)}"></label>
-    <div class="btnrow"><button class="btn" id="go">Enter the labyrinth ➜</button><button class="btn ghost" id="lab">Medical English Lab</button><button class="btn ghost" id="gaz">Read the Gazette</button><button class="btn ghost" id="inst">📲 Get the app</button></div>
-    <div id="instbox"></div>
+    <div class="btnrow"><button class="btn" id="go">Enter the labyrinth ➜</button><button class="btn ghost" id="lab">Medical English Lab</button><button class="btn ghost" id="gaz">Read the Gazette</button><button class="btn ghost" id="inst">📲 Install the app</button></div>
     ${best?`<p class="note">Your best walk so far: ${esc(best)}</p>`:""}
   </section>`;
   $("#lab").onclick=()=>{S.name=$("#nm").value.trim();store.set("labyrinth-name",S.name);AU.init();Holo.arm();AU.sfx("click");setScreen("lab")};
@@ -1511,19 +1517,37 @@ function gazette(){
   $("#back").onclick=()=>setScreen("start");
 }
 let deferredInstall=null;
-addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e});
+const STANDALONE=matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;pill()});
+addEventListener("appinstalled",()=>{deferredInstall=null;const p=document.getElementById("ipill");if(p)p.remove();const m=document.getElementById("imodal");if(m)m.remove()});
+function instText(){
+  const u=navigator.userAgent,ios=/iPhone|iPad|iPod/.test(u),and=/Android/.test(u),edge=/Edg\//.test(u);
+  if(ios)return ["On iPhone / iPad","Tap the Share button, then “Add to Home Screen”. (Use Safari.)"];
+  if(and)return ["On Android","Tap the ⋮ menu, then “Install app” (or “Add to Home screen”)."];
+  if(edge)return ["In Edge","Click the ⊕ “App available” icon in the address bar, or ⋯ menu → Apps → “Install this site as an app”, then click Install."];
+  return ["In Chrome","Click the install icon (a screen with an arrow) at the right of the address bar, or ⋮ menu → “Save and share” → “Install page as app”, then click Install."];
+}
 function showInstall(){
-  const box=$("#instbox"); if(!box)return;
-  if(deferredInstall){deferredInstall.prompt();deferredInstall.userChoice.finally(()=>{deferredInstall=null});return}
-  box.innerHTML=`<div class="install"><b>Install as an app</b><ul>
-    <li><b>Android (Chrome):</b> menu ⋮ → “Install app” or “Add to Home screen”.</li>
-    <li><b>iPhone / iPad (Safari):</b> Share button → “Add to Home Screen”.</li>
-    <li><b>Computer (Chrome or Edge):</b> click the install icon at the right of the address bar.</li></ul>
-    <p style="margin:0 0 10px">After the first visit the game also works offline. You can also keep a copy as a single file:</p>
-    <button class="btn ghost small" id="dl">⬇ Download the game file</button></div>`;
+  if(deferredInstall){deferredInstall.prompt();deferredInstall.userChoice.finally(()=>{deferredInstall=null;const p=document.getElementById("ipill");if(p)p.remove()});return}
+  if(document.getElementById("imodal"))return;
+  const [h,t]=instText(),m=document.createElement("div");m.id="imodal";
+  m.innerHTML=`<div class="imbox"><b>Install the app: one step</b><p><strong>${h}:</strong> ${t}</p>
+   <div class="row"><button class="btn small" id="imok">Got it</button><button class="btn ghost small" id="dl">⬇ Download the game file instead</button></div></div>`;
+  document.body.appendChild(m);
+  $("#imok").onclick=()=>m.remove();
+  m.onclick=e=>{if(e.target===m)m.remove()};
   $("#dl").onclick=async()=>{let t;try{t=await (await fetch(location.href.split("#")[0])).text()}catch(e){t="<!DOCTYPE html>\n"+document.documentElement.outerHTML}
     const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([t],{type:"text/html"}));a.download="dr-phil-quest.html";document.body.appendChild(a);a.click();a.remove()};
 }
+function pill(){
+  if(STANDALONE||document.getElementById("ipill")||store.get("pq-nopill")==="1")return;
+  const p=document.createElement("div");p.id="ipill";
+  p.innerHTML=`<button id="ipb">📲 Install the app</button><button id="ipx" aria-label="Hide">✕</button>`;
+  document.body.appendChild(p);
+  $("#ipb").onclick=showInstall;
+  $("#ipx").onclick=()=>{store.set("pq-nopill","1");p.remove()};
+}
+addEventListener("load",()=>setTimeout(pill,900));
 if("serviceWorker" in navigator&&/^https?:/.test(location.protocol)){addEventListener("load",()=>navigator.serviceWorker.register("pq-sw.js").catch(()=>{}))}
 
 /* ---- cinematic opening ---- */
