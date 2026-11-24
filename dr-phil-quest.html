@@ -291,6 +291,9 @@ canvas.holo.hero{width:300px;height:380px;filter:drop-shadow(0 10px 22px rgba(0,
 @media (max-width:960px){canvas.holo{width:112px;height:142px}.introgrid{grid-template-columns:1fr;justify-items:center;text-align:center}canvas.holo.hero{width:250px;height:316px}.sub{min-height:8em}}
 
 /* ===== v6 ===== */
+.guide{position:relative}
+.replay{position:absolute;left:4px;top:2px;z-index:3;width:38px;height:38px;border-radius:50%;border:1px solid rgba(230,189,98,.6);background:rgba(10,23,27,.85);color:var(--gold);font-size:18px;cursor:pointer;display:grid;place-items:center}
+.replay:hover{background:rgba(230,189,98,.2)}
 #stage,.panel,main,.layout{min-width:0}
 canvas.holo{width:178px;height:226px}
 @media (max-width:960px){canvas.holo:not(.hero){width:116px;height:147px}}
@@ -337,6 +340,7 @@ canvas.holo{width:178px;height:226px}
       <div class="pop" id="pop" hidden>
         <label>Music volume<input type="range" id="vol" min="0" max="100" value="100"></label>
         <label class="chk"><input type="checkbox" id="voice" checked> Dr. Phil speaks aloud (English)</label>
+        <button class="btn ghost small" id="vtest" type="button">🔊 Test the voice</button><small id="vnote" style="display:block;color:#b8c9c0;margin-top:6px"></small>
         <div class="fsrow"><span>Text size</span><button id="fsm" aria-label="Smaller text">A−</button><button id="fsp" aria-label="Larger text">A+</button></div>
       </div>
     </div>
@@ -761,10 +765,23 @@ const Holo=(function(){
           const fin=()=>{if(done)return;done=true;if(my===tokS){st.speaking=false;AU.duck(false)}res()};
           u.onstart=()=>{if(my===tokS){st.speaking=true;AU.duck(true)}};
           u.onend=fin;u.onerror=fin;u.onboundary=()=>{st.pulse=Math.max(st.pulse,.6)};
-          speechSynthesis.speak(u); setTimeout(fin,est*2.5+4000);
+          window.__utt=u;try{speechSynthesis.resume()}catch(e){}speechSynthesis.speak(u); setTimeout(fin,est*2.5+4000);
         }catch(e){res()}
       },80);
     });
+  }
+  /* speak immediately, inside a click: always allowed by browsers */
+  function speakNow(text){
+    armed=true; const clean=String(text||"").replace(/\s+/g," ").trim(); if(!clean)return false;
+    if(!("speechSynthesis" in window))return false;
+    try{
+      speechSynthesis.cancel(); speechSynthesis.resume();
+      const u=new SpeechSynthesisUtterance(clean),v=pickVoice(); if(v){u.voice=v;u.lang=v.lang}else u.lang="en-GB";
+      u.pitch=st.mood==="good"?.98:st.mood==="bad"?.62:.82;u.rate=st.mood==="good"?1.04:st.mood==="bad"?.84:.94;u.volume=1;
+      const my=++tokS; u.onstart=()=>{st.speaking=true;AU.duck(true)};
+      const fin=()=>{if(my===tokS){st.speaking=false;AU.duck(false)}}; u.onend=fin;u.onerror=fin;
+      window.__utt=u; speechSynthesis.speak(u); st.talkUntil=performance.now()+Math.min(7000,clean.length*65); return true;
+    }catch(e){return false}
   }
   function quip(){const q=["Please do not poke the doctor, colleague.","Yes, yes, I am real enough. Now, the question.","Eyes on the question, not on my moustache.","Careful. This coat has been freshly pressed."];react("good");say(q[Math.floor(Math.random()*q.length)])}
   addEventListener("pointermove",e=>{st.mxT=(e.clientX/innerWidth-.5)*2},{passive:true});
@@ -925,10 +942,10 @@ const Holo=(function(){
   }
 
   requestAnimationFrame(frame);
-  return {setMood,react,boot,say,stop,talkFor,quip,arm,setVoice:v=>{voiceOn=v;store.set("labyrinth-voice",v?"on":"off");if(!v)stop()}};
+  return {setMood,react,boot,say,stop,talkFor,quip,arm,speakNow,setVoice:v=>{voiceOn=v;store.set("labyrinth-voice",v?"on":"off");if(!v)stop()}};
 })();
 function drPhil(kind){return `<canvas class="doc holo" width="300" height="380" role="img" aria-label="Dr. Phil Better, a three-dimensional cartoon doctor"></canvas>`}
-function guide(name,text,mood){const mm=mood||S.mood;return `<div class="guide">${drPhil(mm)}<div class="bubble${mm==="grin"?" pos":mm==="oops"?" neg":""}"><b>${name||"Dr. Phil Better"}</b><span class="tw">${text}</span></div></div>`}
+function guide(name,text,mood){const mm=mood||S.mood;return `<div class="guide">${drPhil(mm)}<button class="replay" type="button" aria-label="Hear Dr. Phil speak" title="Hear Dr. Phil">🔊</button><div class="bubble${mm==="grin"?" pos":mm==="oops"?" neg":""}"><b>${name||"Dr. Phil Better"}</b><span class="tw">${text}</span></div></div>`}
 
 /* header widgets */
 function drawHud(){
@@ -1284,7 +1301,7 @@ let twTimer=null;
 function typeAll(){
   clearInterval(twTimer);
   const el=document.querySelector(".tw"); if(!el)return;
-  const full=el.textContent;
+  const full=el.textContent; el.dataset.full=full;
   Holo.say(full);
   if(REDUCED)return;
   el.textContent=""; el.classList.add("caret");
@@ -1312,6 +1329,7 @@ function renderDrawer(){
 }
 function openDrawer(){closePop();renderDrawer();drawer.classList.add("open");drawer.setAttribute("aria-hidden","false");scrim.classList.add("on");setTimeout(()=>$("#dq").focus({preventScroll:true}),320)}
 function closeDrawer(){drawer.classList.remove("open");drawer.setAttribute("aria-hidden","true");scrim.classList.remove("on")}
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest(".replay");if(!b)return;const t=document.querySelector(".guide .bubble .tw");const ok=Holo.speakNow(t?(t.dataset.full||t.textContent):"Hello, I am Doctor Phil Better.");if(!ok)alert("This browser or device has no speech voice available. Try Chrome or Edge, or check that an English text-to-speech voice is installed.")});
 $("#satbtn").onclick=openDrawer; scrim.onclick=closeDrawer; $("#dclose").onclick=closeDrawer; $("#dq").oninput=renderDrawer;
 
 /* settings popover */
@@ -1320,6 +1338,9 @@ function closePop(){pop.hidden=true;$("#setbtn").setAttribute("aria-expanded","f
 $("#setbtn").onclick=e=>{e.stopPropagation();const open=pop.hidden;pop.hidden=!open;$("#setbtn").setAttribute("aria-expanded",open)};
 document.addEventListener("click",e=>{if(!pop.hidden&&!pop.contains(e.target))closePop()});
 $("#vol").value=Math.round(AU.getVol()*100);
+const vnote=()=>{const n=$("#vnote");if(!n)return;if(!("speechSynthesis" in window)){n.textContent="No speech support in this browser.";return}const v=pickVoice();n.textContent=v?"Voice: "+v.name+" ("+v.lang+")":"No English voice found yet. If nothing is heard, install an English text-to-speech voice on your device."};
+vnote(); try{speechSynthesis.addEventListener("voiceschanged",vnote)}catch(e){}
+$("#vtest").onclick=()=>{if(!Holo.speakNow("Hello! I am Doctor Phil Better. Can you hear me?"))vnote()};
 $("#voice").checked=store.get("labyrinth-voice")!=="off"; $("#voice").onchange=e=>Holo.setVoice(e.target.checked);
 $("#vol").oninput=e=>{AU.init();AU.setVol(e.target.value/100)};
 const FS=[15,16,17,19,21]; let fi=FS.indexOf(+store.get("labyrinth-fs")); if(fi<0)fi=2;
