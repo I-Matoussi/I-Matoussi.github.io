@@ -1,0 +1,17 @@
+{
+  "id": "./dr-phil-quest.html",
+  "name": "The Labyrinth of Remedies · Dr. Phil Better's Pharmacy Quest",
+  "short_name": "Dr. Phil Quest",
+  "description": "A pharmacology, pharmacy and medical English quest with a 3D hologram doctor.",
+  "start_url": "./dr-phil-quest.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a171b",
+  "theme_color": "#0a171b",
+  "icons": [
+    {"src": "pq-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "pq-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "pq-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
